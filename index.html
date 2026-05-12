@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Stack Engineering | Presentations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <div class="scan-line"></div>
+
+    <!-- Lecture Menu (shown when no lecture is loaded) -->
+    <div class="lecture-menu" id="lectureMenu">
+        <div class="menu-content">
+            <div class="menu-header">
+                <div class="menu-logo">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">Full Stack Engineering</span>
+                </div>
+                <p class="menu-subtitle">Select a lecture to begin</p>
+                <div class="menu-meta">
+                    <span class="meta-item">Reichman University CS</span>
+                    <span class="meta-divider">•</span>
+                    <span class="meta-item">Ohad Assulin</span>
+                    <span class="meta-divider">•</span>
+                    <span class="meta-item">2026</span>
+                </div>
+            </div>
+            <div class="lecture-grid">
+                <!-- Part I: Foundations -->
+                <div class="lecture-card" data-lecture="http-browser">
+                    <div class="lecture-number">01</div>
+                    <div class="lecture-info">
+                        <h3>HTTP & The Browser</h3>
+                        <p>HTTP Protocol evolution, browser architecture, rendering pipeline</p>
+                        <div class="lecture-tags">
+                            <span class="tag">HTTP/1.1</span>
+                            <span class="tag">HTTP/2</span>
+                            <span class="tag">HTTP/3</span>
+                            <span class="tag">Cookies</span>
+                            <span class="tag">Browser</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <div class="lecture-card" data-lecture="nodejs-nextjs-async">
+                    <div class="lecture-number">02</div>
+                    <div class="lecture-info">
+                        <h3>Node.js, Next.js & Async JS</h3>
+                        <p>Server-side JavaScript, Promises, async/await, React framework</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Node.js</span>
+                            <span class="tag">Express</span>
+                            <span class="tag">Promises</span>
+                            <span class="tag">async/await</span>
+                            <span class="tag">Next.js</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <div class="lecture-card" data-lecture="typescript">
+                    <div class="lecture-number">03</div>
+                    <div class="lecture-info">
+                        <h3>TypeScript</h3>
+                        <p>Static typing for JavaScript, history, benefits, and complete tutorial</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Types</span>
+                            <span class="tag">Interfaces</span>
+                            <span class="tag">Generics</span>
+                            <span class="tag">Type Guards</span>
+                            <span class="tag">React</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <!-- Part II: Building -->
+                <div class="lecture-card" data-lecture="react-deep-dive">
+                    <div class="lecture-number">04</div>
+                    <div class="lecture-info">
+                        <h3>React Deep Dive</h3>
+                        <p>Components, Hooks, Context, Performance optimization, and modern patterns</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Hooks</span>
+                            <span class="tag">Context</span>
+                            <span class="tag">memo</span>
+                            <span class="tag">Server Components</span>
+                            <span class="tag">Patterns</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <div class="lecture-card" data-lecture="databases">
+                    <div class="lecture-number">05</div>
+                    <div class="lecture-info">
+                        <h3>Databases & Data Persistence</h3>
+                        <p>From flat files to distributed systems, SQL to NoSQL, and modern ORMs</p>
+                        <div class="lecture-tags">
+                            <span class="tag">PostgreSQL</span>
+                            <span class="tag">MongoDB</span>
+                            <span class="tag">Redis</span>
+                            <span class="tag">Prisma</span>
+                            <span class="tag">ORM</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <div class="lecture-card" data-lecture="web-security">
+                    <div class="lecture-number">06</div>
+                    <div class="lecture-info">
+                        <h3>Web Security</h3>
+                        <p>Front-door attacks, real hacks, and how to defend your applications</p>
+                        <div class="lecture-tags">
+                            <span class="tag">SQL Injection</span>
+                            <span class="tag">XSS</span>
+                            <span class="tag">CSRF</span>
+                            <span class="tag">Auth</span>
+                            <span class="tag">OWASP</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <!-- Part III: Architecture -->
+                <div class="lecture-card" data-lecture="web-architecture">
+                    <div class="lecture-number">07</div>
+                    <div class="lecture-info">
+                        <h3>Web Architecture</h3>
+                        <p>System design, API patterns, frontend architecture, and full stack best practices</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Microservices</span>
+                            <span class="tag">REST</span>
+                            <span class="tag">GraphQL</span>
+                            <span class="tag">Caching</span>
+                            <span class="tag">DDD</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <div class="lecture-card" data-lecture="project-architecture">
+                    <div class="lecture-number">08</div>
+                    <div class="lecture-info">
+                        <h3>Project Architecture</h3>
+                        <p>File structure, monorepos, dependency management, and clean code patterns</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Patterns</span>
+                            <span class="tag">Monorepo</span>
+                            <span class="tag">SOLID</span>
+                            <span class="tag">Clean Code</span>
+                            <span class="tag">ADRs</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <!-- Part IV: Quality & Deployment -->
+                <div class="lecture-card" data-lecture="code-quality">
+                    <div class="lecture-number">09</div>
+                    <div class="lecture-info">
+                        <h3>Code Quality & Collaboration</h3>
+                        <p>Testing, linting, and Git workflows for professional web development</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Jest</span>
+                            <span class="tag">Playwright</span>
+                            <span class="tag">ESLint</span>
+                            <span class="tag">Git</span>
+                            <span class="tag">PRs</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <div class="lecture-card" data-lecture="devops-cicd">
+                    <div class="lecture-number">10</div>
+                    <div class="lecture-info">
+                        <h3>DevOps & CI/CD</h3>
+                        <p>Automate builds, tests, and deployments with GitHub Actions and Docker</p>
+                        <div class="lecture-tags">
+                            <span class="tag">GitHub Actions</span>
+                            <span class="tag">Docker</span>
+                            <span class="tag">CI/CD</span>
+                            <span class="tag">IaC</span>
+                            <span class="tag">Pipelines</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <div class="lecture-card" data-lecture="cloud">
+                    <div class="lecture-number">11</div>
+                    <div class="lecture-info">
+                        <h3>Cloud Computing & Modern Deployment</h3>
+                        <p>From AWS to Vercel + Supabase, deploy from GitHub in seconds</p>
+                        <div class="lecture-tags">
+                            <span class="tag">AWS</span>
+                            <span class="tag">Vercel</span>
+                            <span class="tag">Supabase</span>
+                            <span class="tag">Serverless</span>
+                            <span class="tag">GitHub</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <!-- Part V: Production & Advanced -->
+                <div class="lecture-card" data-lecture="debugging-monitoring">
+                    <div class="lecture-number">12</div>
+                    <div class="lecture-info">
+                        <h3>Debugging & Monitoring</h3>
+                        <p>DevTools mastery, logging, error tracking, APM, and production debugging</p>
+                        <div class="lecture-tags">
+                            <span class="tag">DevTools</span>
+                            <span class="tag">Sentry</span>
+                            <span class="tag">APM</span>
+                            <span class="tag">Logging</span>
+                            <span class="tag">Tracing</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <div class="lecture-card" data-lecture="agents">
+                    <div class="lecture-number">13</div>
+                    <div class="lecture-info">
+                        <h3>AI Agents & LLM Integration</h3>
+                        <p>Build intelligent agents with Claude SDK, tool use, and marketing automation</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Claude SDK</span>
+                            <span class="tag">OpenAI</span>
+                            <span class="tag">Tool Use</span>
+                            <span class="tag">Marketing</span>
+                            <span class="tag">E-commerce</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <!-- Part VI: Hands-On -->
+                <div class="lecture-card" data-lecture="full-stack-example">
+                    <div class="lecture-number">14</div>
+                    <div class="lecture-info">
+                        <h3>Full Stack Example App</h3>
+                        <p>Complete course registration system with Next.js, TypeScript, and SQLite</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Next.js</span>
+                            <span class="tag">TypeScript</span>
+                            <span class="tag">SQLite</span>
+                            <span class="tag">Auth</span>
+                            <span class="tag">Transactions</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+            </div>
+
+            <!-- Problem Sets Section -->
+            <div class="problem-sets-section" id="problem-sets">
+                <div class="section-header">
+                    <span class="section-icon">📝</span>
+                    <h2 class="section-title">Problem Sets</h2>
+                </div>
+                <div class="problem-sets-grid">
+                    <a href="problem-sets/ps1-http-server.html" class="ps-card">
+                        <div class="ps-card-number">01</div>
+                        <div class="ps-card-content">
+                            <div class="ps-card-header">
+                                <h3>Building a Creative HTTP Server with Node.js net Module</h3>
+                                <div class="ps-card-deadline">
+                                    <span class="deadline-pulse"></span>
+                                    <span>Due: June 12, 2026 • 23:55</span>
+                                </div>
+                            </div>
+                            <p class="ps-card-description">Design and implement an HTTP server from scratch using Node.js's low-level <code>net</code> module. Create the most creative, elegant, and developer-friendly API possible.</p>
+                            <div class="ps-card-tags">
+                                <span class="ps-card-tag">Node.js</span>
+                                <span class="ps-card-tag">net module</span>
+                                <span class="ps-card-tag">HTTP/1.1</span>
+                                <span class="ps-card-tag">Routing</span>
+                                <span class="ps-card-tag">API Design</span>
+                            </div>
+                        </div>
+                        <div class="ps-card-arrow">→</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="menu-footer">
+                <p>Instructor: Ohad Assulin • Reichman University</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon dark">◐</span>
+        <span class="theme-icon light">◑</span>
+    </button>
+
+    <nav class="progress-nav" style="display: none;">
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="slide-counter"><span class="current">01</span>/<span class="total">00</span></div>
+    </nav>
+
+    <aside class="course-info" style="display: none;">
+        <button class="back-to-menu" id="backToMenu" aria-label="Back to lecture menu">
+            <span class="back-arrow">←</span>
+            <span class="back-text">All Lectures</span>
+        </button>
+        <span class="divider">•</span>
+        <span class="course-name">Full Stack Engineering</span>
+        <span class="divider">•</span>
+        <span class="instructor">Ohad Assulin</span>
+        <span class="divider">•</span>
+        <span class="university">RU</span>
+    </aside>
+
+    <main class="presentation" id="presentation">
+        <!-- Slides will be loaded here dynamically -->
+    </main>
+
+    <nav class="slide-nav" style="display: none;">
+        <button class="nav-btn prev" aria-label="Previous slide">←</button>
+        <button class="nav-btn next" aria-label="Next slide">→</button>
+    </nav>
+
+    <div class="keyboard-hint" style="display: none;">
+        <span>← → Space</span> Navigate
+        <span>F</span> Fullscreen
+        <span>M</span> Menu
+    </div>
+
+    <!-- Architecture Modal -->
+    <div class="arch-modal" id="archModal">
+        <div class="arch-modal-content">
+            <button class="arch-modal-close">&times;</button>
+            <h2 class="arch-modal-title" id="modalTitle"></h2>
+            <div class="arch-modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

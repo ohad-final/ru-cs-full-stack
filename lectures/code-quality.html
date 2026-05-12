@@ -1,0 +1,1233 @@
+<!-- Slide 1: Title -->
+<section class="slide active" data-slide="1">
+    <div class="slide-content title-slide">
+        <div class="title-decoration">
+            <span class="protocol-badge">BEST PRACTICES</span>
+        </div>
+        <h1 class="main-title">
+            <span class="title-line">Code Quality</span>
+            <span class="title-line highlight">& Collaboration</span>
+        </h1>
+        <p class="subtitle">Testing, Linting, and Git Workflows for Web Applications</p>
+        <div class="title-meta">
+            <div class="meta-item">
+                <span class="meta-label">Course</span>
+                <span class="meta-value">Full Stack Engineering</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Instructor</span>
+                <span class="meta-value">Ohad Assulin</span>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            Press -> or Space to navigate
+            <div class="arrow-bounce">|</div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 2: The Cost of Bugs -->
+<section class="slide" data-slide="2">
+    <div class="slide-content">
+        <h3 class="slide-title">The Cost of Bugs</h3>
+        <div class="slide-image-banner" style="margin-bottom: 1.5rem;">
+            <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&h=200&fit=crop" alt="Code debugging" style="width: 100%; height: 100px; object-fit: cover; border-radius: 8px; opacity: 0.8;">
+        </div>
+        <div class="bug-cost-comparison">
+            <div class="cost-stage" data-modal="cost-dev">
+                <div class="stage-name">Development</div>
+                <div class="stage-cost">$1</div>
+                <div class="stage-time">Minutes to fix</div>
+            </div>
+            <div class="cost-arrow">→</div>
+            <div class="cost-stage" data-modal="cost-test">
+                <div class="stage-name">Testing/QA</div>
+                <div class="stage-cost">$10</div>
+                <div class="stage-time">Hours to fix</div>
+            </div>
+            <div class="cost-arrow">→</div>
+            <div class="cost-stage" data-modal="cost-staging">
+                <div class="stage-name">Staging</div>
+                <div class="stage-cost">$100</div>
+                <div class="stage-time">Days to fix</div>
+            </div>
+            <div class="cost-arrow">→</div>
+            <div class="cost-stage danger" data-modal="cost-prod">
+                <div class="stage-name">Production</div>
+                <div class="stage-cost">$1,000+</div>
+                <div class="stage-time">Revenue loss, reputation damage</div>
+            </div>
+        </div>
+        <div class="disaster-stories">
+            <div class="disaster clickable" data-modal="disaster-knight">
+                <strong>Knight Capital (2012)</strong>
+                <p>$440M lost in 45 minutes — untested deployment</p>
+            </div>
+            <div class="disaster clickable" data-modal="disaster-therac">
+                <strong>Therac-25 (1980s)</strong>
+                <p>6 patients killed — race condition in medical device</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 3: Testing Pyramid -->
+<section class="slide" data-slide="3">
+    <div class="slide-content">
+        <h3 class="slide-title">The Testing Pyramid</h3>
+        <div class="testing-pyramid">
+            <div class="pyramid-level e2e clickable" data-modal="pyramid-e2e">
+                <div class="level-label">E2E Tests</div>
+                <div class="level-traits">
+                    <span>Slow</span>
+                    <span>Expensive</span>
+                    <span>High Confidence</span>
+                </div>
+            </div>
+            <div class="pyramid-level integration clickable" data-modal="pyramid-integration">
+                <div class="level-label">Integration Tests</div>
+                <div class="level-traits">
+                    <span>Medium Speed</span>
+                    <span>Component Interaction</span>
+                </div>
+            </div>
+            <div class="pyramid-level unit clickable" data-modal="pyramid-unit">
+                <div class="level-label">Unit Tests</div>
+                <div class="level-traits">
+                    <span>Fast</span>
+                    <span>Cheap</span>
+                    <span>Isolated</span>
+                </div>
+            </div>
+        </div>
+        <div class="pyramid-advice">
+            <p><strong>Traditional advice:</strong> Many unit tests, fewer integration tests, even fewer E2E tests.</p>
+            <p class="caveat">But is this still the best approach?</p>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 4: Testing Trophy -->
+<section class="slide" data-slide="4">
+    <div class="slide-content">
+        <h3 class="slide-title">The Testing Trophy</h3>
+        <p class="slide-description">Kent C. Dodds' alternative — more integration tests</p>
+        <div class="testing-trophy">
+            <div class="trophy-level e2e">E2E</div>
+            <div class="trophy-level integration highlight">Integration</div>
+            <div class="trophy-level unit">Unit</div>
+            <div class="trophy-level static">Static (TypeScript, ESLint)</div>
+        </div>
+        <div class="trophy-philosophy clickable" data-modal="trophy-philosophy">
+            <blockquote>"Write tests. Not too many. Mostly integration."</blockquote>
+            <cite>— Guillermo Rauch (Vercel CEO)</cite>
+        </div>
+        <div class="trophy-reasoning">
+            <p><strong>Why more integration tests?</strong></p>
+            <ul>
+                <li>Test components as users use them</li>
+                <li>Higher confidence than isolated unit tests</li>
+                <li>Less brittle than E2E tests</li>
+                <li>Modern tooling (RTL, MSW) makes them fast</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 5: What to Test -->
+<section class="slide" data-slide="5">
+    <div class="slide-content">
+        <h3 class="slide-title">What to Test</h3>
+        <div class="what-to-test-grid">
+            <div class="test-category must clickable" data-modal="test-critical">
+                <h4>Must Test</h4>
+                <ul>
+                    <li>Authentication flows</li>
+                    <li>Payment processing</li>
+                    <li>Core business logic</li>
+                    <li>Data validation</li>
+                    <li>Error handling</li>
+                </ul>
+            </div>
+            <div class="test-category should clickable" data-modal="test-should">
+                <h4>Should Test</h4>
+                <ul>
+                    <li>User journeys (happy path)</li>
+                    <li>Edge cases you've found</li>
+                    <li>Previously broken features</li>
+                    <li>Complex calculations</li>
+                </ul>
+            </div>
+            <div class="test-category maybe clickable" data-modal="test-maybe">
+                <h4>Maybe Skip</h4>
+                <ul>
+                    <li>Simple getters/setters</li>
+                    <li>Framework code (React, Next.js)</li>
+                    <li>Third-party libraries</li>
+                    <li>Trivial UI styling</li>
+                </ul>
+            </div>
+        </div>
+        <div class="test-mantra">
+            <strong>Regression test:</strong> When you fix a bug, write a test that would have caught it.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 6: Part II Header -->
+<section class="slide" data-slide="6">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part II</div>
+        <h2 class="section-title">Unit Testing with Jest</h2>
+        <p class="section-subtitle">Fast, isolated tests for functions and modules</p>
+    </div>
+</section>
+
+<!-- Slide 7: Jest Basics -->
+<section class="slide" data-slide="7">
+    <div class="slide-content">
+        <h3 class="slide-title">Jest Basics</h3>
+        <div class="code-showcase">
+            <div class="code-tab">sum.test.ts</div>
+            <pre class="code-block"><code>import { sum, multiply } from './math';
+
+describe('Math utilities', () => {
+    describe('sum', () => {
+        it('adds two positive numbers', () => {
+            expect(sum(2, 3)).toBe(5);
+        });
+
+        it('handles negative numbers', () => {
+            expect(sum(-1, 5)).toBe(4);
+        });
+
+        it('returns 0 for empty input', () => {
+            expect(sum()).toBe(0);
+        });
+    });
+
+    describe('multiply', () => {
+        it('multiplies two numbers', () => {
+            expect(multiply(3, 4)).toBe(12);
+        });
+    });
+});</code></pre>
+        </div>
+        <div class="jest-commands">
+            <code>npm test</code> — Run all tests
+            <code>npm test -- --watch</code> — Watch mode
+            <code>npm test -- sum.test.ts</code> — Run specific file
+        </div>
+    </div>
+</section>
+
+<!-- Slide 8: Jest Matchers -->
+<section class="slide" data-slide="8">
+    <div class="slide-content">
+        <h3 class="slide-title">Common Jest Matchers</h3>
+        <div class="matchers-grid">
+            <div class="matcher-group">
+                <h4>Equality</h4>
+                <pre class="code-block"><code>expect(value).toBe(5);        // ===
+expect(obj).toEqual({a: 1});  // Deep equality
+expect(arr).toContain('x');   // Array contains</code></pre>
+            </div>
+            <div class="matcher-group">
+                <h4>Truthiness</h4>
+                <pre class="code-block"><code>expect(val).toBeTruthy();
+expect(val).toBeFalsy();
+expect(val).toBeNull();
+expect(val).toBeDefined();</code></pre>
+            </div>
+            <div class="matcher-group">
+                <h4>Numbers</h4>
+                <pre class="code-block"><code>expect(num).toBeGreaterThan(5);
+expect(num).toBeLessThanOrEqual(10);
+expect(0.1 + 0.2).toBeCloseTo(0.3);</code></pre>
+            </div>
+            <div class="matcher-group">
+                <h4>Strings & Arrays</h4>
+                <pre class="code-block"><code>expect(str).toMatch(/pattern/);
+expect(arr).toHaveLength(3);
+expect(fn).toThrow('error');</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 9: Mocking -->
+<section class="slide" data-slide="9">
+    <div class="slide-content">
+        <h3 class="slide-title">Mocking in Jest</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Mock Functions</div>
+                    <pre class="code-block"><code>// Create a mock function
+const mockFn = jest.fn();
+mockFn('arg1', 'arg2');
+
+expect(mockFn).toHaveBeenCalled();
+expect(mockFn).toHaveBeenCalledWith('arg1', 'arg2');
+expect(mockFn).toHaveBeenCalledTimes(1);
+
+// Mock return value
+mockFn.mockReturnValue(42);
+mockFn.mockResolvedValue({ data: 'async' });</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Mock Modules</div>
+                    <pre class="code-block"><code>// Mock an entire module
+jest.mock('./api', () => ({
+    fetchUser: jest.fn().mockResolvedValue({
+        id: 1,
+        name: 'Test User'
+    })
+}));
+
+// Mock only specific exports
+jest.mock('./utils', () => ({
+    ...jest.requireActual('./utils'),
+    sendEmail: jest.fn()
+}));</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="mock-warning clickable" data-modal="mock-warning">
+            <strong>Warning:</strong> Over-mocking leads to tests that pass but don't catch real bugs.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 10: Testing Async Code -->
+<section class="slide" data-slide="10">
+    <div class="slide-content">
+        <h3 class="slide-title">Testing Async Code</h3>
+        <div class="code-showcase">
+            <div class="code-tab">async.test.ts</div>
+            <pre class="code-block"><code>// Using async/await (recommended)
+it('fetches user data', async () => {
+    const user = await fetchUser(1);
+    expect(user.name).toBe('John');
+});
+
+// Testing rejected promises
+it('handles errors', async () => {
+    await expect(fetchUser(-1)).rejects.toThrow('Invalid ID');
+});
+
+// Testing with timers
+it('debounces input', () => {
+    jest.useFakeTimers();
+
+    const callback = jest.fn();
+    const debounced = debounce(callback, 500);
+
+    debounced();
+    debounced();
+    debounced();
+
+    expect(callback).not.toHaveBeenCalled();
+
+    jest.advanceTimersByTime(500);
+
+    expect(callback).toHaveBeenCalledTimes(1);
+});</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 11: Code Coverage -->
+<section class="slide" data-slide="11">
+    <div class="slide-content">
+        <h3 class="slide-title">Code Coverage</h3>
+        <div class="coverage-example">
+            <pre class="code-block"><code>$ npm test -- --coverage
+
+ PASS  src/utils/math.test.ts
+----------|---------|----------|---------|---------|
+File      | % Stmts | % Branch | % Funcs | % Lines |
+----------|---------|----------|---------|---------|
+math.ts   |   95.23 |    87.50 |   100   |   94.73 |
+----------|---------|----------|---------|---------|</code></pre>
+        </div>
+        <div class="coverage-types">
+            <div class="coverage-type clickable" data-modal="coverage-statements">
+                <strong>Statements</strong>
+                <p>% of code statements executed</p>
+            </div>
+            <div class="coverage-type clickable" data-modal="coverage-branches">
+                <strong>Branches</strong>
+                <p>% of if/else paths taken</p>
+            </div>
+            <div class="coverage-type clickable" data-modal="coverage-functions">
+                <strong>Functions</strong>
+                <p>% of functions called</p>
+            </div>
+            <div class="coverage-type clickable" data-modal="coverage-lines">
+                <strong>Lines</strong>
+                <p>% of lines executed</p>
+            </div>
+        </div>
+        <div class="coverage-wisdom">
+            <h4>Coverage Lies</h4>
+            <ul>
+                <li>100% coverage ≠ bug-free code</li>
+                <li>High coverage with bad assertions = false confidence</li>
+                <li><strong>Sensible target:</strong> 70-80% for most projects</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 12: TDD -->
+<section class="slide" data-slide="12">
+    <div class="slide-content">
+        <h3 class="slide-title">TDD — Test-Driven Development</h3>
+        <div class="slide-image-accent" style="float: right; margin-left: 2rem; margin-bottom: 1rem;">
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=250&h=180&fit=crop" alt="Development process" style="width: 160px; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid var(--accent-red, #ef4444);">
+        </div>
+        <div class="tdd-cycle">
+            <div class="tdd-step red">
+                <div class="step-num">1</div>
+                <div class="step-name">Red</div>
+                <p>Write a failing test</p>
+            </div>
+            <div class="tdd-arrow">→</div>
+            <div class="tdd-step green">
+                <div class="step-num">2</div>
+                <div class="step-name">Green</div>
+                <p>Write minimal code to pass</p>
+            </div>
+            <div class="tdd-arrow">→</div>
+            <div class="tdd-step refactor">
+                <div class="step-num">3</div>
+                <div class="step-name">Refactor</div>
+                <p>Improve code, tests still pass</p>
+            </div>
+            <div class="tdd-arrow">↩</div>
+        </div>
+        <div class="tdd-benefits clickable" data-modal="tdd-benefits">
+            <h4>Why TDD?</h4>
+            <ul>
+                <li>Forces you to think about API design first</li>
+                <li>Instant feedback loop</li>
+                <li>Built-in regression tests</li>
+                <li>Documentation through tests</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 13: Part III Header -->
+<section class="slide" data-slide="13">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part III</div>
+        <h2 class="section-title">Component Testing</h2>
+        <p class="section-subtitle">React Testing Library — Test behavior, not implementation</p>
+    </div>
+</section>
+
+<!-- Slide 14: RTL Philosophy -->
+<section class="slide" data-slide="14">
+    <div class="slide-content">
+        <h3 class="slide-title">React Testing Library Philosophy</h3>
+        <div class="rtl-philosophy">
+            <blockquote>"The more your tests resemble the way your software is used, the more confidence they can give you."</blockquote>
+            <cite>— Testing Library Guiding Principle</cite>
+        </div>
+        <div class="rtl-comparison">
+            <div class="comparison-item bad">
+                <h4>Don't Test Implementation</h4>
+                <pre class="code-block"><code>// Testing internal state
+expect(component.state.isOpen).toBe(true);
+
+// Testing CSS classes
+expect(button).toHaveClass('btn-active');
+
+// Testing component instances
+expect(wrapper.instance().handleClick).toBeCalled();</code></pre>
+            </div>
+            <div class="comparison-item good">
+                <h4>Test User Behavior</h4>
+                <pre class="code-block"><code>// Test what user sees
+expect(screen.getByText('Menu is open')).toBeVisible();
+
+// Test accessibility
+expect(screen.getByRole('button')).toBeEnabled();
+
+// Test user interactions
+await userEvent.click(button);
+expect(screen.getByText('Submitted!')).toBeInTheDocument();</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 15: RTL Queries -->
+<section class="slide" data-slide="15">
+    <div class="slide-content">
+        <h3 class="slide-title">RTL Queries</h3>
+        <div class="query-types">
+            <div class="query-type clickable" data-modal="query-getby">
+                <h4>getBy*</h4>
+                <p>Throws if not found. Use when element should exist.</p>
+                <code>screen.getByRole('button', { name: 'Submit' })</code>
+            </div>
+            <div class="query-type clickable" data-modal="query-queryby">
+                <h4>queryBy*</h4>
+                <p>Returns null if not found. Use to assert absence.</p>
+                <code>expect(screen.queryByText('Error')).not.toBeInTheDocument()</code>
+            </div>
+            <div class="query-type clickable" data-modal="query-findby">
+                <h4>findBy*</h4>
+                <p>Returns promise. Use for async elements.</p>
+                <code>await screen.findByText('Loaded!')</code>
+            </div>
+        </div>
+        <div class="query-priority">
+            <h4>Query Priority (Best to Worst)</h4>
+            <ol>
+                <li><code>getByRole</code> — Accessible to everyone</li>
+                <li><code>getByLabelText</code> — Form inputs</li>
+                <li><code>getByPlaceholderText</code> — If no label</li>
+                <li><code>getByText</code> — Non-interactive elements</li>
+                <li><code>getByTestId</code> — Last resort</li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 16: User Events -->
+<section class="slide" data-slide="16">
+    <div class="slide-content">
+        <h3 class="slide-title">Testing User Interactions</h3>
+        <div class="code-showcase">
+            <div class="code-tab">LoginForm.test.tsx</div>
+            <pre class="code-block"><code>import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { LoginForm } from './LoginForm';
+
+it('submits form with user credentials', async () => {
+    const user = userEvent.setup();
+    const onSubmit = jest.fn();
+
+    render(&lt;LoginForm onSubmit={onSubmit} /&gt;);
+
+    // Type in form fields
+    await user.type(screen.getByLabelText('Email'), 'test@example.com');
+    await user.type(screen.getByLabelText('Password'), 'secret123');
+
+    // Click submit button
+    await user.click(screen.getByRole('button', { name: 'Log In' }));
+
+    // Assert submission
+    expect(onSubmit).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: 'secret123'
+    });
+});</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 17: MSW -->
+<section class="slide" data-slide="17">
+    <div class="slide-content">
+        <h3 class="slide-title">Mocking APIs with MSW</h3>
+        <p class="slide-description">Mock Service Worker — Intercept requests at the network level</p>
+        <div class="code-showcase">
+            <div class="code-tab">handlers.ts</div>
+            <pre class="code-block"><code>import { http, HttpResponse } from 'msw';
+
+export const handlers = [
+    http.get('/api/user/:id', ({ params }) => {
+        return HttpResponse.json({
+            id: params.id,
+            name: 'Test User',
+            email: 'test@example.com'
+        });
+    }),
+
+    http.post('/api/login', async ({ request }) => {
+        const { email, password } = await request.json();
+
+        if (password === 'wrong') {
+            return HttpResponse.json(
+                { error: 'Invalid credentials' },
+                { status: 401 }
+            );
+        }
+
+        return HttpResponse.json({ token: 'fake-jwt' });
+    })
+];</code></pre>
+        </div>
+        <div class="msw-benefits">
+            <strong>Why MSW?</strong> Real fetch/axios calls, works in tests and browser, no implementation mocking.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 18: Part IV Header -->
+<section class="slide" data-slide="18">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part IV</div>
+        <h2 class="section-title">E2E Testing with Playwright</h2>
+        <p class="section-subtitle">Real browsers, full stack confidence</p>
+    </div>
+</section>
+
+<!-- Slide 19: Why E2E -->
+<section class="slide" data-slide="19">
+    <div class="slide-content">
+        <h3 class="slide-title">Why E2E Tests?</h3>
+        <div class="e2e-benefits">
+            <div class="benefit clickable" data-modal="e2e-real">
+                <div class="benefit-icon">🌐</div>
+                <h4>Real Browser</h4>
+                <p>Chrome, Firefox, Safari — actual rendering</p>
+            </div>
+            <div class="benefit clickable" data-modal="e2e-fullstack">
+                <div class="benefit-icon">📚</div>
+                <h4>Full Stack</h4>
+                <p>Frontend + Backend + Database together</p>
+            </div>
+            <div class="benefit clickable" data-modal="e2e-user">
+                <div class="benefit-icon">👤</div>
+                <h4>User Perspective</h4>
+                <p>Test complete user journeys</p>
+            </div>
+            <div class="benefit clickable" data-modal="e2e-confidence">
+                <div class="benefit-icon">✅</div>
+                <h4>Highest Confidence</h4>
+                <p>If E2E passes, it really works</p>
+            </div>
+        </div>
+        <div class="e2e-tradeoffs">
+            <h4>Tradeoffs</h4>
+            <ul>
+                <li><strong>Slow</strong> — Seconds per test vs milliseconds</li>
+                <li><strong>Flaky</strong> — Network, timing, environment issues</li>
+                <li><strong>Expensive</strong> — CI minutes, maintenance burden</li>
+            </ul>
+            <p><strong>Rule:</strong> Use E2E for critical paths only. Don't test everything E2E.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 20: Playwright Basics -->
+<section class="slide" data-slide="20">
+    <div class="slide-content">
+        <h3 class="slide-title">Playwright Basics</h3>
+        <div class="code-showcase">
+            <div class="code-tab">login.spec.ts</div>
+            <pre class="code-block"><code>import { test, expect } from '@playwright/test';
+
+test('user can log in', async ({ page }) => {
+    // Navigate to login page
+    await page.goto('/login');
+
+    // Fill in credentials
+    await page.getByLabel('Email').fill('user@example.com');
+    await page.getByLabel('Password').fill('password123');
+
+    // Click login button
+    await page.getByRole('button', { name: 'Log In' }).click();
+
+    // Assert successful login
+    await expect(page).toHaveURL('/dashboard');
+    await expect(page.getByText('Welcome back!')).toBeVisible();
+});
+
+test('shows error for invalid credentials', async ({ page }) => {
+    await page.goto('/login');
+    await page.getByLabel('Email').fill('wrong@example.com');
+    await page.getByLabel('Password').fill('wrongpass');
+    await page.getByRole('button', { name: 'Log In' }).click();
+
+    await expect(page.getByText('Invalid credentials')).toBeVisible();
+});</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 21: Avoiding Flaky Tests -->
+<section class="slide" data-slide="21">
+    <div class="slide-content">
+        <h3 class="slide-title">Writing Resilient E2E Tests</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab danger">Flaky</div>
+                    <pre class="code-block"><code>// Hard-coded waits
+await page.waitForTimeout(3000);
+
+// Fragile selectors
+await page.click('.btn-primary');
+await page.click('#submit-form > div:nth-child(2) > button');
+
+// Race conditions
+await page.click('button');
+const text = await page.textContent('.result');</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase good-example">
+                    <div class="code-tab safe">Resilient</div>
+                    <pre class="code-block"><code>// Wait for specific state
+await page.waitForSelector('[data-loaded="true"]');
+
+// Accessible selectors
+await page.getByRole('button', { name: 'Submit' }).click();
+
+// Auto-waiting assertions
+await expect(page.getByText('Success')).toBeVisible();
+
+// Network idle
+await page.waitForLoadState('networkidle');</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="flaky-tips">
+            <strong>Playwright auto-waits</strong> for elements to be actionable. Trust it. Don't add manual waits.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 22: Visual Testing -->
+<section class="slide" data-slide="22">
+    <div class="slide-content">
+        <h3 class="slide-title">Visual Testing</h3>
+        <div class="code-showcase">
+            <div class="code-tab">visual.spec.ts</div>
+            <pre class="code-block"><code>import { test, expect } from '@playwright/test';
+
+test('homepage looks correct', async ({ page }) => {
+    await page.goto('/');
+
+    // Full page screenshot comparison
+    await expect(page).toHaveScreenshot('homepage.png');
+});
+
+test('button states', async ({ page }) => {
+    await page.goto('/components');
+
+    // Component screenshot
+    const button = page.getByRole('button', { name: 'Submit' });
+    await expect(button).toHaveScreenshot('button-default.png');
+
+    await button.hover();
+    await expect(button).toHaveScreenshot('button-hover.png');
+});</code></pre>
+        </div>
+        <div class="visual-testing-note">
+            <p><strong>First run:</strong> Creates baseline screenshots</p>
+            <p><strong>Subsequent runs:</strong> Compares against baseline, fails on diff</p>
+            <p><strong>Update baselines:</strong> <code>npx playwright test --update-snapshots</code></p>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 23: Part V Header -->
+<section class="slide" data-slide="23">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part V</div>
+        <h2 class="section-title">Linting & Formatting</h2>
+        <p class="section-subtitle">Automated code quality enforcement</p>
+    </div>
+</section>
+
+<!-- Slide 24: Why Lint -->
+<section class="slide" data-slide="24">
+    <div class="slide-content">
+        <h3 class="slide-title">Why Lint Your Code?</h3>
+        <div class="slide-image-banner" style="margin-bottom: 1.5rem;">
+            <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&h=200&fit=crop" alt="Clean code" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px; opacity: 0.7;">
+        </div>
+        <div class="lint-benefits">
+            <div class="lint-benefit clickable" data-modal="lint-bugs">
+                <div class="benefit-icon">🐛</div>
+                <h4>Catch Bugs Early</h4>
+                <p>Unused variables, unreachable code, type errors</p>
+            </div>
+            <div class="lint-benefit clickable" data-modal="lint-consistency">
+                <div class="benefit-icon">📏</div>
+                <h4>Enforce Consistency</h4>
+                <p>Same style across entire codebase</p>
+            </div>
+            <div class="lint-benefit clickable" data-modal="lint-debates">
+                <div class="benefit-icon">🤝</div>
+                <h4>End Style Debates</h4>
+                <p>Tabs vs spaces? The linter decides.</p>
+            </div>
+            <div class="lint-benefit clickable" data-modal="lint-onboarding">
+                <div class="benefit-icon">🚀</div>
+                <h4>Faster Onboarding</h4>
+                <p>New devs learn conventions from errors</p>
+            </div>
+        </div>
+        <div class="lint-quote">
+            <blockquote>"Code is read more than it is written. Consistency reduces cognitive load."</blockquote>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 25: ESLint Setup -->
+<section class="slide" data-slide="25">
+    <div class="slide-content">
+        <h3 class="slide-title">ESLint Configuration</h3>
+        <div class="code-showcase">
+            <div class="code-tab">eslint.config.js (Flat Config)</div>
+            <pre class="code-block"><code>import js from '@eslint/js';
+import typescript from '@typescript-eslint/eslint-plugin';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+
+export default [
+    js.configs.recommended,
+    {
+        files: ['**/*.{ts,tsx}'],
+        plugins: { typescript, react, reactHooks },
+        rules: {
+            'no-unused-vars': 'error',
+            'no-console': 'warn',
+            'react-hooks/rules-of-hooks': 'error',
+            'react-hooks/exhaustive-deps': 'warn',
+            '@typescript-eslint/no-explicit-any': 'error',
+        }
+    }
+];</code></pre>
+        </div>
+        <div class="eslint-commands">
+            <code>npx eslint .</code> — Check all files
+            <code>npx eslint . --fix</code> — Auto-fix what's possible
+        </div>
+    </div>
+</section>
+
+<!-- Slide 26: Prettier -->
+<section class="slide" data-slide="26">
+    <div class="slide-content">
+        <h3 class="slide-title">Prettier — Opinionated Formatting</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">.prettierrc</div>
+                    <pre class="code-block"><code>{
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "printWidth": 80,
+    "bracketSpacing": true
+}</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="prettier-philosophy">
+                    <h4>Prettier Philosophy</h4>
+                    <p><strong>Minimal options</strong> — Few choices = no debates</p>
+                    <p><strong>Deterministic</strong> — Same input = same output</p>
+                    <p><strong>Format on save</strong> — Never think about formatting</p>
+                </div>
+            </div>
+        </div>
+        <div class="prettier-eslint">
+            <h4>ESLint + Prettier Together</h4>
+            <code>npm install -D eslint-config-prettier</code>
+            <p>Disables ESLint rules that conflict with Prettier. Let each tool do its job.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 27: Husky & lint-staged -->
+<section class="slide" data-slide="27">
+    <div class="slide-content">
+        <h3 class="slide-title">Pre-Commit Hooks</h3>
+        <p class="slide-description">Automatically run checks before every commit</p>
+        <div class="code-showcase">
+            <div class="code-tab">Setup</div>
+            <pre class="code-block"><code># Install
+npm install -D husky lint-staged
+
+# Initialize husky
+npx husky init
+
+# Add pre-commit hook
+echo "npx lint-staged" > .husky/pre-commit</code></pre>
+        </div>
+        <div class="code-showcase">
+            <div class="code-tab">package.json</div>
+            <pre class="code-block"><code>{
+    "lint-staged": {
+        "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
+        "*.{json,md}": ["prettier --write"]
+    }
+}</code></pre>
+        </div>
+        <div class="precommit-flow">
+            <span>git commit</span> → <span>lint-staged runs</span> → <span>Only staged files checked</span> → <span>Fast!</span>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 28: Part VI Header -->
+<section class="slide" data-slide="28">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part VI</div>
+        <h2 class="section-title">Git Workflows</h2>
+        <p class="section-subtitle">Version control for team collaboration</p>
+    </div>
+</section>
+
+<!-- Slide 29: Git Basics Refresher -->
+<section class="slide" data-slide="29">
+    <div class="slide-content">
+        <h3 class="slide-title">Git Basics Refresher</h3>
+        <div class="git-commands-grid">
+            <div class="git-command">
+                <code>git status</code>
+                <p>See what's changed</p>
+            </div>
+            <div class="git-command">
+                <code>git add .</code>
+                <p>Stage all changes</p>
+            </div>
+            <div class="git-command">
+                <code>git commit -m "message"</code>
+                <p>Save staged changes</p>
+            </div>
+            <div class="git-command">
+                <code>git push</code>
+                <p>Upload to remote</p>
+            </div>
+            <div class="git-command">
+                <code>git pull</code>
+                <p>Download & merge</p>
+            </div>
+            <div class="git-command">
+                <code>git branch feature-x</code>
+                <p>Create new branch</p>
+            </div>
+            <div class="git-command">
+                <code>git checkout feature-x</code>
+                <p>Switch to branch</p>
+            </div>
+            <div class="git-command">
+                <code>git merge feature-x</code>
+                <p>Merge branch into current</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 30: Branching Strategies -->
+<section class="slide" data-slide="30">
+    <div class="slide-content">
+        <h3 class="slide-title">Branching Strategies</h3>
+        <div class="branching-strategies">
+            <div class="strategy clickable" data-modal="strategy-github-flow">
+                <h4>GitHub Flow (Recommended)</h4>
+                <div class="strategy-diagram">
+                    <span class="branch main">main</span>
+                    <span class="branch feature">feature-branch</span>
+                    <span class="merge-arrow">→ PR → merge</span>
+                </div>
+                <p>Simple. One main branch, feature branches, PRs to merge.</p>
+                <div class="strategy-fit">Best for: Most web apps, continuous deployment</div>
+            </div>
+            <div class="strategy clickable" data-modal="strategy-gitflow">
+                <h4>GitFlow</h4>
+                <div class="strategy-diagram">
+                    <span class="branch main">main</span>
+                    <span class="branch develop">develop</span>
+                    <span class="branch feature">feature/*</span>
+                    <span class="branch release">release/*</span>
+                </div>
+                <p>Complex. Multiple long-lived branches, release cycles.</p>
+                <div class="strategy-fit">Best for: Versioned releases, mobile apps</div>
+            </div>
+            <div class="strategy clickable" data-modal="strategy-trunk">
+                <h4>Trunk-Based</h4>
+                <div class="strategy-diagram">
+                    <span class="branch main">main (everyone commits here)</span>
+                </div>
+                <p>Extreme simplicity. Feature flags instead of branches.</p>
+                <div class="strategy-fit">Best for: High-trust teams, Google-style CI</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 31: Feature Branch Workflow -->
+<section class="slide" data-slide="31">
+    <div class="slide-content">
+        <h3 class="slide-title">Feature Branch Workflow</h3>
+        <div class="workflow-steps">
+            <div class="workflow-step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <code>git checkout -b feature/add-login</code>
+                    <p>Create and switch to feature branch</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <code>git add . && git commit -m "feat: add login form"</code>
+                    <p>Make commits (small, focused)</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <code>git push -u origin feature/add-login</code>
+                    <p>Push to remote</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <span>Open Pull Request on GitHub</span>
+                    <p>Request code review</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-num">5</div>
+                <div class="step-content">
+                    <span>Merge PR after approval</span>
+                    <p>Squash or merge commit</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-num">6</div>
+                <div class="step-content">
+                    <code>git checkout main && git pull</code>
+                    <p>Update local main</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 32: Pull Requests -->
+<section class="slide" data-slide="32">
+    <div class="slide-content">
+        <h3 class="slide-title">Writing Good Pull Requests</h3>
+        <div class="pr-template">
+            <div class="pr-section">
+                <h4>Title</h4>
+                <code class="good">feat: Add user authentication with JWT</code>
+                <code class="bad">Fixed stuff</code>
+            </div>
+            <div class="pr-section">
+                <h4>Description</h4>
+                <ul>
+                    <li><strong>What:</strong> Brief summary of changes</li>
+                    <li><strong>Why:</strong> Motivation, linked issue</li>
+                    <li><strong>How:</strong> Implementation approach (if complex)</li>
+                    <li><strong>Testing:</strong> How to verify it works</li>
+                    <li><strong>Screenshots:</strong> For UI changes</li>
+                </ul>
+            </div>
+        </div>
+        <div class="pr-best-practices clickable" data-modal="pr-best-practices">
+            <h4>Best Practices</h4>
+            <ul>
+                <li><strong>Small PRs</strong> — Easier to review, faster to merge</li>
+                <li><strong>One concern</strong> — Don't mix refactoring with features</li>
+                <li><strong>Self-review first</strong> — Catch obvious issues yourself</li>
+                <li><strong>Respond to feedback</strong> — Discuss, don't argue</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 33: Merge vs Rebase -->
+<section class="slide" data-slide="33">
+    <div class="slide-content">
+        <h3 class="slide-title">Merge vs Rebase</h3>
+        <div class="merge-rebase-comparison">
+            <div class="option merge clickable" data-modal="git-merge">
+                <h4>git merge</h4>
+                <div class="git-visual">
+                    <pre>main:    A---B---C---M
+                     \     /
+feature:  D---E---</pre>
+                </div>
+                <ul>
+                    <li>Preserves complete history</li>
+                    <li>Creates merge commit (M)</li>
+                    <li>Non-destructive</li>
+                </ul>
+                <div class="when-to-use">Use for: Public branches, PRs, team work</div>
+            </div>
+            <div class="option rebase clickable" data-modal="git-rebase">
+                <h4>git rebase</h4>
+                <div class="git-visual">
+                    <pre>main:    A---B---C
+                         \
+feature:          D'---E'</pre>
+                </div>
+                <ul>
+                    <li>Linear history</li>
+                    <li>Rewrites commits (D→D')</li>
+                    <li>Cleaner git log</li>
+                </ul>
+                <div class="when-to-use">Use for: Local branches before pushing, updating feature from main</div>
+            </div>
+        </div>
+        <div class="golden-rule">
+            <strong>Golden Rule:</strong> Never rebase public/shared branches. Only rebase your own unpushed work.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 34: .gitignore -->
+<section class="slide" data-slide="34">
+    <div class="slide-content">
+        <h3 class="slide-title">.gitignore & Secrets</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">.gitignore</div>
+                    <pre class="code-block"><code># Dependencies
+node_modules/
+
+# Build output
+dist/
+.next/
+
+# Environment files
+.env
+.env.local
+.env*.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Testing
+coverage/</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="secrets-warning">
+                    <h4>Never Commit</h4>
+                    <ul>
+                        <li>API keys & tokens</li>
+                        <li>Database passwords</li>
+                        <li>.env files with secrets</li>
+                        <li>Private keys</li>
+                        <li>OAuth client secrets</li>
+                    </ul>
+                </div>
+                <div class="secrets-fix clickable" data-modal="secrets-leaked">
+                    <h4>If You Accidentally Commit Secrets</h4>
+                    <ol>
+                        <li>Revoke/rotate the secret immediately</li>
+                        <li>Use <code>git filter-branch</code> or BFG Repo-Cleaner</li>
+                        <li>Force push (coordinate with team)</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 35: Quality Checklist -->
+<section class="slide" data-slide="35">
+    <div class="slide-content">
+        <h3 class="slide-title">Pre-PR Quality Checklist</h3>
+        <div class="quality-checklist">
+            <div class="checklist-section">
+                <h4>Before Committing</h4>
+                <ul class="checklist">
+                    <li>[ ] Code compiles/builds without errors</li>
+                    <li>[ ] All tests pass locally</li>
+                    <li>[ ] No linting errors</li>
+                    <li>[ ] No console.log() statements</li>
+                    <li>[ ] No commented-out code</li>
+                </ul>
+            </div>
+            <div class="checklist-section">
+                <h4>Before Opening PR</h4>
+                <ul class="checklist">
+                    <li>[ ] Branch is up-to-date with main</li>
+                    <li>[ ] Self-reviewed the diff</li>
+                    <li>[ ] Tests added for new functionality</li>
+                    <li>[ ] PR description is complete</li>
+                    <li>[ ] Screenshots for UI changes</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 36: Key Takeaways -->
+<section class="slide" data-slide="36">
+    <div class="slide-content">
+        <h3 class="slide-title">Key Takeaways</h3>
+        <div class="takeaways">
+            <div class="takeaway">
+                <span class="takeaway-num">01</span>
+                <div class="takeaway-content">
+                    <strong>Write tests for confidence, not coverage</strong>
+                    <p>Test critical paths and behavior. 80% coverage with good tests > 100% with bad ones.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">02</span>
+                <div class="takeaway-content">
+                    <strong>Automate quality enforcement</strong>
+                    <p>Linting + pre-commit hooks = no style debates, consistent code.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">03</span>
+                <div class="takeaway-content">
+                    <strong>Small PRs, frequent commits</strong>
+                    <p>Easier to review, easier to revert, faster feedback.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">04</span>
+                <div class="takeaway-content">
+                    <strong>Git is your safety net</strong>
+                    <p>Commit often, branch freely. You can always go back.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 37: End -->
+<section class="slide" data-slide="37">
+    <div class="slide-content title-slide">
+        <h2 class="end-title">Questions?</h2>
+        <div class="end-info">
+            <p class="course">Full Stack Engineering</p>
+            <p class="instructor">Ohad Assulin — RU</p>
+        </div>
+        <div class="end-resources">
+            <h4>Resources</h4>
+            <ul>
+                <li>Testing Library Docs — testing-library.com</li>
+                <li>Playwright Docs — playwright.dev</li>
+                <li>Pro Git Book — git-scm.com/book</li>
+                <li>Conventional Commits — conventionalcommits.org</li>
+            </ul>
+        </div>
+    </div>
+</section>

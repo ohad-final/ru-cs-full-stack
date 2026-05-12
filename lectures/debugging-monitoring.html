@@ -1,0 +1,978 @@
+<!-- Debugging & Monitoring Lecture -->
+<section class="slide title-slide active" data-theme="debug">
+    <div class="slide-content">
+        <div class="title-container">
+            <span class="lecture-number">12</span>
+            <h1>Debugging & Monitoring</h1>
+            <p class="subtitle">Finding Bugs, Tracking Performance, Staying Alert</p>
+        </div>
+        <div class="title-meta">
+            <span class="tag">DevTools</span>
+            <span class="tag">Logging</span>
+            <span class="tag">APM</span>
+            <span class="tag">Error Tracking</span>
+        </div>
+        <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1200&h=600&fit=crop&q=80" alt="Debugging code" class="slide-hero-img" style="position: absolute; bottom: 0; right: 0; width: 45%; height: 60%; object-fit: cover; opacity: 0.3; mask-image: linear-gradient(to left, rgba(0,0,0,0.6), transparent);">
+    </div>
+</section>
+
+<!-- Part I: The Art of Debugging -->
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>The Debugging Mindset</h2>
+        <div class="debug-mindset">
+            <div class="mindset-quote">
+                "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it."
+                <span class="quote-author">— Brian W. Kernighan</span>
+            </div>
+            <div class="mindset-principles">
+                <div class="principle">
+                    <span class="principle-icon">🔍</span>
+                    <h4>Reproduce First</h4>
+                    <p>Can't fix what you can't see</p>
+                </div>
+                <div class="principle">
+                    <span class="principle-icon">🎯</span>
+                    <h4>Isolate the Problem</h4>
+                    <p>Narrow down systematically</p>
+                </div>
+                <div class="principle">
+                    <span class="principle-icon">❓</span>
+                    <h4>Question Assumptions</h4>
+                    <p>The bug is where you're NOT looking</p>
+                </div>
+                <div class="principle">
+                    <span class="principle-icon">📝</span>
+                    <h4>Document Findings</h4>
+                    <p>Future you will thank you</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>The Scientific Method of Debugging</h2>
+        <div class="debug-method">
+            <div class="method-step">
+                <span class="step-num">1</span>
+                <h4>Observe</h4>
+                <p>Gather information. What's the error? When does it happen? What changed?</p>
+            </div>
+            <div class="method-arrow">→</div>
+            <div class="method-step">
+                <span class="step-num">2</span>
+                <h4>Hypothesize</h4>
+                <p>Form a theory. "The bug is probably in X because Y"</p>
+            </div>
+            <div class="method-arrow">→</div>
+            <div class="method-step">
+                <span class="step-num">3</span>
+                <h4>Experiment</h4>
+                <p>Test your theory. Add logging, use debugger, write tests</p>
+            </div>
+            <div class="method-arrow">→</div>
+            <div class="method-step">
+                <span class="step-num">4</span>
+                <h4>Analyze</h4>
+                <p>Did it confirm or refute? Update hypothesis, repeat</p>
+            </div>
+        </div>
+        <p class="method-tip">💡 Binary search: If you're stuck, comment out half the code. Does it still break?</p>
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=250&h=150&fit=crop&q=80" alt="Investigation" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<!-- Part II: Browser DevTools -->
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <span class="section-label">Part II</span>
+        <h2>Chrome DevTools: Your Best Friend</h2>
+        <div class="devtools-tabs">
+            <div class="devtool-tab">
+                <h4>📋 Elements</h4>
+                <p>Inspect & modify DOM/CSS live</p>
+            </div>
+            <div class="devtool-tab">
+                <h4>🖥️ Console</h4>
+                <p>Run JS, see errors & logs</p>
+            </div>
+            <div class="devtool-tab">
+                <h4>🌐 Network</h4>
+                <p>See all HTTP requests</p>
+            </div>
+            <div class="devtool-tab">
+                <h4>🐛 Sources</h4>
+                <p>Debugger, breakpoints</p>
+            </div>
+            <div class="devtool-tab">
+                <h4>⚡ Performance</h4>
+                <p>Profile rendering, JS</p>
+            </div>
+            <div class="devtool-tab">
+                <h4>💾 Application</h4>
+                <p>Storage, cookies, cache</p>
+            </div>
+        </div>
+        <div class="devtools-shortcut">
+            <code>Cmd/Ctrl + Option/Alt + I</code> or <code>F12</code>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Console Power Tips</h2>
+        <div class="console-tips">
+            <div class="console-example">
+                <h4>Beyond console.log</h4>
+                <pre><code class="language-javascript">// Table format for arrays/objects
+console.table(users);
+
+// Group related logs
+console.group('User Auth');
+console.log('Checking token...');
+console.log('Token valid');
+console.groupEnd();
+
+// Timing operations
+console.time('fetch');
+await fetchData();
+console.timeEnd('fetch'); // fetch: 234ms
+
+// Conditional logging
+console.assert(user.age > 0, 'Invalid age!');
+
+// Styled output
+console.log('%cSuccess!', 'color: green; font-size: 20px');</code></pre>
+            </div>
+            <div class="console-example">
+                <h4>Quick Debugging</h4>
+                <pre><code class="language-javascript">// Copy to clipboard
+copy(JSON.stringify(data, null, 2));
+
+// Reference last result
+$_
+
+// Reference selected element
+$0
+
+// Query selector shortcut
+$('.my-class')  // querySelector
+$$('.my-class') // querySelectorAll
+
+// Monitor function calls
+monitor(myFunction);
+
+// Break on next statement
+debugger;</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Breakpoints & Debugging</h2>
+        <div class="breakpoint-types">
+            <div class="bp-type">
+                <h4>🔴 Line Breakpoint</h4>
+                <p>Click line number in Sources tab. Pause when line executes.</p>
+            </div>
+            <div class="bp-type">
+                <h4>🟡 Conditional Breakpoint</h4>
+                <p>Right-click line → "Add conditional". Only pause when condition is true.</p>
+                <code>user.id === 'abc123'</code>
+            </div>
+            <div class="bp-type">
+                <h4>🟣 Logpoint</h4>
+                <p>Log without modifying code. Right-click → "Add logpoint".</p>
+                <code>'User:', user.name, 'at', Date.now()</code>
+            </div>
+            <div class="bp-type">
+                <h4>🔵 DOM Breakpoint</h4>
+                <p>Pause when element changes. Right-click element → "Break on..."</p>
+            </div>
+        </div>
+        <div class="debug-controls">
+            <span><kbd>F8</kbd> Resume</span>
+            <span><kbd>F10</kbd> Step over</span>
+            <span><kbd>F11</kbd> Step into</span>
+            <span><kbd>Shift+F11</kbd> Step out</span>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Network Tab Deep Dive</h2>
+        <div class="network-features">
+            <div class="network-feature">
+                <h4>🔍 Filter Requests</h4>
+                <pre><code>XHR  Fetch  JS  CSS  Img  Media  Font  Doc  WS</code></pre>
+                <p>Or use text filter: <code>status-code:404</code></p>
+            </div>
+            <div class="network-feature">
+                <h4>🐢 Throttling</h4>
+                <p>Simulate slow connections: Fast 3G, Slow 3G, Offline</p>
+            </div>
+            <div class="network-feature">
+                <h4>📋 Copy as cURL</h4>
+                <p>Right-click request → Copy → Copy as cURL. Replay in terminal!</p>
+            </div>
+            <div class="network-feature">
+                <h4>🔄 Preserve Log</h4>
+                <p>Keep requests across page navigations for debugging redirects</p>
+            </div>
+        </div>
+        <div class="network-tip">
+            <p>⚠️ <strong>Disable cache</strong> checkbox — Essential for development!</p>
+        </div>
+        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=280&h=160&fit=crop&q=80" alt="Network traffic" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<!-- Part III: React DevTools -->
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <span class="section-label">Part III</span>
+        <h2>React DevTools</h2>
+        <div class="react-devtools">
+            <div class="rd-panel">
+                <h4>⚛️ Components Tab</h4>
+                <ul>
+                    <li>Inspect component tree</li>
+                    <li>View/edit props & state</li>
+                    <li>See hooks values</li>
+                    <li>Find component in source</li>
+                    <li>Log component to console</li>
+                </ul>
+            </div>
+            <div class="rd-panel">
+                <h4>📊 Profiler Tab</h4>
+                <ul>
+                    <li>Record renders</li>
+                    <li>Identify slow components</li>
+                    <li>See why component rendered</li>
+                    <li>Flame graph visualization</li>
+                    <li>Ranked chart view</li>
+                </ul>
+            </div>
+        </div>
+        <div class="rd-install">
+            <p>Install: <a href="#">Chrome Web Store</a> or <a href="#">Firefox Add-ons</a></p>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Debugging React Renders</h2>
+        <div class="render-debug">
+            <div class="render-problem">
+                <h4>Common Render Issues</h4>
+                <pre><code class="language-tsx">// ❌ Object created every render
+&lt;Button style={{ color: 'red' }} /&gt;
+
+// ❌ Function created every render
+&lt;List onSelect={(item) =&gt; setSelected(item)} /&gt;
+
+// ❌ Array filter every render
+&lt;Items data={items.filter(i =&gt; i.active)} /&gt;</code></pre>
+            </div>
+            <div class="render-solution">
+                <h4>Solutions</h4>
+                <pre><code class="language-tsx">// ✓ Memoize objects
+const style = useMemo(() =&gt; ({ color: 'red' }), []);
+
+// ✓ useCallback for functions
+const onSelect = useCallback((item) =&gt; {
+  setSelected(item);
+}, []);
+
+// ✓ useMemo for derived data
+const activeItems = useMemo(() =&gt;
+  items.filter(i =&gt; i.active), [items]);</code></pre>
+            </div>
+        </div>
+        <div class="render-tip">
+            <p>Enable "Highlight updates" in React DevTools to visualize re-renders</p>
+        </div>
+    </div>
+</section>
+
+<!-- Part IV: Node.js Debugging -->
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <span class="section-label">Part IV</span>
+        <h2>Node.js Debugging</h2>
+        <div class="node-debug-methods">
+            <div class="node-method">
+                <h4>🔍 --inspect Flag</h4>
+                <pre><code class="language-bash"># Start with inspector
+node --inspect server.js
+
+# Break on first line
+node --inspect-brk server.js
+
+# Then open in Chrome:
+# chrome://inspect</code></pre>
+            </div>
+            <div class="node-method">
+                <h4>🆚 VS Code Debugger</h4>
+                <pre><code class="language-json">// .vscode/launch.json
+{
+  "type": "node",
+  "request": "launch",
+  "name": "Debug Server",
+  "program": "${workspaceFolder}/server.js",
+  "env": {
+    "NODE_ENV": "development"
+  }
+}</code></pre>
+            </div>
+        </div>
+        <div class="node-tip">
+            <p>Add <code>"runtimeArgs": ["--inspect"]</code> to attach Chrome DevTools to Node</p>
+        </div>
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=250&h=150&fit=crop&q=80" alt="Server debugging" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Debugging Async Code</h2>
+        <div class="async-debug">
+            <div class="async-challenge">
+                <h4>The Challenge</h4>
+                <pre><code class="language-typescript">// Stack trace doesn't show origin
+async function fetchUser() {
+  const response = await fetch('/api/user');
+  const data = await response.json();  // Error here!
+  return data;
+}
+
+// Who called this? Stack trace is useless</code></pre>
+            </div>
+            <div class="async-solution">
+                <h4>Solutions</h4>
+                <pre><code class="language-typescript">// 1. Enable async stack traces
+// In Chrome: DevTools Settings →
+//   "Async stack traces"
+
+// 2. Add context to errors
+async function fetchUser() {
+  try {
+    const res = await fetch('/api/user');
+    return await res.json();
+  } catch (error) {
+    error.context = { endpoint: '/api/user' };
+    throw error;
+  }
+}</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Part V: Logging Best Practices -->
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <span class="section-label">Part V</span>
+        <h2>Structured Logging</h2>
+        <div class="logging-comparison">
+            <div class="log-bad">
+                <h4>❌ Unstructured</h4>
+                <pre><code class="language-javascript">console.log('User ' + userId + ' failed login');
+console.log('Error: ' + error.message);
+// Hard to search, parse, or analyze</code></pre>
+            </div>
+            <div class="log-good">
+                <h4>✓ Structured (JSON)</h4>
+                <pre><code class="language-typescript">logger.info('Login attempt failed', {
+  userId,
+  reason: 'invalid_password',
+  ip: req.ip,
+  timestamp: Date.now(),
+  traceId: req.traceId
+});
+
+// Easy to search: userId=abc123
+// Easy to aggregate: count by reason</code></pre>
+            </div>
+        </div>
+        <div class="log-tools">
+            <h4>Popular Libraries</h4>
+            <span class="log-tool">pino</span>
+            <span class="log-tool">winston</span>
+            <span class="log-tool">bunyan</span>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Log Levels</h2>
+        <div class="log-levels">
+            <div class="log-level level-error">
+                <span class="level-name">ERROR</span>
+                <span class="level-desc">Something broke. Action required.</span>
+                <code>logger.error('Payment failed', { orderId, error })</code>
+            </div>
+            <div class="log-level level-warn">
+                <span class="level-name">WARN</span>
+                <span class="level-desc">Something unexpected. Monitor it.</span>
+                <code>logger.warn('Rate limit approaching', { usage: 90 })</code>
+            </div>
+            <div class="log-level level-info">
+                <span class="level-name">INFO</span>
+                <span class="level-desc">Normal operations. Business events.</span>
+                <code>logger.info('Order completed', { orderId, total })</code>
+            </div>
+            <div class="log-level level-debug">
+                <span class="level-name">DEBUG</span>
+                <span class="level-desc">Detailed info for debugging.</span>
+                <code>logger.debug('Cache hit', { key, ttl })</code>
+            </div>
+        </div>
+        <p class="log-tip">Production: INFO and above. Development: DEBUG and above.</p>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Correlation IDs</h2>
+        <div class="correlation-example">
+            <pre><code class="language-typescript">// Middleware to add trace ID to every request
+app.use((req, res, next) => {
+  req.traceId = req.headers['x-trace-id'] || crypto.randomUUID();
+  res.setHeader('x-trace-id', req.traceId);
+  next();
+});
+
+// Include in every log
+app.get('/api/orders', async (req, res) => {
+  logger.info('Fetching orders', { traceId: req.traceId });
+
+  const orders = await db.orders.findMany();
+  logger.info('Orders found', {
+    traceId: req.traceId,
+    count: orders.length
+  });
+
+  res.json(orders);
+});</code></pre>
+        </div>
+        <p class="correlation-benefit">Now you can trace a single request across all services and logs!</p>
+    </div>
+</section>
+
+<!-- Part VI: Error Tracking -->
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <span class="section-label">Part VI</span>
+        <h2>Error Tracking with Sentry</h2>
+        <div class="sentry-setup">
+            <div class="sentry-code">
+                <h4>Frontend Setup</h4>
+                <pre><code class="language-typescript">import * as Sentry from '@sentry/react';
+
+Sentry.init({
+  dsn: 'https://xxx@sentry.io/123',
+  environment: process.env.NODE_ENV,
+  release: process.env.VERSION,
+  integrations: [
+    Sentry.browserTracingIntegration(),
+    Sentry.replayIntegration(),
+  ],
+  tracesSampleRate: 0.1,  // 10% of transactions
+  replaysOnErrorSampleRate: 1.0,  // 100% on error
+});</code></pre>
+            </div>
+            <div class="sentry-features">
+                <h4>What You Get</h4>
+                <ul>
+                    <li>Automatic error capture</li>
+                    <li>Source maps for stack traces</li>
+                    <li>User context & breadcrumbs</li>
+                    <li>Session replay (video!)</li>
+                    <li>Performance monitoring</li>
+                    <li>Release tracking</li>
+                </ul>
+            </div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=160&fit=crop&q=80" alt="Error dashboard" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Error Boundaries in React</h2>
+        <div class="error-boundary">
+            <pre><code class="language-tsx">import * as Sentry from '@sentry/react';
+
+function App() {
+  return (
+    &lt;Sentry.ErrorBoundary
+      fallback={({ error, resetError }) =&gt; (
+        &lt;div className="error-page"&gt;
+          &lt;h1&gt;Something went wrong&lt;/h1&gt;
+          &lt;p&gt;{error.message}&lt;/p&gt;
+          &lt;button onClick={resetError}&gt;Try again&lt;/button&gt;
+        &lt;/div&gt;
+      )}
+      onError={(error, componentStack) =&gt; {
+        // Already sent to Sentry automatically
+        console.error('React error:', error);
+      }}
+    &gt;
+      &lt;Router&gt;
+        &lt;Routes /&gt;
+      &lt;/Router&gt;
+    &lt;/Sentry.ErrorBoundary&gt;
+  );
+}</code></pre>
+        </div>
+        <p class="boundary-tip">Wrap at multiple levels: App, Route, Feature — prevent one bug from crashing everything</p>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Custom Error Context</h2>
+        <div class="error-context">
+            <pre><code class="language-typescript">// Add user context
+Sentry.setUser({
+  id: user.id,
+  email: user.email,
+  subscription: user.plan,
+});
+
+// Add breadcrumbs (what led to error)
+Sentry.addBreadcrumb({
+  category: 'ui.click',
+  message: 'User clicked checkout button',
+  level: 'info',
+});
+
+// Capture with extra context
+try {
+  await processPayment(order);
+} catch (error) {
+  Sentry.captureException(error, {
+    extra: {
+      orderId: order.id,
+      amount: order.total,
+      paymentMethod: order.payment.type,
+    },
+    tags: {
+      feature: 'checkout',
+      priority: 'high',
+    },
+  });
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Part VII: Application Performance Monitoring -->
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <span class="section-label">Part VII</span>
+        <h2>Application Performance Monitoring (APM)</h2>
+        <div class="apm-overview">
+            <div class="apm-metrics">
+                <h4>Key Metrics</h4>
+                <div class="metric">
+                    <span class="metric-name">Apdex</span>
+                    <span class="metric-desc">User satisfaction score (0-1)</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-name">p50 / p95 / p99</span>
+                    <span class="metric-desc">Response time percentiles</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-name">Throughput</span>
+                    <span class="metric-desc">Requests per minute</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-name">Error Rate</span>
+                    <span class="metric-desc">% of failed requests</span>
+                </div>
+            </div>
+            <div class="apm-tools">
+                <h4>Popular APM Tools</h4>
+                <ul>
+                    <li><strong>Datadog</strong> — Full observability platform</li>
+                    <li><strong>New Relic</strong> — Classic APM leader</li>
+                    <li><strong>Sentry</strong> — Error tracking + performance</li>
+                    <li><strong>Grafana + Prometheus</strong> — Open source stack</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Core Web Vitals</h2>
+        <div class="web-vitals">
+            <div class="vital">
+                <h4>LCP</h4>
+                <p>Largest Contentful Paint</p>
+                <div class="vital-target">
+                    <span class="good">&lt; 2.5s</span>
+                    <span class="needs-improvement">2.5s - 4s</span>
+                    <span class="poor">&gt; 4s</span>
+                </div>
+                <p class="vital-desc">When main content loads</p>
+            </div>
+            <div class="vital">
+                <h4>INP</h4>
+                <p>Interaction to Next Paint</p>
+                <div class="vital-target">
+                    <span class="good">&lt; 200ms</span>
+                    <span class="needs-improvement">200-500ms</span>
+                    <span class="poor">&gt; 500ms</span>
+                </div>
+                <p class="vital-desc">Responsiveness to clicks</p>
+            </div>
+            <div class="vital">
+                <h4>CLS</h4>
+                <p>Cumulative Layout Shift</p>
+                <div class="vital-target">
+                    <span class="good">&lt; 0.1</span>
+                    <span class="needs-improvement">0.1 - 0.25</span>
+                    <span class="poor">&gt; 0.25</span>
+                </div>
+                <p class="vital-desc">Visual stability</p>
+            </div>
+        </div>
+        <div class="vitals-code">
+            <pre><code class="language-typescript">import { onCLS, onINP, onLCP } from 'web-vitals';
+
+onLCP(console.log);
+onINP(console.log);
+onCLS(console.log);</code></pre>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Real User Monitoring (RUM)</h2>
+        <div class="rum-overview">
+            <div class="rum-concept">
+                <p><strong>RUM</strong> = Collecting performance data from actual users in production</p>
+            </div>
+            <div class="rum-vs-synthetic">
+                <div class="rum-type">
+                    <h4>🔬 Synthetic Monitoring</h4>
+                    <ul>
+                        <li>Lab tests from fixed locations</li>
+                        <li>Controlled conditions</li>
+                        <li>Catches regressions</li>
+                        <li>Tools: Lighthouse CI, WebPageTest</li>
+                    </ul>
+                </div>
+                <div class="rum-type">
+                    <h4>👥 Real User Monitoring</h4>
+                    <ul>
+                        <li>Data from actual visitors</li>
+                        <li>Real devices & networks</li>
+                        <li>Geographic distribution</li>
+                        <li>Tools: Vercel Analytics, Datadog RUM</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <p class="rum-tip">You need both! Synthetic for CI, RUM for production reality.</p>
+    </div>
+</section>
+
+<!-- Part VIII: Distributed Tracing -->
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <span class="section-label">Part VIII</span>
+        <h2>Distributed Tracing</h2>
+        <div class="tracing-flow">
+            <div class="trace-diagram">
+                <div class="trace-service">
+                    <span class="svc-name">Frontend</span>
+                    <div class="trace-span" style="width: 100%;">Request</div>
+                </div>
+                <div class="trace-service">
+                    <span class="svc-name">API Gateway</span>
+                    <div class="trace-span" style="width: 90%; margin-left: 5%;">Auth</div>
+                </div>
+                <div class="trace-service">
+                    <span class="svc-name">Order Service</span>
+                    <div class="trace-span" style="width: 60%; margin-left: 10%;">Create Order</div>
+                </div>
+                <div class="trace-service">
+                    <span class="svc-name">Database</span>
+                    <div class="trace-span" style="width: 20%; margin-left: 20%;">Query</div>
+                </div>
+                <div class="trace-service">
+                    <span class="svc-name">Payment Service</span>
+                    <div class="trace-span" style="width: 40%; margin-left: 50%;">Charge</div>
+                </div>
+            </div>
+        </div>
+        <p class="trace-benefit">See exactly where time is spent across your entire system</p>
+        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=250&h=150&fit=crop&q=80" alt="Distributed system" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>OpenTelemetry</h2>
+        <div class="otel-overview">
+            <div class="otel-what">
+                <p><strong>OpenTelemetry</strong> = Vendor-neutral standard for traces, metrics, and logs</p>
+            </div>
+            <div class="otel-code">
+                <pre><code class="language-typescript">import { NodeSDK } from '@opentelemetry/sdk-node';
+import { getNodeAutoInstrumentations } from
+  '@opentelemetry/auto-instrumentations-node';
+
+const sdk = new NodeSDK({
+  serviceName: 'order-service',
+  instrumentations: [getNodeAutoInstrumentations()],
+});
+
+sdk.start();
+
+// Automatically traces:
+// - HTTP requests (Express, Fastify)
+// - Database queries (Prisma, pg)
+// - Redis commands
+// - gRPC calls</code></pre>
+            </div>
+            <div class="otel-exporters">
+                <h4>Export to:</h4>
+                <span class="exporter">Jaeger</span>
+                <span class="exporter">Zipkin</span>
+                <span class="exporter">Datadog</span>
+                <span class="exporter">Honeycomb</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Part IX: Production Debugging -->
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <span class="section-label">Part IX</span>
+        <h2>Debugging in Production</h2>
+        <div class="prod-debug">
+            <div class="prod-rules">
+                <h4>⚠️ Ground Rules</h4>
+                <ul>
+                    <li>Never attach debugger to production</li>
+                    <li>Don't add console.log and redeploy</li>
+                    <li>Use structured logging you added beforehand</li>
+                    <li>Reproduce in staging when possible</li>
+                </ul>
+            </div>
+            <div class="prod-tools">
+                <h4>Safe Production Tools</h4>
+                <ul>
+                    <li><strong>Log aggregation</strong> — Search across all instances</li>
+                    <li><strong>Distributed tracing</strong> — Follow request path</li>
+                    <li><strong>Error tracking</strong> — Sentry, Bugsnag</li>
+                    <li><strong>Feature flags</strong> — Disable problematic code</li>
+                    <li><strong>Database query logs</strong> — Slow query analysis</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Incident Response</h2>
+        <div class="incident-flow">
+            <div class="incident-step">
+                <span class="step-num">1</span>
+                <h4>Detect</h4>
+                <p>Alerts fire, users report issues</p>
+            </div>
+            <div class="incident-arrow">→</div>
+            <div class="incident-step">
+                <span class="step-num">2</span>
+                <h4>Triage</h4>
+                <p>Assess severity, impact, scope</p>
+            </div>
+            <div class="incident-arrow">→</div>
+            <div class="incident-step">
+                <span class="step-num">3</span>
+                <h4>Mitigate</h4>
+                <p>Rollback, feature flag, scale</p>
+            </div>
+            <div class="incident-arrow">→</div>
+            <div class="incident-step">
+                <span class="step-num">4</span>
+                <h4>Resolve</h4>
+                <p>Fix root cause, deploy</p>
+            </div>
+            <div class="incident-arrow">→</div>
+            <div class="incident-step">
+                <span class="step-num">5</span>
+                <h4>Learn</h4>
+                <p>Blameless postmortem</p>
+            </div>
+        </div>
+        <div class="incident-tip">
+            <p><strong>Priority #1:</strong> Restore service. Debug after. Don't hunt root cause while users suffer.</p>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Postmortem Template</h2>
+        <div class="postmortem-template">
+            <pre><code class="language-markdown"># Incident: Payment Service Outage
+
+## Summary
+Payment processing was unavailable for 23 minutes.
+
+## Impact
+- 1,247 failed transactions
+- ~$45,000 in delayed revenue
+- 89 support tickets
+
+## Timeline (UTC)
+- 14:32 - Deploy v2.4.1
+- 14:35 - Error rate spikes to 40%
+- 14:38 - Alert fires, on-call paged
+- 14:45 - Rolled back to v2.4.0
+- 14:55 - Error rate normal
+
+## Root Cause
+Database connection pool exhausted due to missing
+connection timeout in new payment provider SDK.
+
+## Action Items
+- [ ] Add connection pool monitoring
+- [ ] Canary deploy for payment service
+- [ ] SDK code review checklist</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Summary -->
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Debugging Toolkit Checklist</h2>
+        <div class="toolkit-checklist">
+            <div class="toolkit-section">
+                <h4>🔍 Browser</h4>
+                <ul class="checklist">
+                    <li>Chrome DevTools mastery</li>
+                    <li>React DevTools installed</li>
+                    <li>Network tab filtering</li>
+                    <li>Breakpoint debugging</li>
+                </ul>
+            </div>
+            <div class="toolkit-section">
+                <h4>📝 Logging</h4>
+                <ul class="checklist">
+                    <li>Structured JSON logs</li>
+                    <li>Appropriate log levels</li>
+                    <li>Correlation IDs</li>
+                    <li>Log aggregation tool</li>
+                </ul>
+            </div>
+            <div class="toolkit-section">
+                <h4>🚨 Errors</h4>
+                <ul class="checklist">
+                    <li>Sentry or equivalent</li>
+                    <li>Source maps uploaded</li>
+                    <li>Error boundaries in React</li>
+                    <li>Custom context attached</li>
+                </ul>
+            </div>
+            <div class="toolkit-section">
+                <h4>📊 Performance</h4>
+                <ul class="checklist">
+                    <li>Core Web Vitals tracked</li>
+                    <li>APM in production</li>
+                    <li>RUM + synthetic monitoring</li>
+                    <li>Distributed tracing</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Key Takeaways</h2>
+        <div class="takeaways">
+            <div class="takeaway">
+                <span class="takeaway-num">1</span>
+                <p><strong>Debug systematically</strong> — Use the scientific method. Hypothesize, test, repeat.</p>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">2</span>
+                <p><strong>Master your tools</strong> — DevTools, debugger, and logging are your superpowers.</p>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">3</span>
+                <p><strong>Log with intent</strong> — Structured logs with correlation IDs save hours of debugging.</p>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">4</span>
+                <p><strong>Track errors proactively</strong> — Find bugs before users report them.</p>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">5</span>
+                <p><strong>Observe production</strong> — APM and RUM show you reality, not assumptions.</p>
+            </div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=300&h=180&fit=crop&q=80" alt="Problem solving" style="position: absolute; bottom: 30px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<section class="slide" data-theme="debug">
+    <div class="slide-content">
+        <h2>Resources</h2>
+        <div class="resources-grid">
+            <div class="resource-category">
+                <h4>🔧 DevTools</h4>
+                <ul>
+                    <li><strong>Chrome DevTools</strong> — developer.chrome.com/docs/devtools</li>
+                    <li><strong>React DevTools</strong> — react.dev/learn/react-developer-tools</li>
+                    <li><strong>VS Code Debugger</strong> — code.visualstudio.com/docs/editor/debugging</li>
+                </ul>
+            </div>
+            <div class="resource-category">
+                <h4>🚨 Error Tracking</h4>
+                <ul>
+                    <li><strong>Sentry</strong> — sentry.io</li>
+                    <li><strong>Bugsnag</strong> — bugsnag.com</li>
+                    <li><strong>Rollbar</strong> — rollbar.com</li>
+                </ul>
+            </div>
+            <div class="resource-category">
+                <h4>📊 Monitoring</h4>
+                <ul>
+                    <li><strong>Datadog</strong> — datadoghq.com</li>
+                    <li><strong>Grafana</strong> — grafana.com</li>
+                    <li><strong>web-vitals</strong> — npm package</li>
+                </ul>
+            </div>
+            <div class="resource-category">
+                <h4>📚 Learning</h4>
+                <ul>
+                    <li>Debug It! — Paul Butcher</li>
+                    <li>Observability Engineering — Charity Majors</li>
+                    <li>Google SRE Book — free online</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

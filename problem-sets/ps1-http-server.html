@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS #1: Creative HTTP Server | Full Stack Engineering</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Problem Set Page Specific Styles */
+        body {
+            overflow-y: auto;
+        }
+
+        .ps-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .ps-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+            transition: color var(--transition-fast);
+        }
+
+        .ps-back-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        .ps-page-header {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-medium);
+        }
+
+        .ps-page-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .ps-badge {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            background: rgba(251, 146, 60, 0.1);
+            padding: 0.4rem 0.75rem;
+            border-radius: 0.5rem;
+        }
+
+        .ps-page-deadline {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-red);
+            background: rgba(248, 113, 113, 0.1);
+            padding: 0.4rem 0.75rem;
+            border-radius: 0.5rem;
+        }
+
+        .ps-page-title {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .ps-page-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .ps-page-description code {
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            background: var(--bg-tertiary);
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.25rem;
+            color: var(--accent-cyan);
+        }
+
+        .ps-page-content {
+            /* Uses existing ps-section styles from main CSS */
+        }
+
+        .ps-footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        @media (max-width: 768px) {
+            .ps-page {
+                padding: 1rem;
+            }
+
+            .ps-page-title {
+                font-size: 1.5rem;
+            }
+
+            .ps-page-description {
+                font-size: 1rem;
+            }
+
+            .ps-page-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <div class="scan-line"></div>
+
+    <button class="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon dark">◐</span>
+        <span class="theme-icon light">◑</span>
+    </button>
+
+    <div class="ps-page">
+        <a href="../#problem-sets" class="ps-back-link">← Back to Course Home</a>
+
+        <header class="ps-page-header">
+            <div class="ps-page-meta">
+                <span class="ps-badge">Problem Set #1</span>
+                <span class="ps-page-deadline">
+                    <span>⏰</span>
+                    <span>Due: June 12, 2026 • 23:55</span>
+                </span>
+            </div>
+            <h1 class="ps-page-title">Building a Creative HTTP Server with Node.js net Module</h1>
+            <p class="ps-page-description">
+                Design and implement an HTTP server from scratch using Node.js's low-level <code>net</code> module.
+                Your goal is to create the most creative, elegant, and developer-friendly API possible.
+            </p>
+        </header>
+
+        <div class="ps-page-content">
+            <div class="ps-section">
+                <h4>🎯 The Challenge</h4>
+                <p>Modern web frameworks like Express provide convenient APIs for handling HTTP requests. But how do they actually work under the hood? In this problem set, you'll build your own HTTP server framework from the ground up.</p>
+                <p><strong>Your mission:</strong> Create a unique, creative API that makes it easy and enjoyable for developers to build web applications. Think about what makes Express great, then surprise us with your own innovative approach!</p>
+            </div>
+
+            <div class="ps-section">
+                <h4>📋 Requirements</h4>
+                <ul class="ps-requirements">
+                    <li><strong>Use only the <code>net</code> module</strong> – No <code>http</code>, <code>http2</code>, or third-party HTTP libraries</li>
+                    <li><strong>Parse HTTP/1.1 requests manually</strong> – Handle request line, headers, and body</li>
+                    <li><strong>Generate valid HTTP/1.1 responses</strong> – Status line, headers, and body</li>
+                    <li><strong>Implement a routing system</strong> – Match paths and HTTP methods</li>
+                    <li><strong>Support at least:</strong>
+                        <ul>
+                            <li>Static file serving (like <code>express.static()</code>)</li>
+                            <li>Route handlers (like <code>app.get()</code>, <code>app.post()</code>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Be creative!</strong> – Design an API that's fun to use</li>
+                </ul>
+            </div>
+
+            <div class="ps-section">
+                <h4>📚 Understanding the Building Blocks</h4>
+
+                <div class="ps-subsection">
+                    <h5>The Node.js <code>net</code> Module</h5>
+                    <p>The <code>net</code> module provides an asynchronous network API for creating TCP servers and clients. Here's how it works:</p>
+
+<pre class="code-block"><code class="language-javascript">const net = require('net');
+
+// Create a TCP server
+const server = net.createServer((socket) => {
+  // 'socket' is a duplex stream representing the connection
+
+  // Receive data from client
+  socket.on('data', (data) => {
+    console.log('Received:', data.toString());
+
+    // Send data back to client
+    socket.write('Hello from server!\n');
+  });
+
+  // Handle connection close
+  socket.on('end', () => {
+    console.log('Client disconnected');
+  });
+
+  // Handle errors
+  socket.on('error', (err) => {
+    console.error('Socket error:', err.message);
+  });
+});
+
+// Start listening on port 3000
+server.listen(3000, () => {
+  console.log('Server listening on port 3000');
+});</code></pre>
+
+                    <p><strong>Key socket methods:</strong></p>
+                    <ul>
+                        <li><code>socket.write(data)</code> – Send data to the client</li>
+                        <li><code>socket.end([data])</code> – Close the connection (optionally sending final data)</li>
+                        <li><code>socket.on('data', callback)</code> – Listen for incoming data</li>
+                        <li><code>socket.on('end', callback)</code> – Called when client closes connection</li>
+                        <li><code>socket.on('error', callback)</code> – Handle connection errors</li>
+                    </ul>
+                </div>
+
+                <div class="ps-subsection">
+                    <h5>HTTP/1.1 Request Format</h5>
+                    <p>An HTTP request is just text with a specific format. Here's what your server will receive:</p>
+
+<pre class="code-block"><code class="language-http">GET /api/users?page=1 HTTP/1.1
+Host: localhost:3000
+User-Agent: Mozilla/5.0
+Accept: application/json
+Content-Type: application/json
+Content-Length: 27
+
+{"username":"john_doe"}</code></pre>
+
+                    <p>Let's break this down:</p>
+                    <ul>
+                        <li><strong>Request Line:</strong> <code>METHOD PATH HTTP/VERSION</code></li>
+                        <li><strong>Headers:</strong> Key-value pairs, one per line</li>
+                        <li><strong>Empty Line:</strong> <code>\r\n\r\n</code> separates headers from body</li>
+                        <li><strong>Body:</strong> Optional, used with POST/PUT/PATCH</li>
+                    </ul>
+
+                    <p><strong>Parsing example:</strong></p>
+<pre class="code-block"><code class="language-javascript">function parseRequest(rawData) {
+  const request = rawData.toString();
+
+  // Split headers and body (separated by double CRLF)
+  const [headerSection, body] = request.split('\r\n\r\n');
+  const lines = headerSection.split('\r\n');
+
+  // Parse request line (first line)
+  const [method, fullPath, version] = lines[0].split(' ');
+
+  // Parse URL and query string
+  const [path, queryString] = fullPath.split('?');
+  const query = {};
+  if (queryString) {
+    queryString.split('&').forEach(param => {
+      const [key, value] = param.split('=');
+      query[decodeURIComponent(key)] = decodeURIComponent(value || '');
+    });
+  }
+
+  // Parse headers
+  const headers = {};
+  for (let i = 1; i < lines.length; i++) {
+    const colonIndex = lines[i].indexOf(':');
+    if (colonIndex > 0) {
+      const key = lines[i].slice(0, colonIndex).toLowerCase().trim();
+      const value = lines[i].slice(colonIndex + 1).trim();
+      headers[key] = value;
+    }
+  }
+
+  return { method, path, query, headers, body, version };
+}</code></pre>
+                </div>
+
+                <div class="ps-subsection">
+                    <h5>HTTP/1.1 Response Format</h5>
+                    <p>Your server needs to send properly formatted responses:</p>
+
+<pre class="code-block"><code class="language-http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 42
+Connection: close
+
+{"message":"Hello!","status":"success"}</code></pre>
+
+                    <p><strong>Building a response:</strong></p>
+<pre class="code-block"><code class="language-javascript">function buildResponse(statusCode, statusText, headers, body) {
+  // Status line
+  let response = `HTTP/1.1 ${statusCode} ${statusText}\r\n`;
+
+  // Add Content-Length if we have a body
+  if (body) {
+    headers['Content-Length'] = Buffer.byteLength(body);
+  }
+
+  // Add headers
+  for (const [key, value] of Object.entries(headers)) {
+    response += `${key}: ${value}\r\n`;
+  }
+
+  // Empty line + body
+  response += '\r\n';
+  if (body) {
+    response += body;
+  }
+
+  return response;
+}
+
+// Usage
+const body = JSON.stringify({ message: 'Hello!' });
+const response = buildResponse(200, 'OK', {
+  'Content-Type': 'application/json',
+  'Connection': 'close'
+}, body);
+
+socket.end(response);</code></pre>
+
+                    <p><strong>Common status codes to support:</strong></p>
+                    <ul>
+                        <li><code>200 OK</code> – Success</li>
+                        <li><code>201 Created</code> – Resource created</li>
+                        <li><code>400 Bad Request</code> – Invalid request</li>
+                        <li><code>404 Not Found</code> – Resource not found</li>
+                        <li><code>500 Internal Server Error</code> – Server error</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="ps-section">
+                <h4>🔍 How Express Works (For Inspiration)</h4>
+                <p>Express uses a simple, chainable API. Here are some patterns to inspire your design:</p>
+
+                <div class="ps-subsection">
+                    <h5>Basic Express Server</h5>
+<pre class="code-block"><code class="language-javascript">const express = require('express');
+const app = express();
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Route handler - GET request
+app.get('/api/users', (req, res) => {
+  res.json([
+    { id: 1, name: 'Alice' },
+    { id: 2, name: 'Bob' }
+  ]);
+});
+
+// Route with parameters
+app.get('/api/users/:id', (req, res) => {
+  const userId = req.params.id;
+  res.json({ id: userId, name: 'Alice' });
+});
+
+// POST handler
+app.post('/api/users', (req, res) => {
+  const { name, email } = req.body;
+  // Create user...
+  res.status(201).json({ id: 3, name, email });
+});
+
+// Start server
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});</code></pre>
+                </div>
+
+                <div class="ps-subsection">
+                    <h5>Static File Serving</h5>
+<pre class="code-block"><code class="language-javascript">const express = require('express');
+const path = require('path');
+const app = express();
+
+// Serve static files from 'public' directory
+app.use(express.static('public'));
+
+// With virtual path prefix
+app.use('/static', express.static('public'));
+
+// Example: GET /style.css → serves public/style.css
+// Example: GET /static/image.png → serves public/image.png
+
+app.listen(3000);</code></pre>
+                </div>
+
+                <div class="ps-subsection">
+                    <h5>Request Object (req)</h5>
+<pre class="code-block"><code class="language-javascript">app.post('/api/data', (req, res) => {
+  // Useful req properties:
+  console.log(req.method);      // 'POST'
+  console.log(req.path);        // '/api/data'
+  console.log(req.query);       // { page: '1' } from ?page=1
+  console.log(req.params);      // { id: '123' } from /users/:id
+  console.log(req.headers);     // { 'content-type': 'application/json', ... }
+  console.log(req.body);        // Parsed JSON body
+});</code></pre>
+                </div>
+
+                <div class="ps-subsection">
+                    <h5>Response Object (res)</h5>
+<pre class="code-block"><code class="language-javascript">app.get('/example', (req, res) => {
+  // Set status code
+  res.status(404);
+
+  // Set headers
+  res.set('X-Custom-Header', 'value');
+
+  // Send responses
+  res.send('Plain text');           // text/plain
+  res.json({ data: 'value' });      // application/json
+  res.sendFile('/path/to/file');    // File with correct MIME type
+
+  // Chaining
+  res.status(201).json({ created: true });
+});</code></pre>
+                </div>
+            </div>
+
+            <div class="ps-section">
+                <h4>🛠️ Required Implementation: Examples</h4>
+                <p>Below are examples of the two features you must implement. Your API can look different, but should provide similar functionality.</p>
+
+                <div class="ps-subsection">
+                    <h5>Example 1: Static File Server</h5>
+                    <p>Implement functionality to serve static files from a directory:</p>
+<pre class="code-block"><code class="language-javascript">const net = require('net');
+const fs = require('fs');
+const path = require('path');
+
+// MIME type mapping
+const MIME_TYPES = {
+  '.html': 'text/html',
+  '.css': 'text/css',
+  '.js': 'application/javascript',
+  '.json': 'application/json',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.gif': 'image/gif',
+  '.svg': 'image/svg+xml',
+  '.ico': 'image/x-icon'
+};
+
+function getMimeType(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  return MIME_TYPES[ext] || 'application/octet-stream';
+}
+
+function serveStatic(staticDir) {
+  return function(req, socket) {
+    // Build full file path
+    const filePath = path.join(staticDir, req.path);
+
+    // Security: prevent directory traversal attacks
+    const resolvedPath = path.resolve(filePath);
+    const resolvedDir = path.resolve(staticDir);
+
+    if (!resolvedPath.startsWith(resolvedDir)) {
+      sendResponse(socket, 403, 'Forbidden', {}, 'Access denied');
+      return;
+    }
+
+    // Check if file exists
+    fs.stat(filePath, (err, stats) => {
+      if (err || !stats.isFile()) {
+        sendResponse(socket, 404, 'Not Found', {}, 'File not found');
+        return;
+      }
+
+      // Serve the file
+      const mimeType = getMimeType(filePath);
+      const headers = {
+        'Content-Type': mimeType,
+        'Content-Length': stats.size
+      };
+
+      // Send headers first
+      let response = `HTTP/1.1 200 OK\r\n`;
+      for (const [key, value] of Object.entries(headers)) {
+        response += `${key}: ${value}\r\n`;
+      }
+      response += '\r\n';
+      socket.write(response);
+
+      // Stream file content
+      const readStream = fs.createReadStream(filePath);
+      readStream.pipe(socket);
+    });
+  };
+}
+
+// Usage in your server:
+// const staticHandler = serveStatic('./public');
+// if (req.path.startsWith('/static')) {
+//   staticHandler(req, socket);
+// }</code></pre>
+                </div>
+
+                <div class="ps-subsection">
+                    <h5>Example 2: Route Handler (POST method)</h5>
+                    <p>Implement a routing system with method-specific handlers:</p>
+<pre class="code-block"><code class="language-javascript">const net = require('net');
+
+// Simple router implementation
+function createRouter() {
+  const routes = {
+    GET: [],
+    POST: [],
+    PUT: [],
+    DELETE: []
+  };
+
+  // Add a route
+  function addRoute(method, path, handler) {
+    // Convert path pattern to regex (handle :params)
+    const paramNames = [];
+    const regexPath = path.replace(/:([^/]+)/g, (_, paramName) => {
+      paramNames.push(paramName);
+      return '([^/]+)';
+    });
+
+    routes[method].push({
+      regex: new RegExp(`^${regexPath}$`),
+      paramNames,
+      handler
+    });
+  }
+
+  // Match a request to a route
+  function match(method, path) {
+    const methodRoutes = routes[method] || [];
+
+    for (const route of methodRoutes) {
+      const match = path.match(route.regex);
+      if (match) {
+        // Extract params
+        const params = {};
+        route.paramNames.forEach((name, index) => {
+          params[name] = match[index + 1];
+        });
+        return { handler: route.handler, params };
+      }
+    }
+    return null;
+  }
+
+  return {
+    get: (path, handler) => addRoute('GET', path, handler),
+    post: (path, handler) => addRoute('POST', path, handler),
+    put: (path, handler) => addRoute('PUT', path, handler),
+    delete: (path, handler) => addRoute('DELETE', path, handler),
+    match
+  };
+}
+
+// Create response helpers
+function createResponse(socket) {
+  let statusCode = 200;
+  let statusText = 'OK';
+  const headers = {};
+
+  return {
+    status(code) {
+      statusCode = code;
+      const statusTexts = {
+        200: 'OK', 201: 'Created', 400: 'Bad Request',
+        404: 'Not Found', 500: 'Internal Server Error'
+      };
+      statusText = statusTexts[code] || 'Unknown';
+      return this;
+    },
+
+    set(key, value) {
+      headers[key] = value;
+      return this;
+    },
+
+    json(data) {
+      const body = JSON.stringify(data);
+      headers['Content-Type'] = 'application/json';
+      headers['Content-Length'] = Buffer.byteLength(body);
+
+      let response = `HTTP/1.1 ${statusCode} ${statusText}\r\n`;
+      for (const [k, v] of Object.entries(headers)) {
+        response += `${k}: ${v}\r\n`;
+      }
+      response += '\r\n' + body;
+      socket.end(response);
+    },
+
+    send(text) {
+      headers['Content-Type'] = 'text/plain';
+      headers['Content-Length'] = Buffer.byteLength(text);
+
+      let response = `HTTP/1.1 ${statusCode} ${statusText}\r\n`;
+      for (const [k, v] of Object.entries(headers)) {
+        response += `${k}: ${v}\r\n`;
+      }
+      response += '\r\n' + text;
+      socket.end(response);
+    }
+  };
+}
+
+// Complete server example
+const router = createRouter();
+
+// Define routes
+router.get('/api/hello', (req, res) => {
+  res.json({ message: 'Hello, World!' });
+});
+
+router.post('/api/users', (req, res) => {
+  // req.body contains parsed JSON
+  const { name, email } = req.body;
+  res.status(201).json({
+    id: Date.now(),
+    name,
+    email,
+    created: true
+  });
+});
+
+router.get('/api/users/:id', (req, res) => {
+  const userId = req.params.id;
+  res.json({ id: userId, name: 'User ' + userId });
+});
+
+// Create server
+const server = net.createServer((socket) => {
+  socket.on('data', (data) => {
+    const req = parseRequest(data);
+    const res = createResponse(socket);
+
+    // Try to match route
+    const matched = router.match(req.method, req.path);
+
+    if (matched) {
+      req.params = matched.params;
+      matched.handler(req, res);
+    } else {
+      res.status(404).json({ error: 'Not Found' });
+    }
+  });
+});
+
+server.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});</code></pre>
+                </div>
+            </div>
+
+            <div class="ps-section">
+                <h4>📖 Reading Materials</h4>
+                <div class="reading-materials">
+                    <div class="reading-category">
+                        <h5>HTTP Protocol</h5>
+                        <ul>
+                            <li><a href="../#http-browser">Course Lecture: HTTP & The Browser</a></li>
+                            <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" target="_blank" rel="noopener">MDN: HTTP Overview</a></li>
+                            <li><a href="https://www.tutorialspoint.com/http/http_overview.htm" target="_blank" rel="noopener">HTTP/1.1 Tutorial (TutorialsPoint)</a></li>
+                            <li><a href="https://datatracker.ietf.org/doc/html/rfc2616" target="_blank" rel="noopener">RFC 2616 - HTTP/1.1 Specification</a></li>
+                        </ul>
+                    </div>
+                    <div class="reading-category">
+                        <h5>Node.js</h5>
+                        <ul>
+                            <li><a href="../#nodejs-nextjs-async">Course Lecture: Node.js, Next.js & Async JS</a></li>
+                            <li><a href="https://nodejs.org/docs/latest/api/net.html" target="_blank" rel="noopener">Node.js net Module Documentation</a></li>
+                            <li><a href="https://nodejs.dev/en/learn/" target="_blank" rel="noopener">Node.js Official Tutorial</a></li>
+                            <li><a href="https://www.freecodecamp.org/news/node-js-tutorial-for-beginners/" target="_blank" rel="noopener">Node.js Tutorial for Beginners (freeCodeCamp)</a></li>
+                        </ul>
+                    </div>
+                    <div class="reading-category">
+                        <h5>Express.js (For Reference)</h5>
+                        <ul>
+                            <li><a href="https://expressjs.com/en/starter/hello-world.html" target="_blank" rel="noopener">Express.js Getting Started</a></li>
+                            <li><a href="https://expressjs.com/en/guide/routing.html" target="_blank" rel="noopener">Express.js Routing Guide</a></li>
+                            <li><a href="https://expressjs.com/en/starter/static-files.html" target="_blank" rel="noopener">Express.js Static Files</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ps-section">
+                <h4>📤 Submission Guidelines</h4>
+                <ul>
+                    <li>Submit your code as a GitHub repository link</li>
+                    <li>Include a <code>README.md</code> explaining your API design choices</li>
+                    <li>Provide example usage demonstrating both required features</li>
+                    <li>Include at least one creative/unique feature beyond the requirements</li>
+                    <li><strong>Submit on Moodle:</strong> <a href="https://moodle.runi.ac.il/2026/mod/assign/view.php?id=131501" target="_blank" rel="noopener">Submit your assignment here</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <footer class="ps-footer">
+            <p>Full Stack Engineering • Ohad Assulin • Reichman University • 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        themeToggle?.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+    </script>
+</body>
+</html>

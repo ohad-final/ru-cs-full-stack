@@ -1,0 +1,1042 @@
+<!-- Slide 1: Title -->
+<section class="slide active" data-slide="1">
+    <div class="slide-content title-slide">
+        <div class="title-decoration">
+            <span class="protocol-badge">FULL STACK</span>
+        </div>
+        <h1 class="main-title">
+            <span class="title-line">Full Stack</span>
+            <span class="title-line highlight">Step by Step</span>
+        </h1>
+        <p class="subtitle">Follow the data: From Click to Database and Back</p>
+        <div class="title-meta">
+            <div class="meta-item">
+                <span class="meta-label">Stack</span>
+                <span class="meta-value">Next.js + TypeScript + SQLite</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Project</span>
+                <span class="meta-value">Course Registration App</span>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            Press -> or Space to navigate
+            <div class="arrow-bounce">|</div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 2: What We're Building -->
+<section class="slide" data-slide="2">
+    <div class="slide-content">
+        <h3 class="slide-title">What We're Building</h3>
+        <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">A simple course registration app. Students log in and register for courses with limited seats.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div style="background: rgba(30, 30, 50, 0.8); border-radius: 12px; padding: 1rem; border: 1px solid rgba(139, 92, 246, 0.3);">
+                <div style="background: rgba(139, 92, 246, 0.2); padding: 0.5rem 1rem; border-radius: 8px 8px 0 0; margin: -1rem -1rem 1rem -1rem;">
+                    <span style="color: #a78bfa;">🎓 Student View</span>
+                </div>
+                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; margin-bottom: 0.5rem;">
+                    <div style="font-weight: bold; color: white;">Prompt Engineering 101</div>
+                    <div style="color: rgba(255,255,255,0.5); font-size: 0.85rem;">Learn to talk to AI</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                        <span style="color: #fbbf24; font-size: 0.8rem;">1 spot left</span>
+                        <span style="background: #8b5cf6; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Register</span>
+                    </div>
+                </div>
+                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px;">
+                    <div style="font-weight: bold; color: white;">Machine Learning 101</div>
+                    <div style="color: rgba(255,255,255,0.5); font-size: 0.85rem;">Cats and neural networks</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                        <span style="color: #ef4444; font-size: 0.8rem;">FULL</span>
+                        <span style="background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Full</span>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center; gap: 1rem;">
+                <div style="padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 4px solid #8b5cf6;">
+                    <strong style="color: #a78bfa;">Today's Question:</strong>
+                    <p style="color: rgba(255,255,255,0.7); margin: 0.5rem 0 0 0;">When a student clicks "Register", what happens? How does the data travel from the button click all the way to the database?</p>
+                </div>
+                <div style="padding: 1rem; background: rgba(34, 197, 94, 0.1); border-radius: 8px; border-left: 4px solid #22c55e;">
+                    <strong style="color: #4ade80;">And backwards:</strong>
+                    <p style="color: rgba(255,255,255,0.7); margin: 0.5rem 0 0 0;">When the page loads, how does data from the database end up on screen?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 3: The Two Flows -->
+<section class="slide" data-slide="3">
+    <div class="slide-content">
+        <h3 class="slide-title">The Two Flows We'll Follow</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;">
+            <div style="background: rgba(34, 197, 94, 0.1); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(34, 197, 94, 0.3);">
+                <h4 style="color: #4ade80; margin-bottom: 1rem;">📥 Flow 1: Loading Data</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="background: #22c55e; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">DB</span>
+                        <span style="color: rgba(255,255,255,0.5);">→</span>
+                        <span style="background: #3b82f6; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Server</span>
+                        <span style="color: rgba(255,255,255,0.5);">→</span>
+                        <span style="background: #8b5cf6; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Browser</span>
+                    </div>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-top: 0.5rem;">User opens page → Server queries database → Sends HTML/JSON → Browser shows courses</p>
+                </div>
+            </div>
+            <div style="background: rgba(139, 92, 246, 0.1); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.3);">
+                <h4 style="color: #a78bfa; margin-bottom: 1rem;">📤 Flow 2: Saving Data</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="background: #8b5cf6; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Browser</span>
+                        <span style="color: rgba(255,255,255,0.5);">→</span>
+                        <span style="background: #3b82f6; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Server</span>
+                        <span style="color: rgba(255,255,255,0.5);">→</span>
+                        <span style="background: #22c55e; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">DB</span>
+                    </div>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-top: 0.5rem;">User clicks Register → Browser sends request → Server validates → Database saves</p>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px;">
+            <p style="color: rgba(255,255,255,0.7); margin: 0;">Let's start with <strong style="color: #4ade80;">Flow 1</strong> — how does data get from the database to the screen?</p>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 4: Part I Header -->
+<section class="slide" data-slide="4">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part I</div>
+        <h2 class="section-title">Loading the Page</h2>
+        <p class="section-subtitle">Database → Server → Browser → Screen</p>
+        <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.5rem; align-items: center;">
+            <span style="font-size: 2rem;">💾</span>
+            <span style="color: rgba(255,255,255,0.3); font-size: 1.5rem;">→</span>
+            <span style="font-size: 2rem;">⚡</span>
+            <span style="color: rgba(255,255,255,0.3); font-size: 1.5rem;">→</span>
+            <span style="font-size: 2rem;">🌐</span>
+            <span style="color: rgba(255,255,255,0.3); font-size: 1.5rem;">→</span>
+            <span style="font-size: 2rem;">👀</span>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 5: Step 1 - User Opens Browser -->
+<section class="slide" data-slide="5">
+    <div class="slide-content">
+        <h3 class="slide-title">Step 1: User Types URL in Browser</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+                <div style="background: rgba(0,0,0,0.3); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <span style="width: 12px; height: 12px; background: #ef4444; border-radius: 50%;"></span>
+                        <span style="width: 12px; height: 12px; background: #fbbf24; border-radius: 50%;"></span>
+                        <span style="width: 12px; height: 12px; background: #22c55e; border-radius: 50%;"></span>
+                        <span style="flex: 1; background: rgba(255,255,255,0.1); padding: 0.25rem 0.5rem; border-radius: 4px; margin-left: 0.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.7);">localhost:5050</span>
+                    </div>
+                    <div style="text-align: center; padding: 2rem; color: rgba(255,255,255,0.3);">
+                        Loading...
+                    </div>
+                </div>
+                <div style="padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px;">
+                    <p style="color: rgba(255,255,255,0.7); margin: 0; font-size: 0.9rem;">
+                        <strong style="color: #a78bfa;">What happens:</strong> Browser sends HTTP GET request to server
+                    </p>
+                </div>
+            </div>
+            <div>
+                <pre class="code-block"><code>GET / HTTP/1.1
+Host: localhost:5050
+
+// Browser asks:
+// "Give me the home page!"</code></pre>
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px;">
+                    <p style="color: rgba(255,255,255,0.7); margin: 0; font-size: 0.9rem;">
+                        <strong style="color: #60a5fa;">Next.js receives this</strong> and looks for <code>app/page.tsx</code>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 6: Step 2 - Server Component Runs -->
+<section class="slide" data-slide="6">
+    <div class="slide-content">
+        <h3 class="slide-title">Step 2: Server Component Runs</h3>
+        <p style="color: rgba(255,255,255,0.6); margin-bottom: 1rem;">Next.js finds <code>app/page.tsx</code> and runs it <strong>on the server</strong> (not in browser!)</p>
+        <pre class="code-block"><code>// app/page.tsx — This runs on the SERVER
+
+import { getSession } from '@/lib/auth';
+import CoursesPage from './CoursesPage';
+
+export default async function Home() {
+  // This code runs on the server!
+  // We can directly check if user is logged in
+  const session = await getSession();
+
+  return (
+    &lt;main&gt;
+      &lt;h1&gt;Welcome to AI University&lt;/h1&gt;
+
+      {/* Pass server data to the page */}
+      &lt;CoursesPage
+        isLoggedIn={!!session}
+        isAdmin={session?.is_admin ?? false}
+      /&gt;
+    &lt;/main&gt;
+  );
+}</code></pre>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+            <div style="padding: 1rem; background: rgba(34, 197, 94, 0.1); border-radius: 8px; border-left: 4px solid #22c55e;">
+                <strong style="color: #4ade80;">Server Component</strong>
+                <p style="color: rgba(255,255,255,0.6); margin: 0.5rem 0 0 0; font-size: 0.85rem;">Runs on server. Can access database, read cookies, check auth. User never sees this code.</p>
+            </div>
+            <div style="padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 4px solid #8b5cf6;">
+                <strong style="color: #a78bfa;">Why on server?</strong>
+                <p style="color: rgba(255,255,255,0.6); margin: 0.5rem 0 0 0; font-size: 0.85rem;">Faster first load, can access secrets, database doesn't need to be exposed to internet.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 7: Step 3 - Client Component Fetches -->
+<section class="slide" data-slide="7">
+    <div class="slide-content">
+        <h3 class="slide-title">Step 3: Client Component Loads in Browser</h3>
+        <p style="color: rgba(255,255,255,0.6); margin-bottom: 1rem;"><code>CoursesPage</code> has <code>'use client'</code> — it runs in the browser and fetches course data</p>
+        <pre class="code-block"><code>'use client';  // 👈 This runs in the BROWSER
+
+import { useEffect, useState } from 'react';
+
+export default function CoursesPage({ isLoggedIn }) {
+  const [courses, setCourses] = useState([]);    // Start with empty array
+  const [loading, setLoading] = useState(true);  // Show loading spinner
+
+  // useEffect runs AFTER component appears on screen
+  useEffect(() => {
+    // Fetch courses from our API
+    fetch('/api/courses')
+      .then(res => res.json())
+      .then(data => {
+        setCourses(data.courses);  // Save courses to state
+        setLoading(false);         // Hide loading spinner
+      });
+  }, []);  // Empty array = run once when component mounts
+
+  if (loading) return &lt;div&gt;Loading courses...&lt;/div&gt;;
+
+  return (
+    &lt;div&gt;
+      {courses.map(course => (
+        &lt;CourseCard key={course.id} course={course} /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}</code></pre>
+    </div>
+</section>
+
+<!-- Slide 8: Step 4 - API Route Queries Database -->
+<section class="slide" data-slide="8">
+    <div class="slide-content">
+        <h3 class="slide-title">Step 4: API Route Queries Database</h3>
+        <p style="color: rgba(255,255,255,0.6); margin-bottom: 1rem;">Browser's <code>fetch('/api/courses')</code> hits our API route</p>
+        <pre class="code-block"><code>// app/api/courses/route.ts — Runs on SERVER
+
+import { NextResponse } from 'next/server';
+import { getCoursesWithEnrollment } from '@/lib/db';
+
+export async function GET() {
+  // Query the database
+  const courses = getCoursesWithEnrollment();
+
+  // Send JSON response back to browser
+  return NextResponse.json({ courses });
+}</code></pre>
+        <pre class="code-block" style="margin-top: 1rem;"><code>// lib/db.ts — Database query
+
+export function getCoursesWithEnrollment() {
+  const stmt = db.prepare(`
+    SELECT
+      courses.*,
+      COUNT(registrations.id) as enrolled_count
+    FROM courses
+    LEFT JOIN registrations ON courses.id = registrations.course_id
+    GROUP BY courses.id
+  `);
+  return stmt.all();
+}
+
+// Returns: [
+//   { id: 1, name: "Prompt Engineering", max_students: 2, enrolled_count: 1 },
+//   { id: 2, name: "Machine Learning", max_students: 3, enrolled_count: 3 },
+// ]</code></pre>
+    </div>
+</section>
+
+<!-- Slide 9: Step 5 - Data Flows Back -->
+<section class="slide" data-slide="9">
+    <div class="slide-content">
+        <h3 class="slide-title">Step 5: Data Flows Back to Browser</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="background: rgba(34, 197, 94, 0.2); padding: 1rem; border-radius: 8px; flex: 1;">
+                    <div style="color: #4ade80; font-weight: bold; margin-bottom: 0.5rem;">💾 Database</div>
+                    <code style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">SELECT * FROM courses...</code>
+                </div>
+                <span style="color: rgba(255,255,255,0.3); font-size: 1.5rem;">→</span>
+                <div style="background: rgba(59, 130, 246, 0.2); padding: 1rem; border-radius: 8px; flex: 1;">
+                    <div style="color: #60a5fa; font-weight: bold; margin-bottom: 0.5rem;">⚡ API Route</div>
+                    <code style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">NextResponse.json({courses})</code>
+                </div>
+                <span style="color: rgba(255,255,255,0.3); font-size: 1.5rem;">→</span>
+                <div style="background: rgba(139, 92, 246, 0.2); padding: 1rem; border-radius: 8px; flex: 1;">
+                    <div style="color: #a78bfa; font-weight: bold; margin-bottom: 0.5rem;">🌐 Browser</div>
+                    <code style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">setCourses(data.courses)</code>
+                </div>
+            </div>
+        </div>
+        <pre class="code-block" style="margin-top: 1.5rem;"><code>// What the browser receives:
+{
+  "courses": [
+    {
+      "id": 1,
+      "name": "Prompt Engineering 101",
+      "description": "Learn to talk to AI",
+      "max_students": 2,
+      "enrolled_count": 1   // 👈 Calculated by SQL JOIN
+    },
+    {
+      "id": 2,
+      "name": "Machine Learning 101",
+      "max_students": 3,
+      "enrolled_count": 3   // 👈 This course is FULL!
+    }
+  ]
+}</code></pre>
+    </div>
+</section>
+
+<!-- Slide 10: Step 6 - React Renders -->
+<section class="slide" data-slide="10">
+    <div class="slide-content">
+        <h3 class="slide-title">Step 6: React Renders the Courses</h3>
+        <p style="color: rgba(255,255,255,0.6); margin-bottom: 1rem;">When <code>setCourses()</code> updates state, React re-renders the component</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div>
+                <pre class="code-block"><code>// components/CourseCard.tsx
+function CourseCard({ course }) {
+  const spotsLeft = course.max_students
+                  - course.enrolled_count;
+  const isFull = spotsLeft === 0;
+
+  return (
+    &lt;div className="course-card"&gt;
+      &lt;h3&gt;{course.name}&lt;/h3&gt;
+      &lt;p&gt;{course.description}&lt;/p&gt;
+
+      &lt;span className={isFull ? 'red' : 'green'}&gt;
+        {isFull
+          ? 'FULL'
+          : `${spotsLeft} spots left`}
+      &lt;/span&gt;
+
+      &lt;button disabled={isFull}&gt;
+        {isFull ? 'Full' : 'Register'}
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+            </div>
+            <div>
+                <div style="background: rgba(30, 30, 50, 0.8); border-radius: 12px; padding: 1rem; border: 1px solid rgba(139, 92, 246, 0.3);">
+                    <div style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-bottom: 1rem;">Result on screen:</div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; margin-bottom: 0.75rem;">
+                        <div style="font-weight: bold; color: white;">Prompt Engineering 101</div>
+                        <div style="color: rgba(255,255,255,0.5); font-size: 0.85rem;">Learn to talk to AI</div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                            <span style="color: #4ade80; font-size: 0.8rem;">1 spot left</span>
+                            <span style="background: #8b5cf6; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Register</span>
+                        </div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px;">
+                        <div style="font-weight: bold; color: white;">Machine Learning 101</div>
+                        <div style="color: rgba(255,255,255,0.5); font-size: 0.85rem;">Cats and neural networks</div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                            <span style="color: #ef4444; font-size: 0.8rem;">FULL</span>
+                            <span style="background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Full</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 11: Flow 1 Summary -->
+<section class="slide" data-slide="11">
+    <div class="slide-content">
+        <h3 class="slide-title">Flow 1 Complete: Database → Screen</h3>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #8b5cf6; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</span>
+                <div style="flex: 1; background: rgba(139, 92, 246, 0.1); padding: 0.75rem 1rem; border-radius: 8px;">
+                    User types <code>localhost:5050</code> → Browser sends GET request
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #3b82f6; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</span>
+                <div style="flex: 1; background: rgba(59, 130, 246, 0.1); padding: 0.75rem 1rem; border-radius: 8px;">
+                    Next.js runs <code>app/page.tsx</code> on server → Returns HTML with React components
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #8b5cf6; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</span>
+                <div style="flex: 1; background: rgba(139, 92, 246, 0.1); padding: 0.75rem 1rem; border-radius: 8px;">
+                    Browser loads JavaScript → <code>CoursesPage</code> runs <code>useEffect</code> → <code>fetch('/api/courses')</code>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #3b82f6; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">4</span>
+                <div style="flex: 1; background: rgba(59, 130, 246, 0.1); padding: 0.75rem 1rem; border-radius: 8px;">
+                    API route <code>app/api/courses/route.ts</code> → Calls <code>getCoursesWithEnrollment()</code>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #22c55e; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">5</span>
+                <div style="flex: 1; background: rgba(34, 197, 94, 0.1); padding: 0.75rem 1rem; border-radius: 8px;">
+                    SQLite executes <code>SELECT courses.*, COUNT(registrations.id)...</code>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #8b5cf6; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">6</span>
+                <div style="flex: 1; background: rgba(139, 92, 246, 0.1); padding: 0.75rem 1rem; border-radius: 8px;">
+                    JSON returns → <code>setCourses()</code> → React re-renders → User sees courses!
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 12: Part II Header -->
+<section class="slide" data-slide="12">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part II</div>
+        <h2 class="section-title">Clicking Register</h2>
+        <p class="section-subtitle">Browser → Server → Database → Response</p>
+        <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.5rem; align-items: center;">
+            <span style="font-size: 2rem;">👆</span>
+            <span style="color: rgba(255,255,255,0.3); font-size: 1.5rem;">→</span>
+            <span style="font-size: 2rem;">🌐</span>
+            <span style="color: rgba(255,255,255,0.3); font-size: 1.5rem;">→</span>
+            <span style="font-size: 2rem;">⚡</span>
+            <span style="color: rgba(255,255,255,0.3); font-size: 1.5rem;">→</span>
+            <span style="font-size: 2rem;">💾</span>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 13: Step 1 - User Clicks -->
+<section class="slide" data-slide="13">
+    <div class="slide-content">
+        <h3 class="slide-title">Step 1: User Clicks "Register" Button</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+                <div style="background: rgba(30, 30, 50, 0.8); border-radius: 12px; padding: 1rem; border: 1px solid rgba(139, 92, 246, 0.3); margin-bottom: 1rem;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px;">
+                        <div style="font-weight: bold; color: white;">Prompt Engineering 101</div>
+                        <div style="color: rgba(255,255,255,0.5); font-size: 0.85rem;">Learn to talk to AI</div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                            <span style="color: #4ade80; font-size: 0.8rem;">1 spot left</span>
+                            <span style="background: #8b5cf6; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem; cursor: pointer; box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);">👆 Register</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px;">
+                    <p style="color: rgba(255,255,255,0.7); margin: 0; font-size: 0.9rem;">
+                        User clicks the button. The <code>onClick</code> handler fires.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <pre class="code-block"><code>// components/CourseCard.tsx
+
+&lt;button
+  onClick={() => onRegister(course.id)}
+  disabled={isFull}
+&gt;
+  Register
+&lt;/button&gt;
+
+// course.id = 1 (Prompt Engineering)</code></pre>
+                <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                    <p style="color: rgba(255,255,255,0.6); margin: 0; font-size: 0.85rem;">
+                        <code>onRegister</code> is a function passed from parent component
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 14: Step 2 - JavaScript Handler -->
+<section class="slide" data-slide="14">
+    <div class="slide-content">
+        <h3 class="slide-title">Step 2: JavaScript Sends HTTP Request</h3>
+        <p style="color: rgba(255,255,255,0.6); margin-bottom: 1rem;">The <code>onRegister</code> function uses <code>fetch()</code> to call our API</p>
+        <pre class="code-block"><code>// app/CoursesPage.tsx
+
+async function handleRegister(courseId: number) {
+  // Send POST request to our API
+  const response = await fetch('/api/courses/register', {
+    method: 'POST',                              // POST = "create something"
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ courseId })           // Send course ID as JSON
+  });
+
+  // Check if it worked
+  if (response.ok) {
+    fetchCourses();  // Refresh the course list to show updated count
+  } else {
+    const data = await response.json();
+    setError(data.error);  // Show error like "Course is full"
+  }
+}</code></pre>
+        <div style="margin-top: 1rem; padding: 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px;">
+            <p style="color: rgba(255,255,255,0.7); margin: 0;">
+                <strong style="color: #60a5fa;">HTTP Request sent:</strong>
+                <code style="margin-left: 0.5rem;">POST /api/courses/register</code> with body <code>{"courseId": 1}</code>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 15: Step 3 - API Route Receives -->
+<section class="slide" data-slide="15">
+    <div class="slide-content">
+        <h3 class="slide-title">Step 3: API Route Receives Request</h3>
+        <p style="color: rgba(255,255,255,0.6); margin-bottom: 1rem;">Next.js routes POST to <code>app/api/courses/register/route.ts</code></p>
+        <pre class="code-block"><code>// app/api/courses/register/route.ts
+
+import { NextRequest, NextResponse } from 'next/server';
+import { registerForCourse } from '@/lib/db';
+import { getSession } from '@/lib/auth';
+
+export async function POST(request: NextRequest) {
+  // 1. Check if user is logged in (read session from cookie)
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json({ error: 'Not logged in' }, { status: 401 });
+  }
+
+  // 2. Get courseId from request body
+  const { courseId } = await request.json();
+
+  // 3. Try to register (this talks to the database)
+  const result = registerForCourse(session.id, courseId);
+
+  // 4. Return success or error
+  if (!result.success) {
+    return NextResponse.json({ error: result.error }, { status: 400 });
+  }
+
+  return NextResponse.json({ success: true });
+}</code></pre>
+    </div>
+</section>
+
+<!-- Slide 16: Step 4 - Database Transaction -->
+<section class="slide" data-slide="16">
+    <div class="slide-content">
+        <h3 class="slide-title">Step 4: Database Transaction (The Critical Part!)</h3>
+        <p style="color: rgba(255,255,255,0.6); margin-bottom: 1rem;">We must check seats AND insert in one atomic operation</p>
+        <pre class="code-block"><code>// lib/db.ts
+
+export function registerForCourse(userId: number, courseId: number) {
+  // Transaction = all steps succeed or all fail together
+  const checkAndRegister = db.transaction(() => {
+
+    // Step A: How many students are enrolled?
+    const { count } = db.prepare(
+      'SELECT COUNT(*) as count FROM registrations WHERE course_id = ?'
+    ).get(courseId);
+
+    // Step B: What's the max?
+    const course = db.prepare(
+      'SELECT max_students FROM courses WHERE id = ?'
+    ).get(courseId);
+
+    // Step C: Is there room?
+    if (count >= course.max_students) {
+      return { success: false, error: 'Course is full' };
+    }
+
+    // Step D: Register the student!
+    db.prepare(
+      'INSERT INTO registrations (user_id, course_id) VALUES (?, ?)'
+    ).run(userId, courseId);
+
+    return { success: true };
+  });
+
+  return checkAndRegister();  // Execute the transaction
+}</code></pre>
+    </div>
+</section>
+
+<!-- Slide 17: Why Transaction? -->
+<section class="slide" data-slide="17">
+    <div class="slide-content">
+        <h3 class="slide-title">🚨 Why Do We Need a Transaction?</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(239, 68, 68, 0.3);">
+                <h4 style="color: #ef4444; margin-bottom: 1rem;">❌ Without Transaction (Bug!)</h4>
+                <div style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">
+                    <p><strong>Time 0:</strong> Course has 1/2 seats</p>
+                    <p><strong>Time 1:</strong> Alice checks: "1 enrolled, room for 1 more" ✓</p>
+                    <p><strong>Time 2:</strong> Bob checks: "1 enrolled, room for 1 more" ✓</p>
+                    <p><strong>Time 3:</strong> Alice inserts her registration</p>
+                    <p><strong>Time 4:</strong> Bob inserts his registration</p>
+                    <p style="color: #ef4444;"><strong>Result:</strong> 3 students in 2-seat course! 💥</p>
+                </div>
+            </div>
+            <div style="background: rgba(34, 197, 94, 0.1); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(34, 197, 94, 0.3);">
+                <h4 style="color: #4ade80; margin-bottom: 1rem;">✅ With Transaction (Safe!)</h4>
+                <div style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">
+                    <p><strong>Time 0:</strong> Course has 1/2 seats</p>
+                    <p><strong>Time 1:</strong> Alice starts transaction (locks rows)</p>
+                    <p><strong>Time 2:</strong> Alice checks + inserts atomically</p>
+                    <p><strong>Time 3:</strong> Alice commits. Now 2/2 enrolled.</p>
+                    <p><strong>Time 4:</strong> Bob starts transaction, checks: "2/2 = FULL"</p>
+                    <p style="color: #4ade80;"><strong>Result:</strong> Bob gets "Course is full" error ✓</p>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px; text-align: center;">
+            <code style="color: #a78bfa;">db.transaction()</code> makes check + insert <strong>atomic</strong> — no one can sneak in between!
+        </div>
+    </div>
+</section>
+
+<!-- Slide 18: Step 5 - Response Returns -->
+<section class="slide" data-slide="18">
+    <div class="slide-content">
+        <h3 class="slide-title">Step 5: Response Returns to Browser</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; align-items: stretch; gap: 1rem;">
+                <div style="background: rgba(34, 197, 94, 0.1); padding: 1rem; border-radius: 8px; flex: 1;">
+                    <div style="color: #4ade80; font-weight: bold; margin-bottom: 0.5rem;">✅ Success Case</div>
+                    <pre class="code-block" style="margin: 0;"><code>HTTP 200 OK
+{ "success": true }</code></pre>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-top: 0.5rem;">Registration saved! Browser will refresh courses.</p>
+                </div>
+                <div style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: 8px; flex: 1;">
+                    <div style="color: #ef4444; font-weight: bold; margin-bottom: 0.5rem;">❌ Error Case</div>
+                    <pre class="code-block" style="margin: 0;"><code>HTTP 400 Bad Request
+{ "error": "Course is full" }</code></pre>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-top: 0.5rem;">No room! Browser will show error message.</p>
+                </div>
+            </div>
+        </div>
+        <pre class="code-block" style="margin-top: 1.5rem;"><code>// Back in CoursesPage.tsx - handling the response
+
+async function handleRegister(courseId: number) {
+  const response = await fetch('/api/courses/register', { ... });
+
+  if (response.ok) {
+    // Success! Refresh to show updated enrollment count
+    fetchCourses();
+  } else {
+    // Error! Show message to user
+    const data = await response.json();
+    setError(data.error);  // "Course is full"
+  }
+}</code></pre>
+    </div>
+</section>
+
+<!-- Slide 19: Step 6 - UI Updates -->
+<section class="slide" data-slide="19">
+    <div class="slide-content">
+        <h3 class="slide-title">Step 6: UI Updates</h3>
+        <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center;">
+            <div style="background: rgba(30, 30, 50, 0.8); border-radius: 12px; padding: 1rem; border: 1px solid rgba(139, 92, 246, 0.3);">
+                <div style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-bottom: 0.5rem;">Before click:</div>
+                <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px;">
+                    <div style="font-weight: bold; color: white; font-size: 0.9rem;">Prompt Engineering 101</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                        <span style="color: #4ade80; font-size: 0.8rem;">1 spot left</span>
+                        <span style="background: #8b5cf6; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">Register</span>
+                    </div>
+                </div>
+            </div>
+            <div style="font-size: 2rem; color: rgba(255,255,255,0.3);">→</div>
+            <div style="background: rgba(30, 30, 50, 0.8); border-radius: 12px; padding: 1rem; border: 1px solid rgba(34, 197, 94, 0.3);">
+                <div style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-bottom: 0.5rem;">After click:</div>
+                <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(34, 197, 94, 0.3);">
+                    <div style="font-weight: bold; color: white; font-size: 0.9rem;">Prompt Engineering 101</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                        <span style="color: #ef4444; font-size: 0.8rem;">FULL</span>
+                        <span style="background: rgba(239, 68, 68, 0.2); color: #ef4444; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">Drop</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <pre class="code-block" style="margin-top: 1.5rem;"><code>// After successful registration, we call fetchCourses() again:
+
+async function fetchCourses() {
+  const res = await fetch('/api/courses');
+  const data = await res.json();
+
+  setCourses(data.courses);        // Update state
+  setUserCourseIds(data.userIds);  // Mark which courses user is in
+}
+
+// React sees state changed → re-renders → UI shows new data!</code></pre>
+    </div>
+</section>
+
+<!-- Slide 20: Flow 2 Complete -->
+<section class="slide" data-slide="20">
+    <div class="slide-content">
+        <h3 class="slide-title">Flow 2 Complete: Click → Database → Updated UI</h3>
+        <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.95rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #8b5cf6; color: white; width: 1.75rem; height: 1.75rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">1</span>
+                <div style="flex: 1; background: rgba(139, 92, 246, 0.1); padding: 0.6rem 1rem; border-radius: 8px;">
+                    User clicks Register → <code>onClick={() => onRegister(1)}</code>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #8b5cf6; color: white; width: 1.75rem; height: 1.75rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">2</span>
+                <div style="flex: 1; background: rgba(139, 92, 246, 0.1); padding: 0.6rem 1rem; border-radius: 8px;">
+                    JavaScript runs → <code>fetch('/api/courses/register', {method: 'POST', body: {courseId: 1}})</code>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #3b82f6; color: white; width: 1.75rem; height: 1.75rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">3</span>
+                <div style="flex: 1; background: rgba(59, 130, 246, 0.1); padding: 0.6rem 1rem; border-radius: 8px;">
+                    API route checks auth → <code>getSession()</code> reads cookie, verifies JWT
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #22c55e; color: white; width: 1.75rem; height: 1.75rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">4</span>
+                <div style="flex: 1; background: rgba(34, 197, 94, 0.1); padding: 0.6rem 1rem; border-radius: 8px;">
+                    Transaction: <code>SELECT COUNT(*)</code> → check if room → <code>INSERT INTO registrations</code>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #3b82f6; color: white; width: 1.75rem; height: 1.75rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">5</span>
+                <div style="flex: 1; background: rgba(59, 130, 246, 0.1); padding: 0.6rem 1rem; border-radius: 8px;">
+                    API returns → <code>NextResponse.json({ success: true })</code>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #8b5cf6; color: white; width: 1.75rem; height: 1.75rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">6</span>
+                <div style="flex: 1; background: rgba(139, 92, 246, 0.1); padding: 0.6rem 1rem; border-radius: 8px;">
+                    Browser: <code>fetchCourses()</code> → <code>setCourses()</code> → React re-renders → UI updated!
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 21: Part III Header -->
+<section class="slide" data-slide="21">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part III</div>
+        <h2 class="section-title">Key Concepts</h2>
+        <p class="section-subtitle">Server vs Client, Files, and Authentication</p>
+    </div>
+</section>
+
+<!-- Slide 22: Server vs Client Components -->
+<section class="slide" data-slide="22">
+    <div class="slide-content">
+        <h3 class="slide-title">Server vs Client Components</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div style="background: rgba(59, 130, 246, 0.1); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.3);">
+                <h4 style="color: #60a5fa; margin-bottom: 1rem;">⚡ Server Component (default)</h4>
+                <pre class="code-block" style="margin-bottom: 1rem;"><code>// app/page.tsx
+// No 'use client' = runs on server
+
+export default async function Page() {
+  // ✅ Can access database
+  const data = await db.query(...);
+
+  // ✅ Can read secrets
+  const key = process.env.SECRET;
+
+  // ✅ Can check auth
+  const user = await getSession();
+
+  // ❌ Cannot use useState
+  // ❌ Cannot use onClick
+  return &lt;div&gt;{data}&lt;/div&gt;;
+}</code></pre>
+            </div>
+            <div style="background: rgba(139, 92, 246, 0.1); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.3);">
+                <h4 style="color: #a78bfa; margin-bottom: 1rem;">🌐 Client Component</h4>
+                <pre class="code-block" style="margin-bottom: 1rem;"><code>'use client';
+// Runs in browser
+
+export default function Button() {
+  // ✅ Can use React hooks
+  const [count, setCount] = useState(0);
+
+  // ✅ Can handle events
+  const handleClick = () => {...};
+
+  // ❌ Cannot access database
+  // ❌ Cannot read server secrets
+
+  return (
+    &lt;button onClick={handleClick}&gt;
+      {count}
+    &lt;/button&gt;
+  );
+}</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 23: File Structure = URL Structure -->
+<section class="slide" data-slide="23">
+    <div class="slide-content">
+        <h3 class="slide-title">File Location = URL Path</h3>
+        <p style="color: rgba(255,255,255,0.6); margin-bottom: 1.5rem;">Next.js uses the file system to determine URLs. No router configuration needed!</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+                <h4 style="color: #a78bfa; margin-bottom: 1rem;">Pages</h4>
+                <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.9rem;">
+                    <div style="color: rgba(255,255,255,0.5);">app/</div>
+                    <div style="margin-left: 1rem;"><span style="color: #a78bfa;">page.tsx</span> <span style="color: rgba(255,255,255,0.3);">→</span> <span style="color: #4ade80;">/</span></div>
+                    <div style="margin-left: 1rem;"><span style="color: #a78bfa;">login/page.tsx</span> <span style="color: rgba(255,255,255,0.3);">→</span> <span style="color: #4ade80;">/login</span></div>
+                    <div style="margin-left: 1rem;"><span style="color: #a78bfa;">admin/page.tsx</span> <span style="color: rgba(255,255,255,0.3);">→</span> <span style="color: #4ade80;">/admin</span></div>
+                </div>
+            </div>
+            <div>
+                <h4 style="color: #60a5fa; margin-bottom: 1rem;">API Routes</h4>
+                <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.9rem;">
+                    <div style="color: rgba(255,255,255,0.5);">app/api/</div>
+                    <div style="margin-left: 1rem;"><span style="color: #60a5fa;">courses/route.ts</span> <span style="color: rgba(255,255,255,0.3);">→</span> <span style="color: #4ade80;">/api/courses</span></div>
+                    <div style="margin-left: 1rem;"><span style="color: #60a5fa;">auth/login/route.ts</span> <span style="color: rgba(255,255,255,0.3);">→</span> <span style="color: #4ade80;">/api/auth/login</span></div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px;">
+            <p style="color: rgba(255,255,255,0.7); margin: 0;">
+                <code>page.tsx</code> = what user sees &nbsp;|&nbsp; <code>route.ts</code> = API endpoint (returns JSON)
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 24: Authentication Simplified -->
+<section class="slide" data-slide="24">
+    <div class="slide-content">
+        <h3 class="slide-title">How Login Works (Simplified)</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #8b5cf6; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</span>
+                <div style="flex: 1; background: rgba(139, 92, 246, 0.1); padding: 1rem; border-radius: 8px;">
+                    <strong>User submits login form</strong>
+                    <code style="display: block; margin-top: 0.5rem; color: rgba(255,255,255,0.6);">POST /api/auth/login { username: "alice", password: "1234" }</code>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #3b82f6; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</span>
+                <div style="flex: 1; background: rgba(59, 130, 246, 0.1); padding: 1rem; border-radius: 8px;">
+                    <strong>Server checks password</strong>
+                    <code style="display: block; margin-top: 0.5rem; color: rgba(255,255,255,0.6);">bcrypt.compare(password, user.password_hash) → true/false</code>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #22c55e; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</span>
+                <div style="flex: 1; background: rgba(34, 197, 94, 0.1); padding: 1rem; border-radius: 8px;">
+                    <strong>Server creates JWT token</strong>
+                    <code style="display: block; margin-top: 0.5rem; color: rgba(255,255,255,0.6);">JWT contains: { id: 2, username: "alice", is_admin: false }</code>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #f59e0b; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">4</span>
+                <div style="flex: 1; background: rgba(245, 158, 11, 0.1); padding: 1rem; border-radius: 8px;">
+                    <strong>Server sets cookie</strong>
+                    <code style="display: block; margin-top: 0.5rem; color: rgba(255,255,255,0.6);">Set-Cookie: session=eyJhbGci...; HttpOnly; Secure</code>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="background: #8b5cf6; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">5</span>
+                <div style="flex: 1; background: rgba(139, 92, 246, 0.1); padding: 1rem; border-radius: 8px;">
+                    <strong>Future requests: browser sends cookie automatically</strong>
+                    <code style="display: block; margin-top: 0.5rem; color: rgba(255,255,255,0.6);">getSession() reads cookie → verifies JWT → returns user info</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 25: The Complete Picture -->
+<section class="slide" data-slide="25">
+    <div class="slide-content">
+        <h3 class="slide-title">The Complete Picture</h3>
+        <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1)); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.3);">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+                <div style="padding: 1rem; background: rgba(139, 92, 246, 0.2); border-radius: 8px;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌐</div>
+                    <div style="color: #a78bfa; font-weight: bold;">Browser</div>
+                    <div style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-top: 0.5rem;">
+                        React components<br>
+                        useState, useEffect<br>
+                        fetch() to API
+                    </div>
+                </div>
+                <div style="padding: 1rem; background: rgba(59, 130, 246, 0.2); border-radius: 8px;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚡</div>
+                    <div style="color: #60a5fa; font-weight: bold;">Server (Next.js)</div>
+                    <div style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-top: 0.5rem;">
+                        API routes<br>
+                        Auth checking<br>
+                        Calls database
+                    </div>
+                </div>
+                <div style="padding: 1rem; background: rgba(34, 197, 94, 0.2); border-radius: 8px;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">💾</div>
+                    <div style="color: #4ade80; font-weight: bold;">Database (SQLite)</div>
+                    <div style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-top: 0.5rem;">
+                        Tables: users, courses<br>
+                        registrations<br>
+                        Transactions
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; color: rgba(255,255,255,0.5);">
+                    <span>fetch()</span>
+                    <span>→</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; color: rgba(255,255,255,0.5);">
+                    <span>db.prepare()</span>
+                    <span>→</span>
+                </div>
+            </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; text-align: center; font-size: 0.85rem;">
+            <div style="padding: 0.75rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px;">
+                <code style="color: #a78bfa;">CoursesPage.tsx</code><br>
+                <code style="color: #a78bfa;">CourseCard.tsx</code>
+            </div>
+            <div style="padding: 0.75rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px;">
+                <code style="color: #60a5fa;">api/courses/route.ts</code><br>
+                <code style="color: #60a5fa;">lib/auth.ts</code>
+            </div>
+            <div style="padding: 0.75rem; background: rgba(34, 197, 94, 0.1); border-radius: 8px;">
+                <code style="color: #4ade80;">lib/db.ts</code><br>
+                <code style="color: #4ade80;">data.db</code>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 26: Try It Yourself -->
+<section class="slide" data-slide="26">
+    <div class="slide-content">
+        <h3 class="slide-title">Try It Yourself!</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+                <h4 style="color: #a78bfa; margin-bottom: 1rem;">Run the app:</h4>
+                <pre class="code-block"><code># In terminal:
+cd full-stack-example
+npm install
+npm run seed    # Create test data
+npm run dev     # Start server
+
+# Open browser:
+http://localhost:5050</code></pre>
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                    <p style="color: rgba(255,255,255,0.7); margin: 0; font-size: 0.9rem;">
+                        <strong>Test accounts:</strong><br>
+                        Admin: admin / admin<br>
+                        Students: alice / alice, bob / bob
+                    </p>
+                </div>
+            </div>
+            <div>
+                <h4 style="color: #4ade80; margin-bottom: 1rem;">Things to try:</h4>
+                <ul style="color: rgba(255,255,255,0.7); line-height: 1.8;">
+                    <li>Register as alice, enroll in a course</li>
+                    <li>Open another browser, login as bob</li>
+                    <li>Try to fill the same course → see who gets the last spot!</li>
+                    <li>Login as admin → see all students and their courses</li>
+                    <li>Add a new course with 1 seat</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 27: Summary -->
+<section class="slide" data-slide="27">
+    <div class="slide-content">
+        <h3 class="slide-title">What You Learned</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div style="padding: 1.25rem; background: rgba(34, 197, 94, 0.1); border-radius: 12px; border-left: 4px solid #22c55e;">
+                <h4 style="color: #4ade80; margin-bottom: 0.75rem;">📥 Loading Data Flow</h4>
+                <p style="color: rgba(255,255,255,0.7); margin: 0; font-size: 0.9rem;">
+                    Page loads → useEffect runs → fetch() calls API → API queries database → JSON returns → setState() → React renders
+                </p>
+            </div>
+            <div style="padding: 1.25rem; background: rgba(139, 92, 246, 0.1); border-radius: 12px; border-left: 4px solid #8b5cf6;">
+                <h4 style="color: #a78bfa; margin-bottom: 0.75rem;">📤 Saving Data Flow</h4>
+                <p style="color: rgba(255,255,255,0.7); margin: 0; font-size: 0.9rem;">
+                    Click button → fetch(POST) → API checks auth → database transaction → response → refresh UI
+                </p>
+            </div>
+            <div style="padding: 1.25rem; background: rgba(59, 130, 246, 0.1); border-radius: 12px; border-left: 4px solid #3b82f6;">
+                <h4 style="color: #60a5fa; margin-bottom: 0.75rem;">⚡ Server vs Client</h4>
+                <p style="color: rgba(255,255,255,0.7); margin: 0; font-size: 0.9rem;">
+                    Server: database, secrets, auth<br>
+                    Client: useState, onClick, fetch
+                </p>
+            </div>
+            <div style="padding: 1.25rem; background: rgba(245, 158, 11, 0.1); border-radius: 12px; border-left: 4px solid #f59e0b;">
+                <h4 style="color: #f59e0b; margin-bottom: 0.75rem;">🔒 Transactions</h4>
+                <p style="color: rgba(255,255,255,0.7); margin: 0; font-size: 0.9rem;">
+                    db.transaction() makes check + insert atomic — prevents race conditions and overbooking
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 28: Thank You -->
+<section class="slide" data-slide="28">
+    <div class="slide-content title-slide">
+        <div class="title-decoration">
+            <span class="protocol-badge">THE END</span>
+        </div>
+        <h1 class="main-title">
+            <span class="title-line">Full Stack</span>
+            <span class="title-line highlight">Understood!</span>
+        </h1>
+        <p class="subtitle">You can now trace data from click to database and back</p>
+        <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.5rem; align-items: center;">
+            <span style="font-size: 2rem;">👆</span>
+            <span style="color: rgba(255,255,255,0.3);">→</span>
+            <span style="font-size: 2rem;">🌐</span>
+            <span style="color: rgba(255,255,255,0.3);">→</span>
+            <span style="font-size: 2rem;">⚡</span>
+            <span style="color: rgba(255,255,255,0.3);">→</span>
+            <span style="font-size: 2rem;">💾</span>
+            <span style="color: rgba(255,255,255,0.3);">→</span>
+            <span style="font-size: 2rem;">✅</span>
+        </div>
+        <div style="margin-top: 3rem;">
+            <span style="font-size: 3rem;">🎓</span>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,1114 @@
+<!-- Slide 1: Title -->
+<section class="slide active" data-slide="1">
+    <div class="slide-content title-slide">
+        <div class="title-decoration">
+            <span class="protocol-badge">FRONTEND</span>
+        </div>
+        <h1 class="main-title">
+            <span class="title-line">React</span>
+            <span class="title-line highlight">Deep Dive</span>
+        </h1>
+        <p class="subtitle">Why React, How It Works, and Modern Patterns</p>
+        <div class="title-meta">
+            <div class="meta-item">
+                <span class="meta-label">Course</span>
+                <span class="meta-value">Full Stack Engineering</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Instructor</span>
+                <span class="meta-value">Ohad Assulin</span>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            Press -> or Space to navigate
+            <div class="arrow-bounce">|</div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 2: Why React? -->
+<section class="slide" data-slide="2">
+    <div class="slide-content">
+        <h3 class="slide-title">Why React?</h3>
+        <div class="slide-image-banner" style="margin-bottom: 1.5rem;">
+            <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&h=200&fit=crop" alt="React development" style="width: 100%; height: 100px; object-fit: cover; border-radius: 8px; opacity: 0.8;">
+        </div>
+        <div class="why-react-grid">
+            <div class="why-card clickable" data-modal="why-declarative">
+                <div class="why-icon">📝</div>
+                <h4>Declarative</h4>
+                <p>Describe WHAT you want, not HOW to do it</p>
+            </div>
+            <div class="why-card clickable" data-modal="why-component">
+                <div class="why-icon">🧩</div>
+                <h4>Component-Based</h4>
+                <p>Build encapsulated, reusable pieces</p>
+            </div>
+            <div class="why-card clickable" data-modal="why-ecosystem">
+                <div class="why-icon">🌐</div>
+                <h4>Huge Ecosystem</h4>
+                <p>Libraries for everything, massive community</p>
+            </div>
+            <div class="why-card clickable" data-modal="why-jobs">
+                <div class="why-icon">💼</div>
+                <h4>Job Market</h4>
+                <p>Most demanded frontend skill</p>
+            </div>
+        </div>
+        <div class="react-stats">
+            <div class="stat">
+                <span class="stat-num">40%+</span>
+                <span class="stat-label">of web devs use React</span>
+            </div>
+            <div class="stat">
+                <span class="stat-num">200K+</span>
+                <span class="stat-label">npm packages in ecosystem</span>
+            </div>
+            <div class="stat">
+                <span class="stat-num">Meta, Netflix, Airbnb</span>
+                <span class="stat-label">major adopters</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 3: The Problem React Solves -->
+<section class="slide" data-slide="3">
+    <div class="slide-content">
+        <h3 class="slide-title">The Problem React Solves</h3>
+        <div class="problem-comparison">
+            <div class="problem-side vanilla">
+                <h4>Vanilla JavaScript</h4>
+                <pre class="code-block"><code>// Manual DOM manipulation
+const button = document.getElementById('like-btn');
+const counter = document.getElementById('count');
+let likes = 0;
+
+button.addEventListener('click', () => {
+    likes++;
+    counter.textContent = likes;
+    // What if count appears elsewhere?
+    // What if we need to sync with server?
+    // What about undo? Animation? Loading state?
+    // Manual updates for EVERY state change!
+});</code></pre>
+                <div class="problem-issues">
+                    <span>Manual DOM updates</span>
+                    <span>State scattered everywhere</span>
+                    <span>Hard to reason about</span>
+                </div>
+            </div>
+            <div class="problem-side react">
+                <h4>React Way</h4>
+                <pre class="code-block"><code>function LikeButton() {
+    const [likes, setLikes] = useState(0);
+
+    return (
+        &lt;button onClick={() => setLikes(likes + 1)}&gt;
+            {likes} Likes
+        &lt;/button&gt;
+    );
+}
+
+// State changes? React updates the DOM for you.
+// Need it elsewhere? Just use the same state.
+// UI is a function of state. Always.</code></pre>
+                <div class="problem-solution">
+                    <span>Declarative updates</span>
+                    <span>State in one place</span>
+                    <span>Predictable UI</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 4: Part I Header -->
+<section class="slide" data-slide="4">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part I</div>
+        <h2 class="section-title">React Fundamentals</h2>
+        <p class="section-subtitle">Components, JSX, and the Mental Model</p>
+    </div>
+</section>
+
+<!-- Slide 5: Components 101 -->
+<section class="slide" data-slide="5">
+    <div class="slide-content">
+        <h3 class="slide-title">Components 101</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Function Component</div>
+                    <pre class="code-block"><code>// A component is just a function
+// that returns JSX (UI description)
+
+function Welcome({ name }) {
+    return (
+        &lt;div className="welcome"&gt;
+            &lt;h1&gt;Hello, {name}!&lt;/h1&gt;
+            &lt;p&gt;Welcome to our app.&lt;/p&gt;
+        &lt;/div&gt;
+    );
+}
+
+// Usage:
+&lt;Welcome name="Sarah" /&gt;</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="component-rules">
+                    <h4>Component Rules</h4>
+                    <ul>
+                        <li><strong>Name starts with capital</strong> — <code>Welcome</code> not <code>welcome</code></li>
+                        <li><strong>Returns JSX</strong> — Or null for nothing</li>
+                        <li><strong>Pure function</strong> — Same props = same output</li>
+                        <li><strong>One root element</strong> — Or use Fragment <code>&lt;&gt;...&lt;/&gt;</code></li>
+                    </ul>
+                </div>
+                <div class="component-types">
+                    <h4>When to Create a Component?</h4>
+                    <ul>
+                        <li>Reusable piece (Button, Card, Modal)</li>
+                        <li>Logical separation (Header, Sidebar)</li>
+                        <li>Complex section (UserProfile, OrderList)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 6: JSX Deep Dive -->
+<section class="slide" data-slide="6">
+    <div class="slide-content">
+        <h3 class="slide-title">JSX — JavaScript + XML</h3>
+        <div class="jsx-examples">
+            <div class="jsx-example clickable" data-modal="jsx-expressions">
+                <h4>Expressions in JSX</h4>
+                <pre class="code-block"><code>const user = { name: 'John', age: 25 };
+
+&lt;div&gt;
+    &lt;p&gt;Name: {user.name}&lt;/p&gt;
+    &lt;p&gt;Age: {user.age}&lt;/p&gt;
+    &lt;p&gt;Adult: {user.age >= 18 ? 'Yes' : 'No'}&lt;/p&gt;
+    &lt;p&gt;Random: {Math.random()}&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+            <div class="jsx-example clickable" data-modal="jsx-conditional">
+                <h4>Conditional Rendering</h4>
+                <pre class="code-block"><code>// && for "if true, show this"
+{isLoggedIn && &lt;LogoutButton /&gt;}
+
+// Ternary for if/else
+{isLoading ? &lt;Spinner /&gt; : &lt;Content /&gt;}
+
+// Early return
+if (!user) return &lt;LoginPrompt /&gt;;
+return &lt;Dashboard user={user} /&gt;;</code></pre>
+            </div>
+            <div class="jsx-example clickable" data-modal="jsx-lists">
+                <h4>Rendering Lists</h4>
+                <pre class="code-block"><code>const items = ['Apple', 'Banana', 'Cherry'];
+
+&lt;ul&gt;
+    {items.map((item, index) => (
+        &lt;li key={item}&gt;{item}&lt;/li&gt;
+    ))}
+&lt;/ul&gt;
+
+// key helps React track items efficiently
+// Use unique ID, not index (if possible)</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 7: Props -->
+<section class="slide" data-slide="7">
+    <div class="slide-content">
+        <h3 class="slide-title">Props — Component Inputs</h3>
+        <div class="code-showcase">
+            <div class="code-tab">Props Example</div>
+            <pre class="code-block"><code>// Props are read-only inputs to a component
+function UserCard({ name, email, avatar, isOnline, onMessage }) {
+    return (
+        &lt;div className="user-card"&gt;
+            &lt;img src={avatar} alt={name} /&gt;
+            &lt;h3&gt;{name}&lt;/h3&gt;
+            &lt;p&gt;{email}&lt;/p&gt;
+            &lt;span className={isOnline ? 'online' : 'offline'}&gt;
+                {isOnline ? 'Online' : 'Offline'}
+            &lt;/span&gt;
+            &lt;button onClick={() => onMessage(email)}&gt;
+                Send Message
+            &lt;/button&gt;
+        &lt;/div&gt;
+    );
+}
+
+// Usage:
+&lt;UserCard
+    name="Sarah"
+    email="sarah@example.com"
+    avatar="/avatars/sarah.jpg"
+    isOnline={true}
+    onMessage={(email) => console.log('Message to', email)}
+/&gt;</code></pre>
+        </div>
+        <div class="props-note">
+            <strong>Props are immutable.</strong> Components can't modify their props — they're read-only.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 8: Part II Header -->
+<section class="slide" data-slide="8">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part II</div>
+        <h2 class="section-title">Hooks</h2>
+        <p class="section-subtitle">State, Effects, and Custom Logic</p>
+    </div>
+</section>
+
+<!-- Slide 9: useState -->
+<section class="slide" data-slide="9">
+    <div class="slide-content">
+        <h3 class="slide-title">useState — Managing State</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Basic Usage</div>
+                    <pre class="code-block"><code>import { useState } from 'react';
+
+function Counter() {
+    // [currentValue, setterFunction] = useState(initialValue)
+    const [count, setCount] = useState(0);
+
+    return (
+        &lt;div&gt;
+            &lt;p&gt;Count: {count}&lt;/p&gt;
+            &lt;button onClick={() => setCount(count + 1)}&gt;
+                Increment
+            &lt;/button&gt;
+            &lt;button onClick={() => setCount(0)}&gt;
+                Reset
+            &lt;/button&gt;
+        &lt;/div&gt;
+    );
+}</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Functional Updates</div>
+                    <pre class="code-block"><code>// When new state depends on previous state,
+// use functional update form:
+
+function Counter() {
+    const [count, setCount] = useState(0);
+
+    const incrementThree = () => {
+        // Wrong - all use same stale count
+        // setCount(count + 1);
+        // setCount(count + 1);
+        // setCount(count + 1);
+
+        // Correct - each uses latest value
+        setCount(prev => prev + 1);
+        setCount(prev => prev + 1);
+        setCount(prev => prev + 1);
+    };
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 10: useState with Objects -->
+<section class="slide" data-slide="10">
+    <div class="slide-content">
+        <h3 class="slide-title">useState with Objects & Arrays</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab danger">Wrong - Mutation</div>
+                    <pre class="code-block"><code>const [user, setUser] = useState({
+    name: 'John',
+    age: 25
+});
+
+// WRONG - mutating state directly
+user.age = 26;
+setUser(user); // React won't re-render!
+
+// WRONG - same object reference
+const updateAge = () => {
+    user.age = 26;
+    setUser(user);
+};</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase good-example">
+                    <div class="code-tab safe">Correct - New Object</div>
+                    <pre class="code-block"><code>const [user, setUser] = useState({
+    name: 'John',
+    age: 25
+});
+
+// CORRECT - create new object
+setUser({ ...user, age: 26 });
+
+// CORRECT - with functional update
+setUser(prev => ({ ...prev, age: prev.age + 1 }));
+
+// Arrays - same principle
+const [items, setItems] = useState([]);
+setItems([...items, newItem]);     // Add
+setItems(items.filter(i => i.id !== id)); // Remove</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="immutability-note">
+            <strong>Immutability:</strong> Always create new objects/arrays. React detects changes by reference comparison.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 11: useEffect -->
+<section class="slide" data-slide="11">
+    <div class="slide-content">
+        <h3 class="slide-title">useEffect — Side Effects</h3>
+        <div class="code-showcase">
+            <div class="code-tab">useEffect Patterns</div>
+            <pre class="code-block"><code>import { useEffect, useState } from 'react';
+
+function UserProfile({ userId }) {
+    const [user, setUser] = useState(null);
+
+    // Run on mount and when userId changes
+    useEffect(() => {
+        async function fetchUser() {
+            const response = await fetch(`/api/users/${userId}`);
+            const data = await response.json();
+            setUser(data);
+        }
+        fetchUser();
+    }, [userId]); // Dependency array
+
+    // Cleanup function (runs before next effect or unmount)
+    useEffect(() => {
+        const subscription = subscribeToUser(userId);
+
+        return () => {
+            subscription.unsubscribe(); // Cleanup!
+        };
+    }, [userId]);
+
+    if (!user) return &lt;Loading /&gt;;
+    return &lt;div&gt;{user.name}&lt;/div&gt;;
+}</code></pre>
+        </div>
+        <div class="effect-rules">
+            <span><code>[]</code> = run once on mount</span>
+            <span><code>[dep]</code> = run when dep changes</span>
+            <span>no array = run every render (rare!)</span>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 12: useEffect Gotchas -->
+<section class="slide" data-slide="12">
+    <div class="slide-content">
+        <h3 class="slide-title">useEffect Gotchas</h3>
+        <div class="gotcha-grid">
+            <div class="gotcha-card clickable" data-modal="gotcha-deps">
+                <h4>Missing Dependencies</h4>
+                <pre class="code-block"><code>// Bug: count is stale
+useEffect(() => {
+    setInterval(() => {
+        console.log(count); // Always 0!
+    }, 1000);
+}, []); // count missing from deps</code></pre>
+            </div>
+            <div class="gotcha-card clickable" data-modal="gotcha-infinite">
+                <h4>Infinite Loop</h4>
+                <pre class="code-block"><code>// Bug: object recreated every render
+useEffect(() => {
+    fetchData(options);
+}, [options]); // options = {} each time!
+
+// Fix: useMemo or move inside effect</code></pre>
+            </div>
+            <div class="gotcha-card clickable" data-modal="gotcha-race">
+                <h4>Race Condition</h4>
+                <pre class="code-block"><code>// Bug: stale response overwrites fresh
+useEffect(() => {
+    let cancelled = false;
+    fetchUser(id).then(data => {
+        if (!cancelled) setUser(data);
+    });
+    return () => { cancelled = true; };
+}, [id]);</code></pre>
+            </div>
+        </div>
+        <div class="effect-advice">
+            <strong>Tip:</strong> Use <code>eslint-plugin-react-hooks</code> — it catches most issues.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 13: Other Essential Hooks -->
+<section class="slide" data-slide="13">
+    <div class="slide-content">
+        <h3 class="slide-title">Other Essential Hooks</h3>
+        <div class="hooks-grid">
+            <div class="hook-card clickable" data-modal="hook-useref">
+                <h4>useRef</h4>
+                <pre class="code-block"><code>const inputRef = useRef(null);
+// Access DOM: inputRef.current.focus()
+// Persist value without re-render</code></pre>
+            </div>
+            <div class="hook-card clickable" data-modal="hook-usememo">
+                <h4>useMemo</h4>
+                <pre class="code-block"><code>const expensive = useMemo(() => {
+    return computeExpensiveValue(a, b);
+}, [a, b]); // Only recompute when deps change</code></pre>
+            </div>
+            <div class="hook-card clickable" data-modal="hook-usecallback">
+                <h4>useCallback</h4>
+                <pre class="code-block"><code>const handleClick = useCallback(() => {
+    doSomething(id);
+}, [id]); // Stable function reference</code></pre>
+            </div>
+            <div class="hook-card clickable" data-modal="hook-usereducer">
+                <h4>useReducer</h4>
+                <pre class="code-block"><code>const [state, dispatch] = useReducer(reducer, init);
+// For complex state logic
+dispatch({ type: 'INCREMENT' });</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 14: Custom Hooks -->
+<section class="slide" data-slide="14">
+    <div class="slide-content">
+        <h3 class="slide-title">Custom Hooks — Reusable Logic</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">useLocalStorage Hook</div>
+                    <pre class="code-block"><code>function useLocalStorage(key, initialValue) {
+    const [value, setValue] = useState(() => {
+        const stored = localStorage.getItem(key);
+        return stored ? JSON.parse(stored) : initialValue;
+    });
+
+    useEffect(() => {
+        localStorage.setItem(key, JSON.stringify(value));
+    }, [key, value]);
+
+    return [value, setValue];
+}
+
+// Usage:
+const [theme, setTheme] = useLocalStorage('theme', 'dark');</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">useFetch Hook</div>
+                    <pre class="code-block"><code>function useFetch(url) {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        setLoading(true);
+        fetch(url)
+            .then(res => res.json())
+            .then(setData)
+            .catch(setError)
+            .finally(() => setLoading(false));
+    }, [url]);
+
+    return { data, loading, error };
+}
+
+// Usage:
+const { data, loading } = useFetch('/api/users');</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="custom-hook-rule">
+            <strong>Rule:</strong> Custom hooks must start with <code>use</code> — this enables the linter to check hook rules.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 15: Part III Header -->
+<section class="slide" data-slide="15">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part III</div>
+        <h2 class="section-title">Context & State Management</h2>
+        <p class="section-subtitle">Sharing State Across Components</p>
+    </div>
+</section>
+
+<!-- Slide 16: Props Drilling Problem -->
+<section class="slide" data-slide="16">
+    <div class="slide-content">
+        <h3 class="slide-title">The Prop Drilling Problem</h3>
+        <div class="prop-drilling-visual">
+            <div class="drilling-tree">
+                <div class="tree-node root">App (has user)</div>
+                <div class="tree-level">
+                    <div class="tree-node">Layout (passes user)</div>
+                </div>
+                <div class="tree-level">
+                    <div class="tree-node">Sidebar (passes user)</div>
+                    <div class="tree-node">Content (passes user)</div>
+                </div>
+                <div class="tree-level">
+                    <div class="tree-node">NavMenu (passes user)</div>
+                    <div class="tree-node highlight">UserAvatar (needs user!)</div>
+                </div>
+            </div>
+        </div>
+        <div class="drilling-problem">
+            <pre class="code-block"><code>// Every component in between must pass props it doesn't use
+&lt;App user={user}&gt;
+    &lt;Layout user={user}&gt;
+        &lt;Sidebar user={user}&gt;
+            &lt;NavMenu user={user}&gt;
+                &lt;UserAvatar user={user} /&gt;  {/* Finally uses it! */}
+            &lt;/NavMenu&gt;
+        &lt;/Sidebar&gt;
+    &lt;/Layout&gt;
+&lt;/App&gt;</code></pre>
+        </div>
+        <div class="drilling-issues">
+            <span>Tedious to maintain</span>
+            <span>Components tightly coupled</span>
+            <span>Hard to refactor</span>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 17: Context API -->
+<section class="slide" data-slide="17">
+    <div class="slide-content">
+        <h3 class="slide-title">Context API — The Solution</h3>
+        <div class="code-showcase">
+            <div class="code-tab">Creating and Using Context</div>
+            <pre class="code-block"><code>// 1. Create context
+const UserContext = createContext(null);
+
+// 2. Create provider component
+function UserProvider({ children }) {
+    const [user, setUser] = useState(null);
+
+    const login = async (credentials) => {
+        const user = await authApi.login(credentials);
+        setUser(user);
+    };
+
+    const logout = () => setUser(null);
+
+    return (
+        &lt;UserContext.Provider value={{ user, login, logout }}&gt;
+            {children}
+        &lt;/UserContext.Provider&gt;
+    );
+}
+
+// 3. Use in any nested component
+function UserAvatar() {
+    const { user } = useContext(UserContext);
+    return &lt;img src={user?.avatar} alt={user?.name} /&gt;;
+}
+
+// 4. Wrap app with provider
+&lt;UserProvider&gt;
+    &lt;App /&gt;  {/* Any component inside can useContext */}
+&lt;/UserProvider&gt;</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 18: Context Best Practices -->
+<section class="slide" data-slide="18">
+    <div class="slide-content">
+        <h3 class="slide-title">Context Best Practices</h3>
+        <div class="context-practices">
+            <div class="practice-item clickable" data-modal="context-split">
+                <h4>Split Contexts by Domain</h4>
+                <pre class="code-block"><code>// Don't: One giant context
+&lt;AppContext.Provider value={{ user, theme, cart, ... }}&gt;
+
+// Do: Separate contexts
+&lt;UserProvider&gt;
+    &lt;ThemeProvider&gt;
+        &lt;CartProvider&gt;
+            &lt;App /&gt;
+        &lt;/CartProvider&gt;
+    &lt;/ThemeProvider&gt;
+&lt;/UserProvider&gt;</code></pre>
+            </div>
+            <div class="practice-item clickable" data-modal="context-custom-hook">
+                <h4>Create Custom Hook</h4>
+                <pre class="code-block"><code>// Cleaner API than raw useContext
+function useUser() {
+    const context = useContext(UserContext);
+    if (!context) {
+        throw new Error('useUser must be within UserProvider');
+    }
+    return context;
+}
+
+// Usage
+const { user, login } = useUser();</code></pre>
+            </div>
+        </div>
+        <div class="context-warning">
+            <strong>Performance Note:</strong> Context changes re-render all consumers. For frequent updates (e.g., mouse position), consider other solutions.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 19: When to Use What -->
+<section class="slide" data-slide="19">
+    <div class="slide-content">
+        <h3 class="slide-title">State Management — When to Use What</h3>
+        <div class="state-decision-tree">
+            <div class="decision-option clickable" data-modal="state-local">
+                <h4>useState</h4>
+                <p>Local component state</p>
+                <code>Form inputs, toggles, local UI state</code>
+            </div>
+            <div class="decision-option clickable" data-modal="state-context">
+                <h4>Context</h4>
+                <p>Shared across many components, infrequent updates</p>
+                <code>Theme, user auth, locale</code>
+            </div>
+            <div class="decision-option clickable" data-modal="state-tanstack">
+                <h4>React Query / TanStack Query</h4>
+                <p>Server state (API data)</p>
+                <code>Fetched data, caching, sync</code>
+            </div>
+            <div class="decision-option clickable" data-modal="state-zustand">
+                <h4>Zustand / Jotai</h4>
+                <p>Complex client state, frequent updates</p>
+                <code>Shopping cart, complex forms, real-time data</code>
+            </div>
+        </div>
+        <div class="state-rule">
+            <strong>Start simple:</strong> useState → Context → External library (only when needed)
+        </div>
+    </div>
+</section>
+
+<!-- Slide 20: Part IV Header -->
+<section class="slide" data-slide="20">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part IV</div>
+        <h2 class="section-title">Performance</h2>
+        <p class="section-subtitle">Making React Fast</p>
+    </div>
+</section>
+
+<!-- Slide 21: React Rendering -->
+<section class="slide" data-slide="21">
+    <div class="slide-content">
+        <h3 class="slide-title">How React Renders</h3>
+        <div class="render-flow">
+            <div class="render-step">
+                <div class="step-num">1</div>
+                <h4>Trigger</h4>
+                <p>State change, props change, or parent re-renders</p>
+            </div>
+            <div class="render-arrow">→</div>
+            <div class="render-step">
+                <div class="step-num">2</div>
+                <h4>Render</h4>
+                <p>React calls your component function</p>
+            </div>
+            <div class="render-arrow">→</div>
+            <div class="render-step">
+                <div class="step-num">3</div>
+                <h4>Reconcile</h4>
+                <p>Compare new tree with previous (diffing)</p>
+            </div>
+            <div class="render-arrow">→</div>
+            <div class="render-step">
+                <div class="step-num">4</div>
+                <h4>Commit</h4>
+                <p>Apply necessary DOM updates</p>
+            </div>
+        </div>
+        <div class="render-insight">
+            <strong>Key insight:</strong> "Render" means calling the function. It doesn't necessarily mean DOM updates. React is smart about only updating what changed.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 22: React.memo -->
+<section class="slide" data-slide="22">
+    <div class="slide-content">
+        <h3 class="slide-title">React.memo — Skip Unnecessary Renders</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Without memo</div>
+                    <pre class="code-block"><code>function ExpensiveList({ items }) {
+    console.log('Rendering list...');
+    return items.map(item => (
+        &lt;div key={item.id}&gt;{item.name}&lt;/div&gt;
+    ));
+}
+
+function Parent() {
+    const [count, setCount] = useState(0);
+    const items = [/* ... */];
+
+    return (
+        &lt;div&gt;
+            &lt;button onClick={() => setCount(c => c + 1)}&gt;
+                Count: {count}
+            &lt;/button&gt;
+            {/* Re-renders even though items didn't change! */}
+            &lt;ExpensiveList items={items} /&gt;
+        &lt;/div&gt;
+    );
+}</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase good-example">
+                    <div class="code-tab safe">With memo</div>
+                    <pre class="code-block"><code>const ExpensiveList = memo(function ExpensiveList({ items }) {
+    console.log('Rendering list...');
+    return items.map(item => (
+        &lt;div key={item.id}&gt;{item.name}&lt;/div&gt;
+    ));
+});
+
+// Now only re-renders if items actually change
+// (shallow comparison of props)
+
+// For deep comparison:
+const MemoizedComponent = memo(Component, (prev, next) => {
+    return prev.id === next.id; // Custom comparison
+});</code></pre>
+                </div>
+                <div class="memo-note">
+                    <strong>Don't over-use:</strong> memo has overhead. Profile first!
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 23: useMemo & useCallback -->
+<section class="slide" data-slide="23">
+    <div class="slide-content">
+        <h3 class="slide-title">useMemo & useCallback</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">useMemo — Cache Values</div>
+                    <pre class="code-block"><code>function FilteredList({ items, filter }) {
+    // Without useMemo: runs every render
+    // const filtered = items.filter(expensiveFilter);
+
+    // With useMemo: only when deps change
+    const filtered = useMemo(() => {
+        return items.filter(item =>
+            expensiveFilter(item, filter)
+        );
+    }, [items, filter]);
+
+    return &lt;List items={filtered} /&gt;;
+}</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">useCallback — Cache Functions</div>
+                    <pre class="code-block"><code>function Parent() {
+    const [count, setCount] = useState(0);
+
+    // Without useCallback: new function every render
+    // const handleClick = () => { ... };
+
+    // With useCallback: stable reference
+    const handleClick = useCallback(() => {
+        console.log('Clicked!');
+    }, []); // Empty deps = never changes
+
+    // Important when passing to memoized children
+    return &lt;MemoizedChild onClick={handleClick} /&gt;;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="optimization-rule">
+            <strong>Rule:</strong> Don't optimize prematurely. Measure with React DevTools Profiler first.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 24: Code Splitting -->
+<section class="slide" data-slide="24">
+    <div class="slide-content">
+        <h3 class="slide-title">Code Splitting with lazy()</h3>
+        <div class="code-showcase">
+            <div class="code-tab">Lazy Loading Components</div>
+            <pre class="code-block"><code>import { lazy, Suspense } from 'react';
+
+// Instead of: import HeavyChart from './HeavyChart';
+const HeavyChart = lazy(() => import('./HeavyChart'));
+const AdminPanel = lazy(() => import('./AdminPanel'));
+
+function App() {
+    return (
+        &lt;div&gt;
+            &lt;Header /&gt;
+
+            {/* Suspense shows fallback while loading */}
+            &lt;Suspense fallback={&lt;Spinner /&gt;}&gt;
+                &lt;HeavyChart data={data} /&gt;
+            &lt;/Suspense&gt;
+
+            {/* Route-based splitting */}
+            &lt;Routes&gt;
+                &lt;Route path="/admin" element={
+                    &lt;Suspense fallback={&lt;Loading /&gt;}&gt;
+                        &lt;AdminPanel /&gt;
+                    &lt;/Suspense&gt;
+                } /&gt;
+            &lt;/Routes&gt;
+        &lt;/div&gt;
+    );
+}</code></pre>
+        </div>
+        <div class="splitting-benefit">
+            <strong>Benefit:</strong> Initial bundle smaller → faster page load. Components load on-demand.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 25: Part V Header -->
+<section class="slide" data-slide="25">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part V</div>
+        <h2 class="section-title">Modern Patterns</h2>
+        <p class="section-subtitle">Server Components, Suspense, and More</p>
+    </div>
+</section>
+
+<!-- Slide 26: Server Components -->
+<section class="slide" data-slide="26">
+    <div class="slide-content">
+        <h3 class="slide-title">React Server Components</h3>
+        <div class="slide-image-accent" style="float: right; margin-left: 2rem; margin-bottom: 1rem;">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=250&h=180&fit=crop" alt="Server infrastructure" style="width: 160px; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid var(--accent-cyan, #67e8f9);">
+        </div>
+        <div class="rsc-explanation">
+            <div class="rsc-type server">
+                <h4>Server Components (default in Next.js 13+)</h4>
+                <ul>
+                    <li>Render on the server only</li>
+                    <li>Can access database, filesystem directly</li>
+                    <li>Zero JS sent to client</li>
+                    <li>Can't use hooks or browser APIs</li>
+                </ul>
+                <pre class="code-block"><code>// app/users/page.tsx (Server Component)
+async function UsersPage() {
+    const users = await db.query('SELECT * FROM users');
+    return &lt;UserList users={users} /&gt;;
+}</code></pre>
+            </div>
+            <div class="rsc-type client">
+                <h4>Client Components ('use client')</h4>
+                <ul>
+                    <li>Run in the browser</li>
+                    <li>Can use hooks, events, browser APIs</li>
+                    <li>JS shipped to client</li>
+                </ul>
+                <pre class="code-block"><code>'use client';
+
+function LikeButton() {
+    const [likes, setLikes] = useState(0);
+    return &lt;button onClick={() => setLikes(l => l + 1)}&gt;...&lt;/button&gt;;
+}</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 27: Error Boundaries -->
+<section class="slide" data-slide="27">
+    <div class="slide-content">
+        <h3 class="slide-title">Error Boundaries</h3>
+        <div class="code-showcase">
+            <div class="code-tab">ErrorBoundary.tsx</div>
+            <pre class="code-block"><code>class ErrorBoundary extends React.Component {
+    state = { hasError: false, error: null };
+
+    static getDerivedStateFromError(error) {
+        return { hasError: true, error };
+    }
+
+    componentDidCatch(error, errorInfo) {
+        // Log to error tracking service (Sentry, etc.)
+        logErrorToService(error, errorInfo);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return (
+                &lt;div className="error-fallback"&gt;
+                    &lt;h2&gt;Something went wrong&lt;/h2&gt;
+                    &lt;button onClick={() => this.setState({ hasError: false })}&gt;
+                        Try again
+                    &lt;/button&gt;
+                &lt;/div&gt;
+            );
+        }
+        return this.props.children;
+    }
+}
+
+// Usage
+&lt;ErrorBoundary&gt;
+    &lt;MyComponent /&gt;  {/* If this crashes, fallback shows */}
+&lt;/ErrorBoundary&gt;</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 28: Common Patterns -->
+<section class="slide" data-slide="28">
+    <div class="slide-content">
+        <h3 class="slide-title">Common React Patterns</h3>
+        <div class="patterns-grid">
+            <div class="pattern-card clickable" data-modal="pattern-controlled">
+                <h4>Controlled Components</h4>
+                <pre class="code-block"><code>const [value, setValue] = useState('');
+&lt;input
+    value={value}
+    onChange={e => setValue(e.target.value)}
+/&gt;</code></pre>
+            </div>
+            <div class="pattern-card clickable" data-modal="pattern-render-props">
+                <h4>Render Props</h4>
+                <pre class="code-block"><code>&lt;Mouse render={({ x, y }) => (
+    &lt;p&gt;Position: {x}, {y}&lt;/p&gt;
+)} /&gt;</code></pre>
+            </div>
+            <div class="pattern-card clickable" data-modal="pattern-hoc">
+                <h4>Higher-Order Components</h4>
+                <pre class="code-block"><code>const EnhancedComponent = withAuth(MyComponent);
+// Wraps component with additional logic</code></pre>
+            </div>
+            <div class="pattern-card clickable" data-modal="pattern-compound">
+                <h4>Compound Components</h4>
+                <pre class="code-block"><code>&lt;Tabs&gt;
+    &lt;Tabs.List&gt;...&lt;/Tabs.List&gt;
+    &lt;Tabs.Panel&gt;...&lt;/Tabs.Panel&gt;
+&lt;/Tabs&gt;</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 29: React DevTools -->
+<section class="slide" data-slide="29">
+    <div class="slide-content">
+        <h3 class="slide-title">React DevTools</h3>
+        <div class="devtools-features">
+            <div class="devtools-feature clickable" data-modal="devtools-components">
+                <h4>Components Tab</h4>
+                <ul>
+                    <li>Inspect component tree</li>
+                    <li>View and edit props/state</li>
+                    <li>See which component rendered</li>
+                    <li>Jump to source code</li>
+                </ul>
+            </div>
+            <div class="devtools-feature clickable" data-modal="devtools-profiler">
+                <h4>Profiler Tab</h4>
+                <ul>
+                    <li>Record render performance</li>
+                    <li>See what caused re-renders</li>
+                    <li>Identify slow components</li>
+                    <li>Flame graph visualization</li>
+                </ul>
+            </div>
+        </div>
+        <div class="devtools-tip">
+            <strong>Pro tip:</strong> Enable "Highlight updates when components render" to visualize unnecessary re-renders.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 30: Key Takeaways -->
+<section class="slide" data-slide="30">
+    <div class="slide-content">
+        <h3 class="slide-title">Key Takeaways</h3>
+        <div class="takeaways">
+            <div class="takeaway">
+                <span class="takeaway-num">01</span>
+                <div class="takeaway-content">
+                    <strong>Think in components</strong>
+                    <p>UI = f(state). Components are functions that return UI based on their props and state.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">02</span>
+                <div class="takeaway-content">
+                    <strong>State is immutable</strong>
+                    <p>Never mutate state directly. Always create new objects/arrays.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">03</span>
+                <div class="takeaway-content">
+                    <strong>Effects have cleanup</strong>
+                    <p>Return a cleanup function from useEffect. Watch your dependencies.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">04</span>
+                <div class="takeaway-content">
+                    <strong>Optimize with measurement</strong>
+                    <p>Don't guess. Profile first, then apply memo/useMemo/useCallback where needed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 31: End -->
+<section class="slide" data-slide="31">
+    <div class="slide-content title-slide">
+        <h2 class="end-title">Questions?</h2>
+        <div class="end-info">
+            <p class="course">Full Stack Engineering</p>
+            <p class="instructor">Ohad Assulin — RU</p>
+        </div>
+        <div class="end-resources">
+            <h4>Resources</h4>
+            <ul>
+                <li>React Docs — react.dev</li>
+                <li>React DevTools — Browser extension</li>
+                <li>TanStack Query — tanstack.com/query</li>
+                <li>Zustand — github.com/pmndrs/zustand</li>
+            </ul>
+        </div>
+    </div>
+</section>
