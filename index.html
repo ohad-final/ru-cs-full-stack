@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Stack Engineering | Presentations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <div class="scan-line"></div>
+
+    <!-- Lecture Menu (shown when no lecture is loaded) -->
+    <div class="lecture-menu" id="lectureMenu">
+        <div class="menu-content">
+            <div class="menu-header">
+                <div class="menu-logo">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">Full Stack Engineering</span>
+                </div>
+                <p class="menu-subtitle">Select a lecture to begin</p>
+            </div>
+            <div class="lecture-grid">
+                <div class="lecture-card" data-lecture="http-browser">
+                    <div class="lecture-number">01</div>
+                    <div class="lecture-info">
+                        <h3>HTTP & The Browser</h3>
+                        <p>HTTP Protocol evolution, browser architecture, rendering pipeline</p>
+                        <div class="lecture-tags">
+                            <span class="tag">HTTP/1.1</span>
+                            <span class="tag">HTTP/2</span>
+                            <span class="tag">HTTP/3</span>
+                            <span class="tag">Cookies</span>
+                            <span class="tag">Browser</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <div class="lecture-card" data-lecture="nodejs-nextjs-async">
+                    <div class="lecture-number">02</div>
+                    <div class="lecture-info">
+                        <h3>Node.js, Next.js & Async JS</h3>
+                        <p>Server-side JavaScript, Promises, async/await, React framework</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Node.js</span>
+                            <span class="tag">Express</span>
+                            <span class="tag">Promises</span>
+                            <span class="tag">async/await</span>
+                            <span class="tag">Next.js</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+            </div>
+            <div class="menu-footer">
+                <p>Instructor: Ohad Assulin • RU</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon dark">◐</span>
+        <span class="theme-icon light">◑</span>
+    </button>
+
+    <!-- Back to Menu Button (hidden until lecture loads) -->
+    <button class="back-to-menu" id="backToMenu" aria-label="Back to lecture menu" style="display: none;">
+        <span class="back-arrow">←</span>
+        <span class="back-text">All Lectures</span>
+    </button>
+
+    <nav class="progress-nav" style="display: none;">
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="slide-counter"><span class="current">01</span>/<span class="total">00</span></div>
+    </nav>
+
+    <aside class="course-info" style="display: none;">
+        <span class="course-name">Full Stack Engineering</span>
+        <span class="divider">•</span>
+        <span class="instructor">Ohad Assulin</span>
+        <span class="divider">•</span>
+        <span class="university">RU</span>
+    </aside>
+
+    <main class="presentation" id="presentation">
+        <!-- Slides will be loaded here dynamically -->
+    </main>
+
+    <nav class="slide-nav" style="display: none;">
+        <button class="nav-btn prev" aria-label="Previous slide">←</button>
+        <button class="nav-btn next" aria-label="Next slide">→</button>
+    </nav>
+
+    <div class="keyboard-hint" style="display: none;">
+        <span>← → Space</span> Navigate
+        <span>F</span> Fullscreen
+        <span>M</span> Menu
+    </div>
+
+    <!-- Architecture Modal -->
+    <div class="arch-modal" id="archModal">
+        <div class="arch-modal-content">
+            <button class="arch-modal-close">&times;</button>
+            <h2 class="arch-modal-title" id="modalTitle"></h2>
+            <div class="arch-modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

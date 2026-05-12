@@ -1,0 +1,1672 @@
+<!-- LECTURE: Node.js, Next.js, Promises & Async/Await -->
+<!-- This file contains slides for Server-Side JavaScript lecture -->
+
+<!-- ==================== TITLE ==================== -->
+<section class="slide active" data-slide="title">
+    <div class="slide-content title-slide">
+        <div class="title-decoration">
+            <div class="protocol-badge">Server-Side JS</div>
+        </div>
+        <h1 class="main-title">
+            <span class="title-line">From Browser</span>
+            <span class="title-line highlight">to Server</span>
+            <span class="title-line">& Beyond</span>
+        </h1>
+        <p class="subtitle">Node.js, Next.js, Promises & Async/Await</p>
+        <div class="title-meta">
+            <div class="meta-item">
+                <span class="meta-label">Course</span>
+                <span class="meta-value">Full Stack Engineering</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Instructor</span>
+                <span class="meta-value">Ohad Assulin</span>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            <span>Press -> or Space to navigate</span>
+            <div class="arrow-bounce">|</div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART 1: HTTP SERVERS ==================== -->
+<section class="slide" data-slide="http-server-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part I</div>
+        <h2 class="section-title">HTTP Servers</h2>
+        <p class="section-subtitle">What happens on the other side of the request</p>
+        <div class="decorative-code">
+            <pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{"message": "Hello from server!"}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- WHAT IS AN HTTP SERVER -->
+<section class="slide" data-slide="what-is-http-server">
+    <div class="slide-content">
+        <h3 class="slide-title">What is an HTTP Server?</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="concept-box">
+                    <h4>A program that:</h4>
+                    <div class="concept-list">
+                        <div class="concept-item clickable" data-modal="concept-listen">
+                            <span class="concept-num">1</span>
+                            <span>Listens on a network port (usually 80 or 443)</span>
+                        </div>
+                        <div class="concept-item clickable" data-modal="concept-receive">
+                            <span class="concept-num">2</span>
+                            <span>Receives HTTP requests from clients</span>
+                        </div>
+                        <div class="concept-item clickable" data-modal="concept-process">
+                            <span class="concept-num">3</span>
+                            <span>Processes the request (routing, logic, DB)</span>
+                        </div>
+                        <div class="concept-item clickable" data-modal="concept-respond">
+                            <span class="concept-num">4</span>
+                            <span>Sends back an HTTP response</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="server-diagram">
+                    <div class="diagram-client">
+                        <span class="diagram-icon">Client (Browser)</span>
+                    </div>
+                    <div class="diagram-arrow">
+                        <span>GET /api/users</span>
+                        <div class="arrow-line">-></div>
+                    </div>
+                    <div class="diagram-server">
+                        <span class="diagram-icon">HTTP Server</span>
+                        <div class="server-details">
+                            <code>:3000</code>
+                        </div>
+                    </div>
+                    <div class="diagram-arrow reverse">
+                        <div class="arrow-line"><-</div>
+                        <span>200 OK + JSON</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HTTP SERVER LANDSCAPE -->
+<section class="slide" data-slide="server-landscape">
+    <div class="slide-content">
+        <h3 class="slide-title">The HTTP Server Landscape</h3>
+        <p class="click-hint">Click any server type for more details</p>
+        <div class="landscape-grid">
+            <div class="landscape-card traditional clickable" data-modal="server-traditional">
+                <h4>Traditional Web Servers</h4>
+                <div class="server-list">
+                    <div class="server-item">
+                        <strong>Apache</strong>
+                        <span>The OG (1995). Process/thread per connection.</span>
+                    </div>
+                    <div class="server-item">
+                        <strong>Nginx</strong>
+                        <span>Event-driven, high concurrency. Often used as reverse proxy.</span>
+                    </div>
+                    <div class="server-item">
+                        <strong>Caddy</strong>
+                        <span>Modern, auto-HTTPS. Written in Go.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="landscape-card appserver clickable" data-modal="server-application">
+                <h4>Application Servers</h4>
+                <div class="server-list">
+                    <div class="server-item">
+                        <strong>Node.js</strong>
+                        <span>JavaScript runtime. Event-driven, non-blocking.</span>
+                    </div>
+                    <div class="server-item">
+                        <strong>Deno / Bun</strong>
+                        <span>Modern alternatives. TypeScript-first, faster.</span>
+                    </div>
+                    <div class="server-item">
+                        <strong>Python (Flask/Django)</strong>
+                        <span>WSGI-based. Great for rapid prototyping.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="landscape-card frameworks clickable" data-modal="server-frameworks">
+                <h4>Full-Stack Frameworks</h4>
+                <div class="server-list">
+                    <div class="server-item">
+                        <strong>Next.js</strong>
+                        <span>React + server rendering + API routes.</span>
+                    </div>
+                    <div class="server-item">
+                        <strong>Nuxt / SvelteKit</strong>
+                        <span>Vue/Svelte equivalents.</span>
+                    </div>
+                    <div class="server-item">
+                        <strong>Rails / Laravel</strong>
+                        <span>Ruby/PHP. Batteries included.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- REQUEST/RESPONSE LIFECYCLE -->
+<section class="slide" data-slide="request-lifecycle">
+    <div class="slide-content">
+        <h3 class="slide-title">Request/Response Lifecycle</h3>
+        <p class="click-hint">Click any step for details</p>
+        <div class="lifecycle-flow">
+            <div class="lifecycle-step clickable" data-modal="lifecycle-connection">
+                <div class="step-icon">1</div>
+                <div class="step-content">
+                    <strong>1. Connection</strong>
+                    <p>TCP socket accepts incoming connection</p>
+                </div>
+            </div>
+            <div class="lifecycle-arrow">-></div>
+            <div class="lifecycle-step clickable" data-modal="lifecycle-parse">
+                <div class="step-icon">2</div>
+                <div class="step-content">
+                    <strong>2. Parse Request</strong>
+                    <p>Method, URL, headers, body extracted</p>
+                </div>
+            </div>
+            <div class="lifecycle-arrow">-></div>
+            <div class="lifecycle-step clickable" data-modal="lifecycle-routing">
+                <div class="step-icon">3</div>
+                <div class="step-content">
+                    <strong>3. Routing</strong>
+                    <p>Match URL to handler function</p>
+                </div>
+            </div>
+            <div class="lifecycle-arrow">-></div>
+            <div class="lifecycle-step clickable" data-modal="lifecycle-middleware">
+                <div class="step-icon">4</div>
+                <div class="step-content">
+                    <strong>4. Middleware</strong>
+                    <p>Auth, logging, validation, CORS</p>
+                </div>
+            </div>
+            <div class="lifecycle-arrow">-></div>
+            <div class="lifecycle-step clickable" data-modal="lifecycle-handler">
+                <div class="step-icon">5</div>
+                <div class="step-content">
+                    <strong>5. Handler</strong>
+                    <p>Business logic, DB queries</p>
+                </div>
+            </div>
+            <div class="lifecycle-arrow">-></div>
+            <div class="lifecycle-step clickable" data-modal="lifecycle-response">
+                <div class="step-icon">6</div>
+                <div class="step-content">
+                    <strong>6. Response</strong>
+                    <p>Status, headers, body sent back</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SIMPLE PYTHON SERVER -->
+<section class="slide" data-slide="python-server">
+    <div class="slide-content">
+        <h3 class="slide-title">The Simplest HTTP Server -- Python</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Terminal</div>
+                    <pre class="code-block"><code># Serve current directory on port 8000
+python -m http.server 8000
+
+# Or with Python 2
+python -m SimpleHTTPServer 8000</code></pre>
+                </div>
+                <div class="code-note">Built-in! No installation needed.</div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Custom Server (Flask)</div>
+                    <pre class="code-block"><code>from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.route('/api/hello')
+def hello():
+    return jsonify({
+        "message": "Hello, World!"
+    })
+
+if __name__ == '__main__':
+    app.run(port=3000)</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="comparison-note">
+            <strong>Great for:</strong> Quick file serving, prototyping, learning
+            <br>
+            <strong>Not for:</strong> Production, high concurrency, real-time apps
+        </div>
+    </div>
+</section>
+
+<!-- WHY JAVASCRIPT ON SERVER -->
+<section class="slide" data-slide="why-js-server">
+    <div class="slide-content">
+        <h3 class="slide-title">Why JavaScript on the Server?</h3>
+        <div class="benefits-grid">
+            <div class="benefit-card clickable" data-modal="benefit-one-language">
+                <div class="benefit-icon">1</div>
+                <h4>One Language</h4>
+                <p>Same language frontend & backend. Share code, types, validation.</p>
+            </div>
+            <div class="benefit-card clickable" data-modal="benefit-one-team">
+                <div class="benefit-icon">2</div>
+                <h4>One Team</h4>
+                <p>Full-stack developers. No "throw over the wall" to backend team.</p>
+            </div>
+            <div class="benefit-card clickable" data-modal="benefit-nonblocking">
+                <div class="benefit-icon">3</div>
+                <h4>Non-blocking I/O</h4>
+                <p>Handle thousands of concurrent connections efficiently.</p>
+            </div>
+            <div class="benefit-card clickable" data-modal="benefit-npm">
+                <div class="benefit-icon">4</div>
+                <h4>npm Ecosystem</h4>
+                <p>2+ million packages. Solution for almost everything.</p>
+            </div>
+            <div class="benefit-card clickable" data-modal="benefit-tooling">
+                <div class="benefit-icon">5</div>
+                <h4>Modern Tooling</h4>
+                <p>TypeScript, ESLint, Prettier. Mature developer experience.</p>
+            </div>
+            <div class="benefit-card clickable" data-modal="benefit-cloud">
+                <div class="benefit-icon">6</div>
+                <h4>Cloud Native</h4>
+                <p>Perfect for serverless (Vercel, AWS Lambda, Cloudflare Workers).</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART 2: NODE.JS ==================== -->
+<section class="slide" data-slide="nodejs-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part II</div>
+        <h2 class="section-title">Node.js</h2>
+        <p class="section-subtitle">JavaScript escapes the browser</p>
+        <div class="nodejs-logo">
+            <div class="node-icon">[Node]</div>
+            <div class="node-tagline">JavaScript runtime built on Chrome's V8</div>
+        </div>
+    </div>
+</section>
+
+<!-- NODE.JS HISTORY -->
+<section class="slide" data-slide="nodejs-history">
+    <div class="slide-content">
+        <h3 class="slide-title">Node.js -- A Brief History</h3>
+        <div class="timeline-vertical">
+            <div class="timeline-entry clickable" data-modal="history-2009">
+                <span class="timeline-year">2009</span>
+                <div class="timeline-content">
+                    <strong>Ryan Dahl creates Node.js</strong>
+                    <p>Frustrated with Apache's thread-per-connection model. Uses V8 + event loop.</p>
+                </div>
+            </div>
+            <div class="timeline-entry clickable" data-modal="history-2010">
+                <span class="timeline-year">2010</span>
+                <div class="timeline-content">
+                    <strong>npm is born</strong>
+                    <p>Package manager that changes everything. "Batteries not included" philosophy.</p>
+                </div>
+            </div>
+            <div class="timeline-entry clickable" data-modal="history-2011">
+                <span class="timeline-year">2011</span>
+                <div class="timeline-content">
+                    <strong>Express.js released</strong>
+                    <p>De facto web framework. Minimal, flexible, middleware-based.</p>
+                </div>
+            </div>
+            <div class="timeline-entry highlight clickable" data-modal="history-2015">
+                <span class="timeline-year">2015</span>
+                <div class="timeline-content">
+                    <strong>io.js fork -> Node.js Foundation</strong>
+                    <p>Community drama resolved. Faster release cycle. ES6 support.</p>
+                </div>
+            </div>
+            <div class="timeline-entry clickable" data-modal="history-2023">
+                <span class="timeline-year">2023+</span>
+                <div class="timeline-content">
+                    <strong>Modern Node (v20+)</strong>
+                    <p>Native fetch, test runner, permissions model. Competition from Deno/Bun.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NODE.JS ARCHITECTURE -->
+<section class="slide" data-slide="nodejs-architecture">
+    <div class="slide-content">
+        <h3 class="slide-title">Node.js Architecture</h3>
+        <p class="click-hint">Click any layer for details</p>
+        <div class="architecture-layers">
+            <div class="arch-layer-full clickable" data-modal="arch-usercode">
+                <div class="layer-header">Your JavaScript Code</div>
+            </div>
+            <div class="arch-layer-full clickable" data-modal="arch-nodeapis">
+                <div class="layer-header">Node.js APIs</div>
+                <div class="layer-items">
+                    <span>fs</span>
+                    <span>http</span>
+                    <span>path</span>
+                    <span>crypto</span>
+                    <span>events</span>
+                    <span>stream</span>
+                </div>
+            </div>
+            <div class="arch-row-split">
+                <div class="arch-layer-half clickable" data-modal="arch-v8">
+                    <div class="layer-header">V8 Engine</div>
+                    <div class="layer-desc">JavaScript execution</div>
+                </div>
+                <div class="arch-layer-half clickable" data-modal="arch-libuv">
+                    <div class="layer-header">libuv</div>
+                    <div class="layer-desc">Event loop, async I/O</div>
+                </div>
+            </div>
+            <div class="arch-layer-full os-layer clickable" data-modal="arch-os">
+                <div class="layer-header">Operating System</div>
+                <div class="layer-items">
+                    <span>File System</span>
+                    <span>Network</span>
+                    <span>DNS</span>
+                    <span>Threads</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NODE.JS BUILT-IN MODULES -->
+<section class="slide" data-slide="node-builtins">
+    <div class="slide-content">
+        <h3 class="slide-title">Node.js Built-in Modules</h3>
+        <p class="click-hint">Click any module for code examples</p>
+        <div class="modules-grid">
+            <div class="module-card clickable" data-modal="module-fs">
+                <div class="module-icon">fs</div>
+                <h4>File System</h4>
+                <p>Read, write, watch files and directories</p>
+            </div>
+            <div class="module-card clickable" data-modal="module-path">
+                <div class="module-icon">path</div>
+                <h4>Path</h4>
+                <p>Cross-platform path manipulation</p>
+            </div>
+            <div class="module-card clickable" data-modal="module-http">
+                <div class="module-icon">http</div>
+                <h4>HTTP</h4>
+                <p>Create HTTP servers and clients</p>
+            </div>
+            <div class="module-card clickable" data-modal="module-net">
+                <div class="module-icon">net</div>
+                <h4>Net</h4>
+                <p>Low-level TCP/IPC networking</p>
+            </div>
+            <div class="module-card clickable" data-modal="module-crypto">
+                <div class="module-icon">crypto</div>
+                <h4>Crypto</h4>
+                <p>Hashing, encryption, secure random</p>
+            </div>
+            <div class="module-card clickable" data-modal="module-events">
+                <div class="module-icon">events</div>
+                <h4>Events</h4>
+                <p>EventEmitter pattern</p>
+            </div>
+            <div class="module-card clickable" data-modal="module-stream">
+                <div class="module-icon">stream</div>
+                <h4>Stream</h4>
+                <p>Handle streaming data</p>
+            </div>
+            <div class="module-card clickable" data-modal="module-os">
+                <div class="module-icon">os</div>
+                <h4>OS</h4>
+                <p>Operating system info</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NET MODULE EXAMPLE -->
+<section class="slide" data-slide="net-module">
+    <div class="slide-content">
+        <h3 class="slide-title">The net Module -- Raw TCP</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">TCP Server</div>
+                    <pre class="code-block"><code>const net = require('net');
+
+const server = net.createServer((socket) => {
+    console.log('Client connected');
+
+    socket.on('data', (data) => {
+        console.log('Received:', data.toString());
+        socket.write('Echo: ' + data);
+    });
+
+    socket.on('end', () => {
+        console.log('Client disconnected');
+    });
+});
+
+server.listen(8080, () => {
+    console.log('TCP server on port 8080');
+});</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">TCP Client</div>
+                    <pre class="code-block"><code>const net = require('net');
+
+const client = net.createConnection({
+    port: 8080
+}, () => {
+    console.log('Connected to server');
+    client.write('Hello, server!');
+});
+
+client.on('data', (data) => {
+    console.log('Server says:', data.toString());
+    client.end();
+});
+
+client.on('end', () => {
+    console.log('Disconnected');
+});</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="module-note">
+            <strong>Use cases:</strong> Custom protocols, game servers, chat applications, IoT
+        </div>
+    </div>
+</section>
+
+<!-- CRYPTO MODULE EXAMPLE -->
+<section class="slide" data-slide="crypto-module">
+    <div class="slide-content">
+        <h3 class="slide-title">The crypto Module -- Security</h3>
+        <div class="crypto-examples">
+            <div class="code-showcase">
+                <div class="code-tab">Hashing (passwords, file integrity)</div>
+                <pre class="code-block"><code>const crypto = require('crypto');
+
+// Hash a password (use bcrypt in production!)
+const hash = crypto.createHash('sha256')
+    .update('myPassword123')
+    .digest('hex');
+// -> 'a1b2c3d4...' (64 char hex string)
+
+// HMAC for message authentication
+const hmac = crypto.createHmac('sha256', 'secret-key')
+    .update('message to authenticate')
+    .digest('hex');</code></pre>
+            </div>
+            <div class="code-showcase">
+                <div class="code-tab">Random & Encryption</div>
+                <pre class="code-block"><code>// Secure random bytes (tokens, IDs)
+const token = crypto.randomBytes(32).toString('hex');
+const uuid = crypto.randomUUID();
+
+// AES encryption
+const algorithm = 'aes-256-cbc';
+const key = crypto.randomBytes(32);
+const iv = crypto.randomBytes(16);
+
+const cipher = crypto.createCipheriv(algorithm, key, iv);
+let encrypted = cipher.update('secret data', 'utf8', 'hex');
+encrypted += cipher.final('hex');</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STREAM MODULE EXAMPLE -->
+<section class="slide" data-slide="stream-module">
+    <div class="slide-content">
+        <h3 class="slide-title">Streams -- Processing Data Efficiently</h3>
+        <div class="stream-concept">
+            <div class="stream-types">
+                <div class="stream-type clickable" data-modal="stream-readable">
+                    <h4>Readable</h4>
+                    <p>Source of data</p>
+                    <code>fs.createReadStream()</code>
+                </div>
+                <div class="stream-arrow">-></div>
+                <div class="stream-type clickable" data-modal="stream-transform">
+                    <h4>Transform</h4>
+                    <p>Modify data</p>
+                    <code>zlib.createGzip()</code>
+                </div>
+                <div class="stream-arrow">-></div>
+                <div class="stream-type clickable" data-modal="stream-writable">
+                    <h4>Writable</h4>
+                    <p>Destination</p>
+                    <code>fs.createWriteStream()</code>
+                </div>
+            </div>
+        </div>
+        <div class="code-showcase">
+            <div class="code-tab">Pipe large files (memory efficient!)</div>
+            <pre class="code-block"><code>const fs = require('fs');
+const zlib = require('zlib');
+
+// Read 10GB file, compress, write - uses ~few MB memory!
+fs.createReadStream('huge-file.log')
+    .pipe(zlib.createGzip())
+    .pipe(fs.createWriteStream('huge-file.log.gz'))
+    .on('finish', () => console.log('Done!'));
+
+// HTTP response streaming
+app.get('/video', (req, res) => {
+    const stream = fs.createReadStream('movie.mp4');
+    stream.pipe(res);  // Stream directly to client
+});</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- EVENT LOOP -->
+<section class="slide" data-slide="event-loop">
+    <div class="slide-content">
+        <h3 class="slide-title">The Event Loop -- Node's Secret Sauce</h3>
+        <p class="click-hint">Click any phase for details</p>
+        <div class="event-loop-diagram">
+            <div class="loop-container">
+                <div class="loop-phase clickable" data-modal="loop-timers">
+                    <div class="phase-name">timers</div>
+                    <div class="phase-desc">setTimeout, setInterval callbacks</div>
+                </div>
+                <div class="loop-arrow">|</div>
+                <div class="loop-phase clickable" data-modal="loop-pending">
+                    <div class="phase-name">pending callbacks</div>
+                    <div class="phase-desc">I/O callbacks deferred from previous loop</div>
+                </div>
+                <div class="loop-arrow">|</div>
+                <div class="loop-phase highlight clickable" data-modal="loop-poll">
+                    <div class="phase-name">poll</div>
+                    <div class="phase-desc">Retrieve new I/O events (network, file)</div>
+                </div>
+                <div class="loop-arrow">|</div>
+                <div class="loop-phase clickable" data-modal="loop-check">
+                    <div class="phase-name">check</div>
+                    <div class="phase-desc">setImmediate callbacks</div>
+                </div>
+                <div class="loop-arrow">|</div>
+                <div class="loop-phase clickable" data-modal="loop-close">
+                    <div class="phase-name">close callbacks</div>
+                    <div class="phase-desc">socket.on('close')</div>
+                </div>
+                <div class="loop-restart">repeat</div>
+            </div>
+            <div class="loop-microtasks">
+                <strong>Between each phase:</strong>
+                <code>process.nextTick()</code> and <code>Promise</code> callbacks run
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BLOCKING VS NON-BLOCKING -->
+<section class="slide" data-slide="blocking-nonblocking">
+    <div class="slide-content">
+        <h3 class="slide-title">Blocking vs Non-Blocking I/O</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab">Blocking (BAD)</div>
+                    <pre class="code-block"><code>const fs = require('fs');
+
+// Thread STOPS here until file is read
+const data = fs.readFileSync('big-file.txt');
+console.log(data);
+
+// Nothing else runs during file read
+// Server can't handle other requests!</code></pre>
+                </div>
+                <div class="code-note danger">Blocks entire event loop. No other requests handled.</div>
+            </div>
+            <div class="column">
+                <div class="code-showcase good-example">
+                    <div class="code-tab">Non-Blocking (GOOD)</div>
+                    <pre class="code-block"><code>const fs = require('fs');
+
+// Returns immediately, callback runs later
+fs.readFile('big-file.txt', (err, data) => {
+    if (err) throw err;
+    console.log(data);
+});
+
+// This runs while file is being read!
+console.log('Reading file...');</code></pre>
+                </div>
+                <div class="code-note success">Event loop stays free. Server handles other requests.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NODE HTTP SERVER -->
+<section class="slide" data-slide="node-http-server">
+    <div class="slide-content">
+        <h3 class="slide-title">Your First Node.js HTTP Server</h3>
+        <div class="code-showcase">
+            <div class="code-tab">server.js</div>
+            <pre class="code-block large"><code>const http = require('http');
+
+const server = http.createServer((req, res) => {
+    // req = incoming request (method, url, headers)
+    // res = outgoing response (write status, headers, body)
+
+    if (req.method === 'GET' && req.url === '/api/hello') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Hello, World!' }));
+    } else {
+        res.writeHead(404);
+        res.end('Not Found');
+    }
+});
+
+server.listen(3000, () => {
+    console.log('Server running at http://localhost:3000');
+});</code></pre>
+        </div>
+        <div class="run-command">
+            <code>node server.js</code>
+        </div>
+    </div>
+</section>
+
+<!-- EXPRESS.JS -->
+<section class="slide" data-slide="expressjs">
+    <div class="slide-content">
+        <h3 class="slide-title">Express.js -- The Standard Framework</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">app.js</div>
+                    <pre class="code-block"><code>const express = require('express');
+const app = express();
+
+// Middleware
+app.use(express.json());
+
+// Routes
+app.get('/api/users', (req, res) => {
+    res.json([
+        { id: 1, name: 'Alice' },
+        { id: 2, name: 'Bob' }
+    ]);
+});
+
+app.post('/api/users', (req, res) => {
+    const { name } = req.body;
+    res.status(201).json({ id: 3, name });
+});
+
+app.listen(3000);</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="express-features">
+                    <h4>Why Express?</h4>
+                    <div class="feature-list">
+                        <div class="feature-item clickable" data-modal="express-routing">
+                            <span class="check">+</span>
+                            <span>Routing -- pattern matching, params, query</span>
+                        </div>
+                        <div class="feature-item clickable" data-modal="express-middleware">
+                            <span class="check">+</span>
+                            <span>Middleware -- composable request pipeline</span>
+                        </div>
+                        <div class="feature-item clickable" data-modal="express-helpers">
+                            <span class="check">+</span>
+                            <span>Response helpers -- json(), redirect(), render()</span>
+                        </div>
+                        <div class="feature-item clickable" data-modal="express-static">
+                            <span class="check">+</span>
+                            <span>Static files -- serve HTML, CSS, images</span>
+                        </div>
+                        <div class="feature-item clickable" data-modal="express-ecosystem">
+                            <span class="check">+</span>
+                            <span>Huge ecosystem -- auth, validation, ORM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MIDDLEWARE -->
+<section class="slide" data-slide="middleware">
+    <div class="slide-content">
+        <h3 class="slide-title">Middleware -- The Pipeline Pattern</h3>
+        <div class="middleware-flow">
+            <div class="mw-request">
+                <span>Request</span>
+                <code>GET /api/users</code>
+            </div>
+            <div class="mw-arrow">-></div>
+            <div class="mw-box clickable" data-modal="mw-logger">
+                <div class="mw-name">Logger</div>
+                <code>console.log(req.url)</code>
+            </div>
+            <div class="mw-arrow">-></div>
+            <div class="mw-box clickable" data-modal="mw-auth">
+                <div class="mw-name">Auth</div>
+                <code>verify JWT token</code>
+            </div>
+            <div class="mw-arrow">-></div>
+            <div class="mw-box clickable" data-modal="mw-cors">
+                <div class="mw-name">CORS</div>
+                <code>set headers</code>
+            </div>
+            <div class="mw-arrow">-></div>
+            <div class="mw-box handler">
+                <div class="mw-name">Handler</div>
+                <code>res.json(users)</code>
+            </div>
+            <div class="mw-arrow">-></div>
+            <div class="mw-response">
+                <span>Response</span>
+                <code>200 OK</code>
+            </div>
+        </div>
+        <div class="code-showcase compact">
+            <pre class="code-block"><code>app.use(logger());           // Runs on ALL requests
+app.use('/api', authMiddleware); // Runs on /api/* routes
+app.get('/api/users', handler);  // Final handler</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- NODE ECOSYSTEM -->
+<section class="slide" data-slide="node-ecosystem">
+    <div class="slide-content">
+        <h3 class="slide-title">The Node.js Ecosystem</h3>
+        <div class="ecosystem-grid">
+            <div class="eco-category clickable" data-modal="eco-frameworks">
+                <h4>Web Frameworks</h4>
+                <div class="eco-items">
+                    <span class="eco-item popular">Express</span>
+                    <span class="eco-item">Fastify</span>
+                    <span class="eco-item">Koa</span>
+                    <span class="eco-item">Hono</span>
+                </div>
+            </div>
+            <div class="eco-category clickable" data-modal="eco-database">
+                <h4>Database</h4>
+                <div class="eco-items">
+                    <span class="eco-item popular">Prisma</span>
+                    <span class="eco-item">Drizzle</span>
+                    <span class="eco-item">Mongoose</span>
+                    <span class="eco-item">Sequelize</span>
+                </div>
+            </div>
+            <div class="eco-category clickable" data-modal="eco-auth">
+                <h4>Auth</h4>
+                <div class="eco-items">
+                    <span class="eco-item popular">Passport</span>
+                    <span class="eco-item">jsonwebtoken</span>
+                    <span class="eco-item">bcrypt</span>
+                </div>
+            </div>
+            <div class="eco-category clickable" data-modal="eco-validation">
+                <h4>Validation</h4>
+                <div class="eco-items">
+                    <span class="eco-item popular">Zod</span>
+                    <span class="eco-item">Joi</span>
+                    <span class="eco-item">Yup</span>
+                </div>
+            </div>
+            <div class="eco-category clickable" data-modal="eco-testing">
+                <h4>Testing</h4>
+                <div class="eco-items">
+                    <span class="eco-item popular">Jest</span>
+                    <span class="eco-item">Vitest</span>
+                    <span class="eco-item">Mocha</span>
+                    <span class="eco-item">Supertest</span>
+                </div>
+            </div>
+            <div class="eco-category clickable" data-modal="eco-devops">
+                <h4>DevOps</h4>
+                <div class="eco-items">
+                    <span class="eco-item popular">PM2</span>
+                    <span class="eco-item">nodemon</span>
+                    <span class="eco-item">dotenv</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART 3: NEXT.JS ==================== -->
+<section class="slide" data-slide="nextjs-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part III</div>
+        <h2 class="section-title">Next.js</h2>
+        <p class="section-subtitle">The React Framework for Production</p>
+        <div class="nextjs-logo">
+            <div class="next-icon">[Next.js]</div>
+            <div class="next-tagline">Full-stack React with zero config</div>
+        </div>
+    </div>
+</section>
+
+<!-- WHY NEXT.JS -->
+<section class="slide" data-slide="why-nextjs">
+    <div class="slide-content">
+        <h3 class="slide-title">Why Next.js?</h3>
+        <div class="comparison-table">
+            <div class="comparison-row header">
+                <span>Challenge</span>
+                <span>Plain React (CRA)</span>
+                <span>Next.js</span>
+            </div>
+            <div class="comparison-row">
+                <span>Routing</span>
+                <span class="meh">Install react-router, configure</span>
+                <span class="good">File-based, automatic</span>
+            </div>
+            <div class="comparison-row">
+                <span>SEO</span>
+                <span class="bad">Client-only, poor SEO</span>
+                <span class="good">SSR/SSG, great SEO</span>
+            </div>
+            <div class="comparison-row">
+                <span>API Routes</span>
+                <span class="bad">Need separate backend</span>
+                <span class="good">Built-in API routes</span>
+            </div>
+            <div class="comparison-row">
+                <span>Performance</span>
+                <span class="meh">Manual code splitting</span>
+                <span class="good">Automatic optimization</span>
+            </div>
+            <div class="comparison-row">
+                <span>Deployment</span>
+                <span class="meh">Configure hosting</span>
+                <span class="good">Vercel one-click, or anywhere</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEXT.JS RENDERING MODES -->
+<section class="slide" data-slide="nextjs-rendering">
+    <div class="slide-content">
+        <h3 class="slide-title">Rendering Strategies</h3>
+        <p class="click-hint">Click any strategy for detailed explanation</p>
+        <div class="rendering-modes">
+            <div class="render-mode clickable" data-modal="render-ssg">
+                <div class="mode-icon">[SSG]</div>
+                <h4>SSG -- Static Site Generation</h4>
+                <p>HTML generated at <strong>build time</strong>. Fastest. Great for blogs, docs.</p>
+                <pre class="mini-code"><code>// pages/blog/[slug].js
+export async function getStaticProps({ params }) {
+    const post = await getPost(params.slug);
+    return { props: { post } };
+}</code></pre>
+            </div>
+            <div class="render-mode clickable" data-modal="render-ssr">
+                <div class="mode-icon">[SSR]</div>
+                <h4>SSR -- Server-Side Rendering</h4>
+                <p>HTML generated on <strong>each request</strong>. Always fresh. Good for dashboards.</p>
+                <pre class="mini-code"><code>// pages/dashboard.js
+export async function getServerSideProps() {
+    const data = await fetchDashboard();
+    return { props: { data } };
+}</code></pre>
+            </div>
+            <div class="render-mode clickable" data-modal="render-isr">
+                <div class="mode-icon">[ISR]</div>
+                <h4>ISR -- Incremental Static Regeneration</h4>
+                <p>Static + revalidation. Best of both worlds.</p>
+                <pre class="mini-code"><code>export async function getStaticProps() {
+    return {
+        props: { data },
+        revalidate: 60  // Regenerate every 60s
+    };
+}</code></pre>
+            </div>
+            <div class="render-mode clickable" data-modal="render-csr">
+                <div class="mode-icon">[CSR]</div>
+                <h4>CSR -- Client-Side Rendering</h4>
+                <p>Fetch on client after page load. For user-specific, non-SEO content.</p>
+                <pre class="mini-code"><code>// Use React hooks, SWR, or React Query
+const { data } = useSWR('/api/user', fetcher);</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- APP ROUTER -->
+<section class="slide" data-slide="app-router">
+    <div class="slide-content">
+        <h3 class="slide-title">App Router (Next.js 13+)</h3>
+        <p class="click-hint">Click any feature for detailed explanation</p>
+        <div class="two-column">
+            <div class="column">
+                <div class="file-tree">
+                    <div class="tree-title">app/</div>
+                    <div class="tree-item">+-- layout.tsx <span class="tree-note">Root layout (nav, footer)</span></div>
+                    <div class="tree-item">+-- page.tsx <span class="tree-note">/ (home)</span></div>
+                    <div class="tree-item">+-- about/</div>
+                    <div class="tree-item sub">|   +-- page.tsx <span class="tree-note">/about</span></div>
+                    <div class="tree-item">+-- blog/</div>
+                    <div class="tree-item sub">|   +-- page.tsx <span class="tree-note">/blog</span></div>
+                    <div class="tree-item sub">|   +-- [slug]/</div>
+                    <div class="tree-item sub2">|       +-- page.tsx <span class="tree-note">/blog/:slug</span></div>
+                    <div class="tree-item">+-- api/</div>
+                    <div class="tree-item sub">    +-- users/</div>
+                    <div class="tree-item sub2">        +-- route.ts <span class="tree-note">/api/users</span></div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="router-features">
+                    <h4>App Router Features</h4>
+                    <div class="feature-list clickable-features">
+                        <div class="feature-item clickable" data-modal="feature-rsc">
+                            <span class="check">+</span>
+                            <span>React Server Components (RSC)</span>
+                        </div>
+                        <div class="feature-item clickable" data-modal="feature-layouts">
+                            <span class="check">+</span>
+                            <span>Nested layouts</span>
+                        </div>
+                        <div class="feature-item clickable" data-modal="feature-loading">
+                            <span class="check">+</span>
+                            <span>Loading & error states</span>
+                        </div>
+                        <div class="feature-item clickable" data-modal="feature-streaming">
+                            <span class="check">+</span>
+                            <span>Streaming & Suspense</span>
+                        </div>
+                        <div class="feature-item clickable" data-modal="feature-parallel">
+                            <span class="check">+</span>
+                            <span>Parallel routes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVER COMPONENTS -->
+<section class="slide" data-slide="server-components">
+    <div class="slide-content">
+        <h3 class="slide-title">Server Components vs Client Components</h3>
+        <p class="click-hint">Click each component type for details</p>
+        <div class="two-column">
+            <div class="column">
+                <div class="component-box server clickable" data-modal="server-component">
+                    <h4>Server Component (default)</h4>
+                    <pre class="code-block"><code>// app/posts/page.tsx
+// NO "use client" = server component
+
+async function PostsPage() {
+    // Direct database access!
+    const posts = await db.posts.findMany();
+
+    return (
+        &lt;ul&gt;
+            {posts.map(post => (
+                &lt;li key={post.id}>{post.title}&lt;/li&gt;
+            ))}
+        &lt;/ul&gt;
+    );
+}</code></pre>
+                    <div class="component-traits">
+                        <span class="trait good">+ Zero JS sent to client</span>
+                        <span class="trait good">+ Direct DB/file access</span>
+                        <span class="trait bad">- No useState/useEffect</span>
+                        <span class="trait bad">- No browser APIs</span>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="component-box client clickable" data-modal="client-component">
+                    <h4>Client Component</h4>
+                    <pre class="code-block"><code>// app/components/Counter.tsx
+"use client"  // <- Makes it client component
+
+import { useState } from 'react';
+
+function Counter() {
+    const [count, setCount] = useState(0);
+
+    return (
+        &lt;button onClick={() => setCount(c => c+1)}&gt;
+            Count: {count}
+        &lt;/button&gt;
+    );
+}</code></pre>
+                    <div class="component-traits">
+                        <span class="trait good">+ useState, useEffect</span>
+                        <span class="trait good">+ Event handlers</span>
+                        <span class="trait good">+ Browser APIs</span>
+                        <span class="trait bad">- JS bundle sent</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- API ROUTES -->
+<section class="slide" data-slide="api-routes">
+    <div class="slide-content">
+        <h3 class="slide-title">API Routes -- Backend in Next.js</h3>
+        <div class="code-showcase">
+            <div class="code-tab">app/api/users/route.ts</div>
+            <pre class="code-block"><code>import { NextResponse } from 'next/server';
+import { db } from '@/lib/db';
+
+// GET /api/users
+export async function GET(request: Request) {
+    const users = await db.user.findMany();
+    return NextResponse.json(users);
+}
+
+// POST /api/users
+export async function POST(request: Request) {
+    const body = await request.json();
+
+    const user = await db.user.create({
+        data: { name: body.name, email: body.email }
+    });
+
+    return NextResponse.json(user, { status: 201 });
+}
+
+// Dynamic route: app/api/users/[id]/route.ts
+export async function GET(
+    request: Request,
+    { params }: { params: { id: string } }
+) {
+    const user = await db.user.findUnique({ where: { id: params.id } });
+    if (!user) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    return NextResponse.json(user);
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- SERVER ACTIONS -->
+<section class="slide" data-slide="server-actions">
+    <div class="slide-content">
+        <h3 class="slide-title">Server Actions -- RPC for React</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">actions.ts</div>
+                    <pre class="code-block"><code>"use server"
+
+import { db } from '@/lib/db';
+import { revalidatePath } from 'next/cache';
+
+export async function createPost(formData: FormData) {
+    const title = formData.get('title');
+    const content = formData.get('content');
+
+    await db.post.create({
+        data: { title, content }
+    });
+
+    revalidatePath('/posts');
+}</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Component using action</div>
+                    <pre class="code-block"><code>import { createPost } from './actions';
+
+function NewPostForm() {
+    return (
+        &lt;form action={createPost}&gt;
+            &lt;input name="title" /&gt;
+            &lt;textarea name="content" /&gt;
+            &lt;button type="submit"&gt;
+                Create Post
+            &lt;/button&gt;
+        &lt;/form&gt;
+    );
+}</code></pre>
+                </div>
+                <div class="action-benefits">
+                    <span>No API route needed!</span>
+                    <span>Type-safe end-to-end</span>
+                    <span>Progressive enhancement</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEXT.JS IN PRODUCTION -->
+<section class="slide" data-slide="nextjs-production">
+    <div class="slide-content">
+        <h3 class="slide-title">Next.js in Production</h3>
+        <div class="production-grid">
+            <div class="prod-card clickable" data-modal="prod-image">
+                <h4>Image Optimization</h4>
+                <pre class="mini-code"><code>import Image from 'next/image';
+
+&lt;Image
+    src="/hero.jpg"
+    width={800}
+    height={600}
+    alt="Hero"
+    priority  // Preload above-fold
+/&gt;</code></pre>
+                <p>Auto WebP, lazy loading, responsive</p>
+            </div>
+            <div class="prod-card clickable" data-modal="prod-metadata">
+                <h4>Metadata & SEO</h4>
+                <pre class="mini-code"><code>export const metadata = {
+    title: 'My App',
+    description: 'Best app ever',
+    openGraph: {
+        title: 'My App',
+        images: ['/og-image.png']
+    }
+};</code></pre>
+            </div>
+            <div class="prod-card clickable" data-modal="prod-middleware">
+                <h4>Middleware</h4>
+                <pre class="mini-code"><code>// middleware.ts
+export function middleware(request) {
+    if (!isAuthenticated(request)) {
+        return NextResponse.redirect('/login');
+    }
+}
+
+export const config = {
+    matcher: '/dashboard/:path*'
+};</code></pre>
+            </div>
+            <div class="prod-card clickable" data-modal="prod-deploy">
+                <h4>Deployment</h4>
+                <div class="deploy-options">
+                    <span class="deploy-option">Vercel (zero-config)</span>
+                    <span class="deploy-option">Docker + any cloud</span>
+                    <span class="deploy-option">Static export</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART 4: PROMISES & ASYNC ==================== -->
+<section class="slide" data-slide="async-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part IV</div>
+        <h2 class="section-title">Promises & Async/Await</h2>
+        <p class="section-subtitle">Taming asynchronous JavaScript</p>
+        <div class="async-visual">
+            <div class="callback-hell">callback(callback(callback()))</div>
+            <div class="async-arrow">-></div>
+            <div class="async-clean">await clean()</div>
+        </div>
+    </div>
+</section>
+
+<!-- THE CALLBACK PROBLEM -->
+<section class="slide" data-slide="callback-hell">
+    <div class="slide-content">
+        <h3 class="slide-title">The Callback Problem</h3>
+        <div class="code-showcase">
+            <div class="code-tab">Callback Hell</div>
+            <pre class="code-block"><code>getUser(userId, (err, user) => {
+    if (err) return handleError(err);
+
+    getOrders(user.id, (err, orders) => {
+        if (err) return handleError(err);
+
+        getOrderDetails(orders[0].id, (err, details) => {
+            if (err) return handleError(err);
+
+            getShippingStatus(details.shipmentId, (err, status) => {
+                if (err) return handleError(err);
+
+                // Finally! But this is unreadable...
+                console.log(status);
+            });
+        });
+    });
+});</code></pre>
+        </div>
+        <div class="problems-list">
+            <span class="problem">Hard to read -- pyramid of doom</span>
+            <span class="problem">Hard to debug -- error handling scattered</span>
+            <span class="problem">Hard to sequence -- parallel? series? race?</span>
+        </div>
+    </div>
+</section>
+
+<!-- WHAT IS A PROMISE -->
+<section class="slide" data-slide="what-is-promise">
+    <div class="slide-content">
+        <h3 class="slide-title">What is a Promise?</h3>
+        <div class="promise-concept">
+            <div class="promise-definition">
+                <p>A <strong>Promise</strong> is an object representing the eventual completion (or failure) of an asynchronous operation.</p>
+            </div>
+            <div class="promise-states">
+                <div class="state pending clickable" data-modal="promise-pending">
+                    <div class="state-icon">[?]</div>
+                    <div class="state-name">Pending</div>
+                    <div class="state-desc">Initial state. Operation in progress.</div>
+                </div>
+                <div class="state-arrow">-></div>
+                <div class="state-branch">
+                    <div class="state fulfilled clickable" data-modal="promise-fulfilled">
+                        <div class="state-icon">[OK]</div>
+                        <div class="state-name">Fulfilled</div>
+                        <div class="state-desc">Operation completed successfully.</div>
+                    </div>
+                    <div class="state rejected clickable" data-modal="promise-rejected">
+                        <div class="state-icon">[X]</div>
+                        <div class="state-name">Rejected</div>
+                        <div class="state-desc">Operation failed with an error.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CREATING PROMISES -->
+<section class="slide" data-slide="creating-promises">
+    <div class="slide-content">
+        <h3 class="slide-title">Creating Promises</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Manual Promise</div>
+                    <pre class="code-block"><code>function delay(ms) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(`Done after ${ms}ms`);
+        }, ms);
+    });
+}
+
+// Usage
+delay(1000).then(result => {
+    console.log(result);
+});</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Promisifying Callbacks</div>
+                    <pre class="code-block"><code>const fs = require('fs');
+const { promisify } = require('util');
+
+// Old callback-based
+fs.readFile('file.txt', callback);
+
+// Promisified version
+const readFileAsync = promisify(fs.readFile);
+readFileAsync('file.txt')
+    .then(data => console.log(data));
+
+// Or use fs.promises (modern Node)
+const { readFile } = require('fs/promises');
+readFile('file.txt').then(...);</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROMISE CHAINING -->
+<section class="slide" data-slide="promise-chaining">
+    <div class="slide-content">
+        <h3 class="slide-title">Promise Chaining</h3>
+        <div class="code-showcase">
+            <div class="code-tab">Flat, readable, chainable</div>
+            <pre class="code-block"><code>getUser(userId)
+    .then(user => {
+        console.log('Got user:', user.name);
+        return getOrders(user.id);  // Return promise for next .then()
+    })
+    .then(orders => {
+        console.log('Got orders:', orders.length);
+        return getOrderDetails(orders[0].id);
+    })
+    .then(details => {
+        console.log('Got details:', details);
+        return getShippingStatus(details.shipmentId);
+    })
+    .then(status => {
+        console.log('Shipping status:', status);
+    })
+    .catch(err => {
+        // One error handler for the entire chain!
+        console.error('Error:', err.message);
+    });</code></pre>
+        </div>
+        <div class="chain-note">
+            Each <code>.then()</code> returns a new Promise. Errors bubble to <code>.catch()</code>.
+        </div>
+    </div>
+</section>
+
+<!-- PROMISE COMBINATORS -->
+<section class="slide" data-slide="promise-combinators">
+    <div class="slide-content">
+        <h3 class="slide-title">Promise Combinators</h3>
+        <p class="click-hint">Click any combinator for details</p>
+        <div class="combinator-grid">
+            <div class="combinator-card clickable" data-modal="combinator-all">
+                <h4>Promise.all()</h4>
+                <p>Wait for ALL promises. Fail fast on first rejection.</p>
+                <pre class="mini-code"><code>const [users, posts] = await Promise.all([
+    fetch('/api/users'),
+    fetch('/api/posts')
+]);</code></pre>
+            </div>
+            <div class="combinator-card clickable" data-modal="combinator-allsettled">
+                <h4>Promise.allSettled()</h4>
+                <p>Wait for ALL, never rejects. Get status of each.</p>
+                <pre class="mini-code"><code>const results = await Promise.allSettled([
+    fetch('/api/a'),
+    fetch('/api/b')  // Even if this fails...
+]);
+// [{status:'fulfilled',value:...}, {status:'rejected',reason:...}]</code></pre>
+            </div>
+            <div class="combinator-card clickable" data-modal="combinator-race">
+                <h4>Promise.race()</h4>
+                <p>First to settle (fulfill OR reject) wins.</p>
+                <pre class="mini-code"><code>const result = await Promise.race([
+    fetch('/api/data'),
+    delay(5000).then(() => { throw new Error('Timeout') })
+]);</code></pre>
+            </div>
+            <div class="combinator-card clickable" data-modal="combinator-any">
+                <h4>Promise.any()</h4>
+                <p>First to FULFILL wins. Only rejects if all reject.</p>
+                <pre class="mini-code"><code>const fastest = await Promise.any([
+    fetch('https://cdn1.example.com/data'),
+    fetch('https://cdn2.example.com/data'),
+    fetch('https://cdn3.example.com/data')
+]);</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ASYNC/AWAIT -->
+<section class="slide" data-slide="async-await">
+    <div class="slide-content">
+        <h3 class="slide-title">async/await -- Promises Made Beautiful</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Promise Chain</div>
+                    <pre class="code-block"><code>function fetchUserData(id) {
+    return getUser(id)
+        .then(user => getOrders(user.id))
+        .then(orders => {
+            return getOrderDetails(orders[0].id);
+        })
+        .then(details => {
+            return details;
+        })
+        .catch(err => {
+            console.error(err);
+            throw err;
+        });
+}</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase highlight-box">
+                    <div class="code-tab">async/await</div>
+                    <pre class="code-block"><code>async function fetchUserData(id) {
+    try {
+        const user = await getUser(id);
+        const orders = await getOrders(user.id);
+        const details = await getOrderDetails(
+            orders[0].id
+        );
+        return details;
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="await-rules">
+            <span><code>async</code> makes function return a Promise</span>
+            <span><code>await</code> pauses until Promise settles</span>
+            <span>Use <code>try/catch</code> for errors</span>
+        </div>
+    </div>
+</section>
+
+<!-- ASYNC PATTERNS -->
+<section class="slide" data-slide="async-patterns">
+    <div class="slide-content">
+        <h3 class="slide-title">Common Async Patterns</h3>
+        <p class="click-hint">Click any pattern for details</p>
+        <div class="patterns-grid">
+            <div class="pattern-card clickable" data-modal="pattern-sequential">
+                <h4>Sequential</h4>
+                <p>One after another. Total time = sum of all.</p>
+                <pre class="mini-code"><code>const a = await fetchA();  // 1s
+const b = await fetchB();  // 1s
+// Total: 2 seconds</code></pre>
+            </div>
+            <div class="pattern-card recommended clickable" data-modal="pattern-parallel">
+                <h4>Parallel</h4>
+                <p>All at once. Total time = slowest.</p>
+                <pre class="mini-code"><code>const [a, b] = await Promise.all([
+    fetchA(),  // 1s
+    fetchB()   // 1s
+]);
+// Total: 1 second!</code></pre>
+            </div>
+            <div class="pattern-card clickable" data-modal="pattern-sequential-loop">
+                <h4>Sequential Loop</h4>
+                <p>Process items one by one.</p>
+                <pre class="mini-code"><code>for (const id of ids) {
+    await processItem(id);
+    // Each waits for previous
+}</code></pre>
+            </div>
+            <div class="pattern-card clickable" data-modal="pattern-parallel-loop">
+                <h4>Parallel Loop</h4>
+                <p>Process all items concurrently.</p>
+                <pre class="mini-code"><code>await Promise.all(
+    ids.map(id => processItem(id))
+);
+// All run simultaneously</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ERROR HANDLING -->
+<section class="slide" data-slide="async-errors">
+    <div class="slide-content">
+        <h3 class="slide-title">Error Handling Best Practices</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab">Don't</div>
+                    <pre class="code-block"><code>// Unhandled promise rejection!
+async function bad() {
+    const data = await fetch('/api/data');
+    return data.json();
+}
+
+// Error silently swallowed
+promise.catch(() => {});
+
+// No error handling at all
+fetch('/api').then(res => res.json());</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase good-example">
+                    <div class="code-tab">Do</div>
+                    <pre class="code-block"><code>async function good() {
+    try {
+        const res = await fetch('/api/data');
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+        }
+        return res.json();
+    } catch (err) {
+        console.error('Fetch failed:', err);
+        throw err;  // Re-throw or handle
+    }
+}
+
+// Or use .catch() for simple cases
+const data = await fetchData().catch(handleError);</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ASYNC GOTCHAS -->
+<section class="slide" data-slide="async-gotchas">
+    <div class="slide-content">
+        <h3 class="slide-title">Async Gotchas</h3>
+        <p class="click-hint">Click any gotcha for detailed explanation</p>
+        <div class="gotchas-grid">
+            <div class="gotcha-card clickable" data-modal="gotcha-foreach">
+                <h4>forEach doesn't await</h4>
+                <pre class="mini-code"><code>// WRONG - fires all at once, doesn't wait
+items.forEach(async (item) => {
+    await processItem(item);
+});
+
+// RIGHT - use for...of
+for (const item of items) {
+    await processItem(item);
+}</code></pre>
+            </div>
+            <div class="gotcha-card clickable" data-modal="gotcha-parallel">
+                <h4>Await in wrong place</h4>
+                <pre class="mini-code"><code>// WRONG - sequential when could be parallel
+const a = await fetchA();
+const b = await fetchB();
+
+// RIGHT - parallel with Promise.all
+const [a, b] = await Promise.all([
+    fetchA(), fetchB()
+]);</code></pre>
+            </div>
+            <div class="gotcha-card clickable" data-modal="gotcha-missing">
+                <h4>Missing await</h4>
+                <pre class="mini-code"><code>async function save(data) {
+    // WRONG - returns promise, not result
+    return db.save(data);
+
+    // RIGHT
+    return await db.save(data);
+    // Or let async handle it (same effect)
+}</code></pre>
+            </div>
+            <div class="gotcha-card clickable" data-modal="gotcha-blocking">
+                <h4>Blocking the event loop</h4>
+                <pre class="mini-code"><code>// WRONG - CPU-bound work blocks
+for (let i = 0; i < 1e9; i++) { /* calc */ }
+
+// RIGHT - use worker threads for CPU work
+const { Worker } = require('worker_threads');
+new Worker('./heavy-calc.js');</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUMMARY -->
+<section class="slide" data-slide="summary">
+    <div class="slide-content">
+        <h3 class="slide-title">Key Takeaways</h3>
+        <div class="takeaways">
+            <div class="takeaway">
+                <span class="takeaway-num">01</span>
+                <div class="takeaway-text">
+                    <strong>Node.js brought JavaScript to the server</strong>
+                    <p>V8 + libuv + event loop = non-blocking, high-concurrency server</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">02</span>
+                <div class="takeaway-text">
+                    <strong>Next.js is the full-stack React framework</strong>
+                    <p>SSR, SSG, API routes, Server Components -- batteries included</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">03</span>
+                <div class="takeaway-text">
+                    <strong>Promises & async/await tamed async code</strong>
+                    <p>From callback hell to readable, sequential-looking async code</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">04</span>
+                <div class="takeaway-text">
+                    <strong>Modern JS stack = incredible DX</strong>
+                    <p>TypeScript, hot reload, one language everywhere, huge ecosystem</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- END SLIDE -->
+<section class="slide" data-slide="end">
+    <div class="slide-content title-slide">
+        <h2 class="end-title">Questions?</h2>
+        <div class="end-info">
+            <p class="course">Full Stack Engineering</p>
+            <p class="instructor">Ohad Assulin -- RU</p>
+        </div>
+        <div class="end-resources">
+            <h4>Further Reading</h4>
+            <ul>
+                <li>nodejs.org -- Official Docs</li>
+                <li>nextjs.org/docs -- Next.js Documentation</li>
+                <li>javascript.info -- Modern JS Tutorial</li>
+                <li>MDN -- Promises Guide</li>
+            </ul>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,1602 @@
+<!-- LECTURE: HTTP & Browser -->
+<!-- This file contains the slides for the HTTP & Browser lecture -->
+
+<!-- TITLE SLIDE -->
+<section class="slide active" data-slide="title">
+    <div class="slide-content title-slide">
+        <div class="title-decoration">
+            <div class="protocol-badge">HTTP/1.0 → 3.0</div>
+        </div>
+        <h1 class="main-title">
+            <span class="title-line">The Web's</span>
+            <span class="title-line highlight">Invisible</span>
+            <span class="title-line">Architecture</span>
+        </h1>
+        <p class="subtitle">HTTP Protocol & Browser Internals</p>
+        <div class="title-meta">
+            <div class="meta-item">
+                <span class="meta-label">Course</span>
+                <span class="meta-value">Full Stack Engineering</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Instructor</span>
+                <span class="meta-value">Ohad Assulin</span>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            <span>Press → or Space to navigate</span>
+            <div class="arrow-bounce">↓</div>
+        </div>
+    </div>
+</section>
+
+<!-- PART 1: HTTP PROTOCOL -->
+<section class="slide" data-slide="http-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part I</div>
+        <h2 class="section-title">The HTTP Protocol</h2>
+        <p class="section-subtitle">From CERN to the Cloud</p>
+        <div class="decorative-code">
+            <pre><code>GET /history HTTP/1.1
+Host: www.w3.org
+Accept: text/html</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- HTTP HISTORY -->
+<section class="slide" data-slide="http-history">
+    <div class="slide-content two-column">
+        <div class="column">
+            <h3 class="slide-title">The Birth of HTTP</h3>
+            <div class="timeline-compact">
+                <div class="timeline-item">
+                    <span class="year">1989</span>
+                    <div class="event">
+                        <strong>Tim Berners-Lee @ CERN</strong>
+                        <p>Proposes "Information Management: A Proposal"</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">1991</span>
+                    <div class="event">
+                        <strong>HTTP/0.9 — The One-Liner</strong>
+                        <p>Single line protocol: <code>GET /page.html</code></p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">1996</span>
+                    <div class="event">
+                        <strong>HTTP/1.0 — RFC 1945</strong>
+                        <p>Headers, status codes, content types</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="code-showcase">
+                <div class="code-tab">HTTP/0.9 Request</div>
+                <pre class="code-block"><code><span class="keyword">GET</span> /mypage.html</code></pre>
+                <div class="code-note">That's it. The entire protocol.</div>
+            </div>
+            <div class="quote-box">
+                <blockquote>"The web was designed to be a document retrieval system. Nobody anticipated streaming video."</blockquote>
+                <cite>— Every HTTP/1.0 designer, probably</cite>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HTTP/1.0 DETAILS -->
+<section class="slide" data-slide="http10">
+    <div class="slide-content">
+        <h3 class="slide-title">HTTP/1.0 — The Foundation</h3>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h4>Headers</h4>
+                <p>Metadata for requests & responses</p>
+                <code>Content-Type: text/html</code>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔢</div>
+                <h4>Status Codes</h4>
+                <p>200 OK, 404 Not Found, 500 Error</p>
+                <code>HTTP/1.0 200 OK</code>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📄</div>
+                <h4>Content Types</h4>
+                <p>MIME types for different content</p>
+                <code>image/gif, text/plain</code>
+            </div>
+            <div class="feature-card problem">
+                <div class="feature-icon">⚠️</div>
+                <h4>The Problem</h4>
+                <p>New TCP connection per request</p>
+                <code class="bad">Connection closed after each response</code>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HTTP/1.1 INTRO -->
+<section class="slide" data-slide="http11-intro">
+    <div class="slide-content">
+        <h3 class="slide-title">HTTP/1.1 — The Workhorse</h3>
+        <p class="year-badge">1997 — RFC 2068 → 1999 — RFC 2616</p>
+        <div class="improvement-list">
+            <div class="improvement">
+                <span class="improvement-icon">🔗</span>
+                <div class="improvement-text">
+                    <strong>Persistent Connections</strong>
+                    <p>Keep-alive by default — reuse TCP connections</p>
+                </div>
+            </div>
+            <div class="improvement">
+                <span class="improvement-icon">📦</span>
+                <div class="improvement-text">
+                    <strong>Chunked Transfer</strong>
+                    <p>Stream data without knowing total size upfront</p>
+                </div>
+            </div>
+            <div class="improvement">
+                <span class="improvement-icon">🖥️</span>
+                <div class="improvement-text">
+                    <strong>Host Header</strong>
+                    <p>Virtual hosting — multiple domains on one IP</p>
+                </div>
+            </div>
+            <div class="improvement">
+                <span class="improvement-icon">💾</span>
+                <div class="improvement-text">
+                    <strong>Better Caching</strong>
+                    <p>Cache-Control, ETag, If-Modified-Since</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HTTP/1.1 REQUEST ANATOMY -->
+<section class="slide" data-slide="http11-request">
+    <div class="slide-content">
+        <h3 class="slide-title">Anatomy of an HTTP/1.1 Request</h3>
+        <div class="request-anatomy">
+            <pre class="code-annotated"><code><span class="line" data-annotation="Method + Path + Version"><span class="method">GET</span> <span class="path">/api/users/42</span> <span class="version">HTTP/1.1</span></span>
+<span class="line" data-annotation="Required since HTTP/1.1"><span class="header-name">Host:</span> <span class="header-value">api.example.com</span></span>
+<span class="line" data-annotation="Keep connection alive"><span class="header-name">Connection:</span> <span class="header-value">keep-alive</span></span>
+<span class="line" data-annotation="Content preferences"><span class="header-name">Accept:</span> <span class="header-value">application/json</span></span>
+<span class="line" data-annotation="Client encoding support"><span class="header-name">Accept-Encoding:</span> <span class="header-value">gzip, deflate, br</span></span>
+<span class="line" data-annotation="Client identification"><span class="header-name">User-Agent:</span> <span class="header-value">Mozilla/5.0 (Macintosh; Intel...)</span></span>
+<span class="line" data-annotation="Auth token"><span class="header-name">Authorization:</span> <span class="header-value">Bearer eyJhbGciOiJIUzI1NiIs...</span></span></code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- HTTP/1.1 RESPONSE ANATOMY -->
+<section class="slide" data-slide="http11-response">
+    <div class="slide-content">
+        <h3 class="slide-title">Anatomy of an HTTP/1.1 Response</h3>
+        <div class="response-anatomy">
+            <pre class="code-annotated"><code><span class="line" data-annotation="Status Line"><span class="version">HTTP/1.1</span> <span class="status-ok">200 OK</span></span>
+<span class="line" data-annotation="Timestamp"><span class="header-name">Date:</span> <span class="header-value">Sun, 04 May 2026 10:30:00 GMT</span></span>
+<span class="line" data-annotation="Server software"><span class="header-name">Server:</span> <span class="header-value">nginx/1.25.0</span></span>
+<span class="line" data-annotation="Response MIME type"><span class="header-name">Content-Type:</span> <span class="header-value">application/json; charset=utf-8</span></span>
+<span class="line" data-annotation="Body size in bytes"><span class="header-name">Content-Length:</span> <span class="header-value">256</span></span>
+<span class="line" data-annotation="Caching directive"><span class="header-name">Cache-Control:</span> <span class="header-value">max-age=3600, must-revalidate</span></span>
+<span class="line" data-annotation="Version fingerprint"><span class="header-name">ETag:</span> <span class="header-value">"33a64df551425fcc55e4d42a148795d9"</span></span>
+<span class="line" data-annotation="Blank line = body starts">&#8203;</span>
+<span class="line" data-annotation="JSON body"><span class="json">{"id": 42, "name": "Alice", "role": "admin"}</span></span></code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- POST REQUEST WITH BODY -->
+<section class="slide" data-slide="post-request">
+    <div class="slide-content">
+        <h3 class="slide-title">POST Request — Sending Data to Server</h3>
+        <div class="request-anatomy">
+            <pre class="code-annotated"><code><span class="line" data-annotation="POST method creates resource"><span class="method">POST</span> <span class="path">/api/users</span> <span class="version">HTTP/1.1</span></span>
+<span class="line" data-annotation="Target server"><span class="header-name">Host:</span> <span class="header-value">api.example.com</span></span>
+<span class="line" data-annotation="Body format"><span class="header-name">Content-Type:</span> <span class="header-value">application/json</span></span>
+<span class="line" data-annotation="Body size"><span class="header-name">Content-Length:</span> <span class="header-value">82</span></span>
+<span class="line" data-annotation="Auth token"><span class="header-name">Authorization:</span> <span class="header-value">Bearer eyJhbGciOiJIUzI1NiIs...</span></span>
+<span class="line" data-annotation="Blank line separates headers from body">&#8203;</span>
+<span class="line" data-annotation="JSON request body"><span class="json">{</span></span>
+<span class="line" data-annotation=""><span class="json">  "name": "Bob Smith",</span></span>
+<span class="line" data-annotation=""><span class="json">  "email": "bob@example.com",</span></span>
+<span class="line" data-annotation=""><span class="json">  "role": "developer"</span></span>
+<span class="line" data-annotation=""><span class="json">}</span></span></code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- POST RESPONSE -->
+<section class="slide" data-slide="post-response">
+    <div class="slide-content">
+        <h3 class="slide-title">POST Response — Resource Created</h3>
+        <div class="response-anatomy">
+            <pre class="code-annotated"><code><span class="line" data-annotation="201 = Created successfully"><span class="version">HTTP/1.1</span> <span class="status-created">201 Created</span></span>
+<span class="line" data-annotation="Where the new resource lives"><span class="header-name">Location:</span> <span class="header-value">https://api.example.com/api/users/143</span></span>
+<span class="line" data-annotation="Response format"><span class="header-name">Content-Type:</span> <span class="header-value">application/json</span></span>
+<span class="line" data-annotation=""><span class="header-name">Content-Length:</span> <span class="header-value">127</span></span>
+<span class="line" data-annotation="Blank line">&#8203;</span>
+<span class="line" data-annotation="Created resource returned"><span class="json">{</span></span>
+<span class="line" data-annotation="Server-assigned ID"><span class="json">  "id": 143,</span></span>
+<span class="line" data-annotation=""><span class="json">  "name": "Bob Smith",</span></span>
+<span class="line" data-annotation=""><span class="json">  "email": "bob@example.com",</span></span>
+<span class="line" data-annotation="Server-added timestamp"><span class="json">  "createdAt": "2026-05-04T10:30:00Z"</span></span>
+<span class="line" data-annotation=""><span class="json">}</span></span></code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- FORM POST -->
+<section class="slide" data-slide="form-post">
+    <div class="slide-content">
+        <h3 class="slide-title">Form Submission — URL Encoded</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">HTML Form</div>
+                    <pre class="code-block"><code>&lt;form action="/login" method="POST"&gt;
+  &lt;input name="username" value="alice"&gt;
+  &lt;input name="password" type="password"&gt;
+  &lt;button type="submit"&gt;Login&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">HTTP Request</div>
+                    <pre class="code-block"><code>POST /login HTTP/1.1
+Host: example.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 35
+
+username=alice&password=secret123</code></pre>
+                </div>
+                <div class="code-note">Form data is URL-encoded: spaces become +, special chars become %XX</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FETCH API -->
+<section class="slide" data-slide="fetch-api">
+    <div class="slide-content">
+        <h3 class="slide-title">fetch() API — Modern HTTP in JavaScript</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">JavaScript (fetch)</div>
+                    <pre class="code-block js-code"><code>const response = await fetch(
+  'https://api.example.com/users',
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer token123'
+    },
+    body: JSON.stringify({
+      name: 'Alice',
+      email: 'alice@mail.com'
+    })
+  }
+);
+
+const data = await response.json();</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Resulting HTTP Request</div>
+                    <pre class="code-block"><code>POST /users HTTP/1.1
+Host: api.example.com
+Content-Type: application/json
+Authorization: Bearer token123
+Content-Length: 44
+Origin: https://myapp.com
+Sec-Fetch-Mode: cors
+
+{"name":"Alice","email":"alice@mail.com"}</code></pre>
+                </div>
+                <div class="fetch-notes">
+                    <div class="fetch-note">
+                        <span class="note-icon">🔒</span>
+                        <span>Browser auto-adds <code>Origin</code>, <code>Sec-Fetch-*</code> headers</span>
+                    </div>
+                    <div class="fetch-note">
+                        <span class="note-icon">🍪</span>
+                        <span>Cookies sent if <code>credentials: 'include'</code></span>
+                    </div>
+                    <div class="fetch-note">
+                        <span class="note-icon">🚫</span>
+                        <span>Can't override <code>Host</code>, <code>Content-Length</code></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HTTP METHODS -->
+<section class="slide" data-slide="http-methods">
+    <div class="slide-content">
+        <h3 class="slide-title">HTTP Methods — CRUD Operations</h3>
+        <div class="methods-table">
+            <div class="method-row header">
+                <span>Method</span>
+                <span>Purpose</span>
+                <span>Idempotent</span>
+                <span>Safe</span>
+                <span>Body</span>
+            </div>
+            <div class="method-row">
+                <span class="method-name get">GET</span>
+                <span>Retrieve resource</span>
+                <span class="yes">✓</span>
+                <span class="yes">✓</span>
+                <span class="no">✗</span>
+            </div>
+            <div class="method-row">
+                <span class="method-name post">POST</span>
+                <span>Create resource</span>
+                <span class="no">✗</span>
+                <span class="no">✗</span>
+                <span class="yes">✓</span>
+            </div>
+            <div class="method-row">
+                <span class="method-name put">PUT</span>
+                <span>Replace resource</span>
+                <span class="yes">✓</span>
+                <span class="no">✗</span>
+                <span class="yes">✓</span>
+            </div>
+            <div class="method-row">
+                <span class="method-name patch">PATCH</span>
+                <span>Partial update</span>
+                <span class="no">✗</span>
+                <span class="no">✗</span>
+                <span class="yes">✓</span>
+            </div>
+            <div class="method-row">
+                <span class="method-name delete">DELETE</span>
+                <span>Remove resource</span>
+                <span class="yes">✓</span>
+                <span class="no">✗</span>
+                <span class="no">✗</span>
+            </div>
+            <div class="method-row">
+                <span class="method-name head">HEAD</span>
+                <span>Get headers only</span>
+                <span class="yes">✓</span>
+                <span class="yes">✓</span>
+                <span class="no">✗</span>
+            </div>
+            <div class="method-row">
+                <span class="method-name options">OPTIONS</span>
+                <span>Get allowed methods</span>
+                <span class="yes">✓</span>
+                <span class="yes">✓</span>
+                <span class="no">✗</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATUS CODES -->
+<section class="slide" data-slide="status-codes">
+    <div class="slide-content">
+        <h3 class="slide-title">Status Codes — The Server's Vocabulary</h3>
+        <div class="status-grid">
+            <div class="status-category info">
+                <h4>1xx — Informational</h4>
+                <div class="status-item"><code>100</code> Continue</div>
+                <div class="status-item"><code>101</code> Switching Protocols</div>
+            </div>
+            <div class="status-category success">
+                <h4>2xx — Success</h4>
+                <div class="status-item"><code>200</code> OK</div>
+                <div class="status-item"><code>201</code> Created</div>
+                <div class="status-item"><code>204</code> No Content</div>
+            </div>
+            <div class="status-category redirect">
+                <h4>3xx — Redirection</h4>
+                <div class="status-item"><code>301</code> Moved Permanently</div>
+                <div class="status-item"><code>302</code> Found (Temporary)</div>
+                <div class="status-item"><code>304</code> Not Modified</div>
+            </div>
+            <div class="status-category client-error">
+                <h4>4xx — Client Error</h4>
+                <div class="status-item"><code>400</code> Bad Request</div>
+                <div class="status-item"><code>401</code> Unauthorized</div>
+                <div class="status-item"><code>403</code> Forbidden</div>
+                <div class="status-item"><code>404</code> Not Found</div>
+                <div class="status-item"><code>429</code> Too Many Requests</div>
+            </div>
+            <div class="status-category server-error">
+                <h4>5xx — Server Error</h4>
+                <div class="status-item"><code>500</code> Internal Server Error</div>
+                <div class="status-item"><code>502</code> Bad Gateway</div>
+                <div class="status-item"><code>503</code> Service Unavailable</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WAYS TO TRIGGER HTTP -->
+<section class="slide" data-slide="http-triggers">
+    <div class="slide-content">
+        <h3 class="slide-title">Ways to Trigger HTTP Requests</h3>
+        <p class="section-subtitle">Everything that causes network traffic</p>
+        <div class="triggers-grid">
+            <div class="trigger-category">
+                <div class="category-header html">HTML Tags</div>
+                <div class="trigger-items">
+                    <div class="trigger-item">
+                        <code>&lt;script src="app.js"&gt;</code>
+                        <span class="trigger-type">GET, parser-blocking</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>&lt;link rel="stylesheet"&gt;</code>
+                        <span class="trigger-type">GET, render-blocking</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>&lt;img src="photo.jpg"&gt;</code>
+                        <span class="trigger-type">GET, async</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>&lt;video&gt;, &lt;audio&gt;</code>
+                        <span class="trigger-type">GET, streaming</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>&lt;iframe src="..."&gt;</code>
+                        <span class="trigger-type">GET, full document</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>&lt;link rel="preload"&gt;</code>
+                        <span class="trigger-type">GET, high priority</span>
+                    </div>
+                </div>
+            </div>
+            <div class="trigger-category">
+                <div class="category-header js">JavaScript APIs</div>
+                <div class="trigger-items">
+                    <div class="trigger-item">
+                        <code>fetch(url, options)</code>
+                        <span class="trigger-type">Any method, Promise-based</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>XMLHttpRequest</code>
+                        <span class="trigger-type">Any method, callback-based</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>new WebSocket(url)</code>
+                        <span class="trigger-type">Upgrade, bidirectional</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>new EventSource(url)</code>
+                        <span class="trigger-type">GET, server-sent events</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>navigator.sendBeacon()</code>
+                        <span class="trigger-type">POST, fire-and-forget</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>import('module.js')</code>
+                        <span class="trigger-type">GET, dynamic import</span>
+                    </div>
+                </div>
+            </div>
+            <div class="trigger-category">
+                <div class="category-header user">User Actions</div>
+                <div class="trigger-items">
+                    <div class="trigger-item">
+                        <code>&lt;a href="..."&gt;</code>
+                        <span class="trigger-type">GET, navigation</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>&lt;form action="..."&gt;</code>
+                        <span class="trigger-type">GET/POST, navigation</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>window.location = url</code>
+                        <span class="trigger-type">GET, JS navigation</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>history.pushState()</code>
+                        <span class="trigger-type">No request (SPA)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="trigger-category">
+                <div class="category-header css">CSS Resources</div>
+                <div class="trigger-items">
+                    <div class="trigger-item">
+                        <code>url('image.png')</code>
+                        <span class="trigger-type">GET, background/content</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>@font-face { src: url() }</code>
+                        <span class="trigger-type">GET, font loading</span>
+                    </div>
+                    <div class="trigger-item">
+                        <code>@import 'other.css'</code>
+                        <span class="trigger-type">GET, blocks rendering</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COOKIES -->
+<section class="slide" data-slide="cookies-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Deep Dive</div>
+        <h3 class="slide-title">Cookies — State in a Stateless World</h3>
+        <p class="slide-description">HTTP is stateless. Cookies add memory.</p>
+        <div class="cookie-flow">
+            <div class="flow-step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <strong>Server sends cookie</strong>
+                    <code>Set-Cookie: session=abc123; HttpOnly; Secure</code>
+                </div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <strong>Browser stores it</strong>
+                    <code>In local cookie jar, per domain</code>
+                </div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <strong>Browser sends it back</strong>
+                    <code>Cookie: session=abc123</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COOKIE ATTRIBUTES -->
+<section class="slide" data-slide="cookie-attributes">
+    <div class="slide-content">
+        <h3 class="slide-title">Cookie Attributes — Security Matters</h3>
+        <div class="attribute-grid">
+            <div class="attribute-card">
+                <h4><code>HttpOnly</code></h4>
+                <p>JavaScript can't access — prevents XSS theft</p>
+                <div class="example bad">
+                    <span class="label">Without:</span>
+                    <code>document.cookie // "session=abc123"</code>
+                </div>
+                <div class="example good">
+                    <span class="label">With:</span>
+                    <code>document.cookie // ""</code>
+                </div>
+            </div>
+            <div class="attribute-card">
+                <h4><code>Secure</code></h4>
+                <p>Only sent over HTTPS — prevents sniffing</p>
+            </div>
+            <div class="attribute-card">
+                <h4><code>SameSite</code></h4>
+                <p>CSRF protection — controls cross-origin sending</p>
+                <div class="samesite-options">
+                    <span><code>Strict</code> — Never cross-origin</span>
+                    <span><code>Lax</code> — Top-level nav only (default)</span>
+                    <span><code>None</code> — Always (requires Secure)</span>
+                </div>
+            </div>
+            <div class="attribute-card">
+                <h4><code>Domain</code> & <code>Path</code></h4>
+                <p>Scope the cookie to specific URLs</p>
+                <code>Domain=.example.com; Path=/api</code>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LOGIN FLOW WITH COOKIES -->
+<section class="slide" data-slide="cookie-login-flow">
+    <div class="slide-content">
+        <h3 class="slide-title">Login Flow — Cookies in Action</h3>
+        <div class="flow-diagram">
+            <div class="flow-exchange">
+                <div class="exchange-step">
+                    <div class="step-label">1. Login Request</div>
+                    <pre class="mini-http"><code>POST /login HTTP/1.1
+Host: shop.example.com
+Content-Type: application/json
+
+{"email": "alice@mail.com", "password": "***"}</code></pre>
+                </div>
+                <div class="flow-arrow-down">↓</div>
+                <div class="exchange-step response">
+                    <div class="step-label">2. Server Response (sets cookie)</div>
+                    <pre class="mini-http"><code>HTTP/1.1 200 OK
+Set-Cookie: session=eyJhbGciOi...; HttpOnly; Secure; Path=/
+Set-Cookie: user_id=42; Path=/
+
+{"status": "logged_in", "user": "Alice"}</code></pre>
+                </div>
+                <div class="flow-arrow-down">↓</div>
+                <div class="exchange-step">
+                    <div class="step-label">3. Subsequent Request (cookie auto-sent)</div>
+                    <pre class="mini-http"><code>GET /api/cart HTTP/1.1
+Host: shop.example.com
+Cookie: session=eyJhbGciOi...; user_id=42</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- THIRD-PARTY COOKIES -->
+<section class="slide" data-slide="third-party-cookies">
+    <div class="slide-content">
+        <h3 class="slide-title">Third-Party Cookies — How Ads Track You</h3>
+        <div class="tracking-diagram">
+            <div class="tracking-scenario">
+                <div class="website-box">
+                    <div class="site-header">🛒 shop.example.com</div>
+                    <div class="site-content">
+                        <div class="page-element">Product Page</div>
+                        <div class="page-element tracker">&lt;img src="tracker.ad/pixel.gif"&gt;</div>
+                    </div>
+                </div>
+                <div class="tracking-arrow">
+                    <span>Browser requests pixel</span>
+                    <code>GET /pixel.gif HTTP/1.1
+Host: tracker.ad
+Cookie: uid=xyz789</code>
+                </div>
+                <div class="tracker-box">
+                    <div class="site-header">📊 tracker.ad</div>
+                    <div class="tracker-log">
+                        <div class="log-entry">uid=xyz789 visited shop.example.com</div>
+                        <div class="log-entry">uid=xyz789 viewed "Running Shoes"</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tracking-explain">
+                <p><strong>Same cookie, different sites:</strong> tracker.ad's cookie follows you across ALL sites that embed their pixel.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COOKIE TRACKING TIMELINE -->
+<section class="slide" data-slide="cookie-tracking">
+    <div class="slide-content">
+        <h3 class="slide-title">Cross-Site Tracking — Your Digital Shadow</h3>
+        <div class="tracking-timeline">
+            <div class="track-day">
+                <div class="day-label">Monday 9:00 AM</div>
+                <div class="track-event">
+                    <span class="site">news.com</span>
+                    <span class="action">Read article about marathons</span>
+                    <code class="cookie-set">Set-Cookie: _tracker=abc123; Domain=.adnetwork.com</code>
+                </div>
+            </div>
+            <div class="track-day">
+                <div class="day-label">Monday 2:00 PM</div>
+                <div class="track-event">
+                    <span class="site">shop.com</span>
+                    <span class="action">Browsed running shoes</span>
+                    <code class="cookie-send">Cookie: _tracker=abc123 → "abc123 likes running"</code>
+                </div>
+            </div>
+            <div class="track-day">
+                <div class="day-label">Tuesday 8:00 AM</div>
+                <div class="track-event">
+                    <span class="site">social.com</span>
+                    <span class="action">See ads for running shoes</span>
+                    <code class="cookie-result">Profile: abc123 = "fitness enthusiast, ready to buy"</code>
+                </div>
+            </div>
+        </div>
+        <div class="tracking-note">
+            <strong>The fix?</strong> SameSite=Strict, browser blocking 3rd-party cookies, Privacy Sandbox
+        </div>
+    </div>
+</section>
+
+<!-- HTTP/1.1 PROBLEMS -->
+<section class="slide" data-slide="http11-problems">
+    <div class="slide-content">
+        <h3 class="slide-title">HTTP/1.1's Growing Pains</h3>
+        <div class="problems-showcase">
+            <div class="problem-card">
+                <div class="problem-visual">
+                    <div class="queue-visual">
+                        <div class="request r1">R1</div>
+                        <div class="request r2">R2</div>
+                        <div class="request r3">R3</div>
+                        <div class="block-indicator">BLOCKED</div>
+                    </div>
+                </div>
+                <h4>Head-of-Line Blocking</h4>
+                <p>Requests queue up. Slow response blocks everything behind it.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-visual">
+                    <div class="connections-visual">
+                        <div class="conn">TCP 1</div>
+                        <div class="conn">TCP 2</div>
+                        <div class="conn">TCP 3</div>
+                        <div class="conn">TCP 4</div>
+                        <div class="conn">TCP 5</div>
+                        <div class="conn">TCP 6</div>
+                    </div>
+                </div>
+                <h4>Connection Limits</h4>
+                <p>Browsers limit ~6 connections per domain. Workaround: domain sharding.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-visual">
+                    <pre class="header-bloat">Host: api.com
+Cookie: (2KB)
+Accept: */*
+User-Agent: (200B)
+Authorization: (500B)
+... × 100 requests</pre>
+                </div>
+                <h4>Header Redundancy</h4>
+                <p>Same headers sent repeatedly. No compression. Wasteful.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HTTP/2 -->
+<section class="slide" data-slide="http2">
+    <div class="slide-content">
+        <h3 class="slide-title">HTTP/2 — The Multiplexed Revolution</h3>
+        <p class="year-badge">2015 — RFC 7540 (based on Google's SPDY)</p>
+        <div class="http2-features">
+            <div class="h2-feature">
+                <div class="feature-demo multiplex">
+                    <div class="stream s1">Stream 1</div>
+                    <div class="stream s2">Stream 2</div>
+                    <div class="stream s3">Stream 3</div>
+                    <div class="pipe"></div>
+                </div>
+                <h4>Multiplexing</h4>
+                <p>Multiple requests/responses over ONE connection, interleaved</p>
+            </div>
+            <div class="h2-feature">
+                <div class="feature-demo compression">
+                    <div class="before">Headers: 2KB</div>
+                    <div class="arrow">→</div>
+                    <div class="after">HPACK: 50B</div>
+                </div>
+                <h4>Header Compression (HPACK)</h4>
+                <p>Static + dynamic tables, Huffman encoding</p>
+            </div>
+            <div class="h2-feature">
+                <div class="feature-demo push">
+                    <div class="server-box">Server</div>
+                    <div class="push-items">
+                        <span>HTML</span>
+                        <span class="pushed">+ CSS</span>
+                        <span class="pushed">+ JS</span>
+                    </div>
+                </div>
+                <h4>Server Push</h4>
+                <p>Server proactively sends resources (rarely used in practice)</p>
+            </div>
+            <div class="h2-feature">
+                <div class="feature-demo binary">
+                    <code>01001000 01010100 01010100 01010000</code>
+                </div>
+                <h4>Binary Framing</h4>
+                <p>Not text — efficient parsing, smaller overhead</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HTTP/3 -->
+<section class="slide" data-slide="http3">
+    <div class="slide-content">
+        <h3 class="slide-title">HTTP/3 — UDP Takes the Stage</h3>
+        <p class="year-badge">2022 — RFC 9114 (QUIC-based)</p>
+        <div class="http3-comparison">
+            <div class="stack-comparison">
+                <div class="stack http2-stack">
+                    <div class="layer app">HTTP/2</div>
+                    <div class="layer tls">TLS 1.2/1.3</div>
+                    <div class="layer tcp">TCP</div>
+                    <div class="layer ip">IP</div>
+                    <span class="stack-label">HTTP/2 Stack</span>
+                </div>
+                <div class="vs">vs</div>
+                <div class="stack http3-stack">
+                    <div class="layer app">HTTP/3</div>
+                    <div class="layer quic">QUIC (TLS 1.3 built-in)</div>
+                    <div class="layer udp">UDP</div>
+                    <div class="layer ip">IP</div>
+                    <span class="stack-label">HTTP/3 Stack</span>
+                </div>
+            </div>
+            <div class="http3-benefits">
+                <div class="benefit">
+                    <span class="emoji">🚀</span>
+                    <strong>0-RTT Connection</strong>
+                    <p>Resume sessions instantly</p>
+                </div>
+                <div class="benefit">
+                    <span class="emoji">🔀</span>
+                    <strong>No HoL Blocking</strong>
+                    <p>Packet loss affects only that stream</p>
+                </div>
+                <div class="benefit">
+                    <span class="emoji">📱</span>
+                    <strong>Connection Migration</strong>
+                    <p>Switch networks without reconnecting</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HTTP/3 HOW IT WORKS -->
+<section class="slide" data-slide="http3-how">
+    <div class="slide-content">
+        <h3 class="slide-title">HTTP/3 — How Does It Start?</h3>
+        <div class="http3-negotiation">
+            <div class="negotiation-flow">
+                <div class="nego-step">
+                    <div class="nego-num">1</div>
+                    <div class="nego-content">
+                        <strong>First visit → HTTP/2 over TCP</strong>
+                        <p>Browser connects normally. Server responds with:</p>
+                        <code class="header-example">Alt-Svc: h3=":443"; ma=86400</code>
+                        <p class="subtext">"I support HTTP/3 on port 443, remember for 24h"</p>
+                    </div>
+                </div>
+                <div class="nego-step">
+                    <div class="nego-num">2</div>
+                    <div class="nego-content">
+                        <strong>Browser tries QUIC in background</strong>
+                        <p>Sends UDP probe while TCP connection continues</p>
+                        <p class="subtext">If QUIC works → switch. If blocked → stay on TCP.</p>
+                    </div>
+                </div>
+                <div class="nego-step">
+                    <div class="nego-num">3</div>
+                    <div class="nego-content">
+                        <strong>Next visit → Direct HTTP/3</strong>
+                        <p>Browser remembers Alt-Svc, connects via QUIC immediately</p>
+                        <code class="header-example">0-RTT: Send request WITH connection setup</code>
+                    </div>
+                </div>
+            </div>
+            <div class="quic-blockers">
+                <h4>Why HTTP/3 Might Not Work</h4>
+                <div class="blocker-list">
+                    <span class="blocker">🔥 Firewall blocks UDP 443</span>
+                    <span class="blocker">🏢 Corporate proxy only allows TCP</span>
+                    <span class="blocker">📡 Unstable UDP on some networks</span>
+                    <span class="blocker">⏳ Server hasn't enabled QUIC yet</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HTTP/3 ADOPTION -->
+<section class="slide" data-slide="http3-adoption">
+    <div class="slide-content">
+        <h3 class="slide-title">HTTP/3 Adoption — Where Are We?</h3>
+        <div class="adoption-content">
+            <div class="adoption-stats">
+                <div class="stat-card supported">
+                    <div class="stat-value">~30%</div>
+                    <div class="stat-label">of all websites</div>
+                    <div class="stat-note">support HTTP/3 (2024)</div>
+                </div>
+                <div class="stat-card supported">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">major browsers</div>
+                    <div class="stat-note">Chrome, Firefox, Safari, Edge</div>
+                </div>
+            </div>
+            <div class="adoption-details">
+                <div class="detail-section servers">
+                    <h4>Server Support</h4>
+                    <div class="support-list">
+                        <div class="support-item yes"><span>✓</span> Cloudflare (default on)</div>
+                        <div class="support-item yes"><span>✓</span> Google Cloud, AWS CloudFront</div>
+                        <div class="support-item yes"><span>✓</span> nginx (since 1.25)</div>
+                        <div class="support-item yes"><span>✓</span> Caddy (built-in)</div>
+                        <div class="support-item partial"><span>~</span> Apache (experimental)</div>
+                        <div class="support-item no"><span>✗</span> Most shared hosting</div>
+                    </div>
+                </div>
+                <div class="detail-section when">
+                    <h4>When Should You Use It?</h4>
+                    <div class="use-cases">
+                        <div class="use-case good">
+                            <strong>Great for:</strong>
+                            <span>Mobile users, high-latency, lossy networks, global CDN</span>
+                        </div>
+                        <div class="use-case meh">
+                            <strong>Less benefit:</strong>
+                            <span>Low-latency LANs, single requests, already fast sites</span>
+                        </div>
+                    </div>
+                    <p class="adoption-tip">Use a CDN like Cloudflare — they handle HTTP/3 automatically with TCP fallback.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HTTP DIFFERENTLY -->
+<section class="slide" data-slide="http-different">
+    <div class="slide-content">
+        <h3 class="slide-title">What Could Be Done Differently?</h3>
+        <div class="ideas-grid">
+            <div class="idea-card">
+                <h4>🤔 Stateful by Design?</h4>
+                <p>Built-in session management instead of cookie hacks. But: scalability nightmare, lose REST simplicity.</p>
+            </div>
+            <div class="idea-card">
+                <h4>📡 Push-First Model?</h4>
+                <p>WebSocket-style bi-directional from day one. But: resource management complexity, harder caching.</p>
+            </div>
+            <div class="idea-card">
+                <h4>🔐 Mandatory Encryption?</h4>
+                <p>HTTPS-only from the start. We're almost there now, but 30 years of mixed content headaches.</p>
+            </div>
+            <div class="idea-card">
+                <h4>📦 Built-in Compression?</h4>
+                <p>Automatic gzip/brotli at protocol level. Content-Encoding is opt-in and often misconfigured.</p>
+            </div>
+            <div class="idea-card">
+                <h4>🎯 Native Streaming?</h4>
+                <p>First-class support for real-time data. SSE and WebSockets are afterthoughts.</p>
+            </div>
+            <div class="idea-card">
+                <h4>🔄 Versioning in URL?</h4>
+                <p>REST debates: /v1/api vs Accept header. Neither is "correct" — protocol gives no guidance.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PART 2: THE BROWSER -->
+<section class="slide" data-slide="browser-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part II</div>
+        <h2 class="section-title">The Browser</h2>
+        <p class="section-subtitle">From Document Viewer to Application Platform</p>
+        <div class="browser-ascii">
+            <pre>┌─────────────────────────────────────┐
+│  ←  →  ⟳  │ 🔒 https://          │
+├─────────────────────────────────────┤
+│                                     │
+│         [ Your App Here ]           │
+│                                     │
+└─────────────────────────────────────┘</pre>
+        </div>
+    </div>
+</section>
+
+<!-- BROWSER TIMELINE -->
+<section class="slide" data-slide="browser-timeline">
+    <div class="slide-content full-width">
+        <h3 class="slide-title">Browser Evolution Timeline</h3>
+        <div class="timeline-horizontal">
+            <div class="timeline-track"></div>
+            <div class="timeline-event" style="--position: 0%">
+                <div class="event-year">1990</div>
+                <div class="event-content">
+                    <strong>WorldWideWeb</strong>
+                    <span>First browser (Tim BL)</span>
+                </div>
+            </div>
+            <div class="timeline-event" style="--position: 10%">
+                <div class="event-year">1993</div>
+                <div class="event-content">
+                    <strong>Mosaic</strong>
+                    <span>Images inline!</span>
+                </div>
+            </div>
+            <div class="timeline-event" style="--position: 18%">
+                <div class="event-year">1994</div>
+                <div class="event-content">
+                    <strong>Netscape</strong>
+                    <span>Cookies, SSL</span>
+                </div>
+            </div>
+            <div class="timeline-event" style="--position: 25%">
+                <div class="event-year">1995</div>
+                <div class="event-content">
+                    <strong>IE + JavaScript</strong>
+                    <span>10 days to create JS</span>
+                </div>
+            </div>
+            <div class="timeline-event" style="--position: 35%">
+                <div class="event-year">1996</div>
+                <div class="event-content">
+                    <strong>CSS 1.0</strong>
+                    <span>Style separation</span>
+                </div>
+            </div>
+            <div class="timeline-event" style="--position: 50%">
+                <div class="event-year">2004</div>
+                <div class="event-content">
+                    <strong>Firefox</strong>
+                    <span>Open source rises</span>
+                </div>
+            </div>
+            <div class="timeline-event highlight" style="--position: 62%">
+                <div class="event-year">2008</div>
+                <div class="event-content">
+                    <strong>Chrome + V8</strong>
+                    <span>JS becomes FAST</span>
+                </div>
+            </div>
+            <div class="timeline-event" style="--position: 75%">
+                <div class="event-year">2015</div>
+                <div class="event-content">
+                    <strong>ES6 / Edge</strong>
+                    <span>Modern JavaScript</span>
+                </div>
+            </div>
+            <div class="timeline-event" style="--position: 88%">
+                <div class="event-year">2017</div>
+                <div class="event-content">
+                    <strong>WebAssembly</strong>
+                    <span>Near-native speed</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WEB STANDARDS TIMELINE -->
+<section class="slide" data-slide="standards-timeline">
+    <div class="slide-content">
+        <h3 class="slide-title">HTML, CSS, JavaScript — The Triad</h3>
+        <div class="standards-columns">
+            <div class="standard-col html">
+                <h4>HTML</h4>
+                <div class="version-list">
+                    <div class="ver"><span class="yr">1991</span> HTML (informal)</div>
+                    <div class="ver"><span class="yr">1995</span> HTML 2.0</div>
+                    <div class="ver"><span class="yr">1997</span> HTML 3.2 / 4.0</div>
+                    <div class="ver"><span class="yr">2000</span> XHTML 1.0</div>
+                    <div class="ver highlight"><span class="yr">2014</span> HTML5</div>
+                    <div class="ver"><span class="yr">Now</span> Living Standard</div>
+                </div>
+            </div>
+            <div class="standard-col css">
+                <h4>CSS</h4>
+                <div class="version-list">
+                    <div class="ver"><span class="yr">1996</span> CSS 1</div>
+                    <div class="ver"><span class="yr">1998</span> CSS 2</div>
+                    <div class="ver"><span class="yr">2011</span> CSS 2.1</div>
+                    <div class="ver highlight"><span class="yr">2011+</span> CSS 3 (modules)</div>
+                    <div class="ver"><span class="yr">Now</span> Flexbox, Grid, Custom Props</div>
+                </div>
+            </div>
+            <div class="standard-col js">
+                <h4>JavaScript</h4>
+                <div class="version-list">
+                    <div class="ver"><span class="yr">1995</span> Created in 10 days</div>
+                    <div class="ver"><span class="yr">1997</span> ES1 (ECMAScript)</div>
+                    <div class="ver"><span class="yr">1999</span> ES3</div>
+                    <div class="ver"><span class="yr">2009</span> ES5</div>
+                    <div class="ver highlight"><span class="yr">2015</span> ES6 (ES2015)</div>
+                    <div class="ver"><span class="yr">Now</span> Yearly releases</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BROWSER ARCHITECTURE -->
+<section class="slide" data-slide="browser-arch">
+    <div class="slide-content">
+        <h3 class="slide-title">Browser Architecture</h3>
+        <p class="click-hint">Click any layer for details</p>
+        <div class="architecture-diagram">
+            <div class="arch-layer ui clickable" data-modal="ui">
+                <span class="layer-name">User Interface</span>
+                <span class="layer-desc">Address bar, bookmarks, back/forward</span>
+            </div>
+            <div class="arch-layer engine clickable" data-modal="engine">
+                <span class="layer-name">Browser Engine</span>
+                <span class="layer-desc">Orchestrates rendering & JS</span>
+            </div>
+            <div class="arch-row">
+                <div class="arch-layer render clickable" data-modal="render">
+                    <span class="layer-name">Rendering Engine</span>
+                    <span class="layer-desc">Blink (Chrome), Gecko (Firefox), WebKit (Safari)</span>
+                </div>
+                <div class="arch-layer js clickable" data-modal="js">
+                    <span class="layer-name">JS Engine</span>
+                    <span class="layer-desc">V8, SpiderMonkey, JavaScriptCore</span>
+                </div>
+            </div>
+            <div class="arch-row">
+                <div class="arch-layer network clickable" data-modal="network">
+                    <span class="layer-name">Networking</span>
+                    <span class="layer-desc">HTTP, DNS, TLS</span>
+                </div>
+                <div class="arch-layer storage clickable" data-modal="storage">
+                    <span class="layer-name">Data Storage</span>
+                    <span class="layer-desc">Cookies, LocalStorage, IndexedDB</span>
+                </div>
+            </div>
+            <div class="arch-layer os clickable" data-modal="os">
+                <span class="layer-name">Operating System Interface</span>
+                <span class="layer-desc">Display, Input, File System</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- RENDERING PIPELINE -->
+<section class="slide" data-slide="rendering-pipeline">
+    <div class="slide-content full-width">
+        <h3 class="slide-title">Page Load: From URL to Pixels — Complete Flow</h3>
+        <p class="click-hint">Click any step for details</p>
+        <div class="full-render-flow">
+            <!-- Phase 1: Network -->
+            <div class="render-phase">
+                <div class="phase-label">Network Phase</div>
+                <div class="phase-steps">
+                    <div class="render-step clickable" data-modal="step-dns">
+                        <div class="step-num">1</div>
+                        <div class="step-info">
+                            <div class="step-title">DNS Lookup</div>
+                            <div class="step-detail">example.com → 93.184.216.34</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="render-step clickable" data-modal="step-tcp">
+                        <div class="step-num">2</div>
+                        <div class="step-info">
+                            <div class="step-title">TCP + TLS</div>
+                            <div class="step-detail">3-way handshake + encryption</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="render-step clickable" data-modal="step-html-request">
+                        <div class="step-num">3</div>
+                        <div class="step-info">
+                            <div class="step-title">HTTP Request</div>
+                            <div class="step-detail">GET /index.html</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="render-step clickable" data-modal="step-html-response">
+                        <div class="step-num">4</div>
+                        <div class="step-info">
+                            <div class="step-title">HTML Response</div>
+                            <div class="step-detail">200 OK + HTML body</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 2: Parsing & Discovery -->
+            <div class="render-phase">
+                <div class="phase-label">Parse & Discover</div>
+                <div class="phase-steps">
+                    <div class="render-step clickable" data-modal="step-parse-html">
+                        <div class="step-num">5</div>
+                        <div class="step-info">
+                            <div class="step-title">Parse HTML</div>
+                            <div class="step-detail">Build DOM tree</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="render-step discovery clickable" data-modal="step-discover-css">
+                        <div class="step-num">6</div>
+                        <div class="step-info">
+                            <div class="step-title">Found &lt;link&gt;</div>
+                            <div class="step-detail">GET /styles.css</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="render-step clickable" data-modal="step-parse-css">
+                        <div class="step-num">7</div>
+                        <div class="step-info">
+                            <div class="step-title">Parse CSS</div>
+                            <div class="step-detail">Build CSSOM</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="render-step discovery clickable" data-modal="step-discover-js">
+                        <div class="step-num">8</div>
+                        <div class="step-info">
+                            <div class="step-title">Found &lt;script&gt;</div>
+                            <div class="step-detail">GET /app.js (blocks!)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 3: Render -->
+            <div class="render-phase">
+                <div class="phase-label">Render Phase</div>
+                <div class="phase-steps">
+                    <div class="render-step clickable" data-modal="step-render-tree">
+                        <div class="step-num">9</div>
+                        <div class="step-info">
+                            <div class="step-title">Render Tree</div>
+                            <div class="step-detail">DOM + CSSOM merged</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="render-step clickable" data-modal="step-layout">
+                        <div class="step-num">10</div>
+                        <div class="step-info">
+                            <div class="step-title">Layout</div>
+                            <div class="step-detail">Calculate geometry</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="render-step clickable" data-modal="step-paint">
+                        <div class="step-num">11</div>
+                        <div class="step-info">
+                            <div class="step-title">Paint</div>
+                            <div class="step-detail">Draw to layers</div>
+                        </div>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="render-step final clickable" data-modal="step-composite">
+                        <div class="step-num">12</div>
+                        <div class="step-info">
+                            <div class="step-title">Composite</div>
+                            <div class="step-detail">GPU → Screen!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="render-metrics">
+            <span class="metric"><strong>TTFB:</strong> ~200ms</span>
+            <span class="metric"><strong>FCP:</strong> ~800ms</span>
+            <span class="metric"><strong>LCP:</strong> ~1.2s</span>
+            <span class="metric"><strong>TTI:</strong> ~1.5s</span>
+        </div>
+    </div>
+</section>
+
+<!-- CHROME V8 REVOLUTION -->
+<section class="slide" data-slide="v8">
+    <div class="slide-content">
+        <h3 class="slide-title">The Chrome & V8 Revolution</h3>
+        <p class="year-badge">September 2, 2008 — Everything Changed</p>
+        <div class="speed-comparison">
+            <div class="speed-header">JavaScript Execution Speed</div>
+            <div class="speed-bars">
+                <div class="speed-row">
+                    <span class="browser-name">IE 7 (2006)</span>
+                    <div class="speed-bar-container">
+                        <div class="speed-bar ie" style="width: 3%"></div>
+                    </div>
+                    <span class="speed-value">~1x</span>
+                </div>
+                <div class="speed-row">
+                    <span class="browser-name">Firefox 3 (2008)</span>
+                    <div class="speed-bar-container">
+                        <div class="speed-bar ff" style="width: 8%"></div>
+                    </div>
+                    <span class="speed-value">~3x</span>
+                </div>
+                <div class="speed-row highlight">
+                    <span class="browser-name">Chrome V8 (2008)</span>
+                    <div class="speed-bar-container">
+                        <div class="speed-bar v8" style="width: 60%"></div>
+                    </div>
+                    <span class="speed-value">~20x</span>
+                </div>
+                <div class="speed-row">
+                    <span class="browser-name">V8 Today (2024)</span>
+                    <div class="speed-bar-container">
+                        <div class="speed-bar v8-modern" style="width: 100%"></div>
+                    </div>
+                    <span class="speed-value">~100x+</span>
+                </div>
+            </div>
+            <p class="speed-note">Benchmark: SunSpider / V8 Benchmark Suite relative to IE7</p>
+        </div>
+        <div class="v8-features compact">
+            <div class="v8-card">
+                <h4>JIT Compilation</h4>
+                <p>Machine code at runtime</p>
+            </div>
+            <div class="v8-card">
+                <h4>Hidden Classes</h4>
+                <p>Optimized memory layout</p>
+            </div>
+            <div class="v8-card">
+                <h4>Inline Caching</h4>
+                <p>Skip property lookups</p>
+            </div>
+            <div class="v8-card">
+                <h4>Multiprocess</h4>
+                <p>Tab isolation & security</p>
+            </div>
+        </div>
+        <div class="v8-impact">
+            <span class="impact-text">Impact: Node.js, Electron, Deno — JavaScript everywhere</span>
+        </div>
+    </div>
+</section>
+
+<!-- AJAX REVOLUTION -->
+<section class="slide" data-slide="ajax-revolution">
+    <div class="slide-content">
+        <h3 class="slide-title">The AJAX Revolution</h3>
+        <p class="section-subtitle">From Page Reloads to Dynamic Web Apps</p>
+        <div class="ajax-timeline">
+            <div class="ajax-era">
+                <div class="era-year">1999</div>
+                <div class="era-content">
+                    <h4>XMLHttpRequest Born</h4>
+                    <p>Microsoft creates <code>XMLHTTP</code> for Outlook Web Access</p>
+                </div>
+            </div>
+            <div class="ajax-era highlight">
+                <div class="era-year">2005</div>
+                <div class="era-content">
+                    <h4>AJAX Coined</h4>
+                    <p>Jesse James Garrett names it "Asynchronous JavaScript and XML"</p>
+                    <p class="era-apps">Gmail, Google Maps prove the concept</p>
+                </div>
+            </div>
+            <div class="ajax-era">
+                <div class="era-year">2006-2010</div>
+                <div class="era-content">
+                    <h4>jQuery Era</h4>
+                    <p><code>$.ajax()</code> becomes the standard</p>
+                </div>
+            </div>
+            <div class="ajax-era">
+                <div class="era-year">2015</div>
+                <div class="era-content">
+                    <h4>fetch() API</h4>
+                    <p>Promise-based, cleaner syntax, native browser support</p>
+                </div>
+            </div>
+            <div class="ajax-era">
+                <div class="era-year">2020+</div>
+                <div class="era-content">
+                    <h4>Modern Era</h4>
+                    <p>async/await, Axios, React Query, SWR</p>
+                </div>
+            </div>
+        </div>
+        <p class="click-hint">Click to see code examples →</p>
+        <button class="ajax-code-btn clickable" data-modal="ajax-code">View XHR vs fetch() Code</button>
+    </div>
+</section>
+
+<!-- BROWSER FEATURES -->
+<section class="slide" data-slide="browser-features">
+    <div class="slide-content">
+        <h3 class="slide-title">Modern Browser Features</h3>
+        <div class="features-showcase">
+            <div class="feature-item">
+                <span class="feature-tag">Storage</span>
+                <strong>IndexedDB, LocalStorage, SessionStorage, Cache API</strong>
+            </div>
+            <div class="feature-item">
+                <span class="feature-tag">Graphics</span>
+                <strong>Canvas 2D, WebGL, WebGPU</strong>
+            </div>
+            <div class="feature-item">
+                <span class="feature-tag">Networking</span>
+                <strong>Fetch, WebSockets, WebRTC, Server-Sent Events</strong>
+            </div>
+            <div class="feature-item">
+                <span class="feature-tag">Workers</span>
+                <strong>Web Workers, Service Workers, Shared Workers</strong>
+            </div>
+            <div class="feature-item">
+                <span class="feature-tag">Hardware</span>
+                <strong>Geolocation, Camera, Mic, Bluetooth, USB, NFC</strong>
+            </div>
+            <div class="feature-item">
+                <span class="feature-tag">Performance</span>
+                <strong>Performance API, Memory API, Long Tasks</strong>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WEBASSEMBLY -->
+<section class="slide" data-slide="wasm">
+    <div class="slide-content">
+        <h3 class="slide-title">WebAssembly — Near-Native in the Browser</h3>
+        <div class="wasm-content">
+            <div class="wasm-what">
+                <h4>What is it?</h4>
+                <p>Binary instruction format. Compile C/C++/Rust/Go → .wasm → Run in browser at near-native speed.</p>
+            </div>
+            <div class="wasm-flow">
+                <div class="wasm-step">
+                    <code>game.c</code>
+                    <span class="lang">C/C++</span>
+                </div>
+                <div class="wasm-arrow">→</div>
+                <div class="wasm-step">
+                    <code>emcc</code>
+                    <span class="lang">Emscripten</span>
+                </div>
+                <div class="wasm-arrow">→</div>
+                <div class="wasm-step">
+                    <code>game.wasm</code>
+                    <span class="lang">WebAssembly</span>
+                </div>
+                <div class="wasm-arrow">→</div>
+                <div class="wasm-step">
+                    <code>Browser</code>
+                    <span class="lang">Execute</span>
+                </div>
+            </div>
+            <div class="wasm-usecases">
+                <h4>Use Cases</h4>
+                <div class="usecase-grid">
+                    <span>Games (Unity, Unreal)</span>
+                    <span>Image/Video Editing</span>
+                    <span>CAD Software</span>
+                    <span>Cryptography</span>
+                    <span>Compression</span>
+                    <span>Scientific Computing</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BROWSER FOR AGENTS -->
+<section class="slide" data-slide="browser-agents">
+    <div class="slide-content">
+        <h3 class="slide-title">The Future: Browsers for AI Agents</h3>
+        <div class="agents-content">
+            <div class="agent-concept">
+                <p class="concept-intro">AI agents that browse, click, type, and extract — like humans but programmable.</p>
+            </div>
+            <div class="agent-tools">
+                <div class="tool-card">
+                    <h4>Playwright / Puppeteer</h4>
+                    <p>Headless browser automation. Control Chrome programmatically.</p>
+                    <pre class="mini-code">await page.click('button#submit');
+await page.waitForSelector('.result');</pre>
+                </div>
+                <div class="tool-card">
+                    <h4>Browser-Use / AgentQL</h4>
+                    <p>AI-powered element selection. "Find the login button" → locator.</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Claude Computer Use</h4>
+                    <p>LLMs that see screenshots, decide actions, execute them.</p>
+                </div>
+            </div>
+            <div class="agent-challenges">
+                <h4>Challenges</h4>
+                <div class="challenge-list">
+                    <span>CAPTCHAs & bot detection</span>
+                    <span>Dynamic content (React, SPAs)</span>
+                    <span>Authentication flows</span>
+                    <span>Rate limiting</span>
+                    <span>Ethical considerations</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FUTURE OF BROWSERS -->
+<section class="slide" data-slide="browser-future">
+    <div class="slide-content">
+        <h3 class="slide-title">The Browser's Future</h3>
+        <div class="future-grid">
+            <div class="future-item">
+                <div class="future-icon">🌐</div>
+                <h4>WebGPU</h4>
+                <p>Direct GPU access. ML inference, ray tracing, complex simulations — in browser.</p>
+            </div>
+            <div class="future-item">
+                <div class="future-icon">🥽</div>
+                <h4>WebXR</h4>
+                <p>VR/AR experiences without app stores. Immersive web.</p>
+            </div>
+            <div class="future-item">
+                <div class="future-icon">📴</div>
+                <h4>Offline-First</h4>
+                <p>Service Workers + Cache API = Apps that work without internet.</p>
+            </div>
+            <div class="future-item">
+                <div class="future-icon">🔒</div>
+                <h4>Privacy Sandbox</h4>
+                <p>Post-cookie world. Topics API, Attribution Reporting, CHIPS.</p>
+            </div>
+            <div class="future-item">
+                <div class="future-icon">⚡</div>
+                <h4>Project Nickel (AOT)</h4>
+                <p>Ahead-of-time compilation for WASM. Even faster startup.</p>
+            </div>
+            <div class="future-item">
+                <div class="future-icon">🤖</div>
+                <h4>Built-in AI</h4>
+                <p>Chrome's Gemini Nano. On-device inference. Translation, summarization.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUMMARY -->
+<section class="slide" data-slide="summary">
+    <div class="slide-content">
+        <h3 class="slide-title">Key Takeaways</h3>
+        <div class="takeaways">
+            <div class="takeaway">
+                <span class="takeaway-num">01</span>
+                <div class="takeaway-text">
+                    <strong>HTTP evolved from simplicity to optimization</strong>
+                    <p>0.9's one-liner → 1.1's workhorse → 2's multiplexing → 3's QUIC</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">02</span>
+                <div class="takeaway-text">
+                    <strong>Browsers became application platforms</strong>
+                    <p>Document viewers → Full OS-level capabilities (GPU, storage, hardware)</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">03</span>
+                <div class="takeaway-text">
+                    <strong>Performance is layered</strong>
+                    <p>Network (HTTP/3) → Parse (streaming) → Render (compositor) → Execute (JIT)</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">04</span>
+                <div class="takeaway-text">
+                    <strong>The future is programmable</strong>
+                    <p>WebAssembly for compute, WebGPU for graphics, AI agents for automation</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- END SLIDE -->
+<section class="slide" data-slide="end">
+    <div class="slide-content title-slide">
+        <h2 class="end-title">Questions?</h2>
+        <div class="end-info">
+            <p class="course">Full Stack Engineering</p>
+            <p class="instructor">Ohad Assulin — RU</p>
+        </div>
+        <div class="end-resources">
+            <h4>Further Reading</h4>
+            <ul>
+                <li>MDN Web Docs — HTTP</li>
+                <li>web.dev — Performance</li>
+                <li>Chrome DevTools Documentation</li>
+                <li>V8 Blog</li>
+            </ul>
+        </div>
+    </div>
+</section>
