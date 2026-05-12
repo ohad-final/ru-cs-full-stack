@@ -31,32 +31,44 @@ Server-side JavaScript and modern async patterns.
 
 ## Getting Started
 
-### Prerequisites
-- Python 3.x (for the built-in HTTP server)
-- A modern web browser
+### Step 1: Download the Files
 
-### Running Locally
+**Easiest way (no git required):**
+1. Click the green **"Code"** button at the top of this page
+2. Click **"Download ZIP"**
+3. Extract the ZIP file to a folder on your computer
 
-**Option 1: Using the serve script**
+**Or using git:**
 ```bash
-./serve.sh
+git clone https://github.com/ohad-final/ru-cs-full-stack.git
+cd ru-cs-full-stack
 ```
 
-**Option 2: Using Python directly**
+### Step 2: Run the Presentation
+
+You need a simple web server to run the presentation. Choose one of these options:
+
+**Option 1: Double-click (Mac/Linux)**
+```
+Double-click the serve.sh file
+```
+
+**Option 2: Using Python (pre-installed on Mac/Linux)**
 ```bash
 python -m http.server 8080
 ```
 
-**Option 3: Using any static file server**
+**Option 3: Using Python on Windows**
 ```bash
-# Node.js
-npx serve .
-
-# PHP
-php -S localhost:8080
+python -m http.server 8080
 ```
+(If Python isn't installed, download it from [python.org](https://www.python.org/downloads/))
 
-Then open [http://localhost:8080](http://localhost:8080) in your browser.
+### Step 3: Open in Browser
+
+After starting the server, open your browser and go to:
+
+**[http://localhost:8080](http://localhost:8080)**
 
 ## Navigation
 
