@@ -2257,6 +2257,911 @@ function SearchBar() {
                         </ul>
                     </div>
                 `
+            },
+            // TypeScript Lecture Modals
+            'bug-undefined': {
+                title: 'Cannot Read Property of Undefined',
+                body: `
+                    <p>The most common JavaScript runtime error — accessing a property on <code>undefined</code> or <code>null</code>.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// This crashes at runtime in JavaScript
+function getUser(id) {
+    return users.find(u => u.id === id);
+}
+
+const user = getUser(999);  // undefined (not found)
+console.log(user.name);     // TypeError: Cannot read property 'name' of undefined
+
+// TypeScript catches this at compile time!
+function getUser(id: number): User | undefined {
+    return users.find(u => u.id === id);
+}
+
+const user = getUser(999);
+console.log(user.name);  // Error: 'user' is possibly 'undefined'
+
+// You must handle the undefined case
+if (user) {
+    console.log(user.name);  // Safe!
+}</code></pre>
+                    </div>
+                `
+            },
+            'bug-typo': {
+                title: 'Typos in Property Names',
+                body: `
+                    <p>Misspelled property names fail silently in JavaScript — you get <code>undefined</code> instead of an error.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// JavaScript: no error, silent failure
+const config = { timeout: 5000 };
+
+if (config.timout > 1000) {  // Typo! 'timout' vs 'timeout'
+    // This never runs, no error thrown
+    // config.timout is undefined, undefined > 1000 is false
+}
+
+// TypeScript catches typos immediately
+interface Config {
+    timeout: number;
+}
+
+const config: Config = { timeout: 5000 };
+
+if (config.timout > 1000) {
+    //      ~~~~~~ Property 'timout' does not exist on type 'Config'.
+    //             Did you mean 'timeout'?
+}</code></pre>
+                    </div>
+                `
+            },
+            'bug-args': {
+                title: 'Wrong Number of Arguments',
+                body: `
+                    <p>JavaScript happily accepts any number of arguments — extras are ignored, missing ones become <code>undefined</code>.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// JavaScript: no complaints
+function createUser(name, email, age) {
+    return { name, email, age };
+}
+
+createUser("Alice");                    // { name: "Alice", email: undefined, age: undefined }
+createUser("Bob", "bob@x.com", 30, "extra");  // Extra arg silently ignored
+
+// TypeScript enforces correct arguments
+function createUser(name: string, email: string, age: number) {
+    return { name, email, age };
+}
+
+createUser("Alice");
+// Error: Expected 3 arguments, but got 1
+
+createUser("Bob", "bob@x.com", 30, "extra");
+// Error: Expected 3 arguments, but got 4</code></pre>
+                    </div>
+                `
+            },
+            'bug-refactor': {
+                title: 'Refactoring Breaks Things Silently',
+                body: `
+                    <p>In JavaScript, renaming a property or function can break code across your codebase with no warning.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// user.js
+export const user = {
+    firstName: "Alice",  // Renamed from 'name'
+    email: "alice@example.com"
+};
+
+// profile.js - still using old property name!
+import { user } from './user';
+console.log(user.name);  // undefined (no error)
+
+// TypeScript would catch this everywhere
+interface User {
+    firstName: string;  // Renamed
+    email: string;
+}
+
+// Every file using user.name immediately shows:
+// Error: Property 'name' does not exist on type 'User'.
+//        Did you mean 'firstName'?
+
+// IDE can also "Rename Symbol" to update all usages automatically!</code></pre>
+                    </div>
+                `
+            },
+            'bug-null': {
+                title: 'Null vs Undefined Confusion',
+                body: `
+                    <p>JavaScript has both <code>null</code> and <code>undefined</code>, and the difference is subtle and error-prone.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// JavaScript confusion
+let value;
+console.log(value);          // undefined
+console.log(value === null); // false
+console.log(value == null);  // true (loose equality)
+
+// API returns null, code expects undefined
+const response = { data: null };
+if (response.data === undefined) {
+    // This doesn't run! data is null, not undefined
+}
+
+// TypeScript with strictNullChecks
+let value: string | null = null;
+let other: string | undefined = undefined;
+
+// TypeScript treats them as distinct types
+function process(val: string | null) {
+    if (val === undefined) { }  // Warning: This comparison is always false
+    if (val === null) { }       // Correct check
+}</code></pre>
+                    </div>
+                `
+            },
+            'ts-2012': {
+                title: 'TypeScript 0.8 (2012)',
+                body: `
+                    <p>Microsoft releases TypeScript publicly after 2 years of internal development.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Key Features</div>
+                        <ul>
+                            <li>Static type annotations</li>
+                            <li>Classes (before ES6!)</li>
+                            <li>Modules</li>
+                            <li>Interfaces</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Reception</div>
+                        <p>Initially met with skepticism. Many saw it as "Microsoft trying to control JavaScript." Others praised it as "JavaScript with training wheels." The open-source release on CodePlex helped build trust.</p>
+                    </div>
+                `
+            },
+            'ts-2014': {
+                title: 'TypeScript 1.0 (2014)',
+                body: `
+                    <p>First production-ready release. Google begins evaluating TypeScript for Angular 2.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Major Additions</div>
+                        <ul>
+                            <li>Generics</li>
+                            <li>Improved type inference</li>
+                            <li>Better compiler performance</li>
+                            <li>Union types</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Google's Decision</div>
+                        <p>Google considered TypeScript vs AtScript (their own typed JS). After collaboration with Microsoft, they chose TypeScript, adding features like annotations that became decorators.</p>
+                    </div>
+                `
+            },
+            'ts-2016': {
+                title: 'TypeScript 2.0 (2016)',
+                body: `
+                    <p>Major release with strict null checks. Angular 2 launches with TypeScript as the default.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Game-Changing Features</div>
+                        <ul>
+                            <li><strong>strictNullChecks</strong> — null/undefined handled explicitly</li>
+                            <li><strong>Control flow analysis</strong> — type narrowing in if/switch</li>
+                            <li><strong>Non-nullable types</strong> — string vs string | null</li>
+                            <li><strong>Tagged unions</strong> — discriminated union types</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Industry Impact</div>
+                        <p>Angular 2's adoption of TypeScript legitimized it for enterprise use. React community began creating @types definitions.</p>
+                    </div>
+                `
+            },
+            'ts-2020': {
+                title: 'TypeScript Goes Mainstream (2020)',
+                body: `
+                    <p>TypeScript becomes the de facto standard for serious JavaScript development.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Key Milestones</div>
+                        <ul>
+                            <li><strong>Deno</strong> — TypeScript-first runtime by Node creator</li>
+                            <li><strong>Svelte</strong> — adds first-class TS support</li>
+                            <li><strong>Create React App</strong> — adds --typescript flag</li>
+                            <li><strong>Vue 3</strong> — rewritten in TypeScript</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Survey Data</div>
+                        <p>State of JS 2020: 93% of TypeScript users would use it again. 78% of JS users interested in learning it.</p>
+                    </div>
+                `
+            },
+            'ts-2024': {
+                title: 'TypeScript Dominates (2024+)',
+                body: `
+                    <p>TypeScript is now the default choice for new projects. TC39 considers adding type syntax to JavaScript itself.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Current State</div>
+                        <ul>
+                            <li>Most popular typed language on npm</li>
+                            <li>Required for many job postings</li>
+                            <li>First-class support in all major frameworks</li>
+                            <li>Native TypeScript execution in Deno, Bun</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">TC39 Type Annotations Proposal</div>
+                        <p>Stage 1 proposal to add type annotation syntax to JavaScript that browsers would ignore but tools could use. This would let TS code run directly without compilation!</p>
+                    </div>
+                `
+            },
+            'benefit-catch-errors': {
+                title: 'Catch Errors at Compile Time',
+                body: `
+                    <p>TypeScript catches entire categories of bugs before your code ever runs.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// These bugs are caught BEFORE running your code:
+
+// 1. Type mismatches
+const age: number = "twenty";  // Error!
+
+// 2. Null/undefined access
+const user = users.find(u => u.id === 1);
+user.name;  // Error: 'user' is possibly 'undefined'
+
+// 3. Missing properties
+interface User { name: string; email: string; }
+const user: User = { name: "Alice" };  // Error: missing 'email'
+
+// 4. Incorrect function calls
+function greet(name: string) { }
+greet();      // Error: Expected 1 argument
+greet(123);   // Error: number is not string</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">The Research</div>
+                        <p>A 2017 study found that 15% of JavaScript bugs on GitHub could have been prevented by TypeScript. That's thousands of bugs caught before reaching production!</p>
+                    </div>
+                `
+            },
+            'benefit-ide': {
+                title: 'Better IDE Support',
+                body: `
+                    <p>Types enable intelligent IDE features that dramatically improve developer productivity.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">IDE Superpowers</div>
+                        <ul>
+                            <li><strong>Autocomplete</strong> — see all available properties and methods</li>
+                            <li><strong>Inline documentation</strong> — hover to see types and JSDoc</li>
+                            <li><strong>Go to definition</strong> — Cmd/Ctrl+Click jumps to source</li>
+                            <li><strong>Find all references</strong> — see every usage of a symbol</li>
+                            <li><strong>Rename symbol</strong> — safely rename across entire codebase</li>
+                            <li><strong>Auto-imports</strong> — IDE adds import statements automatically</li>
+                            <li><strong>Quick fixes</strong> — auto-fix common errors</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Works Everywhere</div>
+                        <p>VS Code, WebStorm, Vim, Emacs — TypeScript's language server powers intelligent features in any editor that supports LSP.</p>
+                    </div>
+                `
+            },
+            'benefit-docs': {
+                title: 'Self-Documenting Code',
+                body: `
+                    <p>Types serve as documentation that is always accurate — it can't get out of sync with the code.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Without types: what is this function expecting?
+function processOrder(order, options) {
+    // You have to read the implementation to understand...
+}
+
+// With types: the signature IS the documentation
+interface Order {
+    id: string;
+    items: OrderItem[];
+    customer: Customer;
+    total: number;
+}
+
+interface ProcessOptions {
+    sendEmail?: boolean;
+    validateInventory?: boolean;
+    priority?: 'normal' | 'rush' | 'overnight';
+}
+
+function processOrder(order: Order, options: ProcessOptions = {}): Promise<Receipt> {
+    // Types tell you exactly what to pass and what you'll get back
+}</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Comments Lie, Types Don't</div>
+                        <p>Code comments can become stale. JSDoc can drift from reality. But types are checked by the compiler — if the types are wrong, the code won't compile.</p>
+                    </div>
+                `
+            },
+            'benefit-refactor': {
+                title: 'Fearless Refactoring',
+                body: `
+                    <p>Refactor with confidence — the compiler tells you exactly what breaks.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Scenario: rename a property across 500 files
+
+// Before: interface User { name: string; }
+// After:  interface User { fullName: string; }
+
+// TypeScript immediately shows errors in EVERY file:
+// - user.name in profile.tsx (line 42)
+// - user.name in dashboard.tsx (line 87)
+// - user.name in settings.tsx (line 15)
+// ... and 47 more errors
+
+// Better: use IDE's "Rename Symbol" (F2 in VS Code)
+// - Safely renames ALL usages across all files
+// - Updates imports, exports, destructuring
+// - Even renames in strings if they're template types</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Refactoring Superpowers</div>
+                        <ul>
+                            <li>Rename properties, functions, types globally</li>
+                            <li>Extract function/variable with correct types</li>
+                            <li>Move to new file with auto-updated imports</li>
+                            <li>Convert promise chains to async/await</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'benefit-team': {
+                title: 'Team Collaboration',
+                body: `
+                    <p>Types create clear contracts between modules and team members.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Team Benefits</div>
+                        <ul>
+                            <li><strong>Explicit interfaces</strong> — clear contracts between modules</li>
+                            <li><strong>Onboarding</strong> — new developers understand APIs faster</li>
+                            <li><strong>Code review</strong> — types make intent clear</li>
+                            <li><strong>Fewer bugs</strong> — catch integration issues at compile time</li>
+                            <li><strong>API changes</strong> — compiler finds all affected code</li>
+                        </ul>
+                    </div>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Team A defines their API with types
+export interface PaymentService {
+    charge(amount: number, currency: Currency): Promise<ChargeResult>;
+    refund(chargeId: string, amount?: number): Promise<RefundResult>;
+}
+
+// Team B uses it — TypeScript ensures they use it correctly
+async function checkout(cart: Cart) {
+    const result = await paymentService.charge(cart.total, 'USD');
+    //                                          ~~~~~~~~~~
+    // Error: Expected 'number', got 'string' for amount
+}</code></pre>
+                    </div>
+                `
+            },
+            'benefit-js': {
+                title: 'It\'s Still JavaScript',
+                body: `
+                    <p>TypeScript compiles to plain JavaScript — use any JS library, run anywhere JS runs.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">100% JavaScript Compatible</div>
+                        <ul>
+                            <li>All valid JS is valid TS</li>
+                            <li>Use any npm package (with or without types)</li>
+                            <li>Runs in any JS environment (browser, Node, Deno, Bun)</li>
+                            <li>Types are erased at runtime — zero overhead</li>
+                            <li>Gradual adoption — add types incrementally</li>
+                        </ul>
+                    </div>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// TypeScript
+const greet = (name: string): string => {
+    return \`Hello, \${name}!\`;
+};
+
+// Compiles to JavaScript (types removed)
+const greet = (name) => {
+    return \`Hello, \${name}!\`;
+};</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Gradual Adoption</div>
+                        <p>You can add TypeScript to an existing JS project file-by-file. Use <code>// @ts-check</code> to get type checking in JS files without renaming them!</p>
+                    </div>
+                `
+            },
+            'utility-partial': {
+                title: 'Partial<T>',
+                body: `
+                    <p><code>Partial&lt;T&gt;</code> makes all properties of T optional.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+
+// Partial<User> = { id?: number; name?: string; email?: string; }
+type UserUpdate = Partial<User>;
+
+// Perfect for update functions
+function updateUser(id: number, updates: Partial<User>) {
+    // Can pass any subset of User properties
+}
+
+updateUser(1, { name: "New Name" });  // OK
+updateUser(1, { email: "new@example.com" });  // OK
+updateUser(1, {});  // OK (no changes)</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">How It Works</div>
+                        <pre class="modal-code"><code>type Partial<T> = {
+    [P in keyof T]?: T[P];
+};</code></pre>
+                    </div>
+                `
+            },
+            'utility-required': {
+                title: 'Required<T>',
+                body: `
+                    <p><code>Required&lt;T&gt;</code> makes all properties of T required (removes optional <code>?</code>).</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>interface Config {
+    apiUrl?: string;
+    timeout?: number;
+    retries?: number;
+}
+
+// Required<Config> = { apiUrl: string; timeout: number; retries: number; }
+type FullConfig = Required<Config>;
+
+// Useful for defaults + merge pattern
+const defaultConfig: Required<Config> = {
+    apiUrl: "https://api.example.com",
+    timeout: 5000,
+    retries: 3
+};
+
+function createClient(userConfig: Config): Client {
+    const config: Required<Config> = { ...defaultConfig, ...userConfig };
+    // Now all properties are guaranteed to exist
+}</code></pre>
+                    </div>
+                `
+            },
+            'utility-pick': {
+                title: 'Pick<T, K>',
+                body: `
+                    <p><code>Pick&lt;T, K&gt;</code> creates a type with only the selected properties from T.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>interface User {
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+    createdAt: Date;
+}
+
+// Pick only what you need
+type UserPreview = Pick<User, "id" | "name">;
+// = { id: number; name: string }
+
+type UserCredentials = Pick<User, "email" | "password">;
+// = { email: string; password: string }
+
+// Great for API responses
+function getUserPreview(id: number): UserPreview {
+    const user = db.findUser(id);
+    return { id: user.id, name: user.name };
+}</code></pre>
+                    </div>
+                `
+            },
+            'utility-omit': {
+                title: 'Omit<T, K>',
+                body: `
+                    <p><code>Omit&lt;T, K&gt;</code> creates a type with all properties except the specified ones.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>interface User {
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+}
+
+// Omit sensitive fields
+type PublicUser = Omit<User, "password">;
+// = { id: number; name: string; email: string }
+
+type UserInput = Omit<User, "id">;
+// = { name: string; email: string; password: string }
+
+// Great for API safety
+function getPublicProfile(user: User): PublicUser {
+    const { password, ...publicUser } = user;
+    return publicUser;
+}</code></pre>
+                    </div>
+                `
+            },
+            'utility-record': {
+                title: 'Record<K, V>',
+                body: `
+                    <p><code>Record&lt;K, V&gt;</code> creates an object type with keys of type K and values of type V.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Dictionary/map types
+type UserMap = Record<number, User>;
+// = { [id: number]: User }
+
+const users: UserMap = {
+    1: { id: 1, name: "Alice" },
+    2: { id: 2, name: "Bob" }
+};
+
+// Enum to value mapping
+type Status = "pending" | "approved" | "rejected";
+type StatusColors = Record<Status, string>;
+
+const colors: StatusColors = {
+    pending: "#ffd700",
+    approved: "#00ff00",
+    rejected: "#ff0000"
+};
+
+// TypeScript ensures all keys are covered!
+const incomplete: StatusColors = {
+    pending: "#ffd700"
+    // Error: Missing properties 'approved' and 'rejected'
+};</code></pre>
+                    </div>
+                `
+            },
+            'utility-readonly': {
+                title: 'Readonly<T>',
+                body: `
+                    <p><code>Readonly&lt;T&gt;</code> makes all properties of T readonly (immutable).</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>interface Config {
+    apiUrl: string;
+    timeout: number;
+}
+
+const config: Readonly<Config> = {
+    apiUrl: "https://api.example.com",
+    timeout: 5000
+};
+
+config.timeout = 10000;
+// Error: Cannot assign to 'timeout' because it is a read-only property
+
+// Great for constants and state
+type State = Readonly<{
+    user: User | null;
+    items: readonly Item[];  // Also make array readonly
+}>;
+
+// For deep immutability, consider:
+// - Immer library
+// - as const assertion
+// - Custom DeepReadonly type</code></pre>
+                    </div>
+                `
+            },
+            'strict-null': {
+                title: 'strictNullChecks',
+                body: `
+                    <p>When enabled, <code>null</code> and <code>undefined</code> are distinct types that must be handled explicitly.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Without strictNullChecks
+let name: string = null;  // OK (dangerous!)
+
+// With strictNullChecks
+let name: string = null;
+// Error: Type 'null' is not assignable to type 'string'
+
+let name: string | null = null;  // OK, explicit
+
+// Forces you to handle null/undefined
+function getUser(id: number): User | undefined {
+    return users.find(u => u.id === id);
+}
+
+const user = getUser(1);
+console.log(user.name);
+// Error: 'user' is possibly 'undefined'
+
+if (user) {
+    console.log(user.name);  // Safe!
+}</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Why This Matters</div>
+                        <p>Null/undefined errors are the #1 source of runtime crashes. This single flag prevents thousands of potential bugs.</p>
+                    </div>
+                `
+            },
+            'strict-any': {
+                title: 'noImplicitAny',
+                body: `
+                    <p>When enabled, TypeScript errors when it can't infer a type and would fall back to <code>any</code>.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Without noImplicitAny
+function process(data) {  // data is implicitly 'any'
+    return data.value;    // No type checking!
+}
+
+// With noImplicitAny
+function process(data) {
+    //           ~~~~ Parameter 'data' implicitly has an 'any' type
+    return data.value;
+}
+
+// Fix: add explicit type
+function process(data: { value: string }) {
+    return data.value;  // Now type-safe!
+}
+
+// This also catches untyped function parameters
+const items = [1, 2, 3];
+items.forEach(function(item) {  // 'item' is implicitly 'any' without this flag
+    // ...
+});</code></pre>
+                    </div>
+                `
+            },
+            'strict-this': {
+                title: 'strictBindCallApply',
+                body: `
+                    <p>When enabled, TypeScript checks that <code>bind</code>, <code>call</code>, and <code>apply</code> are used correctly.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>function greet(name: string, age: number): string {
+    return \`Hello \${name}, you are \${age}\`;
+}
+
+// Without strictBindCallApply
+greet.call(null, "Alice", "thirty");  // No error, crashes at runtime
+
+// With strictBindCallApply
+greet.call(null, "Alice", "thirty");
+//                        ~~~~~~~~
+// Error: Argument of type 'string' is not assignable to parameter of type 'number'
+
+greet.call(null, "Alice", 30);  // OK
+
+// Also works with bind
+const boundGreet = greet.bind(null, "Alice");
+boundGreet("oops");
+// Error: Expected 1 arguments, but got 1 (of wrong type)</code></pre>
+                    </div>
+                `
+            },
+            'strict-function': {
+                title: 'strictFunctionTypes',
+                body: `
+                    <p>When enabled, function parameter types are checked more strictly (contravariantly).</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>class Animal { name: string = ""; }
+class Dog extends Animal { bark() {} }
+
+// Without strictFunctionTypes
+type Handler = (animal: Animal) => void;
+const dogHandler: Handler = (dog: Dog) => dog.bark();  // Allowed but unsafe!
+
+// With strictFunctionTypes
+type Handler = (animal: Animal) => void;
+const dogHandler: Handler = (dog: Dog) => dog.bark();
+//    ~~~~~~~~~~ Type '(dog: Dog) => void' is not assignable to type 'Handler'.
+//               Types of parameters 'dog' and 'animal' are incompatible.
+
+// Why this matters:
+declare let handler: Handler;
+handler = dogHandler;
+handler(new Animal());  // Runtime error! Animal doesn't have bark()</code></pre>
+                    </div>
+                `
+            },
+            'strict-property': {
+                title: 'strictPropertyInitialization',
+                body: `
+                    <p>When enabled, class properties must be initialized in the constructor or have a default value.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Without strictPropertyInitialization
+class User {
+    name: string;  // undefined at runtime!
+}
+
+// With strictPropertyInitialization
+class User {
+    name: string;
+    //   ~~~~ Property 'name' has no initializer and is not assigned in constructor
+}
+
+// Fix 1: Initialize in declaration
+class User {
+    name: string = "";
+}
+
+// Fix 2: Initialize in constructor
+class User {
+    name: string;
+    constructor(name: string) {
+        this.name = name;
+    }
+}
+
+// Fix 3: Definite assignment assertion (use sparingly)
+class User {
+    name!: string;  // "Trust me, I'll initialize this elsewhere"
+}</code></pre>
+                    </div>
+                `
+            },
+            'strict-index': {
+                title: 'noUncheckedIndexedAccess',
+                body: `
+                    <p>When enabled, accessing array elements or object properties by index includes <code>undefined</code> in the type.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Without noUncheckedIndexedAccess
+const arr = [1, 2, 3];
+const item = arr[10];  // type: number (but actually undefined!)
+item.toFixed();  // Runtime error!
+
+// With noUncheckedIndexedAccess
+const arr = [1, 2, 3];
+const item = arr[10];  // type: number | undefined
+item.toFixed();
+// Error: 'item' is possibly 'undefined'
+
+// Forces safe access
+const item = arr[10];
+if (item !== undefined) {
+    item.toFixed();  // Safe!
+}
+
+// Also works for objects
+const config: Record<string, string> = { a: "1" };
+const value = config["maybe"];  // type: string | undefined</code></pre>
+                    </div>
+                `
+            },
+            'pattern-api': {
+                title: 'API Response Typing Pattern',
+                body: `
+                    <p>Use discriminated unions for type-safe API responses that handle both success and error cases.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Define the result type
+type ApiResult<T> =
+    | { success: true; data: T }
+    | { success: false; error: string };
+
+// API function returns this type
+async function fetchUser(id: number): Promise<ApiResult<User>> {
+    try {
+        const res = await fetch(\`/api/users/\${id}\`);
+        if (!res.ok) {
+            return { success: false, error: \`HTTP \${res.status}\` };
+        }
+        const data = await res.json();
+        return { success: true, data };
+    } catch (e) {
+        return { success: false, error: e.message };
+    }
+}
+
+// Usage — TypeScript narrows the type
+const result = await fetchUser(1);
+
+if (result.success) {
+    console.log(result.data.name);  // data is User
+} else {
+    console.error(result.error);    // error is string
+}</code></pre>
+                    </div>
+                `
+            },
+            'pattern-builder': {
+                title: 'Builder Pattern',
+                body: `
+                    <p>Use <code>this</code> return type for fluent, chainable APIs with proper typing.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>class QueryBuilder<T> {
+    private filters: string[] = [];
+    private ordering: string | null = null;
+    private limitValue: number | null = null;
+
+    where(column: keyof T, value: unknown): this {
+        this.filters.push(\`\${String(column)} = ?\`);
+        return this;  // Returns 'this' for chaining
+    }
+
+    orderBy(column: keyof T, dir: 'asc' | 'desc' = 'asc'): this {
+        this.ordering = \`\${String(column)} \${dir}\`;
+        return this;
+    }
+
+    limit(n: number): this {
+        this.limitValue = n;
+        return this;
+    }
+
+    async execute(): Promise<T[]> { /* ... */ }
+}
+
+// Fluent, type-safe usage
+const users = await new QueryBuilder<User>()
+    .where('status', 'active')
+    .orderBy('createdAt', 'desc')
+    .limit(10)
+    .execute();</code></pre>
+                    </div>
+                `
+            },
+            'pattern-branded': {
+                title: 'Branded Types Pattern',
+                body: `
+                    <p>Use branded types to prevent mixing up values that have the same underlying type.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Problem: easy to mix up IDs
+function getUser(id: number) { }
+function getPost(id: number) { }
+
+const userId = 1;
+const postId = 2;
+getUser(postId);  // Compiles! But wrong semantically
+
+// Solution: branded types
+type UserId = number & { __brand: "UserId" };
+type PostId = number & { __brand: "PostId" };
+
+function createUserId(id: number): UserId {
+    return id as UserId;
+}
+
+function getUser(id: UserId) { }
+function getPost(id: PostId) { }
+
+const userId = createUserId(1);
+const postId = createPostId(2);
+
+getUser(userId);  // OK
+getUser(postId);  // Error! PostId is not assignable to UserId
+getUser(1);       // Error! number is not assignable to UserId</code></pre>
+                    </div>
+                `
+            },
+            'pattern-exhaustive': {
+                title: 'Exhaustive Switch Pattern',
+                body: `
+                    <p>Use <code>never</code> to ensure all cases are handled in a switch statement.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>type Status = "pending" | "approved" | "rejected";
+
+function assertNever(x: never): never {
+    throw new Error("Unexpected value: " + x);
+}
+
+function getStatusColor(status: Status): string {
+    switch (status) {
+        case "pending":
+            return "yellow";
+        case "approved":
+            return "green";
+        case "rejected":
+            return "red";
+        default:
+            return assertNever(status);  // Ensures all cases handled
+    }
+}
+
+// Later, if you add a new status...
+type Status = "pending" | "approved" | "rejected" | "cancelled";
+
+// TypeScript immediately errors:
+// Argument of type 'string' is not assignable to parameter of type 'never'.
+// (Because "cancelled" falls through to default)</code></pre>
+                    </div>
+                `
             }
         };
     }

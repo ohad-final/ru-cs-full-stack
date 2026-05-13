@@ -1,0 +1,1410 @@
+<!-- LECTURE: TypeScript - History, Why & Tutorial -->
+<!-- This file contains slides for TypeScript lecture -->
+
+<!-- ==================== TITLE ==================== -->
+<section class="slide active" data-slide="title">
+    <div class="slide-content title-slide">
+        <div class="title-decoration">
+            <div class="protocol-badge">Type Safety</div>
+        </div>
+        <h1 class="main-title">
+            <span class="title-line">TypeScript</span>
+            <span class="title-line highlight">JavaScript</span>
+            <span class="title-line">That Scales</span>
+        </h1>
+        <p class="subtitle">History, Why & Complete Tutorial</p>
+        <div class="title-meta">
+            <div class="meta-item">
+                <span class="meta-label">Course</span>
+                <span class="meta-value">Full Stack Engineering</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Instructor</span>
+                <span class="meta-value">Ohad Assulin</span>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            <span>Press -> or Space to navigate</span>
+            <div class="arrow-bounce">|</div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART 1: THE JAVASCRIPT PROBLEM ==================== -->
+<section class="slide" data-slide="js-problem-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part I</div>
+        <h2 class="section-title">The JavaScript Problem</h2>
+        <p class="section-subtitle">Why we needed something more</p>
+        <div class="decorative-code">
+            <pre><code>function add(a, b) {
+    return a + b;
+}
+
+add(1, 2)      // 3
+add("1", 2)    // "12" ... wait what?</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- JAVASCRIPT TYPE CHAOS -->
+<section class="slide" data-slide="js-type-chaos">
+    <div class="slide-content">
+        <h3 class="slide-title">JavaScript's Type "Flexibility"</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab">Runtime Surprises</div>
+                    <pre class="code-block"><code>// No errors until runtime...
+function getUser(id) {
+    return users.find(u => u.id === id);
+}
+
+const user = getUser(42);
+console.log(user.name);  // TypeError: undefined
+
+// Typos go unnoticed
+const config = { timeout: 5000 };
+if (config.timout > 1000) {  // typo!
+    // This never runs, no error
+}
+
+// Unexpected type coercion
+[] + []     // ""
+[] + {}     // "[object Object]"
+{} + []     // 0</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="chaos-examples">
+                    <h4>Common JavaScript Bugs</h4>
+                    <div class="bug-list">
+                        <div class="bug-item clickable" data-modal="bug-undefined">
+                            <span class="bug-icon">[!]</span>
+                            <span>Cannot read property of undefined</span>
+                        </div>
+                        <div class="bug-item clickable" data-modal="bug-typo">
+                            <span class="bug-icon">[!]</span>
+                            <span>Typos in property names</span>
+                        </div>
+                        <div class="bug-item clickable" data-modal="bug-args">
+                            <span class="bug-icon">[!]</span>
+                            <span>Wrong number of arguments</span>
+                        </div>
+                        <div class="bug-item clickable" data-modal="bug-refactor">
+                            <span class="bug-icon">[!]</span>
+                            <span>Refactoring breaks things silently</span>
+                        </div>
+                        <div class="bug-item clickable" data-modal="bug-null">
+                            <span class="bug-icon">[!]</span>
+                            <span>Null vs undefined confusion</span>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">15%</div>
+                        <div class="stat-label">of JavaScript bugs could be caught by TypeScript</div>
+                        <div class="stat-source">— Study by UCL, 2017</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- THE SCALE PROBLEM -->
+<section class="slide" data-slide="scale-problem">
+    <div class="slide-content">
+        <h3 class="slide-title">JavaScript Doesn't Scale</h3>
+        <div class="scale-comparison">
+            <div class="scale-stage small">
+                <div class="stage-header">
+                    <span class="stage-size">Small Project</span>
+                    <span class="stage-lines">< 1,000 lines</span>
+                </div>
+                <div class="stage-content">
+                    <p>JavaScript works great!</p>
+                    <ul>
+                        <li>One developer</li>
+                        <li>Code fits in your head</li>
+                        <li>Easy to debug</li>
+                    </ul>
+                    <div class="stage-verdict good">No problem</div>
+                </div>
+            </div>
+            <div class="scale-arrow">-></div>
+            <div class="scale-stage medium">
+                <div class="stage-header">
+                    <span class="stage-size">Medium Project</span>
+                    <span class="stage-lines">10,000+ lines</span>
+                </div>
+                <div class="stage-content">
+                    <p>Cracks appear...</p>
+                    <ul>
+                        <li>Multiple developers</li>
+                        <li>"What does this function return?"</li>
+                        <li>Fear of refactoring</li>
+                    </ul>
+                    <div class="stage-verdict warning">Getting harder</div>
+                </div>
+            </div>
+            <div class="scale-arrow">-></div>
+            <div class="scale-stage large">
+                <div class="stage-header">
+                    <span class="stage-size">Large Project</span>
+                    <span class="stage-lines">100,000+ lines</span>
+                </div>
+                <div class="stage-content">
+                    <p>Chaos reigns</p>
+                    <ul>
+                        <li>Large teams</li>
+                        <li>Documentation is always stale</li>
+                        <li>Bugs slip through constantly</li>
+                    </ul>
+                    <div class="stage-verdict bad">Nightmare</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TYPESCRIPT HISTORY -->
+<section class="slide" data-slide="ts-history">
+    <div class="slide-content">
+        <h3 class="slide-title">TypeScript History</h3>
+        <div class="timeline-vertical">
+            <div class="timeline-entry clickable" data-modal="ts-2012">
+                <span class="timeline-year">2012</span>
+                <div class="timeline-content">
+                    <strong>Microsoft releases TypeScript 0.8</strong>
+                    <p>Anders Hejlsberg leads the project. Initially met with skepticism.</p>
+                </div>
+            </div>
+            <div class="timeline-entry clickable" data-modal="ts-2014">
+                <span class="timeline-year">2014</span>
+                <div class="timeline-content">
+                    <strong>TypeScript 1.0</strong>
+                    <p>First stable release. Google considers it for Angular 2.</p>
+                </div>
+            </div>
+            <div class="timeline-entry highlight clickable" data-modal="ts-2016">
+                <span class="timeline-year">2016</span>
+                <div class="timeline-content">
+                    <strong>TypeScript 2.0 + Angular adopts TS</strong>
+                    <p>Non-nullable types, control flow analysis. Angular 2 launches with TS.</p>
+                </div>
+            </div>
+            <div class="timeline-entry clickable" data-modal="ts-2020">
+                <span class="timeline-year">2020</span>
+                <div class="timeline-content">
+                    <strong>TypeScript becomes mainstream</strong>
+                    <p>Deno built with TS. Most new projects start with TypeScript.</p>
+                </div>
+            </div>
+            <div class="timeline-entry clickable" data-modal="ts-2024">
+                <span class="timeline-year">2024+</span>
+                <div class="timeline-content">
+                    <strong>TypeScript dominates</strong>
+                    <p>TC39 considers type annotations for JS. TS is the standard for serious projects.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ANDERS HEJLSBERG -->
+<section class="slide" data-slide="anders">
+    <div class="slide-content">
+        <h3 class="slide-title">The Mind Behind TypeScript</h3>
+        <div class="person-spotlight">
+            <div class="person-info">
+                <h4>Anders Hejlsberg</h4>
+                <p class="person-title">Technical Fellow at Microsoft</p>
+                <div class="person-achievements">
+                    <div class="achievement">
+                        <span class="achievement-year">1983</span>
+                        <span class="achievement-what">Created Turbo Pascal</span>
+                    </div>
+                    <div class="achievement">
+                        <span class="achievement-year">1996</span>
+                        <span class="achievement-what">Lead architect of Delphi</span>
+                    </div>
+                    <div class="achievement highlight">
+                        <span class="achievement-year">2000</span>
+                        <span class="achievement-what">Lead architect of C#</span>
+                    </div>
+                    <div class="achievement highlight">
+                        <span class="achievement-year">2012</span>
+                        <span class="achievement-what">Lead architect of TypeScript</span>
+                    </div>
+                </div>
+            </div>
+            <div class="person-quote">
+                <blockquote>
+                    "TypeScript is JavaScript that scales. We're not trying to replace JavaScript, we're trying to make it better."
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHO USES TYPESCRIPT -->
+<section class="slide" data-slide="who-uses-ts">
+    <div class="slide-content">
+        <h3 class="slide-title">Who Uses TypeScript?</h3>
+        <div class="adopters-grid">
+            <div class="adopter-card">
+                <div class="adopter-name">Microsoft</div>
+                <p>VS Code, Azure, Office</p>
+            </div>
+            <div class="adopter-card">
+                <div class="adopter-name">Google</div>
+                <p>Angular, Firebase, GCP Console</p>
+            </div>
+            <div class="adopter-card">
+                <div class="adopter-name">Airbnb</div>
+                <p>Entire frontend codebase</p>
+            </div>
+            <div class="adopter-card">
+                <div class="adopter-name">Slack</div>
+                <p>Desktop & web apps</p>
+            </div>
+            <div class="adopter-card">
+                <div class="adopter-name">Stripe</div>
+                <p>Dashboard & APIs</p>
+            </div>
+            <div class="adopter-card">
+                <div class="adopter-name">Shopify</div>
+                <p>Admin & Storefront</p>
+            </div>
+        </div>
+        <div class="stats-row">
+            <div class="stat-item">
+                <span class="stat-big">#3</span>
+                <span class="stat-desc">Most loved language (Stack Overflow 2023)</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-big">78%</span>
+                <span class="stat-desc">Would use TypeScript again</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-big">5x</span>
+                <span class="stat-desc">Growth in npm downloads (2019-2024)</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART 2: WHY TYPESCRIPT ==================== -->
+<section class="slide" data-slide="why-ts-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part II</div>
+        <h2 class="section-title">Why TypeScript?</h2>
+        <p class="section-subtitle">The benefits that changed everything</p>
+        <div class="ts-equation">
+            <span class="eq-part">TypeScript</span>
+            <span class="eq-equals">=</span>
+            <span class="eq-part">JavaScript</span>
+            <span class="eq-plus">+</span>
+            <span class="eq-part highlight">Types</span>
+        </div>
+    </div>
+</section>
+
+<!-- BENEFITS GRID -->
+<section class="slide" data-slide="ts-benefits">
+    <div class="slide-content">
+        <h3 class="slide-title">TypeScript Benefits</h3>
+        <div class="benefits-grid">
+            <div class="benefit-card clickable" data-modal="benefit-catch-errors">
+                <div class="benefit-icon">[1]</div>
+                <h4>Catch Errors Early</h4>
+                <p>Find bugs at compile time, not runtime. No more "undefined is not a function".</p>
+            </div>
+            <div class="benefit-card clickable" data-modal="benefit-ide">
+                <div class="benefit-icon">[2]</div>
+                <h4>Better IDE Support</h4>
+                <p>Autocomplete, inline docs, go-to-definition, find all references.</p>
+            </div>
+            <div class="benefit-card clickable" data-modal="benefit-docs">
+                <div class="benefit-icon">[3]</div>
+                <h4>Self-Documenting</h4>
+                <p>Types ARE documentation. Always up-to-date, never lies.</p>
+            </div>
+            <div class="benefit-card clickable" data-modal="benefit-refactor">
+                <div class="benefit-icon">[4]</div>
+                <h4>Fearless Refactoring</h4>
+                <p>Rename, restructure, delete — compiler catches all the breakage.</p>
+            </div>
+            <div class="benefit-card clickable" data-modal="benefit-team">
+                <div class="benefit-icon">[5]</div>
+                <h4>Team Collaboration</h4>
+                <p>Clear contracts between modules. New team members onboard faster.</p>
+            </div>
+            <div class="benefit-card clickable" data-modal="benefit-js">
+                <div class="benefit-icon">[6]</div>
+                <h4>It's Still JavaScript</h4>
+                <p>100% compatible. Use any JS library. Gradual adoption possible.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUPERSET CONCEPT -->
+<section class="slide" data-slide="superset">
+    <div class="slide-content">
+        <h3 class="slide-title">TypeScript is a Superset of JavaScript</h3>
+        <div class="superset-visual">
+            <div class="superset-diagram">
+                <div class="superset-outer">
+                    <span class="superset-label">TypeScript</span>
+                    <div class="superset-inner">
+                        <span class="superset-label">JavaScript</span>
+                    </div>
+                </div>
+            </div>
+            <div class="superset-explanation">
+                <div class="superset-point">
+                    <span class="point-icon">[+]</span>
+                    <span>All valid JavaScript is valid TypeScript</span>
+                </div>
+                <div class="superset-point">
+                    <span class="point-icon">[+]</span>
+                    <span>TypeScript adds optional static types</span>
+                </div>
+                <div class="superset-point">
+                    <span class="point-icon">[+]</span>
+                    <span>Compiles down to plain JavaScript</span>
+                </div>
+                <div class="superset-point">
+                    <span class="point-icon">[+]</span>
+                    <span>Types are erased at runtime — zero overhead</span>
+                </div>
+            </div>
+        </div>
+        <div class="code-showcase compact">
+            <pre class="code-block"><code>// This is valid JavaScript AND valid TypeScript
+const greet = (name) => `Hello, ${name}!`;
+
+// TypeScript lets you add types
+const greetTyped = (name: string): string => `Hello, ${name}!`;</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- IDE EXPERIENCE -->
+<section class="slide" data-slide="ide-experience">
+    <div class="slide-content">
+        <h3 class="slide-title">The IDE Experience</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab">JavaScript</div>
+                    <pre class="code-block"><code>// What does this return? Who knows!
+function processUser(user) {
+    return user.profile.settings.theme;
+}
+
+// Autocomplete? Good luck.
+// Hover for types? Nope.
+// Refactor safely? Pray.
+
+// IDE shows: any, any, any...</code></pre>
+                </div>
+                <div class="code-note danger">Flying blind</div>
+            </div>
+            <div class="column">
+                <div class="code-showcase good-example">
+                    <div class="code-tab">TypeScript</div>
+                    <pre class="code-block"><code>interface User {
+    profile: {
+        settings: {
+            theme: 'light' | 'dark';
+        };
+    };
+}
+
+function processUser(user: User) {
+    return user.profile.settings.theme;
+    //     ^ Autocomplete all the way!
+}
+// Hover shows full type info
+// Cmd+click goes to definition</code></pre>
+                </div>
+                <div class="code-note success">Full visibility</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CATCHING BUGS -->
+<section class="slide" data-slide="catching-bugs">
+    <div class="slide-content">
+        <h3 class="slide-title">Catching Bugs Before They Happen</h3>
+        <div class="bug-comparison">
+            <div class="code-showcase">
+                <div class="code-tab">TypeScript catches these at compile time</div>
+                <pre class="code-block"><code>interface Product {
+    id: number;
+    name: string;
+    price: number;
+}
+
+function displayProduct(product: Product) {
+    // Typo - caught immediately!
+    console.log(product.naem);
+    //                  ~~~~ Property 'naem' does not exist
+
+    // Wrong type - caught!
+    const doubled = product.price * "2";
+    //                              ~~~ Argument of type 'string'...
+
+    // Missing property - caught!
+    const newProduct: Product = { id: 1, name: "Widget" };
+    //    ~~~~~~~~~~ Property 'price' is missing
+
+    // Null check - caught!
+    const items: Product[] | null = null;
+    console.log(items.length);
+    //          ~~~~~ Object is possibly 'null'
+}</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART 3: FUNDAMENTALS ==================== -->
+<section class="slide" data-slide="fundamentals-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part III</div>
+        <h2 class="section-title">TypeScript Fundamentals</h2>
+        <p class="section-subtitle">The essential building blocks</p>
+        <div class="decorative-code">
+            <pre><code>const message: string = "Hello, TypeScript!";
+const count: number = 42;
+const active: boolean = true;</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- BASIC TYPES -->
+<section class="slide" data-slide="basic-types">
+    <div class="slide-content">
+        <h3 class="slide-title">Basic Types</h3>
+        <div class="types-showcase">
+            <div class="type-group">
+                <h4>Primitives</h4>
+                <div class="code-showcase">
+                    <pre class="code-block"><code>// String
+let name: string = "Alice";
+let template: string = `Hello, ${name}`;
+
+// Number (no int/float distinction)
+let age: number = 25;
+let price: number = 99.99;
+let hex: number = 0xff;
+
+// Boolean
+let isActive: boolean = true;
+let hasAccess: boolean = false;
+
+// Null & Undefined
+let nothing: null = null;
+let notDefined: undefined = undefined;</code></pre>
+                </div>
+            </div>
+            <div class="type-group">
+                <h4>Special Types</h4>
+                <div class="code-showcase">
+                    <pre class="code-block"><code>// Any - escape hatch (avoid!)
+let flexible: any = "can be anything";
+flexible = 42;  // no error
+
+// Unknown - safer than any
+let input: unknown = getInput();
+// Must narrow before use
+if (typeof input === "string") {
+    console.log(input.toUpperCase());
+}
+
+// Void - no return value
+function log(msg: string): void {
+    console.log(msg);
+}
+
+// Never - never returns
+function fail(msg: string): never {
+    throw new Error(msg);
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ARRAYS AND TUPLES -->
+<section class="slide" data-slide="arrays-tuples">
+    <div class="slide-content">
+        <h3 class="slide-title">Arrays & Tuples</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Arrays</div>
+                    <pre class="code-block"><code>// Two syntaxes (identical)
+let numbers: number[] = [1, 2, 3];
+let strings: Array<string> = ["a", "b"];
+
+// Array of objects
+let users: { name: string }[] = [
+    { name: "Alice" },
+    { name: "Bob" }
+];
+
+// Mixed arrays need union types
+let mixed: (string | number)[] = [1, "two", 3];
+
+// Readonly arrays
+const frozen: readonly number[] = [1, 2, 3];
+frozen.push(4);  // Error!</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Tuples</div>
+                    <pre class="code-block"><code>// Fixed-length array with specific types
+let point: [number, number] = [10, 20];
+
+// Named tuples (TS 4.0+)
+type Point = [x: number, y: number];
+let coord: Point = [100, 200];
+
+// Common use: React useState
+const [count, setCount] = useState(0);
+// Type: [number, (n: number) => void]
+
+// Rest elements in tuples
+type StringNumberBooleans =
+    [string, number, ...boolean[]];
+let snb: StringNumberBooleans =
+    ["hello", 42, true, false, true];</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- OBJECTS AND INTERFACES -->
+<section class="slide" data-slide="objects-interfaces">
+    <div class="slide-content">
+        <h3 class="slide-title">Objects & Interfaces</h3>
+        <div class="code-showcase">
+            <div class="code-tab">Defining object shapes</div>
+            <pre class="code-block"><code>// Inline object type
+let user: { name: string; age: number } = {
+    name: "Alice",
+    age: 30
+};
+
+// Interface - preferred for objects
+interface User {
+    id: number;
+    name: string;
+    email: string;
+    age?: number;           // Optional property
+    readonly createdAt: Date; // Can't be changed
+}
+
+const alice: User = {
+    id: 1,
+    name: "Alice",
+    email: "alice@example.com",
+    createdAt: new Date()
+};
+
+// Extending interfaces
+interface Admin extends User {
+    permissions: string[];
+}
+
+const admin: Admin = {
+    ...alice,
+    permissions: ["read", "write", "delete"]
+};</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- TYPE INFERENCE -->
+<section class="slide" data-slide="type-inference">
+    <div class="slide-content">
+        <h3 class="slide-title">Type Inference — Let TypeScript Do the Work</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Explicit (verbose)</div>
+                    <pre class="code-block"><code>// You CAN write all types...
+const name: string = "Alice";
+const age: number = 30;
+const active: boolean = true;
+
+const numbers: number[] = [1, 2, 3];
+
+const user: { name: string; age: number } = {
+    name: "Alice",
+    age: 30
+};
+
+function double(n: number): number {
+    return n * 2;
+}</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase highlight-box">
+                    <div class="code-tab">Inferred (preferred)</div>
+                    <pre class="code-block"><code>// But TypeScript infers most types!
+const name = "Alice";        // string
+const age = 30;              // number
+const active = true;         // boolean
+
+const numbers = [1, 2, 3];   // number[]
+
+const user = {
+    name: "Alice",           // { name: string;
+    age: 30                  //   age: number }
+};
+
+function double(n: number) {
+    return n * 2;            // returns number
+}</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="inference-rule">
+            <strong>Rule of thumb:</strong> Add types for function parameters. Let TypeScript infer the rest.
+        </div>
+    </div>
+</section>
+
+<!-- UNION TYPES -->
+<section class="slide" data-slide="union-types">
+    <div class="slide-content">
+        <h3 class="slide-title">Union Types & Literal Types</h3>
+        <div class="code-showcase">
+            <div class="code-tab">Combining types</div>
+            <pre class="code-block"><code>// Union: value can be one of several types
+let id: string | number;
+id = "abc123";  // OK
+id = 42;        // OK
+id = true;      // Error!
+
+// Literal types: exact values
+let direction: "north" | "south" | "east" | "west";
+direction = "north";  // OK
+direction = "up";     // Error!
+
+// Combining with union
+type Status = "pending" | "approved" | "rejected";
+type StatusCode = 200 | 201 | 400 | 404 | 500;
+
+// Powerful pattern: discriminated unions
+type Result<T> =
+    | { success: true; data: T }
+    | { success: false; error: string };
+
+function handleResult(result: Result<User>) {
+    if (result.success) {
+        console.log(result.data.name);  // TypeScript knows data exists
+    } else {
+        console.log(result.error);       // TypeScript knows error exists
+    }
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- TYPE ALIASES -->
+<section class="slide" data-slide="type-aliases">
+    <div class="slide-content">
+        <h3 class="slide-title">Type Aliases</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Creating reusable types</div>
+                    <pre class="code-block"><code>// Simple alias
+type ID = string | number;
+type Username = string;
+
+// Object type alias
+type Point = {
+    x: number;
+    y: number;
+};
+
+// Function type alias
+type Callback = (data: string) => void;
+type AsyncCallback = (data: string) => Promise<void>;
+
+// Generic type alias
+type Container<T> = {
+    value: T;
+    timestamp: Date;
+};
+
+const stringContainer: Container<string> = {
+    value: "hello",
+    timestamp: new Date()
+};</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="alias-vs-interface">
+                    <h4>Type Alias vs Interface</h4>
+                    <div class="comparison-list">
+                        <div class="compare-item">
+                            <strong>Use Interface for:</strong>
+                            <ul>
+                                <li>Object shapes</li>
+                                <li>Class contracts</li>
+                                <li>Extending/implementing</li>
+                            </ul>
+                        </div>
+                        <div class="compare-item">
+                            <strong>Use Type for:</strong>
+                            <ul>
+                                <li>Unions & intersections</li>
+                                <li>Primitives & tuples</li>
+                                <li>Function signatures</li>
+                                <li>Mapped types</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tip-box">
+                        <strong>Tip:</strong> When in doubt, use interface for objects, type for everything else.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FUNCTIONS -->
+<section class="slide" data-slide="functions">
+    <div class="slide-content">
+        <h3 class="slide-title">Functions with Types</h3>
+        <div class="code-showcase">
+            <div class="code-tab">Typing function parameters and returns</div>
+            <pre class="code-block"><code>// Basic function with types
+function add(a: number, b: number): number {
+    return a + b;
+}
+
+// Arrow function
+const multiply = (a: number, b: number): number => a * b;
+
+// Optional parameters
+function greet(name: string, greeting?: string): string {
+    return `${greeting ?? "Hello"}, ${name}!`;
+}
+greet("Alice");           // "Hello, Alice!"
+greet("Alice", "Hi");     // "Hi, Alice!"
+
+// Default parameters
+function createUser(name: string, role: string = "user") {
+    return { name, role };
+}
+
+// Rest parameters
+function sum(...numbers: number[]): number {
+    return numbers.reduce((a, b) => a + b, 0);
+}
+sum(1, 2, 3, 4);  // 10
+
+// Function overloads
+function format(value: string): string;
+function format(value: number): string;
+function format(value: string | number): string {
+    return String(value);
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART 4: INTERMEDIATE ==================== -->
+<section class="slide" data-slide="intermediate-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part IV</div>
+        <h2 class="section-title">Intermediate TypeScript</h2>
+        <p class="section-subtitle">Powerful patterns for real applications</p>
+        <div class="decorative-code">
+            <pre><code>type ApiResponse<T> = {
+    data: T;
+    status: number;
+    timestamp: Date;
+};</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- GENERICS -->
+<section class="slide" data-slide="generics">
+    <div class="slide-content">
+        <h3 class="slide-title">Generics — Reusable Type Logic</h3>
+        <div class="code-showcase">
+            <div class="code-tab">Type parameters for flexible, type-safe code</div>
+            <pre class="code-block"><code>// Without generics: lose type info or repeat yourself
+function identityAny(value: any): any { return value; }
+function identityString(value: string): string { return value; }
+function identityNumber(value: number): number { return value; }
+
+// With generics: one function, all types preserved
+function identity<T>(value: T): T {
+    return value;
+}
+identity("hello");  // returns string
+identity(42);       // returns number
+identity({ x: 1 }); // returns { x: number }
+
+// Generic interfaces
+interface ApiResponse<T> {
+    data: T;
+    status: number;
+    error?: string;
+}
+
+const userResponse: ApiResponse<User> = {
+    data: { id: 1, name: "Alice", email: "..." },
+    status: 200
+};
+
+// Generic constraints
+function getLength<T extends { length: number }>(item: T): number {
+    return item.length;
+}
+getLength("hello");     // OK - string has length
+getLength([1, 2, 3]);   // OK - array has length
+getLength(42);          // Error - number has no length</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- UTILITY TYPES -->
+<section class="slide" data-slide="utility-types">
+    <div class="slide-content">
+        <h3 class="slide-title">Built-in Utility Types</h3>
+        <p class="click-hint">Click any utility type for details</p>
+        <div class="utility-grid">
+            <div class="utility-card clickable" data-modal="utility-partial">
+                <h4>Partial&lt;T&gt;</h4>
+                <p>All properties optional</p>
+                <code>Partial&lt;User&gt;</code>
+            </div>
+            <div class="utility-card clickable" data-modal="utility-required">
+                <h4>Required&lt;T&gt;</h4>
+                <p>All properties required</p>
+                <code>Required&lt;Draft&gt;</code>
+            </div>
+            <div class="utility-card clickable" data-modal="utility-pick">
+                <h4>Pick&lt;T, K&gt;</h4>
+                <p>Select specific properties</p>
+                <code>Pick&lt;User, "id" | "name"&gt;</code>
+            </div>
+            <div class="utility-card clickable" data-modal="utility-omit">
+                <h4>Omit&lt;T, K&gt;</h4>
+                <p>Exclude specific properties</p>
+                <code>Omit&lt;User, "password"&gt;</code>
+            </div>
+            <div class="utility-card clickable" data-modal="utility-record">
+                <h4>Record&lt;K, V&gt;</h4>
+                <p>Object with key-value types</p>
+                <code>Record&lt;string, User&gt;</code>
+            </div>
+            <div class="utility-card clickable" data-modal="utility-readonly">
+                <h4>Readonly&lt;T&gt;</h4>
+                <p>Immutable properties</p>
+                <code>Readonly&lt;Config&gt;</code>
+            </div>
+        </div>
+        <div class="code-showcase compact">
+            <pre class="code-block"><code>interface User { id: number; name: string; email: string; }
+
+type UserPreview = Pick<User, "id" | "name">;     // { id: number; name: string }
+type UserUpdate = Partial<User>;                   // All optional
+type UsersByID = Record<number, User>;             // { [id: number]: User }</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- TYPE GUARDS -->
+<section class="slide" data-slide="type-guards">
+    <div class="slide-content">
+        <h3 class="slide-title">Type Guards & Narrowing</h3>
+        <div class="code-showcase">
+            <div class="code-tab">Narrowing union types at runtime</div>
+            <pre class="code-block"><code>// TypeScript narrows types based on checks
+function process(value: string | number) {
+    // typeof guard
+    if (typeof value === "string") {
+        console.log(value.toUpperCase());  // TypeScript knows it's string
+    } else {
+        console.log(value.toFixed(2));     // TypeScript knows it's number
+    }
+}
+
+// instanceof guard
+function logDate(value: Date | string) {
+    if (value instanceof Date) {
+        console.log(value.toISOString());  // It's a Date
+    } else {
+        console.log(value);                // It's a string
+    }
+}
+
+// "in" operator guard
+type Fish = { swim: () => void };
+type Bird = { fly: () => void };
+
+function move(animal: Fish | Bird) {
+    if ("swim" in animal) {
+        animal.swim();  // TypeScript knows it's Fish
+    } else {
+        animal.fly();   // TypeScript knows it's Bird
+    }
+}
+
+// Custom type guard
+function isString(value: unknown): value is string {
+    return typeof value === "string";
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- DISCRIMINATED UNIONS -->
+<section class="slide" data-slide="discriminated-unions">
+    <div class="slide-content">
+        <h3 class="slide-title">Discriminated Unions — Powerful Pattern</h3>
+        <div class="code-showcase">
+            <div class="code-tab">Common type field enables exhaustive matching</div>
+            <pre class="code-block"><code>// Each variant has a literal "type" field
+type Action =
+    | { type: "ADD_TODO"; text: string }
+    | { type: "TOGGLE_TODO"; id: number }
+    | { type: "DELETE_TODO"; id: number }
+    | { type: "CLEAR_COMPLETED" };
+
+function reducer(state: State, action: Action): State {
+    switch (action.type) {
+        case "ADD_TODO":
+            // TypeScript knows: action has `text`
+            return { ...state, todos: [...state.todos, action.text] };
+
+        case "TOGGLE_TODO":
+        case "DELETE_TODO":
+            // TypeScript knows: action has `id`
+            return { ...state, /* ... */ };
+
+        case "CLEAR_COMPLETED":
+            // TypeScript knows: no extra properties
+            return { ...state, todos: state.todos.filter(t => !t.done) };
+
+        default:
+            // Exhaustiveness check - error if we miss a case
+            const _exhaustive: never = action;
+            return state;
+    }
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- KEYOF AND TYPEOF -->
+<section class="slide" data-slide="keyof-typeof">
+    <div class="slide-content">
+        <h3 class="slide-title">keyof & typeof Operators</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">keyof — Get property keys</div>
+                    <pre class="code-block"><code>interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+
+// "id" | "name" | "email"
+type UserKeys = keyof User;
+
+// Type-safe property access
+function getValue<T, K extends keyof T>(
+    obj: T,
+    key: K
+): T[K] {
+    return obj[key];
+}
+
+const user: User = { id: 1, name: "Alice", email: "..." };
+getValue(user, "name");  // string
+getValue(user, "id");    // number
+getValue(user, "foo");   // Error!</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">typeof — Get type from value</div>
+                    <pre class="code-block"><code>// Get type from a value
+const config = {
+    apiUrl: "https://api.example.com",
+    timeout: 5000,
+    retries: 3
+};
+
+// { apiUrl: string; timeout: number; retries: number }
+type Config = typeof config;
+
+// Combine with keyof
+type ConfigKey = keyof typeof config;
+// "apiUrl" | "timeout" | "retries"
+
+// Great for constants
+const COLORS = {
+    primary: "#007bff",
+    secondary: "#6c757d",
+    success: "#28a745"
+} as const;
+
+type ColorName = keyof typeof COLORS;
+type ColorValue = typeof COLORS[ColorName];</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART 5: IN PRACTICE ==================== -->
+<section class="slide" data-slide="practice-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part V</div>
+        <h2 class="section-title">TypeScript in Practice</h2>
+        <p class="section-subtitle">Real-world setup and patterns</p>
+        <div class="decorative-code">
+            <pre><code>{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2022"
+  }
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- PROJECT SETUP -->
+<section class="slide" data-slide="project-setup">
+    <div class="slide-content">
+        <h3 class="slide-title">Project Setup</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">Terminal</div>
+                    <pre class="code-block"><code># Initialize a new project
+npm init -y
+
+# Install TypeScript
+npm install -D typescript
+
+# Create tsconfig.json
+npx tsc --init
+
+# Or use a framework (recommended)
+npx create-next-app@latest --typescript
+npx create-vite@latest --template react-ts</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">tsconfig.json (recommended)</div>
+                    <pre class="code-block"><code>{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitReturns": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STRICT MODE -->
+<section class="slide" data-slide="strict-mode">
+    <div class="slide-content">
+        <h3 class="slide-title">Strict Mode — Always Enable It</h3>
+        <p class="click-hint">Click any option for details</p>
+        <div class="strict-options">
+            <div class="strict-option clickable" data-modal="strict-null">
+                <code>strictNullChecks</code>
+                <p>null/undefined must be handled explicitly</p>
+            </div>
+            <div class="strict-option clickable" data-modal="strict-any">
+                <code>noImplicitAny</code>
+                <p>Error when type can't be inferred</p>
+            </div>
+            <div class="strict-option clickable" data-modal="strict-this">
+                <code>strictBindCallApply</code>
+                <p>Check bind, call, apply arguments</p>
+            </div>
+            <div class="strict-option clickable" data-modal="strict-function">
+                <code>strictFunctionTypes</code>
+                <p>Stricter function type checking</p>
+            </div>
+            <div class="strict-option clickable" data-modal="strict-property">
+                <code>strictPropertyInitialization</code>
+                <p>Class properties must be initialized</p>
+            </div>
+            <div class="strict-option clickable" data-modal="strict-index">
+                <code>noUncheckedIndexedAccess</code>
+                <p>Array/object access may be undefined</p>
+            </div>
+        </div>
+        <div class="strict-recommendation">
+            <strong>Recommendation:</strong> Use <code>"strict": true</code> for all new projects. It enables all strict checks. The extra effort pays off in fewer bugs.
+        </div>
+    </div>
+</section>
+
+<!-- THIRD PARTY TYPES -->
+<section class="slide" data-slide="third-party">
+    <div class="slide-content">
+        <h3 class="slide-title">Third-Party Types (@types)</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="types-explanation">
+                    <h4>The DefinitelyTyped Project</h4>
+                    <p>Community-maintained type definitions for JavaScript libraries that don't include their own types.</p>
+                    <div class="code-showcase">
+                        <div class="code-tab">Installing types</div>
+                        <pre class="code-block"><code># Library has built-in types
+npm install axios
+# Types included!
+
+# Library needs @types package
+npm install lodash
+npm install -D @types/lodash
+
+# Check if types exist
+npm search @types/library-name</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="types-categories">
+                    <h4>Type Definition Sources</h4>
+                    <div class="type-source">
+                        <span class="source-badge included">Included</span>
+                        <span>Built into the package</span>
+                        <code>axios, zod, prisma</code>
+                    </div>
+                    <div class="type-source">
+                        <span class="source-badge definitely">@types/*</span>
+                        <span>DefinitelyTyped</span>
+                        <code>lodash, express, react</code>
+                    </div>
+                    <div class="type-source">
+                        <span class="source-badge custom">Custom</span>
+                        <span>Write your own .d.ts</span>
+                        <code>legacy internal libs</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TYPESCRIPT WITH REACT -->
+<section class="slide" data-slide="ts-react">
+    <div class="slide-content">
+        <h3 class="slide-title">TypeScript with React</h3>
+        <div class="code-showcase">
+            <div class="code-tab">Type-safe React components</div>
+            <pre class="code-block"><code>// Props interface
+interface ButtonProps {
+    label: string;
+    onClick: () => void;
+    variant?: "primary" | "secondary";
+    disabled?: boolean;
+}
+
+// Functional component with typed props
+function Button({ label, onClick, variant = "primary", disabled }: ButtonProps) {
+    return (
+        &lt;button
+            className={`btn btn-${variant}`}
+            onClick={onClick}
+            disabled={disabled}
+        &gt;
+            {label}
+        &lt;/button&gt;
+    );
+}
+
+// Usage - TypeScript validates props!
+&lt;Button label="Click me" onClick={() => alert("Hi")} /&gt;
+&lt;Button label="Save" onClick={handleSave} variant="primary" /&gt;
+&lt;Button label={42} /&gt;  // Error: number is not string
+&lt;Button /&gt;             // Error: missing required props
+
+// Hooks are automatically typed
+const [count, setCount] = useState(0);     // number
+const [user, setUser] = useState<User | null>(null);  // explicit generic</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- COMMON PATTERNS -->
+<section class="slide" data-slide="common-patterns">
+    <div class="slide-content">
+        <h3 class="slide-title">Common TypeScript Patterns</h3>
+        <div class="patterns-grid">
+            <div class="pattern-card clickable" data-modal="pattern-api">
+                <h4>API Response Typing</h4>
+                <pre class="mini-code"><code>type ApiResponse<T> =
+  | { success: true; data: T }
+  | { success: false; error: string };</code></pre>
+            </div>
+            <div class="pattern-card clickable" data-modal="pattern-builder">
+                <h4>Builder Pattern</h4>
+                <pre class="mini-code"><code>class QueryBuilder {
+  where(col: string, val: unknown): this {
+    // ...
+    return this;
+  }
+}</code></pre>
+            </div>
+            <div class="pattern-card clickable" data-modal="pattern-branded">
+                <h4>Branded Types</h4>
+                <pre class="mini-code"><code>type UserId = number & { __brand: "UserId" };
+type PostId = number & { __brand: "PostId" };
+// Can't mix them up!</code></pre>
+            </div>
+            <div class="pattern-card clickable" data-modal="pattern-exhaustive">
+                <h4>Exhaustive Checks</h4>
+                <pre class="mini-code"><code>function assertNever(x: never): never {
+  throw new Error("Unexpected: " + x);
+}
+// Use in switch default</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MIGRATION STRATEGY -->
+<section class="slide" data-slide="migration">
+    <div class="slide-content">
+        <h3 class="slide-title">Migrating JavaScript to TypeScript</h3>
+        <div class="migration-steps">
+            <div class="migration-step">
+                <span class="step-num">1</span>
+                <div class="step-content">
+                    <strong>Add TypeScript alongside JS</strong>
+                    <p>Install TS, create tsconfig.json with <code>"allowJs": true</code></p>
+                </div>
+            </div>
+            <div class="migration-step">
+                <span class="step-num">2</span>
+                <div class="step-content">
+                    <strong>Rename files incrementally</strong>
+                    <p>Start with leaf files (no dependencies), rename .js to .ts</p>
+                </div>
+            </div>
+            <div class="migration-step">
+                <span class="step-num">3</span>
+                <div class="step-content">
+                    <strong>Fix errors, add types</strong>
+                    <p>Add type annotations where needed, use <code>any</code> temporarily if stuck</p>
+                </div>
+            </div>
+            <div class="migration-step">
+                <span class="step-num">4</span>
+                <div class="step-content">
+                    <strong>Enable strict mode</strong>
+                    <p>Turn on strict options one by one, fix remaining issues</p>
+                </div>
+            </div>
+            <div class="migration-step">
+                <span class="step-num">5</span>
+                <div class="step-content">
+                    <strong>Eliminate any</strong>
+                    <p>Replace all <code>any</code> with proper types</p>
+                </div>
+            </div>
+        </div>
+        <div class="migration-tip">
+            <strong>Pro tip:</strong> Use <code>// @ts-expect-error</code> for known issues you'll fix later. It errors if the issue is fixed!
+        </div>
+    </div>
+</section>
+
+<!-- SUMMARY -->
+<section class="slide" data-slide="summary">
+    <div class="slide-content">
+        <h3 class="slide-title">Key Takeaways</h3>
+        <div class="takeaways">
+            <div class="takeaway">
+                <span class="takeaway-num">01</span>
+                <div class="takeaway-text">
+                    <strong>TypeScript = JavaScript + Static Types</strong>
+                    <p>Catches bugs at compile time. Zero runtime overhead.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">02</span>
+                <div class="takeaway-text">
+                    <strong>Types are documentation that never lies</strong>
+                    <p>IDE support, autocomplete, refactoring — all powered by types.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">03</span>
+                <div class="takeaway-text">
+                    <strong>Start with strict mode</strong>
+                    <p>The stricter the config, the more bugs you catch.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">04</span>
+                <div class="takeaway-text">
+                    <strong>TypeScript is the industry standard</strong>
+                    <p>Used by Google, Microsoft, Airbnb, and most modern projects.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- END SLIDE -->
+<section class="slide" data-slide="end">
+    <div class="slide-content title-slide">
+        <h2 class="end-title">Questions?</h2>
+        <div class="end-info">
+            <p class="course">Full Stack Engineering</p>
+            <p class="instructor">Ohad Assulin — RU</p>
+        </div>
+        <div class="end-resources">
+            <h4>Further Reading</h4>
+            <ul>
+                <li>typescriptlang.org — Official Docs & Playground</li>
+                <li>TypeScript Deep Dive — Free online book</li>
+                <li>Matt Pocock's Total TypeScript — Video tutorials</li>
+                <li>type-challenges — Practice problems</li>
+            </ul>
+        </div>
+    </div>
+</section>

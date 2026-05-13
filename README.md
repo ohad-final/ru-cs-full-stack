@@ -29,6 +29,21 @@ Server-side JavaScript and modern async patterns.
 - Promises, async/await, and error handling
 - Common async patterns and gotchas
 
+### 03 — TypeScript
+Static typing for JavaScript — history, benefits, and complete tutorial.
+
+**Topics covered:**
+- The JavaScript problem and why TypeScript was created
+- TypeScript history and Anders Hejlsberg
+- Benefits: error catching, IDE support, self-documenting code
+- Basic types, arrays, tuples, interfaces
+- Type inference and union types
+- Generics and utility types (Partial, Pick, Omit, Record)
+- Type guards and discriminated unions
+- TypeScript with React
+- Project setup and strict mode configuration
+- Migration strategies for existing codebases
+
 ## Getting Started
 
 ### Step 1: Download the Files
@@ -100,7 +115,8 @@ You can also use touch/swipe gestures on mobile devices.
 ├── script.js           # Navigation, modals, interactions
 ├── lectures/
 │   ├── http-browser.html        # Lecture 1 slides
-│   └── nodejs-nextjs-async.html # Lecture 2 slides
+│   ├── nodejs-nextjs-async.html # Lecture 2 slides
+│   └── typescript.html          # Lecture 3 slides
 └── serve.sh            # Quick start script
 ```
 
