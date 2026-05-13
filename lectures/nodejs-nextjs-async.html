@@ -216,6 +216,73 @@ Content-Type: application/json
     </div>
 </section>
 
+<!-- HTTP STATIC SERVER -->
+<section class="slide" data-slide="static-server">
+    <div class="slide-content">
+        <h3 class="slide-title">HTTP Static Server</h3>
+        <p class="click-hint">Click any component for details</p>
+        <div class="two-column">
+            <div class="column">
+                <div class="static-server-diagram">
+                    <div class="static-flow">
+                        <div class="static-step clickable" data-modal="static-request">
+                            <div class="step-icon">1</div>
+                            <div class="step-label">Browser Request</div>
+                            <code>GET /images/logo.png</code>
+                        </div>
+                        <div class="static-arrow">|</div>
+                        <div class="static-step clickable" data-modal="static-mapping">
+                            <div class="step-icon">2</div>
+                            <div class="step-label">Map URL to File</div>
+                            <code>/images/logo.png -> ./public/images/logo.png</code>
+                        </div>
+                        <div class="static-arrow">|</div>
+                        <div class="static-step clickable" data-modal="static-read">
+                            <div class="step-icon">3</div>
+                            <div class="step-label">Read File from Disk</div>
+                            <code>fs.readFile('./public/images/logo.png')</code>
+                        </div>
+                        <div class="static-arrow">|</div>
+                        <div class="static-step clickable" data-modal="static-response">
+                            <div class="step-icon">4</div>
+                            <div class="step-label">Send Response</div>
+                            <code>Content-Type: image/png</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="static-info">
+                    <h4>What is a Static Server?</h4>
+                    <p>A server that serves <strong>pre-existing files</strong> directly from the file system — no code execution, no database queries.</p>
+
+                    <div class="static-files-box">
+                        <h5>Common Static Files</h5>
+                        <div class="file-types">
+                            <span class="file-type html">.html</span>
+                            <span class="file-type css">.css</span>
+                            <span class="file-type js">.js</span>
+                            <span class="file-type img">.png .jpg .svg</span>
+                            <span class="file-type font">.woff2 .ttf</span>
+                            <span class="file-type doc">.pdf .txt</span>
+                        </div>
+                    </div>
+
+                    <div class="static-use-cases">
+                        <h5>Use Cases</h5>
+                        <ul>
+                            <li>Serving frontend assets (CSS, JS, images)</li>
+                            <li>Hosting documentation sites</li>
+                            <li>CDN origin servers</li>
+                            <li>Development servers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- SIMPLE PYTHON SERVER -->
 <section class="slide" data-slide="python-server">
     <div class="slide-content">

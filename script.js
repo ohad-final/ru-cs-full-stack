@@ -2258,6 +2258,1356 @@ function SearchBar() {
                     </div>
                 `
             },
+            // HTTP Static Server (Slide 6)
+            'static-request': {
+                title: '1. Browser Request',
+                body: `
+                    <p>The browser sends an HTTP request for a specific file.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>GET /images/logo.png HTTP/1.1
+Host: example.com
+Accept: image/png, image/*
+Accept-Encoding: gzip, deflate, br
+If-None-Match: "abc123"
+If-Modified-Since: Mon, 01 Jan 2024 00:00:00 GMT</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Caching Headers</div>
+                        <p><code>If-None-Match</code> and <code>If-Modified-Since</code> enable caching — the server can respond with <code>304 Not Modified</code> if the file hasn't changed.</p>
+                    </div>
+                `
+            },
+            'static-mapping': {
+                title: '2. Map URL to File Path',
+                body: `
+                    <p>The server maps the URL path to a file on the filesystem.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>URL Path               →  File Path
+/                      →  ./public/index.html
+/about                 →  ./public/about.html
+/css/styles.css        →  ./public/css/styles.css
+/images/logo.png       →  ./public/images/logo.png
+/api/users             →  404 (no file exists)</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Security</div>
+                        <p>Good static servers prevent <strong>path traversal attacks</strong> — requests like <code>/../../../etc/passwd</code> must be blocked.</p>
+                    </div>
+                `
+            },
+            'static-read': {
+                title: '3. Read File from Disk',
+                body: `
+                    <p>The server reads the file from the filesystem.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Node.js example
+const filePath = path.join(publicDir, req.url);
+
+// Check if file exists
+if (!fs.existsSync(filePath)) {
+    return res.status(404).send('Not Found');
+}
+
+// Read the file
+const content = fs.readFileSync(filePath);
+
+// For large files, use streaming:
+const stream = fs.createReadStream(filePath);
+stream.pipe(res);</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Performance</div>
+                        <p>Production servers cache file contents in memory and use <code>sendfile()</code> syscall for zero-copy transfer.</p>
+                    </div>
+                `
+            },
+            'static-response': {
+                title: '4. Send Response',
+                body: `
+                    <p>The server sends the file with appropriate headers.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>HTTP/1.1 200 OK
+Content-Type: image/png
+Content-Length: 12345
+Cache-Control: public, max-age=31536000
+ETag: "abc123"
+Last-Modified: Mon, 01 Jan 2024 00:00:00 GMT
+
+[binary image data...]</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Content-Type Detection</div>
+                        <p>The server determines <code>Content-Type</code> from file extension:
+                        <br><code>.html</code> → <code>text/html</code>
+                        <br><code>.css</code> → <code>text/css</code>
+                        <br><code>.js</code> → <code>application/javascript</code>
+                        <br><code>.png</code> → <code>image/png</code></p>
+                    </div>
+                `
+            },
+            // What is an HTTP Server (Slide 3)
+            'concept-listen': {
+                title: 'Listen on a Port',
+                body: `
+                    <p>The server binds to a <strong>port number</strong> and waits for incoming connections.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Node.js
+server.listen(3000, () => {
+    console.log('Listening on port 3000');
+});
+
+// The server now accepts connections at:
+// http://localhost:3000</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Common Ports</div>
+                        <ul>
+                            <li><strong>80</strong> — HTTP (default)</li>
+                            <li><strong>443</strong> — HTTPS (default)</li>
+                            <li><strong>3000, 8080</strong> — Development</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'concept-receive': {
+                title: 'Receive HTTP Requests',
+                body: `
+                    <p>When a client connects, the server receives the <strong>HTTP request</strong> with method, URL, headers, and body.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>GET /api/users HTTP/1.1
+Host: example.com
+Authorization: Bearer token123
+Accept: application/json</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Request Components</div>
+                        <ul>
+                            <li><strong>Method</strong> — GET, POST, PUT, DELETE, etc.</li>
+                            <li><strong>URL/Path</strong> — /api/users?page=1</li>
+                            <li><strong>Headers</strong> — metadata (auth, content-type)</li>
+                            <li><strong>Body</strong> — data payload (POST/PUT)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'concept-process': {
+                title: 'Process & Execute Logic',
+                body: `
+                    <p>The server processes the request — running your <strong>application code</strong>.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>async function handleRequest(req) {
+    // 1. Parse the request
+    const { method, url, body } = req;
+
+    // 2. Route to handler
+    if (method === 'GET' && url === '/api/users') {
+        // 3. Execute business logic
+        const users = await db.query('SELECT * FROM users');
+        return users;
+    }
+}</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">What Happens Here</div>
+                        <p>Database queries, API calls, authentication checks, validation, business logic — all your backend code runs in this phase.</p>
+                    </div>
+                `
+            },
+            'concept-respond': {
+                title: 'Send HTTP Response',
+                body: `
+                    <p>The server sends back an <strong>HTTP response</strong> with status code, headers, and body.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: max-age=3600
+
+{
+    "users": [
+        { "id": 1, "name": "Alice" },
+        { "id": 2, "name": "Bob" }
+    ]
+}</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Response Components</div>
+                        <ul>
+                            <li><strong>Status Code</strong> — 200, 404, 500, etc.</li>
+                            <li><strong>Headers</strong> — Content-Type, Cache-Control</li>
+                            <li><strong>Body</strong> — JSON, HTML, or binary data</li>
+                        </ul>
+                    </div>
+                `
+            },
+            // Server Landscape (Slide 4)
+            'server-traditional': {
+                title: 'Traditional Web Servers',
+                body: `
+                    <p><strong>Traditional web servers</strong> serve static files and act as reverse proxies.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Apache HTTP Server</div>
+                        <ul>
+                            <li>The original workhorse (since 1995)</li>
+                            <li>Process/thread per connection model</li>
+                            <li><code>.htaccess</code> for per-directory config</li>
+                            <li>mod_php, mod_rewrite, mod_ssl</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Nginx</div>
+                        <ul>
+                            <li>Event-driven, async architecture</li>
+                            <li>Excellent for high concurrency</li>
+                            <li>Reverse proxy & load balancer</li>
+                            <li>Static file serving champion</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Common Use Cases</div>
+                        <p>Serving static assets, SSL termination, load balancing, reverse proxying to application servers.</p>
+                    </div>
+                `
+            },
+            'server-application': {
+                title: 'Application Servers',
+                body: `
+                    <p><strong>Application servers</strong> run your backend code and handle business logic.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Language-Specific Servers</div>
+                        <ul>
+                            <li><strong>Node.js</strong> — JavaScript runtime with built-in HTTP</li>
+                            <li><strong>Gunicorn/uWSGI</strong> — Python WSGI servers</li>
+                            <li><strong>Puma/Unicorn</strong> — Ruby application servers</li>
+                            <li><strong>Tomcat/Jetty</strong> — Java servlet containers</li>
+                            <li><strong>PHP-FPM</strong> — FastCGI Process Manager for PHP</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Responsibilities</div>
+                        <ul>
+                            <li>Execute application code</li>
+                            <li>Manage database connections</li>
+                            <li>Handle sessions and authentication</li>
+                            <li>Process business logic</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'server-frameworks': {
+                title: 'Web Frameworks',
+                body: `
+                    <p><strong>Web frameworks</strong> provide structure and tools for building web applications.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Popular Frameworks by Language</div>
+                        <ul>
+                            <li><strong>JavaScript:</strong> Express, Fastify, Hono, NestJS</li>
+                            <li><strong>Python:</strong> Django, Flask, FastAPI</li>
+                            <li><strong>Ruby:</strong> Rails, Sinatra</li>
+                            <li><strong>Go:</strong> Gin, Echo, Fiber</li>
+                            <li><strong>Rust:</strong> Actix, Axum, Rocket</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">What Frameworks Provide</div>
+                        <ul>
+                            <li>Routing — map URLs to handlers</li>
+                            <li>Middleware — request/response pipeline</li>
+                            <li>Templating — generate HTML</li>
+                            <li>ORM — database abstraction</li>
+                            <li>Validation — input sanitization</li>
+                            <li>Authentication — user management</li>
+                        </ul>
+                    </div>
+                `
+            },
+            // Request Lifecycle (Slide 5)
+            'lifecycle-connection': {
+                title: '1. Connection Established',
+                body: `
+                    <p>Client establishes a TCP connection with the server.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>TCP 3-Way Handshake:
+Client → SYN →          Server
+Client ← SYN-ACK ←      Server
+Client → ACK →          Server
+
+For HTTPS, TLS handshake follows:
+Client → ClientHello →  Server
+Client ← ServerHello ←  Server
+Client ← Certificate ←  Server
+🔒 Encrypted channel ready</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Keep-Alive</div>
+                        <p>HTTP/1.1+ reuses connections for multiple requests, avoiding handshake overhead.</p>
+                    </div>
+                `
+            },
+            'lifecycle-parse': {
+                title: '2. Parse Request',
+                body: `
+                    <p>Server parses the raw HTTP request into structured data.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>Raw bytes received:
+"GET /api/users?page=1 HTTP/1.1\\r\\n
+Host: api.example.com\\r\\n
+Authorization: Bearer token123\\r\\n
+Content-Type: application/json\\r\\n
+\\r\\n"
+
+Parsed into:
+{
+  method: "GET",
+  path: "/api/users",
+  query: { page: "1" },
+  headers: {
+    host: "api.example.com",
+    authorization: "Bearer token123",
+    "content-type": "application/json"
+  },
+  body: null
+}</code></pre>
+                    </div>
+                `
+            },
+            'lifecycle-routing': {
+                title: '3. Route Matching',
+                body: `
+                    <p>Server matches the request URL and method to a handler function.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Route definitions
+app.get('/api/users', listUsers);
+app.get('/api/users/:id', getUser);
+app.post('/api/users', createUser);
+app.put('/api/users/:id', updateUser);
+app.delete('/api/users/:id', deleteUser);
+
+// Incoming request: GET /api/users/42
+// Matches: app.get('/api/users/:id', getUser)
+// Params extracted: { id: "42" }</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Route Priority</div>
+                        <p>Routes are matched in definition order. More specific routes should come before wildcards.</p>
+                    </div>
+                `
+            },
+            'lifecycle-middleware': {
+                title: '4. Middleware Chain',
+                body: `
+                    <p>Request passes through a chain of middleware functions before reaching the handler.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Middleware execution order
+Request
+  → Logger (log request)
+  → CORS (add headers)
+  → Auth (verify token)
+  → Rate Limiter (check limits)
+  → Body Parser (parse JSON)
+  → Validator (validate input)
+  → Handler (your code)
+  → Error Handler (catch errors)
+Response</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Middleware Pattern</div>
+                        <p>Each middleware can: modify request/response, end the request early (e.g., auth failure), or call <code>next()</code> to continue.</p>
+                    </div>
+                `
+            },
+            'lifecycle-handler': {
+                title: '5. Handle Request',
+                body: `
+                    <p>Your application code executes — the actual business logic.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>async function getUser(req, res) {
+  // 1. Extract parameters
+  const { id } = req.params;
+
+  // 2. Validate input
+  if (!isValidId(id)) {
+    return res.status(400).json({ error: 'Invalid ID' });
+  }
+
+  // 3. Business logic (database, APIs, etc.)
+  const user = await db.users.findById(id);
+
+  if (!user) {
+    return res.status(404).json({ error: 'Not found' });
+  }
+
+  // 4. Return response
+  res.json(user);
+}</code></pre>
+                    </div>
+                `
+            },
+            'lifecycle-response': {
+                title: '6. Send Response',
+                body: `
+                    <p>Server serializes and sends the HTTP response back to the client.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>Response object:
+{
+  status: 200,
+  headers: {
+    "Content-Type": "application/json",
+    "Cache-Control": "max-age=60"
+  },
+  body: { id: 42, name: "Alice" }
+}
+
+Serialized to bytes:
+"HTTP/1.1 200 OK\\r\\n
+Content-Type: application/json\\r\\n
+Cache-Control: max-age=60\\r\\n
+Content-Length: 28\\r\\n
+\\r\\n
+{\\"id\\":42,\\"name\\":\\"Alice\\"}"</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Connection Handling</div>
+                        <p>With keep-alive, the connection stays open for more requests. Otherwise, it closes after the response.</p>
+                    </div>
+                `
+            },
+            // Why JavaScript on Server (Slide 7)
+            'benefit-one-language': {
+                title: 'One Language Everywhere',
+                body: `
+                    <p>Use <strong>JavaScript</strong> for frontend, backend, mobile, desktop — everything.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Unified Codebase Benefits</div>
+                        <ul>
+                            <li>Share validation logic between client and server</li>
+                            <li>Share types and interfaces (TypeScript)</li>
+                            <li>Share utility functions</li>
+                            <li>Easier context switching for developers</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'benefit-one-team': {
+                title: 'Full-Stack Developers',
+                body: `
+                    <p>One developer or team can build the <strong>entire application</strong>.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Team Benefits</div>
+                        <ul>
+                            <li>No "throw it over the wall" between frontend/backend</li>
+                            <li>Better understanding of full system</li>
+                            <li>Faster iteration and debugging</li>
+                            <li>Reduced communication overhead</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'benefit-nonblocking': {
+                title: 'Non-Blocking I/O',
+                body: `
+                    <p>Node.js handles thousands of connections with a <strong>single thread</strong>.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Non-blocking: doesn't wait for I/O
+fs.readFile('large.txt', (err, data) => {
+    // Called when file is ready
+});
+console.log('This runs immediately!');
+
+// vs Blocking (traditional):
+const data = fs.readFileSync('large.txt');  // Waits...
+console.log('This waits for file read');</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Why This Matters</div>
+                        <p>While waiting for database queries or API calls, Node.js handles other requests — perfect for I/O-heavy web applications.</p>
+                    </div>
+                `
+            },
+            'benefit-npm': {
+                title: 'Massive Package Ecosystem',
+                body: `
+                    <p><strong>npm</strong> is the world's largest software registry — over 2 million packages.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Everything You Need</div>
+                        <ul>
+                            <li>Web frameworks (Express, Fastify, Hono)</li>
+                            <li>Database clients (pg, mongoose, prisma)</li>
+                            <li>Authentication (passport, next-auth)</li>
+                            <li>Validation (zod, joi, yup)</li>
+                            <li>Utilities (lodash, date-fns, uuid)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'benefit-tooling': {
+                title: 'Modern Tooling',
+                body: `
+                    <p>JavaScript has the best <strong>developer experience</strong> tooling in the industry.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">DX Highlights</div>
+                        <ul>
+                            <li><strong>Hot reload</strong> — see changes instantly</li>
+                            <li><strong>TypeScript</strong> — type safety and autocomplete</li>
+                            <li><strong>ESLint/Prettier</strong> — consistent code style</li>
+                            <li><strong>VS Code</strong> — incredible IDE support</li>
+                            <li><strong>Chrome DevTools</strong> — debugging</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'benefit-cloud': {
+                title: 'Cloud-Native Deployment',
+                body: `
+                    <p>Deploy Node.js anywhere — every cloud platform has <strong>first-class support</strong>.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Deployment Options</div>
+                        <ul>
+                            <li><strong>Vercel</strong> — optimized for Next.js</li>
+                            <li><strong>AWS Lambda</strong> — serverless functions</li>
+                            <li><strong>Google Cloud Run</strong> — containerized apps</li>
+                            <li><strong>Railway, Render</strong> — simple PaaS</li>
+                            <li><strong>Docker + Kubernetes</strong> — full control</li>
+                        </ul>
+                    </div>
+                `
+            },
+            // Node.js History (Slide 9)
+            'history-2009': {
+                title: 'Node.js Created (2009)',
+                body: `
+                    <p><strong>Ryan Dahl</strong> presents Node.js at JSConf EU, demonstrating non-blocking I/O.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Key Innovation</div>
+                        <p>Combined Google's V8 JavaScript engine with an event-driven, non-blocking I/O model. The goal: handle 10,000+ concurrent connections efficiently.</p>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">The Motivation</div>
+                        <p>Ryan was frustrated with Apache's thread-per-connection model. He wanted a server that could handle massive concurrency without creating a thread for each connection.</p>
+                    </div>
+                `
+            },
+            'history-2010': {
+                title: 'npm Launched (2010)',
+                body: `
+                    <p><strong>npm</strong> (Node Package Manager) is created by Isaac Schlueter.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Impact</div>
+                        <ul>
+                            <li>Standardized package management for JavaScript</li>
+                            <li>Easy dependency installation and sharing</li>
+                            <li>Became the largest software registry in the world</li>
+                            <li>Enabled the JavaScript ecosystem explosion</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'history-2011': {
+                title: 'Enterprise Adoption (2011)',
+                body: `
+                    <p>Major companies start using Node.js in production.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Early Adopters</div>
+                        <ul>
+                            <li><strong>LinkedIn</strong> — mobile backend, 20x faster</li>
+                            <li><strong>Uber</strong> — real-time matching system</li>
+                            <li><strong>PayPal</strong> — rebuilt checkout flow</li>
+                            <li><strong>Netflix</strong> — UI platform</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'history-2015': {
+                title: 'io.js Merge & Node Foundation (2015)',
+                body: `
+                    <p>The Node.js community reunites under the <strong>Node.js Foundation</strong>.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">The Fork Story</div>
+                        <p>In 2014, frustrated developers forked Node.js to create io.js for faster development. In 2015, the projects merged back together under neutral governance.</p>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Result</div>
+                        <ul>
+                            <li>Modern ES6+ features adopted faster</li>
+                            <li>More transparent governance</li>
+                            <li>Regular release schedule (LTS)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'history-2023': {
+                title: 'Node.js Today (2023+)',
+                body: `
+                    <p>Node.js is a <strong>mature, stable platform</strong> used by millions of developers.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Modern Features</div>
+                        <ul>
+                            <li>Native ES modules</li>
+                            <li>Built-in fetch() API</li>
+                            <li>Test runner included</li>
+                            <li>Performance improvements</li>
+                            <li>Better TypeScript integration</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Alternatives Emerged</div>
+                        <p><strong>Deno</strong> (Ryan Dahl's new project) and <strong>Bun</strong> offer alternatives, but Node.js remains the dominant runtime.</p>
+                    </div>
+                `
+            },
+            // Node.js Architecture (Slide 10)
+            'arch-usercode': {
+                title: 'Your Application Code',
+                body: `
+                    <p>Your JavaScript/TypeScript code that implements the business logic.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Your code lives here
+import express from 'express';
+
+const app = express();
+
+app.get('/api/users', async (req, res) => {
+    const users = await db.query('SELECT * FROM users');
+    res.json(users);
+});
+
+app.listen(3000);</code></pre>
+                    </div>
+                `
+            },
+            'arch-nodeapis': {
+                title: 'Node.js APIs',
+                body: `
+                    <p>Built-in modules and APIs provided by Node.js.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Core Modules</div>
+                        <ul>
+                            <li><code>fs</code> — File system operations</li>
+                            <li><code>http/https</code> — HTTP servers and clients</li>
+                            <li><code>path</code> — Path manipulation</li>
+                            <li><code>crypto</code> — Cryptographic functions</li>
+                            <li><code>stream</code> — Streaming data</li>
+                            <li><code>events</code> — Event emitter pattern</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'arch-v8': {
+                title: 'V8 JavaScript Engine',
+                body: `
+                    <p>Google's <strong>V8</strong> compiles JavaScript to native machine code.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">How V8 Works</div>
+                        <ul>
+                            <li><strong>Parser</strong> — JS → Abstract Syntax Tree</li>
+                            <li><strong>Ignition</strong> — Interpreter, runs bytecode</li>
+                            <li><strong>TurboFan</strong> — JIT compiler, optimizes hot code</li>
+                            <li><strong>Garbage Collector</strong> — Automatic memory management</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Performance</div>
+                        <p>V8 makes JavaScript nearly as fast as compiled languages for many workloads. Same engine powers Chrome browser.</p>
+                    </div>
+                `
+            },
+            'arch-libuv': {
+                title: 'libuv — Async I/O',
+                body: `
+                    <p><strong>libuv</strong> provides the event loop and async I/O operations.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">What libuv Handles</div>
+                        <ul>
+                            <li>Event loop implementation</li>
+                            <li>Async file system operations</li>
+                            <li>Async DNS resolution</li>
+                            <li>Network I/O (TCP, UDP)</li>
+                            <li>Child processes</li>
+                            <li>Thread pool for blocking operations</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Cross-Platform</div>
+                        <p>libuv abstracts OS differences — epoll (Linux), kqueue (macOS), IOCP (Windows).</p>
+                    </div>
+                `
+            },
+            'arch-os': {
+                title: 'Operating System',
+                body: `
+                    <p>The underlying OS provides system calls for I/O, networking, and processes.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">OS Responsibilities</div>
+                        <ul>
+                            <li>File system access</li>
+                            <li>Network sockets</li>
+                            <li>Process management</li>
+                            <li>Memory allocation</li>
+                            <li>Thread scheduling</li>
+                        </ul>
+                    </div>
+                `
+            },
+            // Stream Types (Slide 14)
+            'stream-readable': {
+                title: 'Readable Streams',
+                body: `
+                    <p><strong>Readable</strong> streams are sources of data you can read from.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>const fs = require('fs');
+
+// File read stream
+const readStream = fs.createReadStream('large-file.txt');
+
+readStream.on('data', (chunk) => {
+    console.log('Received', chunk.length, 'bytes');
+});
+
+readStream.on('end', () => {
+    console.log('Finished reading');
+});
+
+// HTTP request body is also a readable stream
+app.post('/upload', (req, res) => {
+    req.on('data', chunk => { /* process chunk */ });
+});</code></pre>
+                    </div>
+                `
+            },
+            'stream-transform': {
+                title: 'Transform Streams',
+                body: `
+                    <p><strong>Transform</strong> streams modify data as it passes through.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>const { Transform } = require('stream');
+const zlib = require('zlib');
+
+// Built-in transform: gzip compression
+const gzip = zlib.createGzip();
+
+// Custom transform: uppercase
+const upperCase = new Transform({
+    transform(chunk, encoding, callback) {
+        this.push(chunk.toString().toUpperCase());
+        callback();
+    }
+});
+
+// Chain transforms together
+fs.createReadStream('input.txt')
+    .pipe(upperCase)
+    .pipe(gzip)
+    .pipe(fs.createWriteStream('output.txt.gz'));</code></pre>
+                    </div>
+                `
+            },
+            'stream-writable': {
+                title: 'Writable Streams',
+                body: `
+                    <p><strong>Writable</strong> streams are destinations you can write data to.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>const fs = require('fs');
+
+// File write stream
+const writeStream = fs.createWriteStream('output.txt');
+
+writeStream.write('Hello ');
+writeStream.write('World!');
+writeStream.end();  // Close the stream
+
+// HTTP response is a writable stream
+app.get('/data', (req, res) => {
+    res.write('Part 1\\n');
+    res.write('Part 2\\n');
+    res.end('Done!');
+});</code></pre>
+                    </div>
+                `
+            },
+            // Event Loop Phases (Slide 15)
+            'loop-pending': {
+                title: 'Event Loop: Pending Callbacks',
+                body: `
+                    <p>Executes I/O callbacks deferred to the next loop iteration.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">What Runs Here</div>
+                        <ul>
+                            <li>TCP error callbacks</li>
+                            <li>Some system operations</li>
+                            <li>Callbacks deferred from previous iteration</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Note</div>
+                        <p>Most I/O callbacks run in the <strong>poll</strong> phase. This phase handles edge cases.</p>
+                    </div>
+                `
+            },
+            'loop-close': {
+                title: 'Event Loop: Close Callbacks',
+                body: `
+                    <p>Executes close event callbacks.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// These callbacks run in the close phase
+socket.on('close', () => {
+    console.log('Socket closed');
+});
+
+server.on('close', () => {
+    console.log('Server closed');
+});
+
+// Triggered when:
+socket.destroy();
+server.close();</code></pre>
+                    </div>
+                `
+            },
+            // Express.js Features (Slide 18)
+            'express-routing': {
+                title: 'Express Routing',
+                body: `
+                    <p>Map URLs and HTTP methods to handler functions.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Basic routes
+app.get('/users', listUsers);
+app.post('/users', createUser);
+
+// Route parameters
+app.get('/users/:id', (req, res) => {
+    const { id } = req.params;
+});
+
+// Route groups
+const router = express.Router();
+router.get('/', listProducts);
+router.get('/:id', getProduct);
+app.use('/products', router);</code></pre>
+                    </div>
+                `
+            },
+            'express-middleware': {
+                title: 'Express Middleware',
+                body: `
+                    <p>Functions that have access to request, response, and next middleware.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Middleware function signature
+function logger(req, res, next) {
+    console.log(\`\${req.method} \${req.url}\`);
+    next();  // Pass to next middleware
+}
+
+// Apply globally
+app.use(logger);
+
+// Apply to specific routes
+app.get('/admin', authMiddleware, adminHandler);
+
+// Error handling middleware (4 args)
+app.use((err, req, res, next) => {
+    res.status(500).json({ error: err.message });
+});</code></pre>
+                    </div>
+                `
+            },
+            'express-helpers': {
+                title: 'Express Response Helpers',
+                body: `
+                    <p>Convenient methods for sending responses.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// JSON response
+res.json({ user: 'Alice' });
+
+// Set status
+res.status(404).json({ error: 'Not found' });
+
+// Send file
+res.sendFile('/path/to/file.pdf');
+
+// Redirect
+res.redirect('/login');
+
+// Set headers
+res.set('X-Custom-Header', 'value');
+
+// Set cookie
+res.cookie('session', 'abc123', { httpOnly: true });</code></pre>
+                    </div>
+                `
+            },
+            'express-static': {
+                title: 'Express Static Files',
+                body: `
+                    <p>Serve static files (images, CSS, JS) from a directory.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Serve files from 'public' directory
+app.use(express.static('public'));
+
+// Files in public/ are now accessible:
+// public/images/logo.png → /images/logo.png
+// public/css/styles.css → /css/styles.css
+
+// With URL prefix
+app.use('/static', express.static('public'));
+// public/logo.png → /static/logo.png
+
+// Multiple directories
+app.use(express.static('public'));
+app.use(express.static('uploads'));</code></pre>
+                    </div>
+                `
+            },
+            'express-ecosystem': {
+                title: 'Express Ecosystem',
+                body: `
+                    <p>Rich ecosystem of middleware and plugins.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Popular Middleware</div>
+                        <ul>
+                            <li><code>cors</code> — Cross-origin resource sharing</li>
+                            <li><code>helmet</code> — Security headers</li>
+                            <li><code>morgan</code> — HTTP request logging</li>
+                            <li><code>compression</code> — Gzip responses</li>
+                            <li><code>express-rate-limit</code> — Rate limiting</li>
+                            <li><code>passport</code> — Authentication</li>
+                            <li><code>multer</code> — File uploads</li>
+                        </ul>
+                    </div>
+                `
+            },
+            // Middleware Examples (Slide 19)
+            'mw-logger': {
+                title: 'Logger Middleware',
+                body: `
+                    <p>Log every incoming request for debugging and monitoring.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Simple custom logger
+app.use((req, res, next) => {
+    const start = Date.now();
+    res.on('finish', () => {
+        const duration = Date.now() - start;
+        console.log(\`\${req.method} \${req.url} \${res.statusCode} \${duration}ms\`);
+    });
+    next();
+});
+
+// Or use morgan (production-ready)
+import morgan from 'morgan';
+app.use(morgan('combined'));
+// Output: ::1 - - [10/Oct/2023:13:55:36 +0000] "GET /api/users HTTP/1.1" 200 -</code></pre>
+                    </div>
+                `
+            },
+            'mw-auth': {
+                title: 'Auth Middleware',
+                body: `
+                    <p>Verify authentication before allowing access to protected routes.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>async function authMiddleware(req, res, next) {
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ error: 'No token provided' });
+    }
+
+    try {
+        const payload = jwt.verify(token, SECRET);
+        req.user = payload;  // Attach user to request
+        next();
+    } catch (err) {
+        return res.status(401).json({ error: 'Invalid token' });
+    }
+}
+
+// Protect routes
+app.get('/api/profile', authMiddleware, getProfile);
+app.use('/api/admin', authMiddleware, adminRouter);</code></pre>
+                    </div>
+                `
+            },
+            'mw-cors': {
+                title: 'CORS Middleware',
+                body: `
+                    <p>Enable Cross-Origin Resource Sharing for browser requests.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>import cors from 'cors';
+
+// Allow all origins (development)
+app.use(cors());
+
+// Configure specific origins (production)
+app.use(cors({
+    origin: ['https://myapp.com', 'https://admin.myapp.com'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,  // Allow cookies
+    maxAge: 86400  // Cache preflight for 24 hours
+}));
+
+// CORS headers added:
+// Access-Control-Allow-Origin: https://myapp.com
+// Access-Control-Allow-Methods: GET, POST, PUT, DELETE
+// Access-Control-Allow-Credentials: true</code></pre>
+                    </div>
+                `
+            },
+            // Node Ecosystem (Slide 20)
+            'eco-frameworks': {
+                title: 'Web Frameworks',
+                body: `
+                    <p>Frameworks provide structure for building web applications.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Popular Choices</div>
+                        <ul>
+                            <li><strong>Express</strong> — Minimal, flexible (most popular)</li>
+                            <li><strong>Fastify</strong> — Fast, low overhead</li>
+                            <li><strong>Hono</strong> — Ultralight, works everywhere</li>
+                            <li><strong>NestJS</strong> — Enterprise, Angular-inspired</li>
+                            <li><strong>Koa</strong> — Modern, by Express creators</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'eco-database': {
+                title: 'Database Libraries',
+                body: `
+                    <p>Connect to and query databases from Node.js.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">ORMs & Query Builders</div>
+                        <ul>
+                            <li><strong>Prisma</strong> — Type-safe ORM, great DX</li>
+                            <li><strong>Drizzle</strong> — TypeScript-first, SQL-like</li>
+                            <li><strong>Sequelize</strong> — Traditional ORM</li>
+                            <li><strong>Knex</strong> — SQL query builder</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Database Clients</div>
+                        <ul>
+                            <li><strong>pg</strong> — PostgreSQL</li>
+                            <li><strong>mongoose</strong> — MongoDB</li>
+                            <li><strong>redis</strong> — Redis</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'eco-auth': {
+                title: 'Authentication Libraries',
+                body: `
+                    <p>Handle user authentication and authorization.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Options</div>
+                        <ul>
+                            <li><strong>Passport.js</strong> — Flexible auth middleware</li>
+                            <li><strong>NextAuth.js</strong> — Auth for Next.js</li>
+                            <li><strong>jsonwebtoken</strong> — JWT creation/verification</li>
+                            <li><strong>bcrypt</strong> — Password hashing</li>
+                            <li><strong>Lucia</strong> — Modern session auth</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'eco-validation': {
+                title: 'Validation Libraries',
+                body: `
+                    <p>Validate and sanitize user input.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>import { z } from 'zod';
+
+const UserSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(8),
+    age: z.number().min(18).optional()
+});
+
+// Validate input
+const result = UserSchema.safeParse(req.body);
+if (!result.success) {
+    return res.status(400).json({ errors: result.error.issues });
+}</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Popular Libraries</div>
+                        <p><strong>Zod</strong> (TypeScript-first), <strong>Yup</strong>, <strong>Joi</strong>, <strong>validator.js</strong></p>
+                    </div>
+                `
+            },
+            'eco-testing': {
+                title: 'Testing Frameworks',
+                body: `
+                    <p>Test your Node.js applications.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Test Runners</div>
+                        <ul>
+                            <li><strong>Vitest</strong> — Fast, Vite-powered</li>
+                            <li><strong>Jest</strong> — Full-featured, popular</li>
+                            <li><strong>Node test runner</strong> — Built-in (Node 18+)</li>
+                            <li><strong>Mocha + Chai</strong> — Classic combo</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">HTTP Testing</div>
+                        <p><strong>Supertest</strong> — Test Express routes without running server</p>
+                    </div>
+                `
+            },
+            'eco-devops': {
+                title: 'DevOps & Deployment',
+                body: `
+                    <p>Deploy and monitor Node.js applications.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Process Management</div>
+                        <ul>
+                            <li><strong>PM2</strong> — Process manager, clustering, monitoring</li>
+                            <li><strong>Docker</strong> — Containerization</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Monitoring</div>
+                        <ul>
+                            <li><strong>Pino</strong> — Fast JSON logger</li>
+                            <li><strong>Winston</strong> — Flexible logging</li>
+                            <li><strong>OpenTelemetry</strong> — Tracing & metrics</li>
+                        </ul>
+                    </div>
+                `
+            },
+            // Next.js Production (Slide 28)
+            'prod-image': {
+                title: 'next/image — Optimized Images',
+                body: `
+                    <p>Automatic image optimization, lazy loading, and responsive images.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>import Image from 'next/image';
+
+// Automatic optimization
+<Image
+    src="/hero.jpg"
+    alt="Hero image"
+    width={1200}
+    height={600}
+    priority  // Preload for LCP
+/>
+
+// Responsive images
+<Image
+    src="/photo.jpg"
+    alt="Photo"
+    fill  // Fill parent container
+    sizes="(max-width: 768px) 100vw, 50vw"
+/>
+
+// Remote images (configure in next.config.js)
+<Image src="https://cdn.example.com/photo.jpg" ... /></code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Features</div>
+                        <ul>
+                            <li>WebP/AVIF conversion</li>
+                            <li>Responsive srcset generation</li>
+                            <li>Lazy loading by default</li>
+                            <li>Blur placeholder option</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'prod-metadata': {
+                title: 'Metadata API',
+                body: `
+                    <p>SEO-friendly metadata with the Metadata API.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// app/layout.js — Static metadata
+export const metadata = {
+    title: 'My App',
+    description: 'Welcome to my app',
+    openGraph: {
+        title: 'My App',
+        images: ['/og-image.jpg']
+    }
+};
+
+// app/blog/[slug]/page.js — Dynamic metadata
+export async function generateMetadata({ params }) {
+    const post = await getPost(params.slug);
+    return {
+        title: post.title,
+        description: post.excerpt,
+        openGraph: { images: [post.image] }
+    };
+}</code></pre>
+                    </div>
+                `
+            },
+            'prod-middleware': {
+                title: 'Edge Middleware',
+                body: `
+                    <p>Run code before requests reach your pages — at the edge, globally.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// middleware.js (root of project)
+import { NextResponse } from 'next/server';
+
+export function middleware(request) {
+    // Check auth
+    const token = request.cookies.get('token');
+    if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
+        return NextResponse.redirect(new URL('/login', request.url));
+    }
+
+    // Add headers
+    const response = NextResponse.next();
+    response.headers.set('x-custom-header', 'value');
+    return response;
+}
+
+export const config = {
+    matcher: ['/dashboard/:path*', '/api/:path*']
+};</code></pre>
+                    </div>
+                `
+            },
+            'prod-deploy': {
+                title: 'Deployment Options',
+                body: `
+                    <p>Deploy Next.js anywhere — from one-click to full control.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Recommended</div>
+                        <ul>
+                            <li><strong>Vercel</strong> — Zero-config, made by Next.js team</li>
+                            <li><strong>Netlify</strong> — Great developer experience</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Self-Hosted</div>
+                        <ul>
+                            <li><strong>Docker</strong> — Containerized deployment</li>
+                            <li><strong>Node.js server</strong> — <code>next start</code></li>
+                            <li><strong>Static export</strong> — <code>next export</code> for CDN</li>
+                        </ul>
+                    </div>
+                `
+            },
+            // Async Patterns (Slide 36)
+            'pattern-sequential': {
+                title: 'Sequential Execution',
+                body: `
+                    <p>Run async operations one after another.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Each await waits for the previous to complete
+const user = await getUser(id);       // 100ms
+const posts = await getPosts(user.id); // 200ms
+const comments = await getComments(posts[0].id); // 150ms
+// Total: 450ms
+
+// Use when operations depend on each other</code></pre>
+                    </div>
+                `
+            },
+            'pattern-parallel': {
+                title: 'Parallel Execution',
+                body: `
+                    <p>Run independent operations simultaneously with <code>Promise.all</code>.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// All three run at the same time
+const [users, posts, comments] = await Promise.all([
+    getUsers(),     // 100ms
+    getPosts(),     // 200ms
+    getComments()   // 150ms
+]);
+// Total: 200ms (slowest one)
+
+// Use when operations are independent</code></pre>
+                    </div>
+                `
+            },
+            'pattern-sequential-loop': {
+                title: 'Sequential Loop',
+                body: `
+                    <p>Process items one at a time with <code>for...of</code>.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Process one at a time
+for (const id of userIds) {
+    await processUser(id);  // Waits for each
+}
+
+// Use when:
+// - Order matters
+// - Rate limiting required
+// - Each depends on previous</code></pre>
+                    </div>
+                `
+            },
+            'pattern-parallel-loop': {
+                title: 'Parallel Loop',
+                body: `
+                    <p>Process all items simultaneously with <code>Promise.all</code> + <code>map</code>.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Process all at once
+await Promise.all(
+    userIds.map(id => processUser(id))
+);
+
+// With results
+const users = await Promise.all(
+    userIds.map(id => getUser(id))
+);
+
+// Use when operations are independent</code></pre>
+                    </div>
+                `
+            },
+            // Async Gotchas (Slide 38)
+            'gotcha-missing': {
+                title: 'Missing await',
+                body: `
+                    <p>Forgetting <code>await</code> returns a Promise instead of the value.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// WRONG — missing await
+async function getUser() {
+    const user = fetchUser();  // Promise, not user!
+    console.log(user.name);    // undefined
+    return user;               // Returns Promise
+}
+
+// RIGHT — with await
+async function getUser() {
+    const user = await fetchUser();  // Actual user
+    console.log(user.name);          // "Alice"
+    return user;                     // Returns user
+}</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Tip</div>
+                        <p>TypeScript helps catch this — enable <code>@typescript-eslint/no-floating-promises</code>.</p>
+                    </div>
+                `
+            },
+            'gotcha-blocking': {
+                title: 'Blocking the Event Loop',
+                body: `
+                    <p>CPU-intensive synchronous code blocks all other operations.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// BAD — blocks everything
+app.get('/hash', (req, res) => {
+    // This takes 5 seconds and blocks ALL requests
+    const hash = crypto.pbkdf2Sync(password, salt, 1000000, 64, 'sha512');
+    res.json({ hash });
+});
+
+// GOOD — use async version
+app.get('/hash', async (req, res) => {
+    const hash = await new Promise((resolve, reject) => {
+        crypto.pbkdf2(password, salt, 1000000, 64, 'sha512', (err, key) => {
+            if (err) reject(err);
+            else resolve(key);
+        });
+    });
+    res.json({ hash });
+});</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Rule</div>
+                        <p>Never use <code>*Sync</code> methods in server code. They block the entire process.</p>
+                    </div>
+                `
+            },
             // TypeScript Lecture Modals
             'bug-undefined': {
                 title: 'Cannot Read Property of Undefined',

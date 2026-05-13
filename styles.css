@@ -4837,6 +4837,146 @@ body {
     gap: 1rem;
 }
 
+/* Static Server Slide */
+.static-server-diagram {
+    display: flex;
+    justify-content: center;
+}
+
+.static-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.static-step {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    padding: 1rem 1.5rem;
+    width: 100%;
+    max-width: 320px;
+    transition: var(--transition-fast);
+}
+
+.static-step.clickable {
+    cursor: pointer;
+}
+
+.static-step.clickable:hover {
+    border-color: var(--accent-cyan);
+    box-shadow: var(--glow-cyan);
+}
+
+.static-step .step-icon {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--accent-cyan);
+    color: var(--bg-primary);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.static-step .step-label {
+    display: inline;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.static-step code {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.static-arrow {
+    color: var(--text-dim);
+    font-size: 1.2rem;
+}
+
+.static-info h4 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    color: var(--accent-cyan);
+}
+
+.static-info > p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.static-files-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.static-files-box h5 {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+}
+
+.file-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.file-type {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+.file-type.html { background: var(--accent-orange); color: var(--bg-primary); }
+.file-type.css { background: var(--accent-blue); color: var(--bg-primary); }
+.file-type.js { background: var(--accent-yellow); color: var(--bg-primary); }
+.file-type.img { background: var(--accent-green); color: var(--bg-primary); }
+.file-type.font { background: var(--accent-purple); color: var(--bg-primary); }
+.file-type.doc { background: var(--text-muted); color: var(--bg-primary); }
+
+.static-use-cases h5 {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.static-use-cases ul {
+    list-style: none;
+    padding: 0;
+}
+
+.static-use-cases li {
+    padding-left: 1.25rem;
+    position: relative;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.static-use-cases li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent-cyan);
+}
+
 /* Generic clickable styling */
 .clickable {
     cursor: pointer;
