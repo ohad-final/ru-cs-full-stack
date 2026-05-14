@@ -1,0 +1,1028 @@
+<!-- DevOps & CI/CD Lecture -->
+<section class="slide title-slide active" data-theme="devops">
+    <div class="slide-content">
+        <div class="title-container">
+            <span class="lecture-number">10</span>
+            <h1>DevOps & CI/CD</h1>
+            <p class="subtitle">Automate Everything, Deploy with Confidence</p>
+        </div>
+        <div class="title-meta">
+            <span class="tag">GitHub Actions</span>
+            <span class="tag">Docker</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">Automation</span>
+        </div>
+        <img src="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=1200&h=600&fit=crop&q=80" alt="DevOps automation" class="slide-hero-img" style="position: absolute; bottom: 0; right: 0; width: 45%; height: 60%; object-fit: cover; opacity: 0.3; mask-image: linear-gradient(to left, rgba(0,0,0,0.6), transparent);">
+    </div>
+</section>
+
+<!-- Part I: What is DevOps? -->
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>What is DevOps?</h2>
+        <div class="devops-definition">
+            <div class="devops-venn">
+                <div class="venn-circle dev">Development</div>
+                <div class="venn-circle ops">Operations</div>
+                <div class="venn-overlap">DevOps</div>
+            </div>
+            <div class="devops-desc">
+                <p><strong>DevOps</strong> is a culture and set of practices that brings development and operations together to deliver software faster and more reliably.</p>
+                <div class="devops-pillars">
+                    <div class="pillar">🔄 Continuous Integration</div>
+                    <div class="pillar">🚀 Continuous Delivery</div>
+                    <div class="pillar">📊 Monitoring & Feedback</div>
+                    <div class="pillar">🤝 Collaboration</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>The DevOps Lifecycle</h2>
+        <div class="devops-infinity">
+            <div class="infinity-loop">
+                <div class="infinity-stage plan">Plan</div>
+                <div class="infinity-stage code">Code</div>
+                <div class="infinity-stage build">Build</div>
+                <div class="infinity-stage test">Test</div>
+                <div class="infinity-stage release">Release</div>
+                <div class="infinity-stage deploy">Deploy</div>
+                <div class="infinity-stage operate">Operate</div>
+                <div class="infinity-stage monitor">Monitor</div>
+            </div>
+        </div>
+        <div class="lifecycle-quote">
+            "DevOps is not a goal, but a never-ending process of continual improvement." — Jez Humble
+        </div>
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&h=180&fit=crop&q=80" alt="Continuous cycle" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Before vs After DevOps</h2>
+        <div class="before-after">
+            <div class="ba-side before">
+                <h3>❌ Traditional</h3>
+                <ul>
+                    <li>Deploy every 3-6 months</li>
+                    <li>"Works on my machine"</li>
+                    <li>Manual testing before release</li>
+                    <li>Ops throws it over the wall</li>
+                    <li>Rollback takes hours/days</li>
+                    <li>Finger-pointing when things break</li>
+                </ul>
+            </div>
+            <div class="ba-side after">
+                <h3>✓ DevOps</h3>
+                <ul>
+                    <li>Deploy multiple times per day</li>
+                    <li>Consistent environments (containers)</li>
+                    <li>Automated testing in pipeline</li>
+                    <li>Shared ownership of delivery</li>
+                    <li>Rollback in minutes</li>
+                    <li>Blameless postmortems</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Part II: Continuous Integration -->
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <span class="section-label">Part II</span>
+        <h2>Continuous Integration (CI)</h2>
+        <div class="ci-flow">
+            <div class="ci-step">
+                <div class="ci-icon">👨‍💻</div>
+                <div class="ci-label">Developer pushes code</div>
+            </div>
+            <div class="ci-arrow">→</div>
+            <div class="ci-step">
+                <div class="ci-icon">🔨</div>
+                <div class="ci-label">Automated build</div>
+            </div>
+            <div class="ci-arrow">→</div>
+            <div class="ci-step">
+                <div class="ci-icon">🧪</div>
+                <div class="ci-label">Run tests</div>
+            </div>
+            <div class="ci-arrow">→</div>
+            <div class="ci-step">
+                <div class="ci-icon">📊</div>
+                <div class="ci-label">Code analysis</div>
+            </div>
+            <div class="ci-arrow">→</div>
+            <div class="ci-step result">
+                <div class="ci-icon">✓/✗</div>
+                <div class="ci-label">Pass/Fail status</div>
+            </div>
+        </div>
+        <div class="ci-benefits">
+            <h4>Benefits</h4>
+            <ul>
+                <li>Catch bugs early (when they're cheap to fix)</li>
+                <li>Always have a working main branch</li>
+                <li>Fast feedback on every change</li>
+                <li>Confidence in code quality</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>GitHub Actions: Your First Workflow</h2>
+        <div class="gha-example">
+            <h4>.github/workflows/ci.yml</h4>
+            <pre><code class="language-yaml">name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test
+      - run: npm run build</code></pre>
+        </div>
+        <p class="gha-tip">This runs on every push and PR to main. Tests must pass to merge.</p>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>GitHub Actions: Key Concepts</h2>
+        <div class="gha-concepts">
+            <div class="gha-concept">
+                <h4>🎯 Triggers (on:)</h4>
+                <pre><code class="language-yaml">on:
+  push:          # On push to branches
+  pull_request:  # On PR events
+  schedule:      # Cron schedule
+  workflow_dispatch: # Manual trigger</code></pre>
+            </div>
+            <div class="gha-concept">
+                <h4>💼 Jobs</h4>
+                <pre><code class="language-yaml">jobs:
+  build:
+    runs-on: ubuntu-latest
+  test:
+    needs: build  # Depends on build
+    runs-on: ubuntu-latest</code></pre>
+            </div>
+            <div class="gha-concept">
+                <h4>📦 Steps & Actions</h4>
+                <pre><code class="language-yaml">steps:
+  - uses: actions/checkout@v4
+  - run: npm install
+  - uses: my-org/custom-action@v1</code></pre>
+            </div>
+            <div class="gha-concept">
+                <h4>🔐 Secrets</h4>
+                <pre><code class="language-yaml">env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  API_KEY: ${{ secrets.API_KEY }}</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Matrix Builds</h2>
+        <div class="matrix-example">
+            <pre><code class="language-yaml">jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [18, 20, 22]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci
+      - run: npm test</code></pre>
+        </div>
+        <div class="matrix-visual">
+            <table class="matrix-table">
+                <tr>
+                    <th></th><th>Node 18</th><th>Node 20</th><th>Node 22</th>
+                </tr>
+                <tr>
+                    <td>Ubuntu</td><td>✓</td><td>✓</td><td>✓</td>
+                </tr>
+                <tr>
+                    <td>macOS</td><td>✓</td><td>✓</td><td>✓</td>
+                </tr>
+                <tr>
+                    <td>Windows</td><td>✓</td><td>✓</td><td>✓</td>
+                </tr>
+            </table>
+            <p>9 parallel jobs!</p>
+        </div>
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=250&h=150&fit=crop&q=80" alt="Testing grid" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<!-- Part III: Continuous Deployment -->
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <span class="section-label">Part III</span>
+        <h2>CI vs CD vs CD</h2>
+        <div class="cd-comparison">
+            <div class="cd-type">
+                <h3>Continuous Integration</h3>
+                <div class="cd-bar ci-bar"></div>
+                <p>Build & test on every commit</p>
+            </div>
+            <div class="cd-type">
+                <h3>Continuous Delivery</h3>
+                <div class="cd-bar delivery-bar"></div>
+                <p>Always deployable, manual release trigger</p>
+            </div>
+            <div class="cd-type">
+                <h3>Continuous Deployment</h3>
+                <div class="cd-bar deployment-bar"></div>
+                <p>Automatically deploy every passing commit</p>
+            </div>
+        </div>
+        <p class="cd-note">Most teams do Continuous Delivery (with approval gates) rather than Continuous Deployment.</p>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Deployment Pipeline</h2>
+        <div class="pipeline-stages">
+            <div class="pipeline-stage">
+                <h4>🔨 Build</h4>
+                <ul>
+                    <li>Compile code</li>
+                    <li>Install deps</li>
+                    <li>Create artifacts</li>
+                </ul>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-stage">
+                <h4>🧪 Test</h4>
+                <ul>
+                    <li>Unit tests</li>
+                    <li>Integration tests</li>
+                    <li>E2E tests</li>
+                </ul>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-stage">
+                <h4>📦 Package</h4>
+                <ul>
+                    <li>Docker image</li>
+                    <li>Version tag</li>
+                    <li>Push to registry</li>
+                </ul>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-stage">
+                <h4>🚀 Deploy</h4>
+                <ul>
+                    <li>Staging first</li>
+                    <li>Smoke tests</li>
+                    <li>Production</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Deploy to Vercel with GitHub Actions</h2>
+        <div class="vercel-deploy">
+            <pre><code class="language-yaml">name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
+          vercel-args: '--prod'</code></pre>
+        </div>
+        <div class="vercel-note">
+            <p>💡 <strong>Easier way:</strong> Just connect your GitHub repo to Vercel — automatic deploys on every push!</p>
+        </div>
+    </div>
+</section>
+
+<!-- Part IV: Docker Fundamentals -->
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <span class="section-label">Part IV</span>
+        <h2>Why Docker?</h2>
+        <div class="docker-why">
+            <div class="docker-problem">
+                <h3>The Problem</h3>
+                <div class="works-on-my-machine">
+                    <span>"It works on my machine!"</span>
+                </div>
+                <ul>
+                    <li>Different Node versions</li>
+                    <li>Missing dependencies</li>
+                    <li>OS differences</li>
+                    <li>Config mismatches</li>
+                </ul>
+            </div>
+            <div class="docker-solution">
+                <h3>Docker's Solution</h3>
+                <div class="docker-container-viz">
+                    <div class="container-box">
+                        <span>📦 Container</span>
+                        <div class="container-contents">
+                            <span>App</span>
+                            <span>Node 20</span>
+                            <span>Dependencies</span>
+                            <span>Config</span>
+                        </div>
+                    </div>
+                </div>
+                <p>Package everything together. Runs the same everywhere.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Docker Concepts</h2>
+        <div class="docker-concepts">
+            <div class="docker-concept">
+                <h4>📄 Dockerfile</h4>
+                <p>Recipe to build an image. Instructions for what goes in the container.</p>
+            </div>
+            <div class="docker-concept">
+                <h4>📦 Image</h4>
+                <p>Immutable snapshot. Like a class definition — template for containers.</p>
+            </div>
+            <div class="docker-concept">
+                <h4>🏃 Container</h4>
+                <p>Running instance of an image. Like an object — live process with state.</p>
+            </div>
+            <div class="docker-concept">
+                <h4>🗄️ Registry</h4>
+                <p>Storage for images. Docker Hub, GitHub Container Registry, AWS ECR.</p>
+            </div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1605745341112-85968b19335b?w=300&h=180&fit=crop&q=80" alt="Containers" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.6;">
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Your First Dockerfile</h2>
+        <div class="dockerfile-example">
+            <pre><code class="language-dockerfile"># Use official Node.js image as base
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files first (better caching)
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy source code
+COPY . .
+
+# Build the application
+RUN npm run build
+
+# Expose the port
+EXPOSE 3000
+
+# Start the application
+CMD ["npm", "start"]</code></pre>
+        </div>
+        <div class="dockerfile-commands">
+            <code>docker build -t my-app .</code>
+            <code>docker run -p 3000:3000 my-app</code>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Multi-Stage Builds</h2>
+        <div class="multistage-example">
+            <pre><code class="language-dockerfile"># Stage 1: Build
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Stage 2: Production
+FROM node:20-alpine AS runner
+WORKDIR /app
+
+# Copy only what we need
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+
+# Don't run as root
+USER node
+
+EXPOSE 3000
+CMD ["node", "dist/index.js"]</code></pre>
+        </div>
+        <div class="multistage-benefit">
+            <span class="size-compare">
+                <span class="size old">1.2 GB</span>
+                <span class="arrow">→</span>
+                <span class="size new">150 MB</span>
+            </span>
+            <p>Final image only contains production artifacts</p>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Docker Compose</h2>
+        <div class="compose-example">
+            <h4>docker-compose.yml</h4>
+            <pre><code class="language-yaml">version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgres://db:5432/myapp
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: myapp
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+
+volumes:
+  postgres_data:</code></pre>
+        </div>
+        <code class="compose-cmd">docker-compose up -d</code>
+    </div>
+</section>
+
+<!-- Part V: Environment Management -->
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <span class="section-label">Part V</span>
+        <h2>Environment Strategy</h2>
+        <div class="env-strategy">
+            <div class="env-tier">
+                <h4>🛠️ Development</h4>
+                <p>Local machine, hot reload, debug tools</p>
+                <code>npm run dev</code>
+            </div>
+            <div class="env-arrow">→</div>
+            <div class="env-tier">
+                <h4>🧪 Staging</h4>
+                <p>Production-like, for QA and testing</p>
+                <code>staging.myapp.com</code>
+            </div>
+            <div class="env-arrow">→</div>
+            <div class="env-tier">
+                <h4>🚀 Production</h4>
+                <p>Live users, monitoring, high availability</p>
+                <code>myapp.com</code>
+            </div>
+        </div>
+        <div class="env-principle">
+            <p>⚠️ <strong>Golden Rule:</strong> Staging should mirror production as closely as possible. Same infra, same config, same data shape.</p>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Branch-Based Deployments</h2>
+        <div class="branch-deploy">
+            <pre><code class="language-yaml">name: Deploy
+
+on:
+  push:
+    branches: [main, staging, develop]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set environment
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "ENV=production" >> $GITHUB_ENV
+          elif [ "${{ github.ref }}" = "refs/heads/staging" ]; then
+            echo "ENV=staging" >> $GITHUB_ENV
+          else
+            echo "ENV=development" >> $GITHUB_ENV
+          fi
+
+      - name: Deploy to ${{ env.ENV }}
+        run: ./deploy.sh ${{ env.ENV }}</code></pre>
+        </div>
+        <div class="branch-mapping">
+            <code>main → production</code>
+            <code>staging → staging</code>
+            <code>develop → development</code>
+        </div>
+    </div>
+</section>
+
+<!-- Part VI: Infrastructure as Code -->
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <span class="section-label">Part VI</span>
+        <h2>Infrastructure as Code (IaC)</h2>
+        <div class="iac-comparison">
+            <div class="iac-side manual">
+                <h3>❌ Manual Setup</h3>
+                <ul>
+                    <li>Click through AWS console</li>
+                    <li>SSH and run commands</li>
+                    <li>"I think I changed something..."</li>
+                    <li>Impossible to reproduce</li>
+                    <li>No audit trail</li>
+                </ul>
+            </div>
+            <div class="iac-side code">
+                <h3>✓ Infrastructure as Code</h3>
+                <ul>
+                    <li>Define infra in files</li>
+                    <li>Version control everything</li>
+                    <li>Review changes in PRs</li>
+                    <li>Reproducible environments</li>
+                    <li>Full audit history</li>
+                </ul>
+            </div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=350&h=200&fit=crop&q=80" alt="Infrastructure" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>IaC Tools Landscape</h2>
+        <div class="iac-tools">
+            <div class="iac-tool">
+                <h4>Terraform</h4>
+                <p>Multi-cloud, declarative, huge ecosystem</p>
+                <pre><code class="language-hcl">resource "aws_s3_bucket" "assets" {
+  bucket = "my-app-assets"
+}</code></pre>
+            </div>
+            <div class="iac-tool">
+                <h4>Pulumi</h4>
+                <p>Use TypeScript/Python/Go to define infra</p>
+                <pre><code class="language-typescript">const bucket = new aws.s3.Bucket("assets");</code></pre>
+            </div>
+            <div class="iac-tool">
+                <h4>AWS CDK</h4>
+                <p>AWS-specific, TypeScript/Python</p>
+                <pre><code class="language-typescript">new s3.Bucket(this, 'Assets');</code></pre>
+            </div>
+            <div class="iac-tool">
+                <h4>SST (Serverless Stack)</h4>
+                <p>Full-stack serverless framework</p>
+                <pre><code class="language-typescript">new Bucket(stack, "assets");</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Part VII: Deployment Strategies -->
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <span class="section-label">Part VII</span>
+        <h2>Deployment Strategies</h2>
+        <div class="deploy-strategies">
+            <div class="strategy">
+                <h4>🔄 Rolling</h4>
+                <div class="strategy-viz rolling">
+                    <div class="instance old">v1</div>
+                    <div class="instance new">v2</div>
+                    <div class="instance new">v2</div>
+                    <div class="instance old">v1</div>
+                </div>
+                <p>Gradually replace old with new</p>
+            </div>
+            <div class="strategy">
+                <h4>💙💚 Blue/Green</h4>
+                <div class="strategy-viz bluegreen">
+                    <div class="env blue">Blue (v1)</div>
+                    <div class="env green">Green (v2)</div>
+                </div>
+                <p>Switch traffic instantly</p>
+            </div>
+            <div class="strategy">
+                <h4>🐤 Canary</h4>
+                <div class="strategy-viz canary">
+                    <div class="traffic-bar">
+                        <div class="traffic old" style="width: 90%">v1 90%</div>
+                        <div class="traffic new" style="width: 10%">v2 10%</div>
+                    </div>
+                </div>
+                <p>Route small % to new version</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Feature Flags</h2>
+        <div class="feature-flags">
+            <div class="ff-concept">
+                <p>Deploy code but control visibility. Decouple deployment from release.</p>
+            </div>
+            <div class="ff-code">
+                <pre><code class="language-typescript">import { useFeatureFlag } from '@/lib/flags';
+
+function Dashboard() {
+  const showNewUI = useFeatureFlag('new-dashboard-ui');
+
+  if (showNewUI) {
+    return <NewDashboard />;
+  }
+
+  return <OldDashboard />;
+}
+
+// Flag configuration (LaunchDarkly, Flagsmith, etc.)
+// new-dashboard-ui:
+//   - 10% of users
+//   - beta testers
+//   - internal employees</code></pre>
+            </div>
+        </div>
+        <div class="ff-benefits">
+            <span>🔒 Safe rollouts</span>
+            <span>🔙 Instant rollback</span>
+            <span>🧪 A/B testing</span>
+            <span>👥 Beta programs</span>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Rollback Strategies</h2>
+        <div class="rollback-options">
+            <div class="rollback-option">
+                <h4>🏷️ Revert to Previous Version</h4>
+                <pre><code class="language-bash"># Kubernetes
+kubectl rollout undo deployment/my-app
+
+# Vercel
+vercel rollback
+
+# Docker
+docker run my-app:v1.2.3</code></pre>
+            </div>
+            <div class="rollback-option">
+                <h4>🚦 Feature Flag Kill Switch</h4>
+                <pre><code class="language-typescript">// Instantly disable feature
+await flags.disable('new-checkout-flow');
+
+// No deployment needed!</code></pre>
+            </div>
+            <div class="rollback-option">
+                <h4>🗃️ Database Rollback</h4>
+                <pre><code class="language-bash"># Revert migration
+npx prisma migrate resolve --rolled-back
+
+# Restore from backup
+pg_restore -d mydb backup.dump</code></pre>
+            </div>
+        </div>
+        <p class="rollback-tip">⚠️ Always test rollback procedures before you need them!</p>
+    </div>
+</section>
+
+<!-- Part VIII: Monitoring & Alerts -->
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <span class="section-label">Part VIII</span>
+        <h2>The Three Pillars of Observability</h2>
+        <div class="observability-pillars">
+            <div class="obs-pillar">
+                <h4>📊 Metrics</h4>
+                <p>Numerical measurements over time</p>
+                <ul>
+                    <li>Request rate</li>
+                    <li>Error rate</li>
+                    <li>Response time (p50, p95, p99)</li>
+                    <li>CPU/Memory usage</li>
+                </ul>
+                <span class="obs-tools">Prometheus, Datadog, CloudWatch</span>
+            </div>
+            <div class="obs-pillar">
+                <h4>📝 Logs</h4>
+                <p>Discrete events with context</p>
+                <ul>
+                    <li>Error messages</li>
+                    <li>Request details</li>
+                    <li>User actions</li>
+                    <li>System events</li>
+                </ul>
+                <span class="obs-tools">ELK Stack, Loki, CloudWatch Logs</span>
+            </div>
+            <div class="obs-pillar">
+                <h4>🔍 Traces</h4>
+                <p>Request flow across services</p>
+                <ul>
+                    <li>Service dependencies</li>
+                    <li>Latency breakdown</li>
+                    <li>Error propagation</li>
+                    <li>Bottleneck identification</li>
+                </ul>
+                <span class="obs-tools">Jaeger, Zipkin, Honeycomb</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Alerting Best Practices</h2>
+        <div class="alerting-guide">
+            <div class="alert-good">
+                <h4>✓ Good Alerts</h4>
+                <ul>
+                    <li>Error rate > 1% for 5 minutes</li>
+                    <li>p99 latency > 2s for 10 minutes</li>
+                    <li>Database connections > 80%</li>
+                    <li>Payment failures spike</li>
+                </ul>
+            </div>
+            <div class="alert-bad">
+                <h4>❌ Alert Fatigue</h4>
+                <ul>
+                    <li>CPU briefly spiked to 70%</li>
+                    <li>Single 500 error occurred</li>
+                    <li>Disk at 50% (non-urgent)</li>
+                    <li>Too many channels</li>
+                </ul>
+            </div>
+        </div>
+        <div class="alert-hierarchy">
+            <h4>Severity Levels</h4>
+            <div class="severity-levels">
+                <span class="severity critical">🚨 Critical: Page immediately</span>
+                <span class="severity warning">⚠️ Warning: Check within hours</span>
+                <span class="severity info">ℹ️ Info: Review in standup</span>
+            </div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=280&h=160&fit=crop&q=80" alt="Monitoring dashboard" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<!-- Part IX: Security in CI/CD -->
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <span class="section-label">Part IX</span>
+        <h2>DevSecOps: Security in Pipeline</h2>
+        <div class="devsecops-pipeline">
+            <div class="sec-stage">
+                <h4>📝 Code</h4>
+                <ul>
+                    <li>Pre-commit hooks</li>
+                    <li>IDE security plugins</li>
+                    <li>Secret scanning</li>
+                </ul>
+            </div>
+            <div class="sec-arrow">→</div>
+            <div class="sec-stage">
+                <h4>🔨 Build</h4>
+                <ul>
+                    <li>SAST (code analysis)</li>
+                    <li>Dependency scanning</li>
+                    <li>License compliance</li>
+                </ul>
+            </div>
+            <div class="sec-arrow">→</div>
+            <div class="sec-stage">
+                <h4>📦 Package</h4>
+                <ul>
+                    <li>Container scanning</li>
+                    <li>Image signing</li>
+                    <li>Base image updates</li>
+                </ul>
+            </div>
+            <div class="sec-arrow">→</div>
+            <div class="sec-stage">
+                <h4>🚀 Deploy</h4>
+                <ul>
+                    <li>DAST (runtime)</li>
+                    <li>Secrets management</li>
+                    <li>Network policies</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Secrets Management</h2>
+        <div class="secrets-guide">
+            <div class="secret-dont">
+                <h4>❌ Never Do This</h4>
+                <pre><code class="language-typescript">// Hardcoded secrets in code
+const API_KEY = "sk-abc123xyz";
+
+// Secrets in .env committed to git
+DATABASE_URL=postgres://user:pass@host/db</code></pre>
+            </div>
+            <div class="secret-do">
+                <h4>✓ Use Secret Managers</h4>
+                <pre><code class="language-yaml"># GitHub Actions
+env:
+  API_KEY: ${{ secrets.API_KEY }}
+
+# From AWS Secrets Manager
+aws secretsmanager get-secret-value \
+  --secret-id prod/api-keys</code></pre>
+            </div>
+        </div>
+        <div class="secret-tools">
+            <h4>Tools</h4>
+            <div class="tool-list">
+                <span>GitHub Secrets</span>
+                <span>AWS Secrets Manager</span>
+                <span>HashiCorp Vault</span>
+                <span>Doppler</span>
+                <span>1Password Secrets</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Summary -->
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>DevOps Checklist</h2>
+        <div class="devops-checklist">
+            <div class="checklist-col">
+                <h4>🔄 CI/CD</h4>
+                <ul class="checklist">
+                    <li>Automated builds on every push</li>
+                    <li>Tests run in pipeline</li>
+                    <li>Linting enforced</li>
+                    <li>Deploy on merge to main</li>
+                </ul>
+            </div>
+            <div class="checklist-col">
+                <h4>📦 Containers</h4>
+                <ul class="checklist">
+                    <li>Dockerfile for all services</li>
+                    <li>Multi-stage builds</li>
+                    <li>Docker Compose for local dev</li>
+                    <li>Images scanned for vulnerabilities</li>
+                </ul>
+            </div>
+            <div class="checklist-col">
+                <h4>🔐 Security</h4>
+                <ul class="checklist">
+                    <li>No secrets in code</li>
+                    <li>Dependency scanning</li>
+                    <li>Secret rotation policy</li>
+                    <li>Least privilege access</li>
+                </ul>
+            </div>
+            <div class="checklist-col">
+                <h4>📊 Monitoring</h4>
+                <ul class="checklist">
+                    <li>Health check endpoints</li>
+                    <li>Structured logging</li>
+                    <li>Key metrics dashboards</li>
+                    <li>Actionable alerts only</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Key Takeaways</h2>
+        <div class="takeaways">
+            <div class="takeaway">
+                <span class="takeaway-num">1</span>
+                <p><strong>Automate everything</strong> — If you do it twice, script it. If you script it, put it in CI.</p>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">2</span>
+                <p><strong>Small, frequent deploys</strong> — Deploy daily, not monthly. Smaller changes = smaller risks.</p>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">3</span>
+                <p><strong>Infrastructure is code</strong> — Version control your infra. Review changes in PRs.</p>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">4</span>
+                <p><strong>Shift left on security</strong> — Find vulnerabilities in CI, not production.</p>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">5</span>
+                <p><strong>Measure what matters</strong> — Good observability makes debugging 10x faster.</p>
+            </div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=300&h=180&fit=crop&q=80" alt="Automation" style="position: absolute; bottom: 30px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<section class="slide" data-theme="devops">
+    <div class="slide-content">
+        <h2>Resources</h2>
+        <div class="resources-grid">
+            <div class="resource-category">
+                <h4>📚 Learning</h4>
+                <ul>
+                    <li>The DevOps Handbook — Kim, Humble, et al.</li>
+                    <li>Continuous Delivery — Jez Humble</li>
+                    <li>GitHub Actions docs</li>
+                </ul>
+            </div>
+            <div class="resource-category">
+                <h4>🔧 CI/CD Tools</h4>
+                <ul>
+                    <li><strong>GitHub Actions</strong> — github.com/features/actions</li>
+                    <li><strong>CircleCI</strong> — circleci.com</li>
+                    <li><strong>GitLab CI</strong> — gitlab.com</li>
+                </ul>
+            </div>
+            <div class="resource-category">
+                <h4>🐳 Docker</h4>
+                <ul>
+                    <li><strong>Docker Docs</strong> — docs.docker.com</li>
+                    <li><strong>Play with Docker</strong> — labs.play-with-docker.com</li>
+                    <li><strong>Docker Hub</strong> — hub.docker.com</li>
+                </ul>
+            </div>
+            <div class="resource-category">
+                <h4>📊 Monitoring</h4>
+                <ul>
+                    <li><strong>Grafana</strong> — grafana.com</li>
+                    <li><strong>Prometheus</strong> — prometheus.io</li>
+                    <li><strong>Sentry</strong> — sentry.io</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

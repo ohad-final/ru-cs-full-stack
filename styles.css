@@ -3492,6 +3492,26 @@ body {
     text-transform: uppercase;
 }
 
+.menu-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.menu-meta .meta-item {
+    text-align: center;
+}
+
+.menu-meta .meta-divider {
+    color: var(--accent-cyan);
+    opacity: 0.5;
+}
+
 .lecture-grid {
     display: flex;
     flex-direction: column;
@@ -10847,5 +10867,3036 @@ body {
 
     .render-arrow {
         transform: rotate(90deg);
+    }
+}
+
+/* ============================================
+   REACT DEEP DIVE LECTURE STYLES
+   ============================================ */
+
+/* React comparison cards */
+.react-comparison {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.react-side {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-subtle);
+}
+
+.react-side.vanilla h4,
+.react-side.old h4 {
+    color: var(--accent-orange);
+}
+
+.react-side.react h4,
+.react-side.new h4 {
+    color: var(--accent-cyan);
+}
+
+/* Component diagrams */
+.component-tree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    margin: 2rem 0;
+}
+
+.tree-node {
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-medium);
+    border-radius: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+}
+
+.tree-node.root {
+    background: var(--accent-cyan);
+    color: var(--bg-primary);
+    border-color: var(--accent-cyan);
+}
+
+.tree-children {
+    display: flex;
+    gap: 1rem;
+}
+
+.tree-arrow {
+    color: var(--text-muted);
+}
+
+/* Hook examples */
+.hook-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.hook-card {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    border-left: 3px solid var(--accent-purple);
+}
+
+.hook-card h4 {
+    font-family: var(--font-mono);
+    color: var(--accent-purple);
+    margin-bottom: 0.5rem;
+}
+
+.hook-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* State flow diagram */
+.state-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+}
+
+.flow-step {
+    padding: 1rem 1.5rem;
+    background: var(--bg-tertiary);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.flow-step.action {
+    background: var(--accent-green);
+    color: var(--bg-primary);
+}
+
+.flow-step.state {
+    background: var(--accent-purple);
+    color: white;
+}
+
+.flow-arrow {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+}
+
+/* Context diagram */
+.context-diagram {
+    position: relative;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    border: 2px dashed var(--accent-purple);
+    border-radius: 1rem;
+    margin: 2rem 0;
+}
+
+.context-provider {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-family: var(--font-mono);
+    color: var(--accent-purple);
+}
+
+.context-consumers {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.context-consumer {
+    padding: 1rem;
+    background: var(--bg-tertiary);
+    border-radius: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+/* Performance metrics */
+.perf-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.perf-metric {
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.perf-value {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+.perf-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+}
+
+/* Render optimization */
+.render-optimization {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.opt-before, .opt-after {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.opt-before {
+    border-left: 3px solid var(--accent-red);
+}
+
+.opt-after {
+    border-left: 3px solid var(--accent-green);
+}
+
+/* Server components diagram */
+.server-client-split {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.split-side {
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.split-side.server {
+    background: rgba(103, 232, 249, 0.1);
+    border: 1px solid var(--accent-cyan);
+}
+
+.split-side.client {
+    background: rgba(244, 114, 182, 0.1);
+    border: 1px solid var(--accent-pink);
+}
+
+.split-side h4 {
+    margin-bottom: 1rem;
+}
+
+.split-side.server h4 {
+    color: var(--accent-cyan);
+}
+
+.split-side.client h4 {
+    color: var(--accent-pink);
+}
+
+/* ============================================
+   PROJECT ARCHITECTURE LECTURE STYLES
+   ============================================ */
+
+/* Architecture comparison */
+.arch-comparison {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.arch-side {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.arch-side.bad {
+    border-left: 3px solid var(--accent-red);
+}
+
+.arch-side.good {
+    border-left: 3px solid var(--accent-green);
+}
+
+.arch-side h3 {
+    margin-bottom: 1rem;
+}
+
+.arch-quote {
+    margin-top: 2rem;
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border-left: 3px solid var(--accent-cyan);
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* Cost timeline */
+.cost-timeline {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 250px;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.cost-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cost-month {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.cost-bar {
+    width: 60px;
+    border-radius: 0.25rem;
+}
+
+.cost-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 100px;
+}
+
+.arch-insight {
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Pattern grid */
+.pattern-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.pattern-card {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-subtle);
+}
+
+.pattern-card h3 {
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+}
+
+.pattern-card pre {
+    background: var(--bg-tertiary);
+    padding: 1rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.pattern-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Feature structure */
+.feature-structure {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.feature-structure pre {
+    font-size: 0.8rem;
+}
+
+.feature-benefits {
+    margin-top: 1.5rem;
+}
+
+.feature-benefits h3 {
+    color: var(--accent-green);
+    margin-bottom: 0.75rem;
+}
+
+/* Barrel pattern */
+.barrel-example {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.barrel-code, .barrel-usage {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.barrel-code h4, .barrel-usage h4 {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.arch-tip {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(103, 232, 249, 0.1);
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+    color: var(--accent-cyan);
+}
+
+/* Layers diagram */
+.layers-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.layer {
+    width: 80%;
+    padding: 1.25rem 2rem;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.layer-name {
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+.layer-desc {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.ui-layer {
+    background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));
+    color: white;
+}
+
+.app-layer {
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+    color: white;
+}
+
+.domain-layer {
+    background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));
+    color: var(--bg-primary);
+}
+
+.infra-layer {
+    background: linear-gradient(90deg, var(--accent-orange), var(--accent-yellow));
+    color: var(--bg-primary);
+}
+
+.layer-arrow {
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+}
+
+.layer-rule {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+/* Clean architecture grid */
+.clean-arch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.clean-layer {
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.clean-layer h4 {
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+
+/* DI comparison */
+.di-comparison {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.di-side {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+/* Repo comparison */
+.repo-comparison {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.repo-type {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.repo-type h3 {
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+}
+
+.repo-diagram {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.repo-diagram.single {
+    flex-direction: column;
+}
+
+.repo-box {
+    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-medium);
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+.repo-box.large {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.repo-type ul li.con {
+    color: var(--accent-orange);
+}
+
+/* Monorepo structure */
+.monorepo-structure {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.monorepo-tools {
+    margin-top: 1.5rem;
+}
+
+.monorepo-tools h4 {
+    margin-bottom: 0.5rem;
+}
+
+.tool-badges {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tool-badge {
+    padding: 0.25rem 0.75rem;
+    background: var(--accent-cyan);
+    color: var(--bg-primary);
+    border-radius: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+/* Turbo config */
+.turbo-config {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.turbo-config h4 {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.turbo-benefits {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.turbo-benefit {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.turbo-icon {
+    font-size: 1.25rem;
+}
+
+/* Config layers */
+.config-layers {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.config-layer {
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    align-items: center;
+    gap: 1rem;
+}
+
+.config-layer h4 {
+    margin: 0;
+}
+
+.config-layer code {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.config-where {
+    font-size: 0.8rem;
+    color: var(--accent-cyan);
+}
+
+/* Env example */
+.env-example {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.env-files, .env-validation {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.env-tip {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(251, 146, 60, 0.1);
+    border-radius: 0.25rem;
+    color: var(--accent-orange);
+}
+
+/* Deps guidelines */
+.deps-guidelines {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.dep-rule {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.dep-rule h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+}
+
+/* Dependency graph */
+.dep-graph {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.dep-node {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+.dep-node.core {
+    background: var(--accent-purple);
+    color: white;
+    padding: 1rem 2rem;
+}
+
+.dep-node.lib {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-medium);
+}
+
+.dep-arrows {
+    display: flex;
+    gap: 2rem;
+}
+
+.dep-branch {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.dep-tools {
+    margin-top: 1.5rem;
+}
+
+.dep-tools h4 {
+    margin-bottom: 0.5rem;
+}
+
+.dep-tip {
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* SOLID grid */
+.solid-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.solid-principle {
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.solid-letter {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-purple);
+    margin-bottom: 0.5rem;
+}
+
+.solid-principle h4 {
+    font-size: 0.8rem;
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+}
+
+.solid-principle p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Composition example */
+.composition-example {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.comp-bad, .comp-good {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.comp-bad {
+    border-left: 3px solid var(--accent-red);
+}
+
+.comp-good {
+    border-left: 3px solid var(--accent-green);
+}
+
+.composition-tip {
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+/* Naming table */
+.naming-guide {
+    margin-top: 1.5rem;
+}
+
+.naming-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.naming-table th, .naming-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.naming-table th {
+    background: var(--bg-tertiary);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.naming-tips {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Documentation styles */
+.docs-philosophy {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.docs-rule {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.docs-rule.good {
+    border-left: 3px solid var(--accent-green);
+}
+
+.docs-rule.bad {
+    border-left: 3px solid var(--accent-red);
+}
+
+.docs-principle {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.docs-principle em {
+    color: var(--accent-cyan);
+}
+
+/* Project docs grid */
+.project-docs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.doc-file {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.doc-file h4 {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+.doc-file li {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+/* ADR example */
+.adr-example {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.adr-example pre {
+    font-size: 0.8rem;
+}
+
+.adr-tip {
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Ecommerce structure */
+.ecommerce-structure {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.cart-feature {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+/* Checklist grid */
+.checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.checklist-section {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.checklist-section h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+ul.checklist li {
+    font-size: 0.85rem;
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+ul.checklist li::before {
+    content: "☐";
+    position: absolute;
+    left: 0;
+    color: var(--accent-green);
+}
+
+/* Takeaways */
+.takeaways {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.takeaway {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.takeaway-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--accent-cyan);
+    color: var(--bg-primary);
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.takeaway p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Resources grid */
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.resource-category {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.resource-category h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+.resource-category li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+/* ============================================
+   DEVOPS & CI/CD LECTURE STYLES
+   ============================================ */
+
+/* DevOps definition */
+.devops-definition {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    align-items: center;
+}
+
+.devops-venn {
+    position: relative;
+    height: 200px;
+}
+
+.venn-circle {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+.venn-circle.dev {
+    background: rgba(103, 232, 249, 0.3);
+    border: 2px solid var(--accent-cyan);
+    left: 0;
+    top: 0;
+}
+
+.venn-circle.ops {
+    background: rgba(167, 139, 250, 0.3);
+    border: 2px solid var(--accent-purple);
+    right: 0;
+    top: 0;
+}
+
+.venn-overlap {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--accent-green);
+    color: var(--bg-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+.devops-desc {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.devops-pillars {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.pillar {
+    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    border-radius: 0.25rem;
+    font-size: 0.85rem;
+}
+
+/* DevOps infinity loop */
+.devops-infinity {
+    margin-top: 2rem;
+}
+
+.infinity-loop {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.infinity-stage {
+    padding: 0.75rem 1.25rem;
+    background: var(--bg-tertiary);
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    border-bottom: 2px solid var(--accent-cyan);
+}
+
+.lifecycle-quote {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Before/after comparison */
+.before-after {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.ba-side {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.ba-side.before {
+    border-left: 3px solid var(--accent-red);
+}
+
+.ba-side.after {
+    border-left: 3px solid var(--accent-green);
+}
+
+.ba-side h3 {
+    margin-bottom: 1rem;
+}
+
+/* CI flow */
+.ci-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.ci-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--bg-tertiary);
+    border-radius: 0.5rem;
+}
+
+.ci-step.result {
+    background: var(--accent-green);
+    color: var(--bg-primary);
+}
+
+.ci-icon {
+    font-size: 1.5rem;
+}
+
+.ci-label {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+}
+
+.ci-arrow {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+.ci-benefits {
+    margin-top: 1.5rem;
+}
+
+.ci-benefits h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+}
+
+/* GitHub Actions example */
+.gha-example {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.gha-example h4 {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.gha-tip {
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* GHA concepts */
+.gha-concepts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.gha-concept {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.gha-concept h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+/* Matrix builds */
+.matrix-example {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.matrix-visual {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.matrix-table {
+    border-collapse: collapse;
+}
+
+.matrix-table th, .matrix-table td {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-medium);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+.matrix-table th {
+    background: var(--bg-tertiary);
+}
+
+.matrix-visual p {
+    font-size: 1.25rem;
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+/* CD comparison */
+.cd-comparison {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.cd-type {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.cd-type h3 {
+    min-width: 200px;
+}
+
+.cd-bar {
+    height: 20px;
+    border-radius: 0.25rem;
+}
+
+.ci-bar {
+    width: 30%;
+    background: var(--accent-cyan);
+}
+
+.delivery-bar {
+    width: 60%;
+    background: var(--accent-purple);
+}
+
+.deployment-bar {
+    width: 90%;
+    background: var(--accent-green);
+}
+
+.cd-type p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.cd-note {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+/* Pipeline stages */
+.pipeline-stages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.pipeline-stage {
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    min-width: 120px;
+}
+
+.pipeline-stage h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+}
+
+.pipeline-stage li {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.pipeline-arrow {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+/* Vercel deploy */
+.vercel-deploy {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.vercel-note {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(74, 222, 128, 0.1);
+    border-radius: 0.25rem;
+}
+
+/* Docker why */
+.docker-why {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.docker-problem, .docker-solution {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.works-on-my-machine {
+    padding: 1rem;
+    background: var(--bg-tertiary);
+    border: 2px dashed var(--accent-orange);
+    border-radius: 0.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-family: var(--font-mono);
+    color: var(--accent-orange);
+}
+
+.docker-container-viz {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.container-box {
+    padding: 1rem;
+    background: var(--accent-cyan);
+    color: var(--bg-primary);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.container-contents {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    justify-content: center;
+}
+
+.container-contents span {
+    padding: 0.25rem 0.5rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+}
+
+/* Docker concepts */
+.docker-concepts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.docker-concept {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.docker-concept h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+}
+
+.docker-concept p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Dockerfile example */
+.dockerfile-example {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.dockerfile-commands {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.dockerfile-commands code {
+    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    border-radius: 0.25rem;
+    font-size: 0.85rem;
+}
+
+/* Multi-stage example */
+.multistage-example {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.multistage-benefit {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.size-compare {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.size {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+.size.old {
+    background: var(--accent-red);
+    color: white;
+}
+
+.size.new {
+    background: var(--accent-green);
+    color: var(--bg-primary);
+}
+
+.size-compare .arrow {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+/* Docker Compose */
+.compose-example {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.compose-cmd {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-tertiary);
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+}
+
+/* Environment strategy */
+.env-strategy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.env-tier {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    text-align: center;
+    flex: 1;
+}
+
+.env-tier h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+}
+
+.env-tier p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.env-arrow {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+.env-principle {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(251, 146, 60, 0.1);
+    border-radius: 0.25rem;
+    text-align: center;
+}
+
+/* Branch deploy */
+.branch-deploy {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.branch-mapping {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.branch-mapping code {
+    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    border-radius: 0.25rem;
+    font-size: 0.85rem;
+}
+
+/* IaC comparison */
+.iac-comparison {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.iac-side {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.iac-side.manual {
+    border-left: 3px solid var(--accent-red);
+}
+
+.iac-side.code {
+    border-left: 3px solid var(--accent-green);
+}
+
+/* IaC tools */
+.iac-tools {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.iac-tool {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.iac-tool h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.25rem;
+}
+
+.iac-tool p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+/* Deploy strategies */
+.deploy-strategies {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.strategy {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.strategy h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+}
+
+.strategy-viz {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+
+.strategy-viz.rolling .instance {
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+.strategy-viz .instance.old {
+    background: var(--accent-orange);
+    color: var(--bg-primary);
+}
+
+.strategy-viz .instance.new {
+    background: var(--accent-green);
+    color: var(--bg-primary);
+}
+
+.strategy-viz.bluegreen {
+    flex-direction: column;
+}
+
+.strategy-viz .env {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+.strategy-viz .env.blue {
+    background: var(--accent-blue);
+    color: white;
+}
+
+.strategy-viz .env.green {
+    background: var(--accent-green);
+    color: var(--bg-primary);
+}
+
+.strategy-viz.canary .traffic-bar {
+    display: flex;
+    width: 100%;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.strategy-viz .traffic {
+    padding: 0.5rem;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+}
+
+.strategy-viz .traffic.old {
+    background: var(--accent-orange);
+    color: var(--bg-primary);
+}
+
+.strategy-viz .traffic.new {
+    background: var(--accent-green);
+    color: var(--bg-primary);
+}
+
+.strategy p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Feature flags */
+.feature-flags {
+    margin-top: 1.5rem;
+}
+
+.ff-concept {
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border-left: 3px solid var(--accent-purple);
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.ff-code {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.ff-benefits {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.ff-benefits span {
+    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    border-radius: 0.25rem;
+    font-size: 0.85rem;
+}
+
+/* Rollback options */
+.rollback-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.rollback-option {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.rollback-option h4 {
+    font-size: 0.9rem;
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+.rollback-tip {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(251, 146, 60, 0.1);
+    border-radius: 0.25rem;
+    text-align: center;
+    color: var(--accent-orange);
+}
+
+/* Observability pillars */
+.observability-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.obs-pillar {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.obs-pillar h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+.obs-pillar li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.obs-tools {
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--accent-purple);
+    font-family: var(--font-mono);
+}
+
+/* Alerting guide */
+.alerting-guide {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.alert-good, .alert-bad {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.alert-good {
+    border-left: 3px solid var(--accent-green);
+}
+
+.alert-bad {
+    border-left: 3px solid var(--accent-red);
+}
+
+.alert-hierarchy {
+    margin-top: 1.5rem;
+}
+
+.alert-hierarchy h4 {
+    margin-bottom: 0.75rem;
+}
+
+.severity-levels {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.severity {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-size: 0.85rem;
+}
+
+.severity.critical {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--accent-red);
+}
+
+.severity.warning {
+    background: rgba(251, 146, 60, 0.2);
+    color: var(--accent-orange);
+}
+
+.severity.info {
+    background: rgba(96, 165, 250, 0.2);
+    color: var(--accent-blue);
+}
+
+/* DevSecOps pipeline */
+.devsecops-pipeline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.sec-stage {
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    border-top: 3px solid var(--accent-red);
+}
+
+.sec-stage h4 {
+    color: var(--accent-red);
+    margin-bottom: 0.5rem;
+}
+
+.sec-stage li {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.sec-arrow {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+/* Secrets guide */
+.secrets-guide {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.secret-dont, .secret-do {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.secret-dont {
+    border-left: 3px solid var(--accent-red);
+}
+
+.secret-do {
+    border-left: 3px solid var(--accent-green);
+}
+
+.secret-tools {
+    margin-top: 1.5rem;
+}
+
+.secret-tools h4 {
+    margin-bottom: 0.5rem;
+}
+
+.tool-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tool-list span {
+    padding: 0.25rem 0.75rem;
+    background: var(--bg-tertiary);
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+}
+
+/* DevOps checklist */
+.devops-checklist {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.checklist-col {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.checklist-col h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+/* ============================================
+   DEBUGGING & MONITORING LECTURE STYLES
+   ============================================ */
+
+/* Debug mindset */
+.debug-mindset {
+    margin-top: 1.5rem;
+}
+
+.mindset-quote {
+    padding: 1.5rem 2rem;
+    background: var(--bg-secondary);
+    border-left: 3px solid var(--accent-cyan);
+    border-radius: 0.5rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.quote-author {
+    display: block;
+    margin-top: 0.75rem;
+    font-style: normal;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.mindset-principles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.principle {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.principle-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.principle h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.25rem;
+}
+
+.principle p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Debug method */
+.debug-method {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.method-step {
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.step-num {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    margin-bottom: 0.25rem;
+}
+
+.method-step h4 {
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.method-step p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    max-width: 150px;
+}
+
+.method-arrow {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+.method-tip {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(103, 232, 249, 0.1);
+    border-radius: 0.25rem;
+    text-align: center;
+}
+
+/* DevTools tabs */
+.devtools-tabs {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.devtool-tab {
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.devtool-tab h4 {
+    font-size: 0.9rem;
+    color: var(--accent-cyan);
+    margin-bottom: 0.25rem;
+}
+
+.devtool-tab p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.devtools-shortcut {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.devtools-shortcut code {
+    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    border-radius: 0.25rem;
+    margin: 0 0.5rem;
+}
+
+/* Console tips */
+.console-tips {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.console-example {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.console-example h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+/* Breakpoint types */
+.breakpoint-types {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.bp-type {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.bp-type h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.bp-type p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.bp-type code {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--accent-cyan);
+}
+
+.debug-controls {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.debug-controls span {
+    font-size: 0.85rem;
+}
+
+.debug-controls kbd {
+    padding: 0.25rem 0.5rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-medium);
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    margin-right: 0.5rem;
+}
+
+/* Network features */
+.network-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.network-feature {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.network-feature h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+}
+
+.network-feature p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.network-tip {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(251, 146, 60, 0.1);
+    border-radius: 0.25rem;
+    text-align: center;
+}
+
+/* React DevTools */
+.react-devtools {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.rd-panel {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.rd-panel h4 {
+    color: var(--accent-purple);
+    margin-bottom: 0.75rem;
+}
+
+.rd-panel li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.rd-install {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+/* Render debug */
+.render-debug {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.render-problem, .render-solution {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.render-problem {
+    border-left: 3px solid var(--accent-red);
+}
+
+.render-solution {
+    border-left: 3px solid var(--accent-green);
+}
+
+.render-tip {
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Node debug methods */
+.node-debug-methods {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.node-method {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.node-method h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+.node-tip {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(103, 232, 249, 0.1);
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+}
+
+/* Async debug */
+.async-debug {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.async-challenge, .async-solution {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.async-challenge {
+    border-left: 3px solid var(--accent-orange);
+}
+
+.async-solution {
+    border-left: 3px solid var(--accent-green);
+}
+
+/* Logging comparison */
+.logging-comparison {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.log-bad, .log-good {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.log-bad {
+    border-left: 3px solid var(--accent-red);
+}
+
+.log-good {
+    border-left: 3px solid var(--accent-green);
+}
+
+.log-tools {
+    margin-top: 1.5rem;
+}
+
+.log-tools h4 {
+    margin-bottom: 0.5rem;
+}
+
+.log-tool {
+    display: inline-block;
+    margin: 0 0.5rem 0.5rem 0;
+    padding: 0.25rem 0.75rem;
+    background: var(--accent-cyan);
+    color: var(--bg-primary);
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+/* Log levels */
+.log-levels {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.log-level {
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.level-name {
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+.level-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.log-level code {
+    font-size: 0.75rem;
+}
+
+.log-level.level-error {
+    border-left: 3px solid var(--accent-red);
+}
+
+.log-level.level-error .level-name {
+    color: var(--accent-red);
+}
+
+.log-level.level-warn {
+    border-left: 3px solid var(--accent-orange);
+}
+
+.log-level.level-warn .level-name {
+    color: var(--accent-orange);
+}
+
+.log-level.level-info {
+    border-left: 3px solid var(--accent-blue);
+}
+
+.log-level.level-info .level-name {
+    color: var(--accent-blue);
+}
+
+.log-level.level-debug {
+    border-left: 3px solid var(--accent-purple);
+}
+
+.log-level.level-debug .level-name {
+    color: var(--accent-purple);
+}
+
+.log-tip {
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Correlation example */
+.correlation-example {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.correlation-benefit {
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--accent-green);
+    font-weight: 500;
+}
+
+/* Sentry setup */
+.sentry-setup {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.sentry-code {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.sentry-code h4 {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.sentry-features {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.sentry-features h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+.sentry-features li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+/* Error boundary */
+.error-boundary {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.boundary-tip {
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Error context */
+.error-context {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+/* APM overview */
+.apm-overview {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.apm-metrics {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.apm-metrics h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+}
+
+.metric {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.metric-name {
+    font-family: var(--font-mono);
+    color: var(--accent-purple);
+}
+
+.metric-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.apm-tools {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.apm-tools h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+.apm-tools li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+/* Web vitals */
+.web-vitals {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.vital {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.vital h4 {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    color: var(--accent-cyan);
+}
+
+.vital > p:first-of-type {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.vital-target {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+}
+
+.vital-target span {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+}
+
+.vital-target .good {
+    background: var(--accent-green);
+    color: var(--bg-primary);
+}
+
+.vital-target .needs-improvement {
+    background: var(--accent-orange);
+    color: var(--bg-primary);
+}
+
+.vital-target .poor {
+    background: var(--accent-red);
+    color: white;
+}
+
+.vital-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.vitals-code {
+    margin-top: 1.5rem;
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+/* RUM overview */
+.rum-overview {
+    margin-top: 1.5rem;
+}
+
+.rum-concept {
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border-left: 3px solid var(--accent-purple);
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.rum-vs-synthetic {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.rum-type {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.rum-type h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+.rum-type li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.rum-tip {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Tracing flow */
+.tracing-flow {
+    margin-top: 1.5rem;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.trace-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.trace-service {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.svc-name {
+    min-width: 120px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.trace-span {
+    height: 24px;
+    background: var(--accent-cyan);
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--bg-primary);
+}
+
+.trace-benefit {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* OpenTelemetry */
+.otel-overview {
+    margin-top: 1.5rem;
+}
+
+.otel-what {
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border-left: 3px solid var(--accent-cyan);
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.otel-code {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.otel-exporters {
+    margin-top: 1.5rem;
+}
+
+.otel-exporters h4 {
+    margin-bottom: 0.5rem;
+}
+
+.exporter {
+    display: inline-block;
+    margin: 0 0.5rem 0.5rem 0;
+    padding: 0.25rem 0.75rem;
+    background: var(--accent-purple);
+    color: white;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+/* Prod debug */
+.prod-debug {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.prod-rules, .prod-tools {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.prod-rules {
+    border-left: 3px solid var(--accent-orange);
+}
+
+.prod-tools {
+    border-left: 3px solid var(--accent-green);
+}
+
+.prod-rules h4, .prod-tools h4 {
+    margin-bottom: 0.75rem;
+}
+
+.prod-rules li, .prod-tools li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+/* Incident flow */
+.incident-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.incident-step {
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.incident-step .step-num {
+    font-size: 1.25rem;
+}
+
+.incident-step h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.incident-step p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    max-width: 100px;
+}
+
+.incident-arrow {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+.incident-tip {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 0.25rem;
+    text-align: center;
+}
+
+/* Postmortem template */
+.postmortem-template {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+/* Toolkit checklist */
+.toolkit-checklist {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.toolkit-section {
+    padding: 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.toolkit-section h4 {
+    color: var(--accent-cyan);
+    margin-bottom: 0.75rem;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS FOR NEW LECTURES
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .hook-grid,
+    .pattern-grid,
+    .clean-arch-grid,
+    .solid-grid,
+    .docker-concepts,
+    .devtools-tabs,
+    .breakpoint-types,
+    .web-vitals {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .perf-metrics,
+    .mindset-principles,
+    .devops-pillars,
+    .observability-pillars,
+    .deploy-strategies,
+    .rollback-options,
+    .project-docs,
+    .checklist-grid,
+    .devops-checklist,
+    .toolkit-checklist {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .resources-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .devops-definition {
+        grid-template-columns: 1fr;
+    }
+
+    .sentry-setup {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .react-comparison,
+    .render-optimization,
+    .server-client-split,
+    .arch-comparison,
+    .barrel-example,
+    .di-comparison,
+    .repo-comparison,
+    .env-example,
+    .deps-guidelines,
+    .composition-example,
+    .docs-philosophy,
+    .before-after,
+    .gha-concepts,
+    .docker-why,
+    .iac-comparison,
+    .alerting-guide,
+    .secrets-guide,
+    .console-tips,
+    .react-devtools,
+    .render-debug,
+    .node-debug-methods,
+    .async-debug,
+    .logging-comparison,
+    .apm-overview,
+    .rum-vs-synthetic,
+    .prod-debug {
+        grid-template-columns: 1fr;
+    }
+
+    .hook-grid,
+    .pattern-grid,
+    .clean-arch-grid,
+    .docker-concepts,
+    .devtools-tabs,
+    .breakpoint-types,
+    .web-vitals,
+    .network-features,
+    .solid-grid,
+    .iac-tools {
+        grid-template-columns: 1fr;
+    }
+
+    .perf-metrics,
+    .mindset-principles,
+    .devops-pillars,
+    .observability-pillars,
+    .deploy-strategies,
+    .rollback-options,
+    .project-docs,
+    .checklist-grid,
+    .devops-checklist,
+    .toolkit-checklist,
+    .resources-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .layer {
+        width: 100%;
+    }
+
+    .cost-timeline {
+        height: auto;
+        flex-wrap: wrap;
+    }
+
+    .ci-flow,
+    .pipeline-stages,
+    .env-strategy,
+    .devsecops-pipeline,
+    .debug-method,
+    .incident-flow {
+        flex-direction: column;
+    }
+
+    .ci-arrow,
+    .pipeline-arrow,
+    .env-arrow,
+    .sec-arrow,
+    .method-arrow,
+    .incident-arrow {
+        transform: rotate(90deg);
+    }
+
+    .matrix-visual {
+        flex-direction: column;
+    }
+
+    .log-level {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .config-layer {
+        grid-template-columns: 1fr;
     }
 }

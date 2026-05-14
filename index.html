@@ -22,8 +22,16 @@
                     <span class="logo-text">Full Stack Engineering</span>
                 </div>
                 <p class="menu-subtitle">Select a lecture to begin</p>
+                <div class="menu-meta">
+                    <span class="meta-item">Reichman University CS</span>
+                    <span class="meta-divider">•</span>
+                    <span class="meta-item">Ohad Assulin</span>
+                    <span class="meta-divider">•</span>
+                    <span class="meta-item">2026</span>
+                </div>
             </div>
             <div class="lecture-grid">
+                <!-- Part I: Foundations -->
                 <div class="lecture-card" data-lecture="http-browser">
                     <div class="lecture-number">01</div>
                     <div class="lecture-info">
@@ -69,17 +77,18 @@
                     </div>
                     <div class="lecture-arrow">→</div>
                 </div>
-                <div class="lecture-card" data-lecture="web-security">
+                <!-- Part II: Building -->
+                <div class="lecture-card" data-lecture="react-deep-dive">
                     <div class="lecture-number">04</div>
                     <div class="lecture-info">
-                        <h3>Web Security</h3>
-                        <p>Front-door attacks, real hacks, and how to defend your applications</p>
+                        <h3>React Deep Dive</h3>
+                        <p>Components, Hooks, Context, Performance optimization, and modern patterns</p>
                         <div class="lecture-tags">
-                            <span class="tag">SQL Injection</span>
-                            <span class="tag">XSS</span>
-                            <span class="tag">CSRF</span>
-                            <span class="tag">Auth</span>
-                            <span class="tag">OWASP</span>
+                            <span class="tag">Hooks</span>
+                            <span class="tag">Context</span>
+                            <span class="tag">memo</span>
+                            <span class="tag">Server Components</span>
+                            <span class="tag">Patterns</span>
                         </div>
                     </div>
                     <div class="lecture-arrow">→</div>
@@ -99,38 +108,24 @@
                     </div>
                     <div class="lecture-arrow">→</div>
                 </div>
-                <div class="lecture-card" data-lecture="cloud">
+                <div class="lecture-card" data-lecture="web-security">
                     <div class="lecture-number">06</div>
                     <div class="lecture-info">
-                        <h3>Cloud Computing & Modern Deployment</h3>
-                        <p>From AWS to Vercel + Supabase, deploy from GitHub in seconds</p>
+                        <h3>Web Security</h3>
+                        <p>Front-door attacks, real hacks, and how to defend your applications</p>
                         <div class="lecture-tags">
-                            <span class="tag">AWS</span>
-                            <span class="tag">Vercel</span>
-                            <span class="tag">Supabase</span>
-                            <span class="tag">Serverless</span>
-                            <span class="tag">GitHub</span>
+                            <span class="tag">SQL Injection</span>
+                            <span class="tag">XSS</span>
+                            <span class="tag">CSRF</span>
+                            <span class="tag">Auth</span>
+                            <span class="tag">OWASP</span>
                         </div>
                     </div>
                     <div class="lecture-arrow">→</div>
                 </div>
-                <div class="lecture-card" data-lecture="agents">
-                    <div class="lecture-number">07</div>
-                    <div class="lecture-info">
-                        <h3>AI Agents & LLM Integration</h3>
-                        <p>Build intelligent agents with Claude SDK, tool use, and marketing automation</p>
-                        <div class="lecture-tags">
-                            <span class="tag">Claude SDK</span>
-                            <span class="tag">OpenAI</span>
-                            <span class="tag">Tool Use</span>
-                            <span class="tag">Marketing</span>
-                            <span class="tag">E-commerce</span>
-                        </div>
-                    </div>
-                    <div class="lecture-arrow">→</div>
-                </div>
+                <!-- Part III: Architecture -->
                 <div class="lecture-card" data-lecture="web-architecture">
-                    <div class="lecture-number">08</div>
+                    <div class="lecture-number">07</div>
                     <div class="lecture-info">
                         <h3>Web Architecture</h3>
                         <p>System design, API patterns, frontend architecture, and full stack best practices</p>
@@ -144,6 +139,22 @@
                     </div>
                     <div class="lecture-arrow">→</div>
                 </div>
+                <div class="lecture-card" data-lecture="project-architecture">
+                    <div class="lecture-number">08</div>
+                    <div class="lecture-info">
+                        <h3>Project Architecture</h3>
+                        <p>File structure, monorepos, dependency management, and clean code patterns</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Patterns</span>
+                            <span class="tag">Monorepo</span>
+                            <span class="tag">SOLID</span>
+                            <span class="tag">Clean Code</span>
+                            <span class="tag">ADRs</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <!-- Part IV: Quality & Deployment -->
                 <div class="lecture-card" data-lecture="code-quality">
                     <div class="lecture-number">09</div>
                     <div class="lecture-info">
@@ -159,9 +170,70 @@
                     </div>
                     <div class="lecture-arrow">→</div>
                 </div>
+                <div class="lecture-card" data-lecture="devops-cicd">
+                    <div class="lecture-number">10</div>
+                    <div class="lecture-info">
+                        <h3>DevOps & CI/CD</h3>
+                        <p>Automate builds, tests, and deployments with GitHub Actions and Docker</p>
+                        <div class="lecture-tags">
+                            <span class="tag">GitHub Actions</span>
+                            <span class="tag">Docker</span>
+                            <span class="tag">CI/CD</span>
+                            <span class="tag">IaC</span>
+                            <span class="tag">Pipelines</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <div class="lecture-card" data-lecture="cloud">
+                    <div class="lecture-number">11</div>
+                    <div class="lecture-info">
+                        <h3>Cloud Computing & Modern Deployment</h3>
+                        <p>From AWS to Vercel + Supabase, deploy from GitHub in seconds</p>
+                        <div class="lecture-tags">
+                            <span class="tag">AWS</span>
+                            <span class="tag">Vercel</span>
+                            <span class="tag">Supabase</span>
+                            <span class="tag">Serverless</span>
+                            <span class="tag">GitHub</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <!-- Part V: Production & Advanced -->
+                <div class="lecture-card" data-lecture="debugging-monitoring">
+                    <div class="lecture-number">12</div>
+                    <div class="lecture-info">
+                        <h3>Debugging & Monitoring</h3>
+                        <p>DevTools mastery, logging, error tracking, APM, and production debugging</p>
+                        <div class="lecture-tags">
+                            <span class="tag">DevTools</span>
+                            <span class="tag">Sentry</span>
+                            <span class="tag">APM</span>
+                            <span class="tag">Logging</span>
+                            <span class="tag">Tracing</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <div class="lecture-card" data-lecture="agents">
+                    <div class="lecture-number">13</div>
+                    <div class="lecture-info">
+                        <h3>AI Agents & LLM Integration</h3>
+                        <p>Build intelligent agents with Claude SDK, tool use, and marketing automation</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Claude SDK</span>
+                            <span class="tag">OpenAI</span>
+                            <span class="tag">Tool Use</span>
+                            <span class="tag">Marketing</span>
+                            <span class="tag">E-commerce</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
             </div>
             <div class="menu-footer">
-                <p>Instructor: Ohad Assulin • RU</p>
+                <p>Instructor: Ohad Assulin • Reichman University</p>
             </div>
         </div>
     </div>

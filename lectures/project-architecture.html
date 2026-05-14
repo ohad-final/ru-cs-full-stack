@@ -1,0 +1,914 @@
+<!-- Project Architecture Lecture -->
+<section class="slide title-slide active" data-theme="arch">
+    <div class="slide-content">
+        <div class="title-container">
+            <span class="lecture-number">08</span>
+            <h1>Project Architecture</h1>
+            <p class="subtitle">Structuring Scalable & Maintainable Applications</p>
+        </div>
+        <div class="title-meta">
+            <span class="tag">Patterns</span>
+            <span class="tag">Structure</span>
+            <span class="tag">Monorepo</span>
+            <span class="tag">Clean Code</span>
+        </div>
+        <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1200&h=600&fit=crop&q=80" alt="Project architecture planning" class="slide-hero-img" style="position: absolute; bottom: 0; right: 0; width: 45%; height: 60%; object-fit: cover; opacity: 0.3; mask-image: linear-gradient(to left, rgba(0,0,0,0.6), transparent);">
+    </div>
+</section>
+
+<!-- Part I: Why Architecture Matters -->
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Why Project Architecture Matters</h2>
+        <div class="arch-comparison">
+            <div class="arch-side bad">
+                <h3>❌ Poor Architecture</h3>
+                <ul>
+                    <li>Files scattered randomly</li>
+                    <li>Circular dependencies</li>
+                    <li>God objects & functions</li>
+                    <li>"Where does this go?"</li>
+                    <li>Onboarding takes weeks</li>
+                    <li>Fear of refactoring</li>
+                </ul>
+            </div>
+            <div class="arch-side good">
+                <h3>✓ Good Architecture</h3>
+                <ul>
+                    <li>Logical grouping</li>
+                    <li>Clear dependencies</li>
+                    <li>Single responsibility</li>
+                    <li>Obvious placement</li>
+                    <li>Onboarding in days</li>
+                    <li>Confident changes</li>
+                </ul>
+            </div>
+        </div>
+        <div class="arch-quote">
+            "The goal of software architecture is to minimize the human resources required to build and maintain the required system." — Robert C. Martin
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>The Cost of Bad Architecture</h2>
+        <div class="cost-timeline">
+            <div class="cost-stage">
+                <div class="cost-month">Month 1</div>
+                <div class="cost-bar" style="height: 30px; background: var(--accent);"></div>
+                <div class="cost-label">Fast & loose works!</div>
+            </div>
+            <div class="cost-stage">
+                <div class="cost-month">Month 6</div>
+                <div class="cost-bar" style="height: 80px; background: #f59e0b;"></div>
+                <div class="cost-label">"It's getting messy"</div>
+            </div>
+            <div class="cost-stage">
+                <div class="cost-month">Month 12</div>
+                <div class="cost-bar" style="height: 150px; background: #ef4444;"></div>
+                <div class="cost-label">"We need a rewrite"</div>
+            </div>
+            <div class="cost-stage">
+                <div class="cost-month">Month 18</div>
+                <div class="cost-bar" style="height: 200px; background: #dc2626;"></div>
+                <div class="cost-label">Technical bankruptcy</div>
+            </div>
+        </div>
+        <p class="arch-insight">Technical debt compounds. Architecture decisions made early have exponential impact.</p>
+    </div>
+</section>
+
+<!-- Part II: Project Structure Patterns -->
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <span class="section-label">Part II</span>
+        <h2>Project Structure Patterns</h2>
+        <div class="pattern-grid">
+            <div class="pattern-card">
+                <h3>By Type</h3>
+                <pre><code>src/
+├── components/
+├── hooks/
+├── utils/
+├── services/
+└── types/</code></pre>
+                <p>Group by technical role</p>
+            </div>
+            <div class="pattern-card">
+                <h3>By Feature</h3>
+                <pre><code>src/
+├── auth/
+├── dashboard/
+├── settings/
+├── checkout/
+└── shared/</code></pre>
+                <p>Group by business domain</p>
+            </div>
+            <div class="pattern-card">
+                <h3>Hybrid</h3>
+                <pre><code>src/
+├── features/
+│   ├── auth/
+│   └── checkout/
+├── shared/
+│   ├── components/
+│   └── hooks/
+└── lib/</code></pre>
+                <p>Best of both worlds</p>
+            </div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=400&h=250&fit=crop&q=80" alt="Code organization" style="position: absolute; bottom: 20px; right: 40px; width: 280px; border-radius: 8px; opacity: 0.7;">
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Feature-Based Architecture</h2>
+        <div class="feature-structure">
+            <pre><code class="language-plaintext">src/features/checkout/
+├── components/
+│   ├── CartSummary.tsx
+│   ├── PaymentForm.tsx
+│   └── ShippingForm.tsx
+├── hooks/
+│   ├── useCart.ts
+│   └── usePayment.ts
+├── api/
+│   └── checkout.api.ts
+├── types/
+│   └── checkout.types.ts
+├── utils/
+│   └── price.utils.ts
+└── index.ts          # Public API</code></pre>
+        </div>
+        <div class="feature-benefits">
+            <h3>Benefits</h3>
+            <ul>
+                <li><strong>Colocation</strong> — Related code lives together</li>
+                <li><strong>Encapsulation</strong> — Feature internals are private</li>
+                <li><strong>Deletability</strong> — Remove feature = delete folder</li>
+                <li><strong>Team ownership</strong> — Clear boundaries for teams</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>The Barrel Pattern (index.ts)</h2>
+        <div class="barrel-example">
+            <div class="barrel-code">
+                <h4>features/auth/index.ts</h4>
+                <pre><code class="language-typescript">// Public API - what other features can import
+export { LoginForm } from './components/LoginForm';
+export { SignupForm } from './components/SignupForm';
+export { useAuth } from './hooks/useAuth';
+export type { User, AuthState } from './types';
+
+// Internal components NOT exported
+// PasswordStrength, FormField stay private</code></pre>
+            </div>
+            <div class="barrel-usage">
+                <h4>Importing from other features</h4>
+                <pre><code class="language-typescript">// ✓ Clean import from public API
+import { LoginForm, useAuth } from '@/features/auth';
+
+// ✗ Don't reach into internals
+import { PasswordStrength }
+  from '@/features/auth/components/PasswordStrength';</code></pre>
+            </div>
+        </div>
+        <p class="arch-tip">Barrel files define your feature's public contract. Keep internals internal.</p>
+    </div>
+</section>
+
+<!-- Part III: Layered Architecture -->
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <span class="section-label">Part III</span>
+        <h2>Layered Architecture</h2>
+        <div class="layers-diagram">
+            <div class="layer ui-layer">
+                <span class="layer-name">UI Layer</span>
+                <span class="layer-desc">Components, Pages, Styles</span>
+            </div>
+            <div class="layer-arrow">↓ ↑</div>
+            <div class="layer app-layer">
+                <span class="layer-name">Application Layer</span>
+                <span class="layer-desc">Hooks, State, Business Logic</span>
+            </div>
+            <div class="layer-arrow">↓ ↑</div>
+            <div class="layer domain-layer">
+                <span class="layer-name">Domain Layer</span>
+                <span class="layer-desc">Entities, Rules, Types</span>
+            </div>
+            <div class="layer-arrow">↓ ↑</div>
+            <div class="layer infra-layer">
+                <span class="layer-name">Infrastructure Layer</span>
+                <span class="layer-desc">API, Database, External Services</span>
+            </div>
+        </div>
+        <p class="layer-rule"><strong>Rule:</strong> Dependencies flow downward. Lower layers never import from upper layers.</p>
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Clean Architecture in Practice</h2>
+        <div class="clean-arch-grid">
+            <div class="clean-layer">
+                <h4>🎨 UI (React Components)</h4>
+                <pre><code class="language-tsx">function UserProfile({ userId }) {
+  const { user, loading } = useUser(userId);
+  if (loading) return <Spinner />;
+  return <ProfileCard user={user} />;
+}</code></pre>
+            </div>
+            <div class="clean-layer">
+                <h4>⚙️ Application (Hooks)</h4>
+                <pre><code class="language-typescript">function useUser(userId: string) {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    userService.getById(userId)
+      .then(setUser);
+  }, [userId]);
+  return { user, loading: !user };
+}</code></pre>
+            </div>
+            <div class="clean-layer">
+                <h4>🏢 Infrastructure (Services)</h4>
+                <pre><code class="language-typescript">const userService = {
+  async getById(id: string): Promise&lt;User&gt; {
+    const res = await api.get(`/users/${id}`);
+    return userMapper.toDomain(res.data);
+  }
+};</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Dependency Injection</h2>
+        <div class="di-comparison">
+            <div class="di-side">
+                <h4>❌ Tight Coupling</h4>
+                <pre><code class="language-typescript">// Hook directly imports API client
+import { apiClient } from '@/lib/api';
+
+function useUsers() {
+  return useQuery({
+    queryFn: () => apiClient.get('/users')
+  });
+}
+
+// Can't test without real API!</code></pre>
+            </div>
+            <div class="di-side">
+                <h4>✓ Dependency Injection</h4>
+                <pre><code class="language-typescript">// Inject dependency via context
+const ApiContext = createContext&lt;ApiClient&gt;();
+
+function useUsers() {
+  const api = useContext(ApiContext);
+  return useQuery({
+    queryFn: () => api.get('/users')
+  });
+}
+
+// Easy to mock in tests!</code></pre>
+            </div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=350&h=200&fit=crop&q=80" alt="System connections" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.6;">
+    </div>
+</section>
+
+<!-- Part IV: Monorepo Architecture -->
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <span class="section-label">Part IV</span>
+        <h2>Monorepo vs Multi-Repo</h2>
+        <div class="repo-comparison">
+            <div class="repo-type">
+                <h3>Multi-Repo</h3>
+                <div class="repo-diagram">
+                    <div class="repo-box">frontend</div>
+                    <div class="repo-box">backend</div>
+                    <div class="repo-box">shared-ui</div>
+                    <div class="repo-box">mobile</div>
+                </div>
+                <ul>
+                    <li>Independent versioning</li>
+                    <li>Clear ownership</li>
+                    <li>Smaller CI/CD scope</li>
+                    <li class="con">Cross-repo changes painful</li>
+                    <li class="con">Dependency hell</li>
+                </ul>
+            </div>
+            <div class="repo-type">
+                <h3>Monorepo</h3>
+                <div class="repo-diagram single">
+                    <div class="repo-box large">
+                        <div>apps/web</div>
+                        <div>apps/api</div>
+                        <div>packages/ui</div>
+                        <div>packages/shared</div>
+                    </div>
+                </div>
+                <ul>
+                    <li>Atomic cross-project changes</li>
+                    <li>Shared tooling & config</li>
+                    <li>Code reuse is trivial</li>
+                    <li class="con">Larger repo size</li>
+                    <li class="con">Needs good tooling</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Monorepo Structure</h2>
+        <div class="monorepo-structure">
+            <pre><code class="language-plaintext">my-company/
+├── apps/
+│   ├── web/              # Next.js frontend
+│   ├── api/              # Express/Fastify backend
+│   ├── mobile/           # React Native
+│   └── admin/            # Admin dashboard
+├── packages/
+│   ├── ui/               # Shared component library
+│   ├── config/           # ESLint, TS, Prettier configs
+│   ├── utils/            # Shared utilities
+│   └── types/            # Shared TypeScript types
+├── turbo.json            # Turborepo config
+├── pnpm-workspace.yaml   # Workspace definition
+└── package.json          # Root scripts</code></pre>
+        </div>
+        <div class="monorepo-tools">
+            <h4>Popular Monorepo Tools</h4>
+            <div class="tool-badges">
+                <span class="tool-badge">Turborepo</span>
+                <span class="tool-badge">Nx</span>
+                <span class="tool-badge">pnpm workspaces</span>
+                <span class="tool-badge">Lerna</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Turborepo in Action</h2>
+        <div class="turbo-config">
+            <h4>turbo.json</h4>
+            <pre><code class="language-json">{
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "inputs": ["src/**", "test/**"]
+    },
+    "lint": {},
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}</code></pre>
+        </div>
+        <div class="turbo-benefits">
+            <div class="turbo-benefit">
+                <span class="turbo-icon">⚡</span>
+                <span>Remote caching — never rebuild the same code twice</span>
+            </div>
+            <div class="turbo-benefit">
+                <span class="turbo-icon">🔀</span>
+                <span>Parallel execution — maximize CPU utilization</span>
+            </div>
+            <div class="turbo-benefit">
+                <span class="turbo-icon">📊</span>
+                <span>Task graph — smart dependency resolution</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Part V: Configuration Management -->
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <span class="section-label">Part V</span>
+        <h2>Configuration Management</h2>
+        <div class="config-layers">
+            <div class="config-layer">
+                <h4>🔐 Secrets (Never in code)</h4>
+                <code>DATABASE_URL, API_KEYS, JWT_SECRET</code>
+                <span class="config-where">→ Environment variables, Vault, AWS Secrets</span>
+            </div>
+            <div class="config-layer">
+                <h4>🌍 Environment Config</h4>
+                <code>API_URL, LOG_LEVEL, FEATURE_FLAGS</code>
+                <span class="config-where">→ .env files, deployment config</span>
+            </div>
+            <div class="config-layer">
+                <h4>⚙️ Application Config</h4>
+                <code>PAGINATION_SIZE, RETRY_COUNT, TIMEOUTS</code>
+                <span class="config-where">→ config/ directory in code</span>
+            </div>
+            <div class="config-layer">
+                <h4>📝 Static Config</h4>
+                <code>ROUTES, THEMES, CONSTANTS</code>
+                <span class="config-where">→ constants/ directory in code</span>
+            </div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&h=200&fit=crop&q=80" alt="Configuration" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.6;">
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Environment Variables Best Practices</h2>
+        <div class="env-example">
+            <div class="env-files">
+                <h4>File Structure</h4>
+                <pre><code class="language-plaintext">.env.example      # Template (committed)
+.env.local        # Local overrides (gitignored)
+.env.development  # Dev defaults (committed)
+.env.production   # Prod defaults (committed)
+.env              # Runtime (gitignored)</code></pre>
+            </div>
+            <div class="env-validation">
+                <h4>Validation with Zod</h4>
+                <pre><code class="language-typescript">import { z } from 'zod';
+
+const envSchema = z.object({
+  DATABASE_URL: z.string().url(),
+  API_KEY: z.string().min(1),
+  NODE_ENV: z.enum(['development', 'production']),
+  PORT: z.coerce.number().default(3000),
+});
+
+export const env = envSchema.parse(process.env);</code></pre>
+            </div>
+        </div>
+        <p class="env-tip">⚠️ Fail fast: Validate env vars at startup, not when first used.</p>
+    </div>
+</section>
+
+<!-- Part VI: Dependency Management -->
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <span class="section-label">Part VI</span>
+        <h2>Dependency Management</h2>
+        <div class="deps-guidelines">
+            <div class="dep-rule">
+                <h4>🎯 Be Intentional</h4>
+                <p>Every dependency is a liability. Ask: Can I do this in 20 lines instead?</p>
+            </div>
+            <div class="dep-rule">
+                <h4>📊 Audit Regularly</h4>
+                <pre><code>npm audit
+npx depcheck
+npx npm-check-updates</code></pre>
+            </div>
+            <div class="dep-rule">
+                <h4>🔒 Lock Versions</h4>
+                <p>Commit package-lock.json. Use exact versions for critical deps.</p>
+            </div>
+            <div class="dep-rule">
+                <h4>📦 Organize by Type</h4>
+                <pre><code class="language-json">{
+  "dependencies": { /* Runtime */ },
+  "devDependencies": { /* Build/test only */ },
+  "peerDependencies": { /* Library consumers */ }
+}</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Dependency Graph Visualization</h2>
+        <div class="dep-graph">
+            <div class="dep-node core">
+                <span>Core App</span>
+            </div>
+            <div class="dep-arrows">
+                <div class="dep-branch">
+                    <div class="dep-node lib">React</div>
+                    <div class="dep-node lib">Next.js</div>
+                </div>
+                <div class="dep-branch">
+                    <div class="dep-node lib">TanStack Query</div>
+                    <div class="dep-node lib">Zustand</div>
+                </div>
+                <div class="dep-branch">
+                    <div class="dep-node lib">Tailwind</div>
+                    <div class="dep-node lib">Radix UI</div>
+                </div>
+            </div>
+        </div>
+        <div class="dep-tools">
+            <h4>Visualization Tools</h4>
+            <pre><code>npx madge --image graph.svg src/
+npx depcruise --output-type dot src | dot -T svg > deps.svg</code></pre>
+        </div>
+        <p class="dep-tip">Visualize dependencies to spot circular imports and unexpected connections.</p>
+    </div>
+</section>
+
+<!-- Part VII: Code Organization Principles -->
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <span class="section-label">Part VII</span>
+        <h2>SOLID in Frontend</h2>
+        <div class="solid-grid">
+            <div class="solid-principle">
+                <span class="solid-letter">S</span>
+                <h4>Single Responsibility</h4>
+                <p>One component = one job. Split <code>UserDashboard</code> into <code>UserStats</code>, <code>UserActivity</code>, <code>UserSettings</code>.</p>
+            </div>
+            <div class="solid-principle">
+                <span class="solid-letter">O</span>
+                <h4>Open/Closed</h4>
+                <p>Extend via props & composition, not modification. Use render props, children, slots.</p>
+            </div>
+            <div class="solid-principle">
+                <span class="solid-letter">L</span>
+                <h4>Liskov Substitution</h4>
+                <p>Components should be swappable. <code>&lt;TextInput&gt;</code> and <code>&lt;PasswordInput&gt;</code> share interface.</p>
+            </div>
+            <div class="solid-principle">
+                <span class="solid-letter">I</span>
+                <h4>Interface Segregation</h4>
+                <p>Don't force unused props. Split <code>UserProps</code> into <code>UserDisplayProps</code> & <code>UserEditProps</code>.</p>
+            </div>
+            <div class="solid-principle">
+                <span class="solid-letter">D</span>
+                <h4>Dependency Inversion</h4>
+                <p>Depend on abstractions. Inject API clients, don't import directly.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Component Composition</h2>
+        <div class="composition-example">
+            <div class="comp-bad">
+                <h4>❌ Prop Drilling</h4>
+                <pre><code class="language-tsx">&lt;Card
+  title="User"
+  showAvatar={true}
+  avatarSize="lg"
+  avatarBorder={true}
+  showBadge={true}
+  badgeColor="green"
+  // 20 more props...
+/&gt;</code></pre>
+            </div>
+            <div class="comp-good">
+                <h4>✓ Composition</h4>
+                <pre><code class="language-tsx">&lt;Card&gt;
+  &lt;Card.Header&gt;
+    &lt;Avatar size="lg" border /&gt;
+    &lt;Badge color="green" /&gt;
+  &lt;/Card.Header&gt;
+  &lt;Card.Body&gt;
+    &lt;UserInfo /&gt;
+  &lt;/Card.Body&gt;
+&lt;/Card&gt;</code></pre>
+            </div>
+        </div>
+        <p class="composition-tip">Composition > Configuration. Build flexible primitives, combine them freely.</p>
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&h=200&fit=crop&q=80" alt="Building blocks" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Naming Conventions</h2>
+        <div class="naming-guide">
+            <table class="naming-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Convention</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Components</td>
+                        <td>PascalCase</td>
+                        <td><code>UserProfile.tsx</code></td>
+                    </tr>
+                    <tr>
+                        <td>Hooks</td>
+                        <td>camelCase with use</td>
+                        <td><code>useAuth.ts</code></td>
+                    </tr>
+                    <tr>
+                        <td>Utilities</td>
+                        <td>camelCase</td>
+                        <td><code>formatDate.ts</code></td>
+                    </tr>
+                    <tr>
+                        <td>Constants</td>
+                        <td>SCREAMING_SNAKE</td>
+                        <td><code>MAX_RETRY_COUNT</code></td>
+                    </tr>
+                    <tr>
+                        <td>Types</td>
+                        <td>PascalCase</td>
+                        <td><code>UserProfile</code></td>
+                    </tr>
+                    <tr>
+                        <td>Folders</td>
+                        <td>kebab-case</td>
+                        <td><code>user-profile/</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="naming-tips">
+            <p><strong>Be descriptive:</strong> <code>getUserById</code> not <code>getUser</code></p>
+            <p><strong>Be consistent:</strong> Pick a convention, stick to it everywhere</p>
+        </div>
+    </div>
+</section>
+
+<!-- Part VIII: Documentation -->
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <span class="section-label">Part VIII</span>
+        <h2>Code Documentation</h2>
+        <div class="docs-philosophy">
+            <div class="docs-rule good">
+                <h4>✓ Document WHY, not WHAT</h4>
+                <pre><code class="language-typescript">// Retry 3 times with exponential backoff
+// because the payment API has occasional
+// 502s during high traffic periods
+const MAX_RETRIES = 3;</code></pre>
+            </div>
+            <div class="docs-rule bad">
+                <h4>❌ Don't state the obvious</h4>
+                <pre><code class="language-typescript">// Set the user name
+const userName = user.name;
+
+// Loop through users
+users.forEach(user => {
+  // Process each user
+  processUser(user);
+});</code></pre>
+            </div>
+        </div>
+        <p class="docs-principle">Code tells you <em>what</em>, comments tell you <em>why</em>. If you need to explain <em>what</em>, refactor the code.</p>
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Project Documentation</h2>
+        <div class="project-docs">
+            <div class="doc-file">
+                <h4>📄 README.md</h4>
+                <ul>
+                    <li>What this project does</li>
+                    <li>How to run locally</li>
+                    <li>How to deploy</li>
+                    <li>Architecture overview</li>
+                </ul>
+            </div>
+            <div class="doc-file">
+                <h4>📄 CONTRIBUTING.md</h4>
+                <ul>
+                    <li>Code style guide</li>
+                    <li>PR process</li>
+                    <li>Testing requirements</li>
+                    <li>Branch naming</li>
+                </ul>
+            </div>
+            <div class="doc-file">
+                <h4>📄 ARCHITECTURE.md</h4>
+                <ul>
+                    <li>System diagrams</li>
+                    <li>Key decisions (ADRs)</li>
+                    <li>Data flow</li>
+                    <li>Integration points</li>
+                </ul>
+            </div>
+            <div class="doc-file">
+                <h4>📄 .env.example</h4>
+                <ul>
+                    <li>All required env vars</li>
+                    <li>Default values</li>
+                    <li>Descriptions</li>
+                    <li>How to obtain secrets</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Architecture Decision Records (ADRs)</h2>
+        <div class="adr-example">
+            <pre><code class="language-markdown"># ADR-001: Use React Query for Server State
+
+## Status
+Accepted
+
+## Context
+We need to manage server state (API data) in our React app.
+Options: Redux, Zustand, React Query, SWR.
+
+## Decision
+Use React Query because:
+- Built-in caching and refetching
+- Automatic background updates
+- No boilerplate for common patterns
+- Excellent DevTools
+
+## Consequences
+- Team needs to learn React Query patterns
+- Existing Redux code will be migrated gradually
+- Bundle size increases by ~12KB</code></pre>
+        </div>
+        <p class="adr-tip">ADRs capture the "why" behind decisions. Future you will thank present you.</p>
+    </div>
+</section>
+
+<!-- Part IX: Real-World Example -->
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <span class="section-label">Part IX</span>
+        <h2>Real-World: E-commerce Structure</h2>
+        <div class="ecommerce-structure">
+            <pre><code class="language-plaintext">src/
+├── app/                    # Next.js App Router
+│   ├── (shop)/            # Shop routes group
+│   │   ├── products/
+│   │   ├── cart/
+│   │   └── checkout/
+│   ├── (account)/         # Account routes group
+│   │   ├── orders/
+│   │   └── settings/
+│   └── api/               # API routes
+├── features/
+│   ├── products/          # Product feature
+│   ├── cart/              # Cart feature
+│   ├── checkout/          # Checkout feature
+│   └── auth/              # Auth feature
+├── shared/
+│   ├── components/        # Shared UI
+│   ├── hooks/             # Shared hooks
+│   └── lib/               # Utilities
+└── config/                # App configuration</code></pre>
+        </div>
+        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=180&fit=crop&q=80" alt="E-commerce" style="position: absolute; bottom: 20px; right: 40px; border-radius: 8px; opacity: 0.6;">
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Feature Deep Dive: Cart</h2>
+        <div class="cart-feature">
+            <pre><code class="language-plaintext">features/cart/
+├── components/
+│   ├── CartDrawer.tsx       # Side drawer UI
+│   ├── CartItem.tsx         # Single item row
+│   ├── CartSummary.tsx      # Totals display
+│   └── QuantitySelector.tsx # +/- buttons
+├── hooks/
+│   ├── useCart.ts           # Cart state & actions
+│   └── useCartTotal.ts      # Computed totals
+├── api/
+│   └── cart.api.ts          # Server sync
+├── types/
+│   └── cart.types.ts        # CartItem, CartState
+├── utils/
+│   ├── cart.utils.ts        # Helper functions
+│   └── price.utils.ts       # Price formatting
+├── constants/
+│   └── cart.constants.ts    # MAX_QUANTITY, etc
+└── index.ts                 # Public exports</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Summary -->
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Architecture Checklist</h2>
+        <div class="checklist-grid">
+            <div class="checklist-section">
+                <h4>📁 Structure</h4>
+                <ul class="checklist">
+                    <li>Feature-based organization</li>
+                    <li>Clear public APIs (barrel files)</li>
+                    <li>Consistent naming conventions</li>
+                    <li>Max 500 LOC per file</li>
+                </ul>
+            </div>
+            <div class="checklist-section">
+                <h4>🔗 Dependencies</h4>
+                <ul class="checklist">
+                    <li>No circular imports</li>
+                    <li>Dependencies flow downward</li>
+                    <li>Injection over hard imports</li>
+                    <li>Regular audits</li>
+                </ul>
+            </div>
+            <div class="checklist-section">
+                <h4>⚙️ Configuration</h4>
+                <ul class="checklist">
+                    <li>Secrets in env vars only</li>
+                    <li>Validated at startup</li>
+                    <li>.env.example documented</li>
+                    <li>Environment separation</li>
+                </ul>
+            </div>
+            <div class="checklist-section">
+                <h4>📝 Documentation</h4>
+                <ul class="checklist">
+                    <li>README with quickstart</li>
+                    <li>ADRs for decisions</li>
+                    <li>Comments explain WHY</li>
+                    <li>Types are documentation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Key Takeaways</h2>
+        <div class="takeaways">
+            <div class="takeaway">
+                <span class="takeaway-num">1</span>
+                <p><strong>Architecture is about change</strong> — Good architecture makes future changes easy, not impossible.</p>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">2</span>
+                <p><strong>Colocate related code</strong> — Files that change together should live together.</p>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">3</span>
+                <p><strong>Dependencies are liabilities</strong> — Every import is a coupling point. Be intentional.</p>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">4</span>
+                <p><strong>Document decisions, not code</strong> — The code shows what, ADRs explain why.</p>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">5</span>
+                <p><strong>Start simple, evolve</strong> — Don't over-engineer. Refactor as patterns emerge.</p>
+            </div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=350&h=200&fit=crop&q=80" alt="Planning" style="position: absolute; bottom: 30px; right: 40px; border-radius: 8px; opacity: 0.5;">
+    </div>
+</section>
+
+<section class="slide" data-theme="arch">
+    <div class="slide-content">
+        <h2>Resources</h2>
+        <div class="resources-grid">
+            <div class="resource-category">
+                <h4>📚 Books</h4>
+                <ul>
+                    <li>Clean Architecture — Robert C. Martin</li>
+                    <li>Patterns of Enterprise Application Architecture — Martin Fowler</li>
+                    <li>A Philosophy of Software Design — John Ousterhout</li>
+                </ul>
+            </div>
+            <div class="resource-category">
+                <h4>🔧 Tools</h4>
+                <ul>
+                    <li><strong>Turborepo</strong> — turbo.build</li>
+                    <li><strong>Nx</strong> — nx.dev</li>
+                    <li><strong>Madge</strong> — Dependency graphs</li>
+                    <li><strong>dependency-cruiser</strong> — Validate architecture</li>
+                </ul>
+            </div>
+            <div class="resource-category">
+                <h4>📖 Articles</h4>
+                <ul>
+                    <li>Bulletproof React — github.com/alan2207/bulletproof-react</li>
+                    <li>Feature-Sliced Design — feature-sliced.design</li>
+                    <li>ADR GitHub — adr.github.io</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
