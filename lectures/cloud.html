@@ -1,0 +1,1243 @@
+<!-- Slide 1: Title -->
+<section class="slide active" data-slide="1">
+    <div class="slide-content title-slide">
+        <div class="title-decoration">
+            <span class="protocol-badge">INFRASTRUCTURE</span>
+        </div>
+        <h1 class="main-title">
+            <span class="title-line">Cloud Computing</span>
+            <span class="title-line highlight">& Modern Deployment</span>
+        </h1>
+        <p class="subtitle">From Data Centers to Serverless in One Click</p>
+        <div class="title-meta">
+            <div class="meta-item">
+                <span class="meta-label">Course</span>
+                <span class="meta-value">Full Stack Engineering</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Instructor</span>
+                <span class="meta-value">Ohad Assulin</span>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            Press -> or Space to navigate
+            <div class="arrow-bounce">|</div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 2: The Problem Cloud Solves -->
+<section class="slide" data-slide="2">
+    <div class="slide-content">
+        <h3 class="slide-title">The Problem Cloud Solves</h3>
+        <div class="before-after-grid">
+            <div class="before-box" data-modal="cloud-before">
+                <div class="box-header">Before Cloud (2005)</div>
+                <ul>
+                    <li>Buy servers upfront ($10K-$100K+)</li>
+                    <li>Wait weeks for hardware delivery</li>
+                    <li>Hire team to rack & manage servers</li>
+                    <li>Guess capacity months in advance</li>
+                    <li>Pay for idle capacity 24/7</li>
+                    <li>Handle your own redundancy</li>
+                </ul>
+                <div class="box-stat">
+                    <span class="stat-value">6-12 months</span>
+                    <span class="stat-label">to launch infrastructure</span>
+                </div>
+            </div>
+            <div class="after-box" data-modal="cloud-after">
+                <div class="box-header">With Cloud (Today)</div>
+                <ul>
+                    <li>Pay only for what you use</li>
+                    <li>Provision in seconds</li>
+                    <li>Scale automatically with demand</li>
+                    <li>Global deployment with a click</li>
+                    <li>Built-in redundancy & backups</li>
+                    <li>Managed security & compliance</li>
+                </ul>
+                <div class="box-stat">
+                    <span class="stat-value">&lt; 5 minutes</span>
+                    <span class="stat-label">to deploy globally</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 3: Cloud History Timeline -->
+<section class="slide" data-slide="3">
+    <div class="slide-content">
+        <h3 class="slide-title">A Brief History of Cloud</h3>
+        <p class="slide-description">Click any milestone to learn more</p>
+        <div class="cloud-timeline">
+            <div class="cloud-milestone" data-modal="cloud-1999">
+                <div class="milestone-year">1999</div>
+                <div class="milestone-event">Salesforce</div>
+                <div class="milestone-desc">First major SaaS</div>
+            </div>
+            <div class="cloud-milestone" data-modal="cloud-2006">
+                <div class="milestone-year">2006</div>
+                <div class="milestone-event">AWS Launches</div>
+                <div class="milestone-desc">EC2 & S3 change everything</div>
+            </div>
+            <div class="cloud-milestone" data-modal="cloud-2008">
+                <div class="milestone-year">2008</div>
+                <div class="milestone-event">Google App Engine</div>
+                <div class="milestone-desc">First PaaS</div>
+            </div>
+            <div class="cloud-milestone" data-modal="cloud-2010">
+                <div class="milestone-year">2010</div>
+                <div class="milestone-event">Azure GA</div>
+                <div class="milestone-desc">Microsoft enters cloud</div>
+            </div>
+            <div class="cloud-milestone" data-modal="cloud-2014">
+                <div class="milestone-year">2014</div>
+                <div class="milestone-event">AWS Lambda</div>
+                <div class="milestone-desc">Serverless revolution</div>
+            </div>
+            <div class="cloud-milestone" data-modal="cloud-2020">
+                <div class="milestone-year">2020+</div>
+                <div class="milestone-event">Edge & DX Era</div>
+                <div class="milestone-desc">Vercel, Supabase, Cloudflare</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 4: Part I - The Big Three -->
+<section class="slide" data-slide="4">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part I</div>
+        <h2 class="section-title">The Big Three</h2>
+        <p class="section-subtitle">AWS, Azure, and Google Cloud</p>
+        <div class="market-share-bar">
+            <div class="share-segment aws" style="width: 32%">AWS 32%</div>
+            <div class="share-segment azure" style="width: 23%">Azure 23%</div>
+            <div class="share-segment gcp" style="width: 10%">GCP 10%</div>
+            <div class="share-segment others" style="width: 35%">Others 35%</div>
+        </div>
+        <p class="market-note">Global cloud market share (2024)</p>
+    </div>
+</section>
+
+<!-- Slide 5: AWS Overview -->
+<section class="slide" data-slide="5">
+    <div class="slide-content">
+        <h3 class="slide-title">Amazon Web Services (AWS)</h3>
+        <p class="slide-description">The 800-lb gorilla — most services, largest ecosystem</p>
+        <div class="aws-services-grid">
+            <div class="service-category">
+                <h4>Compute</h4>
+                <div class="service-item" data-modal="aws-ec2">EC2 — Virtual servers</div>
+                <div class="service-item" data-modal="aws-lambda">Lambda — Serverless functions</div>
+                <div class="service-item" data-modal="aws-ecs">ECS/EKS — Containers</div>
+            </div>
+            <div class="service-category">
+                <h4>Storage</h4>
+                <div class="service-item" data-modal="aws-s3">S3 — Object storage</div>
+                <div class="service-item" data-modal="aws-ebs">EBS — Block storage</div>
+                <div class="service-item" data-modal="aws-rds">RDS — Managed databases</div>
+            </div>
+            <div class="service-category">
+                <h4>Networking</h4>
+                <div class="service-item" data-modal="aws-vpc">VPC — Virtual networks</div>
+                <div class="service-item" data-modal="aws-cloudfront">CloudFront — CDN</div>
+                <div class="service-item" data-modal="aws-route53">Route 53 — DNS</div>
+            </div>
+            <div class="service-category">
+                <h4>Developer</h4>
+                <div class="service-item" data-modal="aws-amplify">Amplify — Full-stack apps</div>
+                <div class="service-item" data-modal="aws-cognito">Cognito — Auth</div>
+                <div class="service-item" data-modal="aws-apigw">API Gateway — APIs</div>
+            </div>
+        </div>
+        <div class="aws-stats">
+            <span class="stat">200+ services</span>
+            <span class="divider">•</span>
+            <span class="stat">33 regions</span>
+            <span class="divider">•</span>
+            <span class="stat">$90B+ revenue (2023)</span>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 6: Azure Overview -->
+<section class="slide" data-slide="6">
+    <div class="slide-content">
+        <h3 class="slide-title">Microsoft Azure</h3>
+        <p class="slide-description">Enterprise favorite — deep Microsoft integration</p>
+        <div class="cloud-features-grid">
+            <div class="cloud-feature" data-modal="azure-enterprise">
+                <div class="feature-icon">🏢</div>
+                <h4>Enterprise Ready</h4>
+                <p>Active Directory, Office 365, Teams integration. CIOs love it.</p>
+            </div>
+            <div class="cloud-feature" data-modal="azure-hybrid">
+                <div class="feature-icon">🔗</div>
+                <h4>Hybrid Cloud</h4>
+                <p>Azure Arc, Azure Stack for on-prem + cloud. Best hybrid story.</p>
+            </div>
+            <div class="cloud-feature" data-modal="azure-ai">
+                <div class="feature-icon">🤖</div>
+                <h4>AI & OpenAI</h4>
+                <p>Exclusive OpenAI partnership. Azure OpenAI Service, Copilot.</p>
+            </div>
+            <div class="cloud-feature" data-modal="azure-dotnet">
+                <div class="feature-icon">💻</div>
+                <h4>.NET & Windows</h4>
+                <p>Best platform for .NET apps. Windows Server, SQL Server native.</p>
+            </div>
+        </div>
+        <div class="azure-equivalent">
+            <span class="equiv-label">AWS → Azure equivalents:</span>
+            <span class="equiv-item">EC2 → Virtual Machines</span>
+            <span class="equiv-item">S3 → Blob Storage</span>
+            <span class="equiv-item">Lambda → Azure Functions</span>
+            <span class="equiv-item">RDS → Azure SQL</span>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 7: Google Cloud Overview -->
+<section class="slide" data-slide="7">
+    <div class="slide-content">
+        <h3 class="slide-title">Google Cloud Platform (GCP)</h3>
+        <p class="slide-description">Technical excellence — data, ML, and Kubernetes</p>
+        <div class="cloud-features-grid">
+            <div class="cloud-feature" data-modal="gcp-data">
+                <div class="feature-icon">📊</div>
+                <h4>Data & Analytics</h4>
+                <p>BigQuery is unmatched. Looker, Dataflow, Pub/Sub excellence.</p>
+            </div>
+            <div class="cloud-feature" data-modal="gcp-ml">
+                <div class="feature-icon">🧠</div>
+                <h4>Machine Learning</h4>
+                <p>Vertex AI, TensorFlow native, TPUs for training.</p>
+            </div>
+            <div class="cloud-feature" data-modal="gcp-k8s">
+                <div class="feature-icon">☸️</div>
+                <h4>Kubernetes</h4>
+                <p>Google invented K8s. GKE is the gold standard.</p>
+            </div>
+            <div class="cloud-feature" data-modal="gcp-network">
+                <div class="feature-icon">🌐</div>
+                <h4>Global Network</h4>
+                <p>Same network as Google Search, YouTube. Premium tier is fast.</p>
+            </div>
+        </div>
+        <div class="gcp-services">
+            <span class="gcp-highlight">Firebase</span> — BaaS for mobile/web
+            <span class="gcp-highlight">Cloud Run</span> — Serverless containers
+            <span class="gcp-highlight">Spanner</span> — Global SQL database
+        </div>
+    </div>
+</section>
+
+<!-- Slide 8: Big Three Comparison -->
+<section class="slide" data-slide="8">
+    <div class="slide-content">
+        <h3 class="slide-title">Big Three Comparison</h3>
+        <div class="cloud-comparison-table">
+            <div class="comparison-header">
+                <span></span>
+                <span class="provider aws">AWS</span>
+                <span class="provider azure">Azure</span>
+                <span class="provider gcp">GCP</span>
+            </div>
+            <div class="comparison-row" data-modal="cloud-compare-breadth">
+                <span class="row-label">Service Breadth</span>
+                <span class="rating best">Widest</span>
+                <span class="rating good">Very Wide</span>
+                <span class="rating good">Growing</span>
+            </div>
+            <div class="comparison-row" data-modal="cloud-compare-enterprise">
+                <span class="row-label">Enterprise</span>
+                <span class="rating good">Strong</span>
+                <span class="rating best">Best</span>
+                <span class="rating average">Improving</span>
+            </div>
+            <div class="comparison-row" data-modal="cloud-compare-data">
+                <span class="row-label">Data/ML</span>
+                <span class="rating good">Strong</span>
+                <span class="rating good">Strong</span>
+                <span class="rating best">Best</span>
+            </div>
+            <div class="comparison-row" data-modal="cloud-compare-pricing">
+                <span class="row-label">Pricing</span>
+                <span class="rating average">Complex</span>
+                <span class="rating average">Complex</span>
+                <span class="rating good">Simpler</span>
+            </div>
+            <div class="comparison-row" data-modal="cloud-compare-dx">
+                <span class="row-label">Dev Experience</span>
+                <span class="rating average">Learning Curve</span>
+                <span class="rating average">Learning Curve</span>
+                <span class="rating good">Better DX</span>
+            </div>
+        </div>
+        <div class="comparison-verdict">
+            <strong>Rule of thumb:</strong> AWS if you need everything, Azure for Microsoft shops, GCP for data/ML workloads.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 9: The Complexity Problem -->
+<section class="slide" data-slide="9">
+    <div class="slide-content">
+        <h3 class="slide-title">The Complexity Problem</h3>
+        <div class="complexity-visual">
+            <div class="complexity-example" data-modal="cloud-complexity-deploy">
+                <h4>Deploying a Simple App on AWS</h4>
+                <div class="step-list">
+                    <div class="step">1. Create VPC with subnets</div>
+                    <div class="step">2. Set up security groups</div>
+                    <div class="step">3. Configure IAM roles</div>
+                    <div class="step">4. Launch EC2 or set up ECS</div>
+                    <div class="step">5. Set up load balancer</div>
+                    <div class="step">6. Configure auto-scaling</div>
+                    <div class="step">7. Set up RDS database</div>
+                    <div class="step">8. Configure CloudFront CDN</div>
+                    <div class="step">9. Set up Route 53 DNS</div>
+                    <div class="step">10. Configure SSL certificates</div>
+                    <div class="step">11. Set up CI/CD pipeline</div>
+                    <div class="step">12. Configure monitoring...</div>
+                </div>
+                <div class="complexity-time">~2-4 weeks for a senior engineer</div>
+            </div>
+            <div class="complexity-vs">vs</div>
+            <div class="simplicity-example" data-modal="cloud-simplicity-vercel">
+                <h4>Same App on Vercel</h4>
+                <div class="code-block simple">
+                    <pre><code>git push</code></pre>
+                </div>
+                <div class="simplicity-time">~30 seconds</div>
+                <p class="simplicity-note">Automatic: SSL, CDN, scaling, preview deploys, rollbacks</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 10: Part II - The New Cloud -->
+<section class="slide" data-slide="10">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part II</div>
+        <h2 class="section-title">The New Cloud</h2>
+        <p class="section-subtitle">Developer Experience First</p>
+        <div class="new-cloud-logos">
+            <span class="logo-item">Vercel</span>
+            <span class="logo-item">Supabase</span>
+            <span class="logo-item">Netlify</span>
+            <span class="logo-item">Railway</span>
+            <span class="logo-item">Cloudflare</span>
+            <span class="logo-item">PlanetScale</span>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 11: Vercel Introduction -->
+<section class="slide" data-slide="11">
+    <div class="slide-content">
+        <h3 class="slide-title">Vercel — Frontend Cloud</h3>
+        <p class="slide-description">The company behind Next.js — deploy in seconds</p>
+        <div class="vercel-features">
+            <div class="vercel-feature" data-modal="vercel-deploy">
+                <div class="feature-icon">🚀</div>
+                <h4>Zero Config Deploy</h4>
+                <p>Connect GitHub, push code, done. Framework detection handles the rest.</p>
+            </div>
+            <div class="vercel-feature" data-modal="vercel-edge">
+                <div class="feature-icon">⚡</div>
+                <h4>Edge Network</h4>
+                <p>Deploy to 100+ edge locations. Fast everywhere, automatically.</p>
+            </div>
+            <div class="vercel-feature" data-modal="vercel-preview">
+                <div class="feature-icon">👁️</div>
+                <h4>Preview Deployments</h4>
+                <p>Every PR gets a unique URL. Share, review, iterate.</p>
+            </div>
+            <div class="vercel-feature" data-modal="vercel-serverless">
+                <div class="feature-icon">λ</div>
+                <h4>Serverless Functions</h4>
+                <p>API routes become serverless functions. No server management.</p>
+            </div>
+        </div>
+        <div class="vercel-frameworks">
+            <span class="framework-badge primary">Next.js</span>
+            <span class="framework-badge">React</span>
+            <span class="framework-badge">Vue</span>
+            <span class="framework-badge">Svelte</span>
+            <span class="framework-badge">Nuxt</span>
+            <span class="framework-badge">Astro</span>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 12: Vercel Deploy Tutorial -->
+<section class="slide" data-slide="12">
+    <div class="slide-content">
+        <h3 class="slide-title">Deploying to Vercel</h3>
+        <div class="tutorial-steps">
+            <div class="tutorial-step" data-modal="vercel-step1">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Connect GitHub</h4>
+                    <p>Go to vercel.com → Import Project → Select repository</p>
+                </div>
+            </div>
+            <div class="tutorial-step" data-modal="vercel-step2">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Configure (Optional)</h4>
+                    <p>Set environment variables, build settings auto-detected</p>
+                    <code>NEXT_PUBLIC_API_URL=https://api.example.com</code>
+                </div>
+            </div>
+            <div class="tutorial-step" data-modal="vercel-step3">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Deploy</h4>
+                    <p>Click Deploy. That's it. You get:</p>
+                    <ul>
+                        <li>Production URL: your-app.vercel.app</li>
+                        <li>Auto SSL certificate</li>
+                        <li>Global CDN</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tutorial-step" data-modal="vercel-step4">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Iterate</h4>
+                    <p>Every git push auto-deploys. PRs get preview URLs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 13: Vercel Code Example -->
+<section class="slide" data-slide="13">
+    <div class="slide-content">
+        <h3 class="slide-title">Vercel Serverless Functions</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-label">pages/api/users.ts (Next.js)</div>
+                <div class="code-block" data-modal="vercel-api-code">
+                    <pre><code>import type { NextApiRequest, NextApiResponse } from 'next';
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === 'GET') {
+    const users = await db.user.findMany();
+    return res.json(users);
+  }
+
+  if (req.method === 'POST') {
+    const user = await db.user.create({
+      data: req.body
+    });
+    return res.status(201).json(user);
+  }
+
+  res.status(405).end();
+}</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-label">What Vercel Does</div>
+                <div class="auto-features">
+                    <div class="auto-feature">
+                        <span class="check">✓</span>
+                        Deploys as serverless function
+                    </div>
+                    <div class="auto-feature">
+                        <span class="check">✓</span>
+                        Auto-scales to demand (0 to millions)
+                    </div>
+                    <div class="auto-feature">
+                        <span class="check">✓</span>
+                        Cold starts ~50-250ms
+                    </div>
+                    <div class="auto-feature">
+                        <span class="check">✓</span>
+                        Pay per invocation
+                    </div>
+                    <div class="auto-feature">
+                        <span class="check">✓</span>
+                        Automatic HTTPS
+                    </div>
+                    <div class="auto-feature">
+                        <span class="check">✓</span>
+                        Built-in rate limiting
+                    </div>
+                </div>
+                <div class="pricing-note">
+                    <strong>Free tier:</strong> 100GB bandwidth, 100K function invocations/month
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 14: Vercel Limitations -->
+<section class="slide" data-slide="14">
+    <div class="slide-content">
+        <h3 class="slide-title">When NOT to Use Vercel</h3>
+        <div class="limitations-grid">
+            <div class="limitation-card" data-modal="vercel-limit-longrun">
+                <div class="limit-icon">⏱️</div>
+                <h4>Long-Running Processes</h4>
+                <p>Functions timeout at 10-60s (plan dependent). No WebSocket servers, no cron jobs.</p>
+                <div class="alternative">Use: Railway, Render, AWS</div>
+            </div>
+            <div class="limitation-card" data-modal="vercel-limit-compute">
+                <div class="limit-icon">🖥️</div>
+                <h4>Heavy Compute</h4>
+                <p>Video processing, ML inference, data pipelines won't work well.</p>
+                <div class="alternative">Use: AWS/GCP for compute</div>
+            </div>
+            <div class="limitation-card" data-modal="vercel-limit-db">
+                <div class="limit-icon">🗄️</div>
+                <h4>Database Hosting</h4>
+                <p>Vercel doesn't host databases. Need external provider.</p>
+                <div class="alternative">Use: Supabase, PlanetScale, Neon</div>
+            </div>
+            <div class="limitation-card" data-modal="vercel-limit-cost">
+                <div class="limit-icon">💰</div>
+                <h4>Cost at Scale</h4>
+                <p>Can get expensive with high traffic. Bandwidth costs add up.</p>
+                <div class="alternative">Consider: Self-hosting for very high traffic</div>
+            </div>
+        </div>
+        <div class="limitations-verdict">
+            <strong>Vercel is perfect for:</strong> Frontend apps, marketing sites, blogs, dashboards, APIs with moderate traffic.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 15: Supabase Introduction -->
+<section class="slide" data-slide="15">
+    <div class="slide-content">
+        <h3 class="slide-title">Supabase — The Open Source Firebase</h3>
+        <p class="slide-description">Postgres database + Auth + Storage + Realtime in one platform</p>
+        <div class="supabase-stack">
+            <div class="stack-layer" data-modal="supabase-postgres">
+                <div class="layer-icon">🐘</div>
+                <h4>PostgreSQL Database</h4>
+                <p>Full Postgres with pgvector, PostGIS, and 40+ extensions</p>
+            </div>
+            <div class="stack-layer" data-modal="supabase-auth">
+                <div class="layer-icon">🔐</div>
+                <h4>Authentication</h4>
+                <p>Email, OAuth, magic links, phone auth — 5 minute setup</p>
+            </div>
+            <div class="stack-layer" data-modal="supabase-storage">
+                <div class="layer-icon">📁</div>
+                <h4>Storage</h4>
+                <p>S3-compatible file storage with CDN and transformations</p>
+            </div>
+            <div class="stack-layer" data-modal="supabase-realtime">
+                <div class="layer-icon">⚡</div>
+                <h4>Realtime</h4>
+                <p>Subscribe to database changes over WebSocket</p>
+            </div>
+            <div class="stack-layer" data-modal="supabase-edge">
+                <div class="layer-icon">λ</div>
+                <h4>Edge Functions</h4>
+                <p>Deno-based serverless functions at the edge</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 16: Supabase Setup -->
+<section class="slide" data-slide="16">
+    <div class="slide-content">
+        <h3 class="slide-title">Setting Up Supabase</h3>
+        <div class="tutorial-steps">
+            <div class="tutorial-step" data-modal="supabase-setup1">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Create Project</h4>
+                    <p>supabase.com → New Project → Choose region, set DB password</p>
+                </div>
+            </div>
+            <div class="tutorial-step" data-modal="supabase-setup2">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Install Client</h4>
+                    <code>npm install @supabase/supabase-js</code>
+                </div>
+            </div>
+            <div class="tutorial-step" data-modal="supabase-setup3">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Initialize</h4>
+                    <div class="code-block small">
+                        <pre><code>import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="tutorial-step" data-modal="supabase-setup4">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Use It</h4>
+                    <p>Query database, auth, storage — all from one client</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 17: Supabase Database Queries -->
+<section class="slide" data-slide="17">
+    <div class="slide-content">
+        <h3 class="slide-title">Supabase Database Queries</h3>
+        <div class="code-block large" data-modal="supabase-queries-code">
+            <pre><code>// Create (Insert)
+const { data, error } = await supabase
+  .from('posts')
+  .insert({ title: 'Hello World', author_id: user.id })
+  .select()
+
+// Read (Select with filters)
+const { data: posts } = await supabase
+  .from('posts')
+  .select('*, author:users(name, avatar)')
+  .eq('published', true)
+  .order('created_at', { ascending: false })
+  .limit(10)
+
+// Update
+const { data } = await supabase
+  .from('posts')
+  .update({ title: 'Updated Title' })
+  .eq('id', postId)
+  .select()
+
+// Delete
+await supabase
+  .from('posts')
+  .delete()
+  .eq('id', postId)
+
+// Realtime subscription
+supabase
+  .channel('posts')
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'posts' },
+    (payload) => console.log('Change:', payload)
+  )
+  .subscribe()</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 18: Supabase Auth -->
+<section class="slide" data-slide="18">
+    <div class="slide-content">
+        <h3 class="slide-title">Supabase Authentication</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-label">Auth Methods</div>
+                <div class="code-block" data-modal="supabase-auth-code">
+                    <pre><code>// Email/Password signup
+const { data, error } = await supabase.auth.signUp({
+  email: 'user@example.com',
+  password: 'secure-password'
+})
+
+// Email/Password login
+const { data } = await supabase.auth.signInWithPassword({
+  email: 'user@example.com',
+  password: 'secure-password'
+})
+
+// OAuth (Google, GitHub, etc.)
+await supabase.auth.signInWithOAuth({
+  provider: 'google',
+  options: { redirectTo: 'https://myapp.com/callback' }
+})
+
+// Magic Link
+await supabase.auth.signInWithOtp({
+  email: 'user@example.com'
+})
+
+// Get current user
+const { data: { user } } = await supabase.auth.getUser()
+
+// Sign out
+await supabase.auth.signOut()</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="auth-features">
+                    <h4>Built-in Features</h4>
+                    <div class="auth-feature">
+                        <span class="check">✓</span>
+                        JWT tokens with refresh
+                    </div>
+                    <div class="auth-feature">
+                        <span class="check">✓</span>
+                        Row Level Security (RLS)
+                    </div>
+                    <div class="auth-feature">
+                        <span class="check">✓</span>
+                        Email templates (customizable)
+                    </div>
+                    <div class="auth-feature">
+                        <span class="check">✓</span>
+                        OAuth providers (10+)
+                    </div>
+                    <div class="auth-feature">
+                        <span class="check">✓</span>
+                        Phone auth (SMS)
+                    </div>
+                    <div class="auth-feature">
+                        <span class="check">✓</span>
+                        MFA support
+                    </div>
+                </div>
+                <div class="rls-example" data-modal="supabase-rls">
+                    <h4>Row Level Security</h4>
+                    <code>Users can only see their own data</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 19: Supabase Row Level Security -->
+<section class="slide" data-slide="19">
+    <div class="slide-content">
+        <h3 class="slide-title">Row Level Security (RLS)</h3>
+        <p class="slide-description">Secure your data at the database level</p>
+        <div class="code-block large" data-modal="supabase-rls-code">
+            <pre><code>-- Enable RLS on a table
+ALTER TABLE posts ENABLE ROW LEVEL SECURITY;
+
+-- Policy: Users can only see their own posts
+CREATE POLICY "Users can view own posts"
+ON posts FOR SELECT
+USING (auth.uid() = author_id);
+
+-- Policy: Users can only insert their own posts
+CREATE POLICY "Users can create own posts"
+ON posts FOR INSERT
+WITH CHECK (auth.uid() = author_id);
+
+-- Policy: Users can update their own posts
+CREATE POLICY "Users can update own posts"
+ON posts FOR UPDATE
+USING (auth.uid() = author_id);
+
+-- Policy: Public posts are visible to everyone
+CREATE POLICY "Public posts are visible"
+ON posts FOR SELECT
+USING (published = true);
+
+-- Now even if someone bypasses your frontend,
+-- the DATABASE enforces these rules!</code></pre>
+        </div>
+        <div class="rls-benefit">
+            <strong>Why RLS matters:</strong> Your API can be simple because security is enforced at the data layer, not in every endpoint.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 20: Supabase Limitations -->
+<section class="slide" data-slide="20">
+    <div class="slide-content">
+        <h3 class="slide-title">When NOT to Use Supabase</h3>
+        <div class="limitations-grid">
+            <div class="limitation-card" data-modal="supabase-limit-scale">
+                <div class="limit-icon">📈</div>
+                <h4>Massive Scale</h4>
+                <p>Single Postgres instance has limits. Complex sharding not built-in.</p>
+                <div class="alternative">Use: CockroachDB, Spanner for global scale</div>
+            </div>
+            <div class="limitation-card" data-modal="supabase-limit-complex">
+                <div class="limit-icon">🔧</div>
+                <h4>Complex Backend Logic</h4>
+                <p>Edge functions have limits. No background jobs, limited runtime.</p>
+                <div class="alternative">Use: Railway, Render for custom backends</div>
+            </div>
+            <div class="limitation-card" data-modal="supabase-limit-nosql">
+                <div class="limit-icon">📄</div>
+                <h4>Document-Heavy Workloads</h4>
+                <p>It's Postgres. If you need MongoDB-style flexibility, look elsewhere.</p>
+                <div class="alternative">Use: MongoDB Atlas, Fauna</div>
+            </div>
+            <div class="limitation-card" data-modal="supabase-limit-vendor">
+                <div class="limit-icon">🔒</div>
+                <h4>Vendor Lock-in Concerns</h4>
+                <p>It's open source! You can self-host if needed.</p>
+                <div class="alternative">Self-host: supabase.com/docs/self-hosting</div>
+            </div>
+        </div>
+        <div class="limitations-verdict">
+            <strong>Supabase is perfect for:</strong> MVPs, startups, SaaS apps, mobile backends, prototypes, and most web apps.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 21: Vercel + Supabase Together -->
+<section class="slide" data-slide="21">
+    <div class="slide-content">
+        <h3 class="slide-title">The Modern Stack: Vercel + Supabase</h3>
+        <div class="stack-diagram">
+            <div class="stack-layer frontend">
+                <span class="layer-label">Frontend</span>
+                <span class="layer-tech">Next.js on Vercel</span>
+            </div>
+            <div class="stack-arrow">↕️</div>
+            <div class="stack-layer backend">
+                <span class="layer-label">API</span>
+                <span class="layer-tech">Vercel Serverless Functions</span>
+            </div>
+            <div class="stack-arrow">↕️</div>
+            <div class="stack-layer database">
+                <span class="layer-label">Backend</span>
+                <span class="layer-tech">Supabase (DB + Auth + Storage)</span>
+            </div>
+        </div>
+        <div class="stack-benefits">
+            <div class="benefit-item" data-modal="stack-benefit-cost">
+                <span class="benefit-icon">💰</span>
+                <strong>Free to Start</strong>
+                <p>Both have generous free tiers</p>
+            </div>
+            <div class="benefit-item" data-modal="stack-benefit-scale">
+                <span class="benefit-icon">📈</span>
+                <strong>Scales Automatically</strong>
+                <p>Pay as you grow</p>
+            </div>
+            <div class="benefit-item" data-modal="stack-benefit-dx">
+                <span class="benefit-icon">🛠️</span>
+                <strong>Great DX</strong>
+                <p>Focus on product, not infra</p>
+            </div>
+            <div class="benefit-item" data-modal="stack-benefit-speed">
+                <span class="benefit-icon">⚡</span>
+                <strong>Ship Fast</strong>
+                <p>Idea to production in hours</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 22: Full Stack Example -->
+<section class="slide" data-slide="22">
+    <div class="slide-content">
+        <h3 class="slide-title">Full Stack Example: Todo App</h3>
+        <div class="code-block large" data-modal="fullstack-example">
+            <pre><code>// app/page.tsx - Next.js + Supabase
+'use client'
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
+
+export default function Todos() {
+  const [todos, setTodos] = useState([])
+  const supabase = createClient()
+
+  useEffect(() => {
+    // Fetch initial todos
+    supabase.from('todos').select('*').then(({ data }) => setTodos(data || []))
+
+    // Subscribe to realtime changes
+    const channel = supabase
+      .channel('todos')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'todos' },
+        (payload) => {
+          if (payload.eventType === 'INSERT') {
+            setTodos(prev => [...prev, payload.new])
+          }
+        }
+      )
+      .subscribe()
+
+    return () => { supabase.removeChannel(channel) }
+  }, [])
+
+  const addTodo = async (text: string) => {
+    const { data: { user } } = await supabase.auth.getUser()
+    await supabase.from('todos').insert({ text, user_id: user?.id })
+  }
+
+  return (/* UI */)
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 23: Part III - Other Modern Platforms -->
+<section class="slide" data-slide="23">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part III</div>
+        <h2 class="section-title">Other Modern Platforms</h2>
+        <p class="section-subtitle">The New Cloud Ecosystem</p>
+    </div>
+</section>
+
+<!-- Slide 24: Platform Comparison -->
+<section class="slide" data-slide="24">
+    <div class="slide-content">
+        <h3 class="slide-title">Modern Platform Comparison</h3>
+        <div class="platform-cards">
+            <div class="platform-card" data-modal="platform-railway">
+                <div class="platform-name">Railway</div>
+                <div class="platform-tagline">Deploy anything from GitHub</div>
+                <div class="platform-best">Best for: Full-stack apps, databases, cron jobs</div>
+                <div class="platform-pricing">$5/mo + usage</div>
+            </div>
+            <div class="platform-card" data-modal="platform-render">
+                <div class="platform-name">Render</div>
+                <div class="platform-tagline">Cloud for developers</div>
+                <div class="platform-best">Best for: Web services, static sites, Postgres</div>
+                <div class="platform-pricing">Free tier + pay as you go</div>
+            </div>
+            <div class="platform-card" data-modal="platform-fly">
+                <div class="platform-name">Fly.io</div>
+                <div class="platform-tagline">Run apps at the edge</div>
+                <div class="platform-best">Best for: Global apps, containers, low latency</div>
+                <div class="platform-pricing">Free tier + usage</div>
+            </div>
+            <div class="platform-card" data-modal="platform-cloudflare">
+                <div class="platform-name">Cloudflare</div>
+                <div class="platform-tagline">The connectivity cloud</div>
+                <div class="platform-best">Best for: Edge, CDN, Workers, D1, R2</div>
+                <div class="platform-pricing">Generous free tier</div>
+            </div>
+            <div class="platform-card" data-modal="platform-planetscale">
+                <div class="platform-name">PlanetScale</div>
+                <div class="platform-tagline">Serverless MySQL</div>
+                <div class="platform-best">Best for: MySQL at scale, branching, no downtime</div>
+                <div class="platform-pricing">Free tier + usage</div>
+            </div>
+            <div class="platform-card" data-modal="platform-neon">
+                <div class="platform-name">Neon</div>
+                <div class="platform-tagline">Serverless Postgres</div>
+                <div class="platform-best">Best for: Postgres, branching, scale to zero</div>
+                <div class="platform-pricing">Free tier + usage</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 25: Choosing Your Stack -->
+<section class="slide" data-slide="25">
+    <div class="slide-content">
+        <h3 class="slide-title">Choosing Your Stack</h3>
+        <div class="decision-tree">
+            <div class="decision-node">
+                <div class="question">What are you building?</div>
+                <div class="branches">
+                    <div class="branch" data-modal="stack-frontend">
+                        <div class="branch-label">Frontend / Marketing Site</div>
+                        <div class="branch-answer">Vercel or Netlify</div>
+                    </div>
+                    <div class="branch" data-modal="stack-fullstack">
+                        <div class="branch-label">Full-Stack SaaS</div>
+                        <div class="branch-answer">Vercel + Supabase</div>
+                    </div>
+                    <div class="branch" data-modal="stack-backend">
+                        <div class="branch-label">Custom Backend</div>
+                        <div class="branch-answer">Railway or Render</div>
+                    </div>
+                    <div class="branch" data-modal="stack-global">
+                        <div class="branch-label">Global Low-Latency</div>
+                        <div class="branch-answer">Fly.io or Cloudflare</div>
+                    </div>
+                    <div class="branch" data-modal="stack-enterprise">
+                        <div class="branch-label">Enterprise / Complex</div>
+                        <div class="branch-answer">AWS / Azure / GCP</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 26: GitHub Integration -->
+<section class="slide" data-slide="26">
+    <div class="slide-content">
+        <h3 class="slide-title">Deploy from GitHub</h3>
+        <p class="slide-description">Modern platforms make GitHub the center of deployment</p>
+        <div class="github-flow">
+            <div class="flow-step">
+                <div class="flow-icon">📝</div>
+                <div class="flow-label">Write Code</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">
+                <div class="flow-icon">🔀</div>
+                <div class="flow-label">Push to Branch</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step highlight">
+                <div class="flow-icon">🚀</div>
+                <div class="flow-label">Auto Deploy</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">
+                <div class="flow-icon">✅</div>
+                <div class="flow-label">Live!</div>
+            </div>
+        </div>
+        <div class="github-features">
+            <div class="github-feature" data-modal="github-preview">
+                <h4>Preview Deployments</h4>
+                <p>Every PR gets a unique preview URL. QA before merging.</p>
+            </div>
+            <div class="github-feature" data-modal="github-rollback">
+                <h4>Instant Rollbacks</h4>
+                <p>Something broke? One click to previous version.</p>
+            </div>
+            <div class="github-feature" data-modal="github-env">
+                <h4>Environment Branches</h4>
+                <p>main → production, staging → staging environment.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 27: Cost Comparison -->
+<section class="slide" data-slide="27">
+    <div class="slide-content">
+        <h3 class="slide-title">Cost Comparison</h3>
+        <p class="slide-description">What does it cost to run a typical SaaS?</p>
+        <div class="cost-comparison">
+            <div class="cost-scenario" data-modal="cost-startup">
+                <h4>Startup (0-1K users)</h4>
+                <div class="cost-breakdown">
+                    <div class="cost-item">
+                        <span class="cost-service">Vercel</span>
+                        <span class="cost-amount free">$0</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-service">Supabase</span>
+                        <span class="cost-amount free">$0</span>
+                    </div>
+                    <div class="cost-total">Total: $0/month</div>
+                </div>
+            </div>
+            <div class="cost-scenario" data-modal="cost-growing">
+                <h4>Growing (10K users)</h4>
+                <div class="cost-breakdown">
+                    <div class="cost-item">
+                        <span class="cost-service">Vercel Pro</span>
+                        <span class="cost-amount">$20</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-service">Supabase Pro</span>
+                        <span class="cost-amount">$25</span>
+                    </div>
+                    <div class="cost-total">Total: ~$45/month</div>
+                </div>
+            </div>
+            <div class="cost-scenario" data-modal="cost-scale">
+                <h4>Scale (100K users)</h4>
+                <div class="cost-breakdown">
+                    <div class="cost-item">
+                        <span class="cost-service">Vercel Pro</span>
+                        <span class="cost-amount">$20 + usage</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-service">Supabase Team</span>
+                        <span class="cost-amount">$599+</span>
+                    </div>
+                    <div class="cost-total">Total: ~$700+/month</div>
+                </div>
+            </div>
+        </div>
+        <div class="cost-note">
+            <strong>Compare to AWS:</strong> Similar setup requires DevOps expertise + $200-500/mo minimum for small apps.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 28: Part IV - Best Practices -->
+<section class="slide" data-slide="28">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part IV</div>
+        <h2 class="section-title">Best Practices</h2>
+        <p class="section-subtitle">Ship Fast, Stay Safe</p>
+    </div>
+</section>
+
+<!-- Slide 29: Environment & Secrets -->
+<section class="slide" data-slide="29">
+    <div class="slide-content">
+        <h3 class="slide-title">Environment Variables & Secrets</h3>
+        <div class="env-best-practices">
+            <div class="env-practice" data-modal="env-never-commit">
+                <div class="practice-header bad">
+                    <span class="x-mark">✗</span>
+                    Never Commit Secrets
+                </div>
+                <div class="code-block bad">
+                    <pre><code>// NEVER DO THIS
+const apiKey = "sk_live_abc123..."</code></pre>
+                </div>
+            </div>
+            <div class="env-practice" data-modal="env-use-env">
+                <div class="practice-header good">
+                    <span class="check-mark">✓</span>
+                    Use Environment Variables
+                </div>
+                <div class="code-block good">
+                    <pre><code>// .env.local (git ignored)
+DATABASE_URL=postgres://...
+STRIPE_SECRET_KEY=sk_live_...
+
+// Access in code
+const key = process.env.STRIPE_SECRET_KEY</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="env-tiers">
+            <h4>Environment Tiers</h4>
+            <div class="tier-list">
+                <div class="tier">
+                    <span class="tier-name">Development</span>
+                    <span class="tier-desc">.env.local (your machine)</span>
+                </div>
+                <div class="tier">
+                    <span class="tier-name">Preview</span>
+                    <span class="tier-desc">Vercel/Platform env vars (test keys)</span>
+                </div>
+                <div class="tier">
+                    <span class="tier-name">Production</span>
+                    <span class="tier-desc">Vercel/Platform env vars (live keys)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 30: Monitoring & Observability -->
+<section class="slide" data-slide="30">
+    <div class="slide-content">
+        <h3 class="slide-title">Monitoring & Observability</h3>
+        <div class="monitoring-stack">
+            <div class="monitoring-layer" data-modal="monitor-errors">
+                <div class="layer-icon">🚨</div>
+                <h4>Error Tracking</h4>
+                <p>Sentry, LogRocket — know when things break</p>
+                <code>Sentry.captureException(error)</code>
+            </div>
+            <div class="monitoring-layer" data-modal="monitor-analytics">
+                <div class="layer-icon">📊</div>
+                <h4>Analytics</h4>
+                <p>Vercel Analytics, PostHog, Plausible — understand users</p>
+            </div>
+            <div class="monitoring-layer" data-modal="monitor-logs">
+                <div class="layer-icon">📝</div>
+                <h4>Logging</h4>
+                <p>Vercel Logs, Axiom, Logtail — debug in production</p>
+            </div>
+            <div class="monitoring-layer" data-modal="monitor-uptime">
+                <div class="layer-icon">⏰</div>
+                <h4>Uptime Monitoring</h4>
+                <p>Better Uptime, Checkly — get alerted when down</p>
+            </div>
+        </div>
+        <div class="monitoring-tip">
+            <strong>Tip:</strong> Start with Sentry (errors) + Vercel Analytics (performance). Add more as you grow.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 31: Security Checklist -->
+<section class="slide" data-slide="31">
+    <div class="slide-content">
+        <h3 class="slide-title">Cloud Security Checklist</h3>
+        <div class="security-grid">
+            <div class="security-item" data-modal="cloud-sec-secrets">
+                <span class="check">□</span>
+                <strong>Secrets in env vars</strong>
+                <p>Never in code, never in git</p>
+            </div>
+            <div class="security-item" data-modal="cloud-sec-https">
+                <span class="check">□</span>
+                <strong>HTTPS everywhere</strong>
+                <p>Vercel/Supabase handle this automatically</p>
+            </div>
+            <div class="security-item" data-modal="cloud-sec-rls">
+                <span class="check">□</span>
+                <strong>Row Level Security</strong>
+                <p>Enable RLS on all Supabase tables</p>
+            </div>
+            <div class="security-item" data-modal="cloud-sec-auth">
+                <span class="check">□</span>
+                <strong>Validate auth server-side</strong>
+                <p>Don't trust client-only auth checks</p>
+            </div>
+            <div class="security-item" data-modal="cloud-sec-cors">
+                <span class="check">□</span>
+                <strong>Configure CORS properly</strong>
+                <p>Restrict to your domains</p>
+            </div>
+            <div class="security-item" data-modal="cloud-sec-rate">
+                <span class="check">□</span>
+                <strong>Rate limiting</strong>
+                <p>Protect APIs from abuse</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 32: Summary -->
+<section class="slide" data-slide="32">
+    <div class="slide-content">
+        <h3 class="slide-title">Key Takeaways</h3>
+        <div class="takeaways-grid">
+            <div class="takeaway-item">
+                <span class="takeaway-number">1</span>
+                <div>
+                    <strong>Big Three for complex needs</strong>
+                    <p>AWS/Azure/GCP when you need full control or enterprise features.</p>
+                </div>
+            </div>
+            <div class="takeaway-item">
+                <span class="takeaway-number">2</span>
+                <div>
+                    <strong>New cloud for speed</strong>
+                    <p>Vercel + Supabase: ship in hours, not weeks.</p>
+                </div>
+            </div>
+            <div class="takeaway-item">
+                <span class="takeaway-number">3</span>
+                <div>
+                    <strong>Start simple, evolve</strong>
+                    <p>Don't over-engineer. Most apps don't need AWS complexity.</p>
+                </div>
+            </div>
+            <div class="takeaway-item">
+                <span class="takeaway-number">4</span>
+                <div>
+                    <strong>Know the limits</strong>
+                    <p>Each platform has trade-offs. Pick based on your needs.</p>
+                </div>
+            </div>
+            <div class="takeaway-item">
+                <span class="takeaway-number">5</span>
+                <div>
+                    <strong>DX matters</strong>
+                    <p>Better developer experience = faster shipping = happier users.</p>
+                </div>
+            </div>
+        </div>
+        <div class="closing-quote">
+            <blockquote>"The best infrastructure is the one you don't have to think about."</blockquote>
+        </div>
+    </div>
+</section>

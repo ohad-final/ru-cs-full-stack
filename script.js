@@ -7729,6 +7729,1933 @@ FOR EACH ROW EXECUTE FUNCTION audit_trigger();</code></pre>
                         <p>OLTP database (PostgreSQL) for operations → ETL pipeline → OLAP database for analytics. Don't run heavy analytics queries on your production database.</p>
                     </div>
                 `
+            },
+
+            // =====================
+            // CLOUD LECTURE MODALS
+            // =====================
+
+            'cloud-before': {
+                title: 'Before Cloud (2005)',
+                body: `
+                    <p>Running a web application before cloud computing required significant upfront investment and ongoing maintenance.</p>
+                    <div class="modal-section">
+                        <h4>The Reality</h4>
+                        <ul>
+                            <li><strong>Capital Expenditure</strong> — Buy servers for peak load, pay for idle capacity</li>
+                            <li><strong>Physical Space</strong> — Data center, cooling, power, security</li>
+                            <li><strong>Team Required</strong> — Network engineers, sysadmins, security specialists</li>
+                            <li><strong>Planning Horizon</strong> — Guess capacity 6-18 months in advance</li>
+                            <li><strong>Scaling Pain</strong> — Traffic spike? Buy more hardware, wait weeks</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Fun Fact</h4>
+                        <p>Amazon built AWS because they had massive infrastructure for holiday shopping peaks that sat idle most of the year. Why not rent it out?</p>
+                    </div>
+                `
+            },
+            'cloud-after': {
+                title: 'With Cloud (Today)',
+                body: `
+                    <p>Cloud computing transformed infrastructure from a capital expense to an operational expense.</p>
+                    <div class="modal-section">
+                        <h4>Key Benefits</h4>
+                        <ul>
+                            <li><strong>Pay-as-you-go</strong> — Only pay for what you use, scale down to $0</li>
+                            <li><strong>Instant Provisioning</strong> — Spin up servers in seconds, not weeks</li>
+                            <li><strong>Global Reach</strong> — Deploy to any region with a few clicks</li>
+                            <li><strong>Managed Services</strong> — Databases, queues, ML — all maintained for you</li>
+                            <li><strong>Auto-scaling</strong> — Handle traffic spikes automatically</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>The Trade-off</h4>
+                        <p>You trade control for convenience. At massive scale, cloud can be more expensive than owning hardware — but you need to be very large for this to matter.</p>
+                    </div>
+                `
+            },
+            'cloud-1999': {
+                title: 'Salesforce (1999)',
+                body: `
+                    <p>Salesforce pioneered the Software-as-a-Service (SaaS) model, proving that enterprise software could run entirely in the browser.</p>
+                    <div class="modal-section">
+                        <h4>The Revolution</h4>
+                        <ul>
+                            <li><strong>No Installation</strong> — Just log in and use it</li>
+                            <li><strong>Automatic Updates</strong> — Everyone gets new features simultaneously</li>
+                            <li><strong>Subscription Model</strong> — Pay monthly instead of huge upfront licenses</li>
+                            <li><strong>Multi-tenant</strong> — One codebase serves all customers</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Impact</h4>
+                        <p>Marc Benioff's "No Software" campaign directly challenged traditional enterprise vendors. Today Salesforce is worth $200B+.</p>
+                    </div>
+                `
+            },
+            'cloud-2006': {
+                title: 'AWS Launches (2006)',
+                body: `
+                    <p>Amazon Web Services launched EC2 (Elastic Compute Cloud) and S3 (Simple Storage Service), creating the modern cloud computing market.</p>
+                    <div class="modal-section">
+                        <h4>Why It Mattered</h4>
+                        <ul>
+                            <li><strong>EC2</strong> — Rent virtual servers by the hour</li>
+                            <li><strong>S3</strong> — Unlimited storage, pay per GB</li>
+                            <li><strong>APIs First</strong> — Everything programmable, infrastructure as code</li>
+                            <li><strong>Self-Service</strong> — No sales calls, just sign up</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>The Startup Boom</h4>
+                        <p>Suddenly a startup could launch with $0 infrastructure cost. Netflix, Airbnb, Pinterest, and countless others built on AWS. The barrier to entry collapsed.</p>
+                    </div>
+                `
+            },
+            'cloud-2008': {
+                title: 'Google App Engine (2008)',
+                body: `
+                    <p>Google introduced Platform-as-a-Service (PaaS) — deploy code without thinking about servers at all.</p>
+                    <div class="modal-section">
+                        <h4>The PaaS Model</h4>
+                        <ul>
+                            <li><strong>Just Deploy Code</strong> — No server configuration</li>
+                            <li><strong>Auto-scaling</strong> — Platform handles traffic spikes</li>
+                            <li><strong>Managed Runtime</strong> — Python/Java environments maintained by Google</li>
+                            <li><strong>Scale to Zero</strong> — Pay nothing when idle</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Trade-offs</h4>
+                        <p>Early App Engine was restrictive — specific languages, no local files, vendor lock-in. But it proved the concept that developers shouldn't need to think about servers.</p>
+                    </div>
+                `
+            },
+            'cloud-2010': {
+                title: 'Azure GA (2010)',
+                body: `
+                    <p>Microsoft Azure reached general availability, bringing enterprise credibility and Windows/.NET to the cloud.</p>
+                    <div class="modal-section">
+                        <h4>Microsoft's Bet</h4>
+                        <ul>
+                            <li><strong>Enterprise Trust</strong> — CIOs already knew Microsoft</li>
+                            <li><strong>.NET Native</strong> — Run Windows workloads seamlessly</li>
+                            <li><strong>Active Directory</strong> — Enterprise identity in the cloud</li>
+                            <li><strong>Hybrid Story</strong> — On-prem to cloud migration path</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Satya's Transformation</h4>
+                        <p>Under Satya Nadella (CEO 2014), Microsoft went all-in on cloud. Azure is now #2 globally and often #1 for enterprise.</p>
+                    </div>
+                `
+            },
+            'cloud-2014': {
+                title: 'AWS Lambda (2014)',
+                body: `
+                    <p>Lambda introduced serverless computing — run code without provisioning or managing servers.</p>
+                    <div class="modal-section">
+                        <h4>The Serverless Model</h4>
+                        <ul>
+                            <li><strong>Function-level</strong> — Deploy individual functions, not apps</li>
+                            <li><strong>Event-driven</strong> — Triggered by HTTP, queues, schedules</li>
+                            <li><strong>Pay per invocation</strong> — Millisecond billing, $0 when idle</li>
+                            <li><strong>No ops</strong> — AWS handles scaling, patching, everything</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>The Future</h4>
+                        <p>Serverless enabled a new generation of platforms (Vercel, Netlify) that make deployment trivial. "Just push code" became reality.</p>
+                    </div>
+                `
+            },
+            'cloud-2020': {
+                title: 'Edge & DX Era (2020+)',
+                body: `
+                    <p>A new wave of platforms prioritized developer experience and edge computing over raw infrastructure.</p>
+                    <div class="modal-section">
+                        <h4>The New Players</h4>
+                        <ul>
+                            <li><strong>Vercel</strong> — Frontend cloud, Next.js creators</li>
+                            <li><strong>Supabase</strong> — Open source Firebase alternative</li>
+                            <li><strong>Cloudflare</strong> — Workers, D1, R2 — edge everything</li>
+                            <li><strong>Railway/Render</strong> — Simple full-stack hosting</li>
+                            <li><strong>PlanetScale/Neon</strong> — Serverless databases</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Philosophy</h4>
+                        <p>"Deploy in seconds, not hours. Git push is all you need." These platforms bet that DX is worth paying for.</p>
+                    </div>
+                `
+            },
+
+            // AWS Services
+            'aws-ec2': {
+                title: 'Amazon EC2',
+                body: `
+                    <p><strong>Elastic Compute Cloud</strong> — Virtual servers in the cloud, the foundation of AWS.</p>
+                    <div class="modal-section">
+                        <h4>Key Features</h4>
+                        <ul>
+                            <li><strong>Instance Types</strong> — From t3.micro (free tier) to p4d.24xlarge (8 GPUs)</li>
+                            <li><strong>Spot Instances</strong> — Up to 90% discount for interruptible workloads</li>
+                            <li><strong>Auto Scaling</strong> — Scale based on CPU, memory, custom metrics</li>
+                            <li><strong>AMIs</strong> — Pre-configured machine images for quick launch</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>When to Use</h4>
+                        <p>When you need full control over the server environment, long-running processes, or specific hardware requirements.</p>
+                    </div>
+                `
+            },
+            'aws-lambda': {
+                title: 'AWS Lambda',
+                body: `
+                    <p><strong>Serverless compute</strong> — Run code without thinking about servers.</p>
+                    <div class="modal-section">
+                        <h4>How It Works</h4>
+                        <ul>
+                            <li><strong>Upload Code</strong> — Zip file or container image</li>
+                            <li><strong>Configure Trigger</strong> — API Gateway, S3, SQS, schedule</li>
+                            <li><strong>AWS Runs It</strong> — Scales automatically, 0 to millions</li>
+                            <li><strong>Pay Per Use</strong> — $0.20 per 1M requests + duration</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Limits</h4>
+                        <p>15 minute max runtime, 10GB memory max, cold starts (100-500ms). Great for APIs, webhooks, scheduled tasks.</p>
+                    </div>
+                `
+            },
+            'aws-ecs': {
+                title: 'Amazon ECS/EKS',
+                body: `
+                    <p><strong>Container orchestration</strong> — Run Docker containers at scale.</p>
+                    <div class="modal-section">
+                        <h4>ECS vs EKS</h4>
+                        <ul>
+                            <li><strong>ECS</strong> — AWS-native, simpler, Fargate for serverless containers</li>
+                            <li><strong>EKS</strong> — Managed Kubernetes, portable, more complex</li>
+                            <li><strong>Fargate</strong> — No EC2 management, just define CPU/memory</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>When to Use</h4>
+                        <p>When you have existing Docker workflows, need more control than Lambda, or want Kubernetes compatibility.</p>
+                    </div>
+                `
+            },
+            'aws-s3': {
+                title: 'Amazon S3',
+                body: `
+                    <p><strong>Simple Storage Service</strong> — Unlimited object storage, 11 nines durability.</p>
+                    <div class="modal-section">
+                        <h4>Use Cases</h4>
+                        <ul>
+                            <li><strong>Static Assets</strong> — Images, videos, downloads</li>
+                            <li><strong>Backups</strong> — Database dumps, archives</li>
+                            <li><strong>Data Lake</strong> — Raw data for analytics</li>
+                            <li><strong>Static Hosting</strong> — Host entire websites</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Storage Classes</h4>
+                        <p>Standard (frequent access), Intelligent-Tiering (auto-optimize), Glacier (archive, minutes to hours retrieval).</p>
+                    </div>
+                `
+            },
+            'aws-ebs': {
+                title: 'Amazon EBS',
+                body: `
+                    <p><strong>Elastic Block Store</strong> — Persistent block storage for EC2 instances.</p>
+                    <div class="modal-section">
+                        <h4>Types</h4>
+                        <ul>
+                            <li><strong>gp3</strong> — General purpose SSD, most workloads</li>
+                            <li><strong>io2</strong> — High IOPS for databases</li>
+                            <li><strong>st1</strong> — Throughput optimized HDD, big data</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Key Feature</h4>
+                        <p>Snapshots for backup, can be shared across accounts/regions. Think of it as a virtual hard drive that persists independently of EC2.</p>
+                    </div>
+                `
+            },
+            'aws-rds': {
+                title: 'Amazon RDS',
+                body: `
+                    <p><strong>Relational Database Service</strong> — Managed SQL databases.</p>
+                    <div class="modal-section">
+                        <h4>Supported Engines</h4>
+                        <ul>
+                            <li><strong>PostgreSQL</strong> — Most popular for new apps</li>
+                            <li><strong>MySQL/MariaDB</strong> — WordPress, legacy apps</li>
+                            <li><strong>Aurora</strong> — AWS-optimized, 5x faster</li>
+                            <li><strong>SQL Server/Oracle</strong> — Enterprise workloads</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>What AWS Manages</h4>
+                        <p>Provisioning, patching, backups, replication, failover. You manage schema and queries.</p>
+                    </div>
+                `
+            },
+            'aws-vpc': {
+                title: 'Amazon VPC',
+                body: `
+                    <p><strong>Virtual Private Cloud</strong> — Isolated network for your AWS resources.</p>
+                    <div class="modal-section">
+                        <h4>Components</h4>
+                        <ul>
+                            <li><strong>Subnets</strong> — Public (internet) vs Private (internal)</li>
+                            <li><strong>Security Groups</strong> — Instance-level firewall</li>
+                            <li><strong>NACLs</strong> — Subnet-level firewall</li>
+                            <li><strong>NAT Gateway</strong> — Private subnet internet access</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Why It Matters</h4>
+                        <p>Default security posture — nothing is exposed unless you allow it. Database in private subnet = not reachable from internet.</p>
+                    </div>
+                `
+            },
+            'aws-cloudfront': {
+                title: 'Amazon CloudFront',
+                body: `
+                    <p><strong>Content Delivery Network</strong> — Cache content at 450+ edge locations globally.</p>
+                    <div class="modal-section">
+                        <h4>Use Cases</h4>
+                        <ul>
+                            <li><strong>Static Assets</strong> — Images, CSS, JS from S3</li>
+                            <li><strong>API Acceleration</strong> — Faster API responses</li>
+                            <li><strong>Video Streaming</strong> — Live and on-demand</li>
+                            <li><strong>DDoS Protection</strong> — Absorb attacks at edge</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Integration</h4>
+                        <p>Works seamlessly with S3, EC2, Lambda@Edge. Handles SSL certificates automatically with ACM.</p>
+                    </div>
+                `
+            },
+            'aws-route53': {
+                title: 'Amazon Route 53',
+                body: `
+                    <p><strong>DNS Service</strong> — Domain registration and routing.</p>
+                    <div class="modal-section">
+                        <h4>Features</h4>
+                        <ul>
+                            <li><strong>Domain Registration</strong> — Buy domains directly</li>
+                            <li><strong>DNS Hosting</strong> — Authoritative DNS</li>
+                            <li><strong>Health Checks</strong> — Route away from unhealthy endpoints</li>
+                            <li><strong>Traffic Routing</strong> — Latency, geo, weighted, failover</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Why 53?</h4>
+                        <p>DNS uses port 53. Classic AWS naming.</p>
+                    </div>
+                `
+            },
+            'aws-amplify': {
+                title: 'AWS Amplify',
+                body: `
+                    <p><strong>Full-stack app platform</strong> — AWS's answer to Vercel/Firebase.</p>
+                    <div class="modal-section">
+                        <h4>Features</h4>
+                        <ul>
+                            <li><strong>Hosting</strong> — Git-based deploys, preview URLs</li>
+                            <li><strong>Auth</strong> — Cognito integration</li>
+                            <li><strong>API</strong> — GraphQL or REST, auto-generated</li>
+                            <li><strong>Storage</strong> — S3 with easy client SDK</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Reality Check</h4>
+                        <p>Good for simple apps, but Vercel/Supabase often have better DX. Amplify can feel over-engineered.</p>
+                    </div>
+                `
+            },
+            'aws-cognito': {
+                title: 'Amazon Cognito',
+                body: `
+                    <p><strong>User authentication</strong> — Identity management for web/mobile apps.</p>
+                    <div class="modal-section">
+                        <h4>Features</h4>
+                        <ul>
+                            <li><strong>User Pools</strong> — User directory, signup/signin</li>
+                            <li><strong>Identity Pools</strong> — Federated identities, AWS credentials</li>
+                            <li><strong>OAuth/OIDC</strong> — Social login (Google, Facebook, etc.)</li>
+                            <li><strong>MFA</strong> — SMS, TOTP, email verification</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Pricing</h4>
+                        <p>50,000 MAUs free, then $0.0055/MAU. Can get expensive at scale.</p>
+                    </div>
+                `
+            },
+            'aws-apigw': {
+                title: 'Amazon API Gateway',
+                body: `
+                    <p><strong>Managed API service</strong> — Create, publish, and manage APIs at scale.</p>
+                    <div class="modal-section">
+                        <h4>Types</h4>
+                        <ul>
+                            <li><strong>HTTP API</strong> — Simple, cheap, fastest ($1/million requests)</li>
+                            <li><strong>REST API</strong> — Full features, caching, usage plans</li>
+                            <li><strong>WebSocket API</strong> — Real-time, bidirectional</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Integration</h4>
+                        <p>Connects to Lambda, EC2, any HTTP endpoint. Handles auth, throttling, caching.</p>
+                    </div>
+                `
+            },
+
+            // Azure
+            'azure-enterprise': {
+                title: 'Azure Enterprise Ready',
+                body: `
+                    <p>Azure's deep integration with Microsoft's enterprise stack makes it the default choice for many large organizations.</p>
+                    <div class="modal-section">
+                        <h4>Key Integrations</h4>
+                        <ul>
+                            <li><strong>Azure AD</strong> — Same identity for Windows, Office, Azure</li>
+                            <li><strong>Office 365</strong> — SharePoint, Teams, Exchange integration</li>
+                            <li><strong>Power Platform</strong> — Power BI, Power Apps, Power Automate</li>
+                            <li><strong>Dynamics 365</strong> — CRM/ERP suite</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Enterprise Sales</h4>
+                        <p>Azure benefits from existing Microsoft enterprise agreements. Bundled pricing, familiar vendor relationship.</p>
+                    </div>
+                `
+            },
+            'azure-hybrid': {
+                title: 'Azure Hybrid Cloud',
+                body: `
+                    <p>Azure has the strongest story for organizations that need both on-premises and cloud infrastructure.</p>
+                    <div class="modal-section">
+                        <h4>Key Products</h4>
+                        <ul>
+                            <li><strong>Azure Arc</strong> — Manage on-prem, multi-cloud from Azure</li>
+                            <li><strong>Azure Stack</strong> — Run Azure services in your data center</li>
+                            <li><strong>ExpressRoute</strong> — Private connection to Azure</li>
+                            <li><strong>Site Recovery</strong> — Disaster recovery to cloud</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Use Case</h4>
+                        <p>Banks, healthcare, government — regulated industries that can't go full cloud but want cloud benefits.</p>
+                    </div>
+                `
+            },
+            'azure-ai': {
+                title: 'Azure AI & OpenAI',
+                body: `
+                    <p>Microsoft's $10B investment in OpenAI gives Azure exclusive cloud access to GPT-4 and beyond.</p>
+                    <div class="modal-section">
+                        <h4>Azure OpenAI Service</h4>
+                        <ul>
+                            <li><strong>GPT-4, GPT-4 Turbo</strong> — Latest models with enterprise SLAs</li>
+                            <li><strong>Content Filtering</strong> — Built-in safety guardrails</li>
+                            <li><strong>Private Endpoints</strong> — Data doesn't leave your VNet</li>
+                            <li><strong>Fine-tuning</strong> — Custom models on your data</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Copilot Everywhere</h4>
+                        <p>Microsoft is embedding AI across GitHub Copilot, Microsoft 365 Copilot, Bing, and more. Azure is the backbone.</p>
+                    </div>
+                `
+            },
+            'azure-dotnet': {
+                title: 'Azure for .NET',
+                body: `
+                    <p>Azure is the natural home for .NET applications — first-class support, best tooling.</p>
+                    <div class="modal-section">
+                        <h4>Why .NET Developers Love Azure</h4>
+                        <ul>
+                            <li><strong>Visual Studio Integration</strong> — Deploy from IDE</li>
+                            <li><strong>Azure App Service</strong> — PaaS optimized for .NET</li>
+                            <li><strong>Azure SQL</strong> — SQL Server fully managed</li>
+                            <li><strong>Azure Functions</strong> — C# serverless</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>.NET Modernization</h4>
+                        <p>.NET Core/6/7/8 runs great on Linux. Azure supports both Windows and Linux for .NET workloads.</p>
+                    </div>
+                `
+            },
+
+            // GCP
+            'gcp-data': {
+                title: 'GCP Data & Analytics',
+                body: `
+                    <p>Google's data infrastructure is unmatched — BigQuery alone processes exabytes daily.</p>
+                    <div class="modal-section">
+                        <h4>Key Services</h4>
+                        <ul>
+                            <li><strong>BigQuery</strong> — Serverless data warehouse, SQL at petabyte scale</li>
+                            <li><strong>Dataflow</strong> — Stream and batch data processing</li>
+                            <li><strong>Pub/Sub</strong> — Messaging at scale (like Kafka, managed)</li>
+                            <li><strong>Looker</strong> — Business intelligence platform</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>BigQuery Magic</h4>
+                        <p>Query terabytes in seconds, pay only for data scanned. No indexes, no tuning — just SQL. Nothing else comes close.</p>
+                    </div>
+                `
+            },
+            'gcp-ml': {
+                title: 'GCP Machine Learning',
+                body: `
+                    <p>Google built TensorFlow and runs the world's largest ML infrastructure. GCP is ML-native.</p>
+                    <div class="modal-section">
+                        <h4>Key Services</h4>
+                        <ul>
+                            <li><strong>Vertex AI</strong> — Unified ML platform</li>
+                            <li><strong>TPUs</strong> — Custom ML chips, faster than GPUs</li>
+                            <li><strong>AutoML</strong> — Train models without code</li>
+                            <li><strong>Gemini</strong> — Google's latest multimodal AI</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Open Source</h4>
+                        <p>TensorFlow, JAX, Keras — all from Google. Run them anywhere, but GCP has first-class support.</p>
+                    </div>
+                `
+            },
+            'gcp-k8s': {
+                title: 'GCP Kubernetes (GKE)',
+                body: `
+                    <p>Google invented Kubernetes and runs GKE with features years ahead of competitors.</p>
+                    <div class="modal-section">
+                        <h4>GKE Advantages</h4>
+                        <ul>
+                            <li><strong>Autopilot</strong> — Fully managed, pay per pod</li>
+                            <li><strong>Multi-cluster</strong> — Manage clusters globally</li>
+                            <li><strong>Release Channels</strong> — Automatic version management</li>
+                            <li><strong>Anthos</strong> — Run GKE on-prem and multi-cloud</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Industry Standard</h4>
+                        <p>Kubernetes is everywhere now, but GKE remains the gold standard for managed K8s.</p>
+                    </div>
+                `
+            },
+            'gcp-network': {
+                title: 'GCP Global Network',
+                body: `
+                    <p>Google operates one of the world's largest private networks — same infrastructure as Search and YouTube.</p>
+                    <div class="modal-section">
+                        <h4>Network Tiers</h4>
+                        <ul>
+                            <li><strong>Premium Tier</strong> — Traffic on Google's network globally</li>
+                            <li><strong>Standard Tier</strong> — Public internet, lower cost</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Why It Matters</h4>
+                        <p>Premium tier means your traffic stays on Google's fiber, avoiding public internet congestion. Noticeably faster for global apps.</p>
+                    </div>
+                `
+            },
+
+            // Big Three Comparison
+            'cloud-compare-breadth': {
+                title: 'Service Breadth Comparison',
+                body: `
+                    <p>AWS has the widest selection of services, Azure is close, GCP is more focused.</p>
+                    <div class="modal-section">
+                        <h4>Service Count (Approximate)</h4>
+                        <ul>
+                            <li><strong>AWS</strong> — 200+ services, something for everything</li>
+                            <li><strong>Azure</strong> — 150+ services, enterprise focus</li>
+                            <li><strong>GCP</strong> — 100+ services, curated, less overlap</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Trade-off</h4>
+                        <p>More services = more choice but more complexity. GCP's smaller catalog can be an advantage — less decision fatigue.</p>
+                    </div>
+                `
+            },
+            'cloud-compare-enterprise': {
+                title: 'Enterprise Features',
+                body: `
+                    <p>Azure leads in enterprise due to Microsoft relationships, AWS is strong, GCP is catching up.</p>
+                    <div class="modal-section">
+                        <h4>Key Factors</h4>
+                        <ul>
+                            <li><strong>Identity</strong> — Azure AD dominates enterprise identity</li>
+                            <li><strong>Compliance</strong> — All three have extensive certifications</li>
+                            <li><strong>Support</strong> — Enterprise agreements, dedicated teams</li>
+                            <li><strong>Hybrid</strong> — Azure has the best on-prem story</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Reality</h4>
+                        <p>If you're a Microsoft shop, Azure is default. Otherwise, all three work for enterprise.</p>
+                    </div>
+                `
+            },
+            'cloud-compare-data': {
+                title: 'Data & ML Comparison',
+                body: `
+                    <p>GCP leads in data/ML due to BigQuery and Google's AI heritage. AWS and Azure are competitive.</p>
+                    <div class="modal-section">
+                        <h4>Standout Services</h4>
+                        <ul>
+                            <li><strong>GCP</strong> — BigQuery (data), Vertex AI (ML), TPUs</li>
+                            <li><strong>AWS</strong> — Redshift (data), SageMaker (ML), Bedrock (AI)</li>
+                            <li><strong>Azure</strong> — Synapse (data), Azure ML, OpenAI</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Recommendation</h4>
+                        <p>For pure analytics: GCP. For OpenAI access: Azure. For everything else: depends on existing stack.</p>
+                    </div>
+                `
+            },
+            'cloud-compare-pricing': {
+                title: 'Pricing Comparison',
+                body: `
+                    <p>All three have complex pricing. GCP tends to be simpler with sustained use discounts.</p>
+                    <div class="modal-section">
+                        <h4>Pricing Models</h4>
+                        <ul>
+                            <li><strong>On-demand</strong> — Pay by the hour/second</li>
+                            <li><strong>Reserved</strong> — Commit 1-3 years, save 30-60%</li>
+                            <li><strong>Spot/Preemptible</strong> — Interruptible, save 60-90%</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>GCP Advantage</h4>
+                        <p>Sustained use discounts automatic (no commitment), per-second billing, simpler egress pricing.</p>
+                    </div>
+                `
+            },
+            'cloud-compare-dx': {
+                title: 'Developer Experience',
+                body: `
+                    <p>All three have steep learning curves. GCP is generally considered to have better documentation and console UX.</p>
+                    <div class="modal-section">
+                        <h4>Comparison</h4>
+                        <ul>
+                            <li><strong>AWS Console</strong> — Powerful but overwhelming</li>
+                            <li><strong>Azure Portal</strong> — Improved, still complex</li>
+                            <li><strong>GCP Console</strong> — Cleanest, best search</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Reality</h4>
+                        <p>For great DX, look at the "new cloud" (Vercel, Supabase). Big Three prioritize features over simplicity.</p>
+                    </div>
+                `
+            },
+
+            // Complexity
+            'cloud-complexity-deploy': {
+                title: 'AWS Deployment Complexity',
+                body: `
+                    <p>Deploying a "simple" web app on AWS properly requires understanding many interconnected services.</p>
+                    <div class="modal-section">
+                        <h4>Why So Many Steps?</h4>
+                        <ul>
+                            <li><strong>Security by Default</strong> — Nothing exposed unless configured</li>
+                            <li><strong>Flexibility</strong> — Every option is customizable</li>
+                            <li><strong>Enterprise Grade</strong> — Built for complex requirements</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>The Trade-off</h4>
+                        <p>Full control = full responsibility. Great for complex apps, overkill for a marketing site or MVP.</p>
+                    </div>
+                `
+            },
+            'cloud-simplicity-vercel': {
+                title: 'Vercel Simplicity',
+                body: `
+                    <p>Vercel abstracts away all infrastructure decisions, giving you sensible defaults.</p>
+                    <div class="modal-section">
+                        <h4>What Happens on git push</h4>
+                        <ul>
+                            <li><strong>Build</strong> — Detects framework, runs build command</li>
+                            <li><strong>Deploy</strong> — Uploads to global CDN edge</li>
+                            <li><strong>SSL</strong> — Auto-provisions certificate</li>
+                            <li><strong>DNS</strong> — Updates immediately</li>
+                            <li><strong>Functions</strong> — API routes become serverless</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>The Trade-off</h4>
+                        <p>Less control, but 99% of apps don't need that control. Ship now, migrate later if needed.</p>
+                    </div>
+                `
+            },
+
+            // Vercel
+            'vercel-deploy': {
+                title: 'Vercel Zero Config Deploy',
+                body: `
+                    <p>Vercel automatically detects your framework and configures everything.</p>
+                    <div class="modal-section">
+                        <h4>Supported Frameworks</h4>
+                        <ul>
+                            <li><strong>Next.js</strong> — First-class support (Vercel makes it)</li>
+                            <li><strong>React/Vue/Svelte</strong> — Static or SSR</li>
+                            <li><strong>Astro/Nuxt/Remix</strong> — Full support</li>
+                            <li><strong>Static HTML</strong> — Just works</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Detection Magic</h4>
+                        <p>Vercel reads package.json, detects Next.js/Vue/etc., sets build command, output directory, and Node version automatically.</p>
+                    </div>
+                `
+            },
+            'vercel-edge': {
+                title: 'Vercel Edge Network',
+                body: `
+                    <p>Your app is deployed to 100+ locations globally, serving users from the nearest edge.</p>
+                    <div class="modal-section">
+                        <h4>Edge Benefits</h4>
+                        <ul>
+                            <li><strong>Latency</strong> — Content served from nearest location</li>
+                            <li><strong>Reliability</strong> — No single point of failure</li>
+                            <li><strong>Performance</strong> — Automatic caching at edge</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Edge Functions</h4>
+                        <p>Run code at the edge (not just cache). Middleware, A/B testing, geolocation — all with sub-millisecond cold starts.</p>
+                    </div>
+                `
+            },
+            'vercel-preview': {
+                title: 'Vercel Preview Deployments',
+                body: `
+                    <p>Every pull request automatically gets a unique, shareable preview URL.</p>
+                    <div class="modal-section">
+                        <h4>Workflow</h4>
+                        <ul>
+                            <li><strong>Open PR</strong> — Vercel builds and deploys</li>
+                            <li><strong>Share URL</strong> — Stakeholders can review live</li>
+                            <li><strong>Iterate</strong> — Each push updates the preview</li>
+                            <li><strong>Merge</strong> — Merging to main deploys to production</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Comments</h4>
+                        <p>Vercel integrates with GitHub/GitLab to post preview links directly on PRs. Team can review without running locally.</p>
+                    </div>
+                `
+            },
+            'vercel-serverless': {
+                title: 'Vercel Serverless Functions',
+                body: `
+                    <p>API routes in your Next.js app automatically become serverless functions.</p>
+                    <div class="modal-section">
+                        <h4>How It Works</h4>
+                        <ul>
+                            <li><strong>pages/api/*</strong> or <strong>app/api/*</strong> → Serverless functions</li>
+                            <li><strong>Edge Functions</strong> — Run at edge with edge runtime</li>
+                            <li><strong>Scaling</strong> — 0 to millions, automatic</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Limits (Pro Plan)</h4>
+                        <p>60 second timeout, 1GB memory, 4.5MB response size. Enough for most APIs.</p>
+                    </div>
+                `
+            },
+
+            // Vercel Tutorial Steps
+            'vercel-step1': {
+                title: 'Step 1: Connect GitHub',
+                body: `
+                    <p>Link your GitHub account to Vercel for automatic deployments.</p>
+                    <div class="modal-section">
+                        <h4>Process</h4>
+                        <ol>
+                            <li>Go to vercel.com and sign up/sign in</li>
+                            <li>Click "Import Project"</li>
+                            <li>Connect your GitHub account</li>
+                            <li>Select the repository to import</li>
+                        </ol>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Permissions</h4>
+                        <p>Vercel needs read access to your repo and webhook access to trigger deploys. You can limit to specific repos.</p>
+                    </div>
+                `
+            },
+            'vercel-step2': {
+                title: 'Step 2: Configure Settings',
+                body: `
+                    <p>Usually Vercel auto-detects everything, but you can customize.</p>
+                    <div class="modal-section">
+                        <h4>Common Settings</h4>
+                        <ul>
+                            <li><strong>Framework Preset</strong> — Auto-detected, override if needed</li>
+                            <li><strong>Build Command</strong> — npm run build (usually auto)</li>
+                            <li><strong>Output Directory</strong> — .next, dist, build (auto)</li>
+                            <li><strong>Environment Variables</strong> — API keys, secrets</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Env Var Scopes</h4>
+                        <p>Production, Preview, Development — different values for different environments. NEXT_PUBLIC_ prefix for client-side vars.</p>
+                    </div>
+                `
+            },
+            'vercel-step3': {
+                title: 'Step 3: Deploy',
+                body: `
+                    <p>Click Deploy and watch the magic happen.</p>
+                    <div class="modal-section">
+                        <h4>What Vercel Does</h4>
+                        <ol>
+                            <li>Clones your repo</li>
+                            <li>Installs dependencies</li>
+                            <li>Runs build command</li>
+                            <li>Uploads to edge network</li>
+                            <li>Provisions SSL certificate</li>
+                            <li>Routes your domain</li>
+                        </ol>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Result</h4>
+                        <p>You get: your-project.vercel.app (free subdomain) + custom domain support + automatic HTTPS.</p>
+                    </div>
+                `
+            },
+            'vercel-step4': {
+                title: 'Step 4: Iterate',
+                body: `
+                    <p>From now on, every git push triggers a new deployment.</p>
+                    <div class="modal-section">
+                        <h4>Workflow</h4>
+                        <ul>
+                            <li><strong>Push to main</strong> → Production deploy</li>
+                            <li><strong>Push to branch</strong> → Preview deploy</li>
+                            <li><strong>Open PR</strong> → Preview URL posted to PR</li>
+                            <li><strong>Merge PR</strong> → Auto-deploys to production</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Rollback</h4>
+                        <p>Made a mistake? Click any previous deployment in the dashboard and promote it to production. Instant rollback.</p>
+                    </div>
+                `
+            },
+
+            // Vercel Code
+            'vercel-api-code': {
+                title: 'Vercel API Routes',
+                body: `
+                    <p>Next.js API routes become Vercel Serverless Functions automatically.</p>
+                    <div class="modal-section">
+                        <h4>File Structure</h4>
+                        <ul>
+                            <li><strong>pages/api/users.ts</strong> → /api/users</li>
+                            <li><strong>pages/api/users/[id].ts</strong> → /api/users/:id</li>
+                            <li><strong>app/api/users/route.ts</strong> → /api/users (App Router)</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Best Practices</h4>
+                        <ul>
+                            <li>Validate input (zod, yup)</li>
+                            <li>Return appropriate status codes</li>
+                            <li>Use try/catch for error handling</li>
+                            <li>Keep functions focused and small</li>
+                        </ul>
+                    </div>
+                `
+            },
+
+            // Vercel Limitations
+            'vercel-limit-longrun': {
+                title: 'Vercel: Long-Running Processes',
+                body: `
+                    <p>Vercel functions have timeouts — they're not for long-running tasks.</p>
+                    <div class="modal-section">
+                        <h4>Timeout Limits</h4>
+                        <ul>
+                            <li><strong>Hobby</strong> — 10 seconds</li>
+                            <li><strong>Pro</strong> — 60 seconds</li>
+                            <li><strong>Enterprise</strong> — 900 seconds</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Alternatives</h4>
+                        <ul>
+                            <li><strong>Background Jobs</strong> — Use Inngest, Trigger.dev</li>
+                            <li><strong>WebSockets</strong> — Use Pusher, Ably, Supabase Realtime</li>
+                            <li><strong>Long Compute</strong> — Use Railway, Render, AWS</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'vercel-limit-compute': {
+                title: 'Vercel: Heavy Compute',
+                body: `
+                    <p>Serverless functions aren't designed for CPU-intensive tasks.</p>
+                    <div class="modal-section">
+                        <h4>Bad Fits</h4>
+                        <ul>
+                            <li><strong>Video Processing</strong> — Use dedicated media services</li>
+                            <li><strong>ML Inference</strong> — Use Modal, Replicate, AWS</li>
+                            <li><strong>Data Processing</strong> — Use dedicated compute</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Pattern</h4>
+                        <p>Use Vercel for the web layer, offload heavy work to specialized services. Queue the job, return immediately, notify when done.</p>
+                    </div>
+                `
+            },
+            'vercel-limit-db': {
+                title: 'Vercel: Database Hosting',
+                body: `
+                    <p>Vercel hosts your app, not your database. You need a separate database provider.</p>
+                    <div class="modal-section">
+                        <h4>Recommended Databases</h4>
+                        <ul>
+                            <li><strong>Supabase</strong> — Postgres + auth + storage</li>
+                            <li><strong>PlanetScale</strong> — Serverless MySQL, branching</li>
+                            <li><strong>Neon</strong> — Serverless Postgres, branching</li>
+                            <li><strong>Vercel KV/Postgres</strong> — Vercel's own (Redis, Postgres)</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Connection Pooling</h4>
+                        <p>Serverless = many short connections. Use connection pooling (Prisma Accelerate, PgBouncer) to avoid exhausting DB connections.</p>
+                    </div>
+                `
+            },
+            'vercel-limit-cost': {
+                title: 'Vercel: Cost at Scale',
+                body: `
+                    <p>Vercel is cost-effective for small/medium apps, but can get expensive at high traffic.</p>
+                    <div class="modal-section">
+                        <h4>Pricing Factors</h4>
+                        <ul>
+                            <li><strong>Bandwidth</strong> — $40/100GB after free tier</li>
+                            <li><strong>Function Invocations</strong> — $0.60/million</li>
+                            <li><strong>Build Minutes</strong> — 100 hours Pro, then $0.008/min</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>When to Consider Alternatives</h4>
+                        <p>If you're spending >$1000/month on Vercel, evaluate self-hosting or AWS. But at that scale, you probably have revenue to justify it.</p>
+                    </div>
+                `
+            },
+
+            // Supabase
+            'supabase-postgres': {
+                title: 'Supabase PostgreSQL',
+                body: `
+                    <p>Full PostgreSQL database — not a subset or emulation, the real thing.</p>
+                    <div class="modal-section">
+                        <h4>Features</h4>
+                        <ul>
+                            <li><strong>Full Postgres</strong> — Any Postgres feature works</li>
+                            <li><strong>40+ Extensions</strong> — pgvector, PostGIS, pg_cron</li>
+                            <li><strong>Direct Access</strong> — Connect with psql, pgAdmin</li>
+                            <li><strong>Backups</strong> — Daily backups, point-in-time recovery</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Not Locked In</h4>
+                        <p>It's standard Postgres. Export and run anywhere. No proprietary syntax.</p>
+                    </div>
+                `
+            },
+            'supabase-auth': {
+                title: 'Supabase Authentication',
+                body: `
+                    <p>Complete auth solution — users, sessions, social login, all managed.</p>
+                    <div class="modal-section">
+                        <h4>Supported Methods</h4>
+                        <ul>
+                            <li><strong>Email/Password</strong> — Classic signup/login</li>
+                            <li><strong>Magic Links</strong> — Passwordless email</li>
+                            <li><strong>OAuth</strong> — Google, GitHub, Discord, etc.</li>
+                            <li><strong>Phone/SMS</strong> — OTP via SMS</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Integrated with RLS</h4>
+                        <p>auth.uid() in RLS policies automatically references the current user. Auth and data security work together.</p>
+                    </div>
+                `
+            },
+            'supabase-storage': {
+                title: 'Supabase Storage',
+                body: `
+                    <p>S3-compatible file storage with CDN and image transformations.</p>
+                    <div class="modal-section">
+                        <h4>Features</h4>
+                        <ul>
+                            <li><strong>Buckets</strong> — Organize files (public/private)</li>
+                            <li><strong>CDN</strong> — Fast delivery globally</li>
+                            <li><strong>Transformations</strong> — Resize images on-the-fly</li>
+                            <li><strong>RLS</strong> — Control access per file/folder</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Use Cases</h4>
+                        <p>User avatars, file uploads, image galleries. No need for separate S3 setup.</p>
+                    </div>
+                `
+            },
+            'supabase-realtime': {
+                title: 'Supabase Realtime',
+                body: `
+                    <p>Subscribe to database changes over WebSocket — instant updates when data changes.</p>
+                    <div class="modal-section">
+                        <h4>Types</h4>
+                        <ul>
+                            <li><strong>Postgres Changes</strong> — Listen to INSERT/UPDATE/DELETE</li>
+                            <li><strong>Broadcast</strong> — Pub/sub for ephemeral messages</li>
+                            <li><strong>Presence</strong> — Track online users</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Use Cases</h4>
+                        <p>Chat apps, live dashboards, collaborative editing, notifications — anything that needs instant updates.</p>
+                    </div>
+                `
+            },
+            'supabase-edge': {
+                title: 'Supabase Edge Functions',
+                body: `
+                    <p>Serverless functions running on Deno at the edge.</p>
+                    <div class="modal-section">
+                        <h4>Use Cases</h4>
+                        <ul>
+                            <li><strong>Webhooks</strong> — Process Stripe, GitHub events</li>
+                            <li><strong>API Integrations</strong> — Call external APIs</li>
+                            <li><strong>Custom Logic</strong> — Validation, transformations</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Deno Runtime</h4>
+                        <p>TypeScript native, Web APIs, secure by default. Different from Node.js but similar enough.</p>
+                    </div>
+                `
+            },
+
+            // Supabase Setup
+            'supabase-setup1': {
+                title: 'Supabase: Create Project',
+                body: `
+                    <p>Set up a new Supabase project in under a minute.</p>
+                    <div class="modal-section">
+                        <h4>Steps</h4>
+                        <ol>
+                            <li>Go to supabase.com</li>
+                            <li>Sign in with GitHub</li>
+                            <li>Click "New Project"</li>
+                            <li>Choose organization</li>
+                            <li>Set project name and database password</li>
+                            <li>Select region (close to your users)</li>
+                        </ol>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Important</h4>
+                        <p>Save your database password! You'll need it for direct connections. The anon key is safe to expose publicly.</p>
+                    </div>
+                `
+            },
+            'supabase-setup2': {
+                title: 'Supabase: Install Client',
+                body: `
+                    <p>Add the Supabase JavaScript client to your project.</p>
+                    <div class="modal-section">
+                        <h4>Installation</h4>
+                        <pre><code>npm install @supabase/supabase-js</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Other SDKs</h4>
+                        <ul>
+                            <li><strong>Python</strong> — supabase-py</li>
+                            <li><strong>Flutter</strong> — supabase_flutter</li>
+                            <li><strong>Swift</strong> — supabase-swift</li>
+                            <li><strong>Kotlin</strong> — supabase-kt</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'supabase-setup3': {
+                title: 'Supabase: Initialize Client',
+                body: `
+                    <p>Create and configure the Supabase client instance.</p>
+                    <div class="modal-section">
+                        <h4>Configuration</h4>
+                        <ul>
+                            <li><strong>URL</strong> — Your project URL (Settings → API)</li>
+                            <li><strong>Anon Key</strong> — Public key (safe to expose)</li>
+                            <li><strong>Service Role Key</strong> — Admin key (server-side only!)</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Next.js Pattern</h4>
+                        <p>Create separate clients for client-side (anon key) and server-side (service role for admin ops). Supabase docs have templates.</p>
+                    </div>
+                `
+            },
+            'supabase-setup4': {
+                title: 'Supabase: Start Using',
+                body: `
+                    <p>Query database, authenticate users, upload files — all from one client.</p>
+                    <div class="modal-section">
+                        <h4>Quick Examples</h4>
+                        <pre><code>// Database
+supabase.from('users').select('*')
+
+// Auth
+supabase.auth.signInWithOAuth({ provider: 'google' })
+
+// Storage
+supabase.storage.from('avatars').upload(path, file)</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Type Safety</h4>
+                        <p>Generate TypeScript types from your database schema: <code>supabase gen types typescript</code></p>
+                    </div>
+                `
+            },
+
+            // Supabase Code
+            'supabase-queries-code': {
+                title: 'Supabase Query API',
+                body: `
+                    <p>Supabase provides a chainable query builder that covers most SQL operations.</p>
+                    <div class="modal-section">
+                        <h4>Query Features</h4>
+                        <ul>
+                            <li><strong>Filters</strong> — eq, neq, gt, lt, like, in, is</li>
+                            <li><strong>Joins</strong> — Nested selects for relations</li>
+                            <li><strong>Aggregates</strong> — count(), sum() via postgrest</li>
+                            <li><strong>Full Text Search</strong> — textSearch() method</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Raw SQL</h4>
+                        <p>Need complex queries? Use <code>supabase.rpc('function_name', params)</code> to call Postgres functions.</p>
+                    </div>
+                `
+            },
+            'supabase-auth-code': {
+                title: 'Supabase Auth Code',
+                body: `
+                    <p>Complete authentication flows with just a few lines of code.</p>
+                    <div class="modal-section">
+                        <h4>Session Management</h4>
+                        <ul>
+                            <li><strong>Automatic</strong> — Tokens refreshed automatically</li>
+                            <li><strong>Persistent</strong> — Sessions survive page reload</li>
+                            <li><strong>Events</strong> — Listen to auth state changes</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Example: Auth State</h4>
+                        <pre><code>supabase.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_IN') console.log('Welcome!', session.user)
+  if (event === 'SIGNED_OUT') console.log('Goodbye!')
+})</code></pre>
+                    </div>
+                `
+            },
+            'supabase-rls': {
+                title: 'Row Level Security (RLS)',
+                body: `
+                    <p>RLS lets you define access rules at the database level — security that can't be bypassed.</p>
+                    <div class="modal-section">
+                        <h4>Why RLS Matters</h4>
+                        <ul>
+                            <li><strong>Defense in Depth</strong> — Even if API is compromised, data is protected</li>
+                            <li><strong>Simple API</strong> — No need for auth checks in every endpoint</li>
+                            <li><strong>Consistent</strong> — Rules apply everywhere, no exceptions</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Common Patterns</h4>
+                        <p>Users see own data: <code>USING (auth.uid() = user_id)</code><br>
+                        Org members see org data: <code>USING (org_id IN (SELECT org_id FROM memberships WHERE user_id = auth.uid()))</code></p>
+                    </div>
+                `
+            },
+            'supabase-rls-code': {
+                title: 'RLS Policy Examples',
+                body: `
+                    <p>Common RLS policy patterns for securing your data.</p>
+                    <div class="modal-section">
+                        <h4>Policy Structure</h4>
+                        <ul>
+                            <li><strong>FOR SELECT/INSERT/UPDATE/DELETE</strong> — Which operation</li>
+                            <li><strong>USING</strong> — Filter for existing rows (SELECT, UPDATE, DELETE)</li>
+                            <li><strong>WITH CHECK</strong> — Validate new rows (INSERT, UPDATE)</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Pro Tips</h4>
+                        <ul>
+                            <li>Always enable RLS on tables with user data</li>
+                            <li>Test policies in SQL editor before deploying</li>
+                            <li>Use service_role key to bypass RLS for admin tasks</li>
+                        </ul>
+                    </div>
+                `
+            },
+
+            // Supabase Limitations
+            'supabase-limit-scale': {
+                title: 'Supabase: Scaling Limits',
+                body: `
+                    <p>Supabase runs on a single Postgres instance per project, which has inherent limits.</p>
+                    <div class="modal-section">
+                        <h4>Scaling Strategies</h4>
+                        <ul>
+                            <li><strong>Read Replicas</strong> — Coming soon, offload reads</li>
+                            <li><strong>Connection Pooling</strong> — PgBouncer built-in</li>
+                            <li><strong>Vertical Scaling</strong> — Upgrade to larger instance</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>When to Look Elsewhere</h4>
+                        <p>If you need global writes (not just reads), horizontal sharding, or millions of concurrent connections — consider CockroachDB, Spanner, or custom sharding.</p>
+                    </div>
+                `
+            },
+            'supabase-limit-complex': {
+                title: 'Supabase: Complex Backend Logic',
+                body: `
+                    <p>Edge Functions have limits — they're not a replacement for a full backend.</p>
+                    <div class="modal-section">
+                        <h4>Edge Function Limits</h4>
+                        <ul>
+                            <li><strong>Timeout</strong> — 60 seconds</li>
+                            <li><strong>Memory</strong> — 150MB</li>
+                            <li><strong>No Background Jobs</strong> — Function ends when request ends</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Alternatives</h4>
+                        <p>For complex backends: use Railway/Render for a traditional server, or AWS/GCP for specific services. Supabase for data, custom backend for logic.</p>
+                    </div>
+                `
+            },
+            'supabase-limit-nosql': {
+                title: 'Supabase: Document Workloads',
+                body: `
+                    <p>Supabase is PostgreSQL — great for relational data, less natural for documents.</p>
+                    <div class="modal-section">
+                        <h4>Postgres JSONB</h4>
+                        <ul>
+                            <li><strong>JSON Columns</strong> — Store flexible data</li>
+                            <li><strong>JSONB Indexes</strong> — Query JSON efficiently</li>
+                            <li><strong>Not MongoDB</strong> — Different query patterns</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>When to Use NoSQL</h4>
+                        <p>If your data is truly schemaless, highly nested, or you need MongoDB-style queries — consider MongoDB Atlas or Fauna.</p>
+                    </div>
+                `
+            },
+            'supabase-limit-vendor': {
+                title: 'Supabase: Vendor Lock-in',
+                body: `
+                    <p>Supabase is open source — you can self-host everything.</p>
+                    <div class="modal-section">
+                        <h4>Open Source Stack</h4>
+                        <ul>
+                            <li><strong>PostgreSQL</strong> — Standard database</li>
+                            <li><strong>PostgREST</strong> — Auto-generated REST API</li>
+                            <li><strong>GoTrue</strong> — Auth server</li>
+                            <li><strong>Realtime</strong> — WebSocket server</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Migration Path</h4>
+                        <p>Export your database, run Supabase stack on your own infrastructure. It's Postgres — any Postgres tool works.</p>
+                    </div>
+                `
+            },
+
+            // Stack Benefits
+            'stack-benefit-cost': {
+                title: 'Free to Start',
+                body: `
+                    <p>Both Vercel and Supabase have generous free tiers — launch without spending anything.</p>
+                    <div class="modal-section">
+                        <h4>Vercel Free Tier</h4>
+                        <ul>
+                            <li>100GB bandwidth/month</li>
+                            <li>100K function invocations</li>
+                            <li>Unlimited deploys</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Supabase Free Tier</h4>
+                        <ul>
+                            <li>500MB database</li>
+                            <li>1GB storage</li>
+                            <li>2GB bandwidth</li>
+                            <li>500K edge function invocations</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'stack-benefit-scale': {
+                title: 'Scales Automatically',
+                body: `
+                    <p>No capacity planning — both platforms handle scaling for you.</p>
+                    <div class="modal-section">
+                        <h4>Vercel Scaling</h4>
+                        <ul>
+                            <li>Edge network handles traffic spikes</li>
+                            <li>Serverless functions scale to demand</li>
+                            <li>No cold start for static assets</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Supabase Scaling</h4>
+                        <ul>
+                            <li>Connection pooling handles many clients</li>
+                            <li>Upgrade instance size as you grow</li>
+                            <li>Read replicas for read-heavy workloads</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'stack-benefit-dx': {
+                title: 'Great Developer Experience',
+                body: `
+                    <p>Both platforms prioritize making developers productive and happy.</p>
+                    <div class="modal-section">
+                        <h4>DX Features</h4>
+                        <ul>
+                            <li><strong>Git Integration</strong> — Push to deploy</li>
+                            <li><strong>Local Development</strong> — Supabase CLI, Vercel CLI</li>
+                            <li><strong>TypeScript</strong> — First-class support</li>
+                            <li><strong>Previews</strong> — Test before merging</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Documentation</h4>
+                        <p>Both have excellent docs, tutorials, and examples. You'll rarely get stuck.</p>
+                    </div>
+                `
+            },
+            'stack-benefit-speed': {
+                title: 'Ship Fast',
+                body: `
+                    <p>Focus on your product, not infrastructure. Go from idea to production in hours.</p>
+                    <div class="modal-section">
+                        <h4>What You Skip</h4>
+                        <ul>
+                            <li>Server provisioning</li>
+                            <li>SSL certificate management</li>
+                            <li>Database setup and backups</li>
+                            <li>Auth implementation</li>
+                            <li>CI/CD pipeline configuration</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Reality</h4>
+                        <p>A competent developer can ship a complete SaaS MVP in a weekend. That wasn't possible 5 years ago.</p>
+                    </div>
+                `
+            },
+
+            // Full Stack Example
+            'fullstack-example': {
+                title: 'Full Stack Todo App',
+                body: `
+                    <p>Complete example combining Next.js + Supabase for a realtime todo app.</p>
+                    <div class="modal-section">
+                        <h4>What This Code Does</h4>
+                        <ul>
+                            <li><strong>Initial Load</strong> — Fetches existing todos</li>
+                            <li><strong>Realtime</strong> — Subscribes to changes</li>
+                            <li><strong>Create</strong> — Adds todos with user association</li>
+                            <li><strong>Cleanup</strong> — Removes subscription on unmount</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Add RLS</h4>
+                        <p>With RLS enabled, each user only sees their own todos — even if someone manipulates the client code.</p>
+                    </div>
+                `
+            },
+
+            // Platform Cards
+            'platform-railway': {
+                title: 'Railway',
+                body: `
+                    <p>Deploy anything from GitHub — apps, databases, cron jobs, all managed.</p>
+                    <div class="modal-section">
+                        <h4>Key Features</h4>
+                        <ul>
+                            <li><strong>Instant Deploys</strong> — Push to deploy any language</li>
+                            <li><strong>Databases</strong> — Postgres, MySQL, Redis, MongoDB</li>
+                            <li><strong>Private Networking</strong> — Services communicate internally</li>
+                            <li><strong>Cron Jobs</strong> — Scheduled tasks built-in</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Best For</h4>
+                        <p>Full-stack apps that need more than serverless — long-running processes, WebSockets, custom backends.</p>
+                    </div>
+                `
+            },
+            'platform-render': {
+                title: 'Render',
+                body: `
+                    <p>Cloud platform for developers — services, static sites, Postgres, all in one.</p>
+                    <div class="modal-section">
+                        <h4>Key Features</h4>
+                        <ul>
+                            <li><strong>Web Services</strong> — Docker or native runtimes</li>
+                            <li><strong>Static Sites</strong> — Free, fast, CDN-backed</li>
+                            <li><strong>Postgres</strong> — Managed with backups</li>
+                            <li><strong>Background Workers</strong> — Process queues</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Best For</h4>
+                        <p>Teams wanting Heroku-like simplicity with modern features and better pricing.</p>
+                    </div>
+                `
+            },
+            'platform-fly': {
+                title: 'Fly.io',
+                body: `
+                    <p>Run apps at the edge — containers deployed globally in seconds.</p>
+                    <div class="modal-section">
+                        <h4>Key Features</h4>
+                        <ul>
+                            <li><strong>Global by Default</strong> — Deploy to multiple regions</li>
+                            <li><strong>Machines API</strong> — Start/stop VMs programmatically</li>
+                            <li><strong>Postgres</strong> — Distributed Postgres (LiteFS for SQLite)</li>
+                            <li><strong>GPUs</strong> — ML inference at the edge</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Best For</h4>
+                        <p>Apps that need to run close to users globally — chat, gaming, real-time collaboration.</p>
+                    </div>
+                `
+            },
+            'platform-cloudflare': {
+                title: 'Cloudflare',
+                body: `
+                    <p>The connectivity cloud — CDN, Workers, databases, storage, all at the edge.</p>
+                    <div class="modal-section">
+                        <h4>Key Services</h4>
+                        <ul>
+                            <li><strong>Workers</strong> — Serverless at 300+ edge locations</li>
+                            <li><strong>D1</strong> — SQLite at the edge</li>
+                            <li><strong>R2</strong> — S3-compatible storage, no egress fees</li>
+                            <li><strong>KV</strong> — Key-value storage, globally distributed</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Best For</h4>
+                        <p>Edge-first applications, static sites with dynamic elements, API proxies, anything latency-sensitive.</p>
+                    </div>
+                `
+            },
+            'platform-planetscale': {
+                title: 'PlanetScale',
+                body: `
+                    <p>Serverless MySQL built on Vitess — the technology that powers YouTube.</p>
+                    <div class="modal-section">
+                        <h4>Key Features</h4>
+                        <ul>
+                            <li><strong>Branching</strong> — Database branches like git branches</li>
+                            <li><strong>Non-blocking Schema Changes</strong> — No downtime deploys</li>
+                            <li><strong>Serverless</strong> — Scale to zero, scale to massive</li>
+                            <li><strong>Insights</strong> — Query analytics built-in</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Best For</h4>
+                        <p>MySQL workloads that need to scale, teams that want database CI/CD with branches.</p>
+                    </div>
+                `
+            },
+            'platform-neon': {
+                title: 'Neon',
+                body: `
+                    <p>Serverless Postgres — instant branching, scale to zero, bottomless storage.</p>
+                    <div class="modal-section">
+                        <h4>Key Features</h4>
+                        <ul>
+                            <li><strong>Branching</strong> — Instant database copies</li>
+                            <li><strong>Scale to Zero</strong> — Pay nothing when idle</li>
+                            <li><strong>Autoscaling</strong> — Compute scales with load</li>
+                            <li><strong>Time Travel</strong> — Query past data points</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Best For</h4>
+                        <p>Postgres users who want serverless pricing, development workflows with database branches.</p>
+                    </div>
+                `
+            },
+
+            // Stack Decision
+            'stack-frontend': {
+                title: 'Frontend / Marketing Stack',
+                body: `
+                    <p>For static sites, marketing pages, and frontend-only applications.</p>
+                    <div class="modal-section">
+                        <h4>Recommended: Vercel or Netlify</h4>
+                        <ul>
+                            <li>Zero-config deploys</li>
+                            <li>Global CDN</li>
+                            <li>Form handling</li>
+                            <li>Analytics</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Also Consider</h4>
+                        <p>Cloudflare Pages (free, fast, R2 integration) or GitHub Pages (simple, free).</p>
+                    </div>
+                `
+            },
+            'stack-fullstack': {
+                title: 'Full-Stack SaaS Stack',
+                body: `
+                    <p>For complete web applications with auth, database, and API.</p>
+                    <div class="modal-section">
+                        <h4>Recommended: Vercel + Supabase</h4>
+                        <ul>
+                            <li>Frontend + Serverless API (Vercel)</li>
+                            <li>Database + Auth + Storage (Supabase)</li>
+                            <li>Realtime built-in</li>
+                            <li>Free to start, scales well</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Also Consider</h4>
+                        <p>Next.js + Clerk (auth) + PlanetScale/Neon (database) for more control over auth.</p>
+                    </div>
+                `
+            },
+            'stack-backend': {
+                title: 'Custom Backend Stack',
+                body: `
+                    <p>When you need full control over your server environment.</p>
+                    <div class="modal-section">
+                        <h4>Recommended: Railway or Render</h4>
+                        <ul>
+                            <li>Deploy any Docker container</li>
+                            <li>Managed databases</li>
+                            <li>Background jobs</li>
+                            <li>WebSocket support</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>When to Use</h4>
+                        <p>Long-running processes, custom runtimes, WebSocket servers, queue workers — anything serverless can't do.</p>
+                    </div>
+                `
+            },
+            'stack-global': {
+                title: 'Global Low-Latency Stack',
+                body: `
+                    <p>For applications where latency matters — games, chat, real-time.</p>
+                    <div class="modal-section">
+                        <h4>Recommended: Fly.io or Cloudflare</h4>
+                        <ul>
+                            <li><strong>Fly.io</strong> — Full apps at edge</li>
+                            <li><strong>Cloudflare Workers</strong> — Functions at edge</li>
+                            <li><strong>Cloudflare D1/Durable Objects</strong> — State at edge</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Pattern</h4>
+                        <p>Run compute close to users, replicate data to edge, accept eventual consistency for performance.</p>
+                    </div>
+                `
+            },
+            'stack-enterprise': {
+                title: 'Enterprise / Complex Stack',
+                body: `
+                    <p>When you need full control, compliance, or scale beyond platform limits.</p>
+                    <div class="modal-section">
+                        <h4>Recommended: AWS / Azure / GCP</h4>
+                        <ul>
+                            <li>Complete service catalog</li>
+                            <li>Compliance certifications</li>
+                            <li>Enterprise support</li>
+                            <li>Hybrid cloud options</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Reality</h4>
+                        <p>Most startups don't need Big Three complexity. Start simple, migrate when you have the team and need.</p>
+                    </div>
+                `
+            },
+
+            // GitHub Features
+            'github-preview': {
+                title: 'Preview Deployments',
+                body: `
+                    <p>Every pull request gets its own unique URL for testing and review.</p>
+                    <div class="modal-section">
+                        <h4>Benefits</h4>
+                        <ul>
+                            <li><strong>Test Before Merge</strong> — QA on actual deployment</li>
+                            <li><strong>Stakeholder Review</strong> — Share with non-developers</li>
+                            <li><strong>Multiple Versions</strong> — Compare PRs side by side</li>
+                            <li><strong>Automatic Cleanup</strong> — Deleted when PR closes</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Pro Tip</h4>
+                        <p>Set up Slack/Discord notifications for preview URLs — team knows instantly when something is ready to review.</p>
+                    </div>
+                `
+            },
+            'github-rollback': {
+                title: 'Instant Rollbacks',
+                body: `
+                    <p>Something broke in production? Roll back to any previous deployment in seconds.</p>
+                    <div class="modal-section">
+                        <h4>How It Works</h4>
+                        <ul>
+                            <li>Every deploy is immutable</li>
+                            <li>Previous versions stay available</li>
+                            <li>One click to promote old version</li>
+                            <li>No rebuild required</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Best Practice</h4>
+                        <p>Small, frequent deploys make rollbacks easier. If you deploy 10 features at once, you roll back 10 features.</p>
+                    </div>
+                `
+            },
+            'github-env': {
+                title: 'Environment Branches',
+                body: `
+                    <p>Map git branches to deployment environments for structured workflows.</p>
+                    <div class="modal-section">
+                        <h4>Common Pattern</h4>
+                        <ul>
+                            <li><strong>main</strong> → production</li>
+                            <li><strong>staging</strong> → staging environment</li>
+                            <li><strong>feature/*</strong> → preview deployments</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Environment Variables</h4>
+                        <p>Each environment can have different env vars — staging uses test API keys, production uses live keys.</p>
+                    </div>
+                `
+            },
+
+            // Cost Scenarios
+            'cost-startup': {
+                title: 'Startup Cost (0-1K users)',
+                body: `
+                    <p>Launch and validate your idea without spending anything on infrastructure.</p>
+                    <div class="modal-section">
+                        <h4>Free Tier Limits</h4>
+                        <ul>
+                            <li><strong>Vercel</strong> — 100GB bandwidth, plenty for small apps</li>
+                            <li><strong>Supabase</strong> — 500MB database, 1GB storage</li>
+                            <li><strong>Total</strong> — $0/month until you outgrow free tier</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Focus</h4>
+                        <p>At this stage, your time is more valuable than server costs. Ship fast, validate, iterate.</p>
+                    </div>
+                `
+            },
+            'cost-growing': {
+                title: 'Growing Cost (10K users)',
+                body: `
+                    <p>Upgrade to pro tiers for more resources and production features.</p>
+                    <div class="modal-section">
+                        <h4>Typical Costs</h4>
+                        <ul>
+                            <li><strong>Vercel Pro</strong> — $20/month base + usage</li>
+                            <li><strong>Supabase Pro</strong> — $25/month (8GB DB, more storage)</li>
+                            <li><strong>Domain</strong> — ~$12/year</li>
+                            <li><strong>Total</strong> — ~$45-60/month</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>What You Get</h4>
+                        <p>Longer function timeouts, more bandwidth, better support, team features. Still very affordable.</p>
+                    </div>
+                `
+            },
+            'cost-scale': {
+                title: 'Scale Cost (100K users)',
+                body: `
+                    <p>At scale, costs grow but are still manageable — and you should have revenue.</p>
+                    <div class="modal-section">
+                        <h4>Typical Costs</h4>
+                        <ul>
+                            <li><strong>Vercel Pro</strong> — $20 + ~$100-300 usage</li>
+                            <li><strong>Supabase Team</strong> — $599+ (larger DB, more compute)</li>
+                            <li><strong>Additional Services</strong> — Monitoring, analytics</li>
+                            <li><strong>Total</strong> — $700-1500/month</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>ROI</h4>
+                        <p>100K users should generate significant revenue. If not, the problem isn't infrastructure cost.</p>
+                    </div>
+                `
+            },
+
+            // Environment
+            'env-never-commit': {
+                title: 'Never Commit Secrets',
+                body: `
+                    <p>Hardcoding secrets in source code is one of the most common security mistakes.</p>
+                    <div class="modal-section">
+                        <h4>Consequences</h4>
+                        <ul>
+                            <li>Secrets in git history forever (even after deletion)</li>
+                            <li>Anyone with repo access has your keys</li>
+                            <li>Bots scan GitHub for exposed keys</li>
+                            <li>Credentials can be used within minutes</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>If You Already Did</h4>
+                        <p>Rotate the key immediately. Consider using git-filter-repo to remove from history, but assume it's already compromised.</p>
+                    </div>
+                `
+            },
+            'env-use-env': {
+                title: 'Use Environment Variables',
+                body: `
+                    <p>Environment variables keep secrets out of code and allow different values per environment.</p>
+                    <div class="modal-section">
+                        <h4>Setup</h4>
+                        <ul>
+                            <li><strong>Local</strong> — .env.local (git-ignored)</li>
+                            <li><strong>Vercel</strong> — Project settings → Environment Variables</li>
+                            <li><strong>Supabase</strong> — Edge Functions → Secrets</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Naming Convention</h4>
+                        <p>NEXT_PUBLIC_ prefix for client-side (exposed to browser). No prefix for server-only secrets.</p>
+                    </div>
+                `
+            },
+
+            // Monitoring
+            'monitor-errors': {
+                title: 'Error Tracking',
+                body: `
+                    <p>Know when your app breaks before users tell you.</p>
+                    <div class="modal-section">
+                        <h4>Top Services</h4>
+                        <ul>
+                            <li><strong>Sentry</strong> — Industry standard, great stack traces</li>
+                            <li><strong>LogRocket</strong> — Session replay + errors</li>
+                            <li><strong>Bugsnag</strong> — Error monitoring + stability scores</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Setup</h4>
+                        <p>Sentry takes 5 minutes to set up. Add the SDK, configure DSN, catch unhandled errors automatically.</p>
+                    </div>
+                `
+            },
+            'monitor-analytics': {
+                title: 'Analytics',
+                body: `
+                    <p>Understand how users interact with your application.</p>
+                    <div class="modal-section">
+                        <h4>Options</h4>
+                        <ul>
+                            <li><strong>Vercel Analytics</strong> — Built-in, privacy-focused</li>
+                            <li><strong>PostHog</strong> — Product analytics, feature flags, session replay</li>
+                            <li><strong>Plausible</strong> — Simple, privacy-first, EU-hosted</li>
+                            <li><strong>Mixpanel</strong> — Event-based, funnels, retention</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Privacy</h4>
+                        <p>Consider GDPR/privacy implications. Plausible and Fathom are cookieless alternatives to Google Analytics.</p>
+                    </div>
+                `
+            },
+            'monitor-logs': {
+                title: 'Logging',
+                body: `
+                    <p>Debug production issues with structured logs.</p>
+                    <div class="modal-section">
+                        <h4>Services</h4>
+                        <ul>
+                            <li><strong>Vercel Logs</strong> — Built-in, basic but free</li>
+                            <li><strong>Axiom</strong> — Modern, great for serverless</li>
+                            <li><strong>Logtail</strong> — Simple, good free tier</li>
+                            <li><strong>Datadog</strong> — Enterprise, comprehensive</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Best Practice</h4>
+                        <p>Structured logging (JSON) makes searching easier. Include request ID for tracing across services.</p>
+                    </div>
+                `
+            },
+            'monitor-uptime': {
+                title: 'Uptime Monitoring',
+                body: `
+                    <p>Get alerted when your site goes down — before users notice.</p>
+                    <div class="modal-section">
+                        <h4>Services</h4>
+                        <ul>
+                            <li><strong>Better Uptime</strong> — Modern, good free tier</li>
+                            <li><strong>Checkly</strong> — API monitoring + browser checks</li>
+                            <li><strong>Pingdom</strong> — Classic, reliable</li>
+                            <li><strong>UptimeRobot</strong> — Simple, free tier</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Setup</h4>
+                        <p>Monitor your health endpoint (/api/health). Alert via Slack, PagerDuty, or SMS for critical paths.</p>
+                    </div>
+                `
+            },
+
+            // Security Checklist
+            'cloud-sec-secrets': {
+                title: 'Secrets in Env Vars',
+                body: `
+                    <p>Never commit secrets to version control. Use environment variables and secret managers.</p>
+                    <div class="modal-section">
+                        <h4>Checklist</h4>
+                        <ul>
+                            <li>[ ] All API keys in env vars</li>
+                            <li>[ ] .env files in .gitignore</li>
+                            <li>[ ] Different keys per environment</li>
+                            <li>[ ] Keys rotated regularly</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'cloud-sec-https': {
+                title: 'HTTPS Everywhere',
+                body: `
+                    <p>All traffic should be encrypted. Modern platforms handle this automatically.</p>
+                    <div class="modal-section">
+                        <h4>Automatic With</h4>
+                        <ul>
+                            <li>Vercel — Auto SSL for all domains</li>
+                            <li>Supabase — All endpoints HTTPS</li>
+                            <li>Cloudflare — Free SSL, even for custom domains</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Check</h4>
+                        <p>Force HTTPS redirects, set HSTS headers, avoid mixed content warnings.</p>
+                    </div>
+                `
+            },
+            'cloud-sec-rls': {
+                title: 'Row Level Security',
+                body: `
+                    <p>Enable RLS on all Supabase tables that contain user data.</p>
+                    <div class="modal-section">
+                        <h4>Default Secure</h4>
+                        <ul>
+                            <li>Enable RLS → table is locked by default</li>
+                            <li>Add policies to allow specific access</li>
+                            <li>Deny-by-default is the right approach</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Test Your Policies</h4>
+                        <p>Try to access data as different users. Verify policies work as expected before going live.</p>
+                    </div>
+                `
+            },
+            'cloud-sec-auth': {
+                title: 'Server-Side Auth Validation',
+                body: `
+                    <p>Never trust the client — always validate authentication on the server.</p>
+                    <div class="modal-section">
+                        <h4>Pattern</h4>
+                        <ul>
+                            <li>Client sends JWT with request</li>
+                            <li>Server validates JWT signature</li>
+                            <li>Server checks token expiration</li>
+                            <li>Server verifies user permissions</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>With Supabase</h4>
+                        <p>Use getUser() server-side, not getSession(). getUser() validates with Supabase Auth.</p>
+                    </div>
+                `
+            },
+            'cloud-sec-cors': {
+                title: 'CORS Configuration',
+                body: `
+                    <p>Configure CORS to only allow requests from your domains.</p>
+                    <div class="modal-section">
+                        <h4>Settings</h4>
+                        <ul>
+                            <li>Access-Control-Allow-Origin: your domains only</li>
+                            <li>Avoid * in production</li>
+                            <li>Configure allowed methods and headers</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Supabase</h4>
+                        <p>CORS is configured in project settings. Restrict to your app domains.</p>
+                    </div>
+                `
+            },
+            'cloud-sec-rate': {
+                title: 'Rate Limiting',
+                body: `
+                    <p>Protect your APIs from abuse with rate limiting.</p>
+                    <div class="modal-section">
+                        <h4>Implementation</h4>
+                        <ul>
+                            <li><strong>Vercel</strong> — Edge middleware with KV for counters</li>
+                            <li><strong>Upstash</strong> — Serverless rate limiting</li>
+                            <li><strong>Cloudflare</strong> — Built-in rate limiting rules</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Limits to Set</h4>
+                        <p>Login attempts (5/min), API calls (100/min), expensive operations (10/hour). Adjust based on legitimate usage.</p>
+                    </div>
+                `
             }
         };
     }
