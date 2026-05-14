@@ -5111,3 +5111,777 @@ body {
         gap: 0.5rem;
     }
 }
+
+/* ============================================
+   Web Security Lecture Styles
+   ============================================ */
+
+/* Breach Stats Grid */
+.breach-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-red);
+    box-shadow: 0 8px 30px rgba(248, 113, 113, 0.15);
+}
+
+.stat-card.breach {
+    border-left: 4px solid var(--accent-red);
+}
+
+.stat-card .stat-number {
+    font-family: var(--font-mono);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-red);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.stat-card .stat-detail {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Attack Timeline */
+.attack-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.attack-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+}
+
+.attack-card:hover {
+    border-color: var(--accent-orange);
+    transform: translateX(8px);
+}
+
+.attack-card .attack-year {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--accent-yellow);
+    background: rgba(252, 211, 77, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    min-width: 60px;
+    text-align: center;
+}
+
+.attack-card .attack-name {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    min-width: 140px;
+}
+
+.attack-card .attack-desc {
+    flex: 1;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.attack-card .attack-impact {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-red);
+    background: rgba(248, 113, 113, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+}
+
+/* Technique Grid */
+.technique-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.technique-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+}
+
+.technique-card:hover {
+    border-color: var(--accent-purple);
+    transform: translateY(-2px);
+}
+
+.technique-card .technique-name {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--accent-purple);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.technique-card .technique-name::before {
+    content: '⚡';
+}
+
+.technique-card .technique-example {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    background: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    color: var(--accent-red);
+    margin-bottom: 0.75rem;
+    overflow-x: auto;
+}
+
+.technique-card .technique-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Samy Worm Story Box */
+.story-box {
+    background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+    border: 1px solid var(--border-medium);
+    border-left: 4px solid var(--accent-pink);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    margin-top: 2rem;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+}
+
+.story-box:hover {
+    transform: scale(1.01);
+    border-color: var(--accent-pink);
+}
+
+.story-box .story-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.story-box .story-date {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-yellow);
+    background: rgba(252, 211, 77, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+}
+
+.story-box .story-title {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.story-box .story-stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.story-box .story-stat {
+    text-align: center;
+}
+
+.story-box .story-stat-value {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-pink);
+    display: block;
+}
+
+.story-box .story-stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.story-box .story-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.story-box .story-quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--accent-cyan);
+    margin-top: 1rem;
+}
+
+/* XSS Types Grid */
+.xss-types-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.xss-type-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+}
+
+.xss-type-card:hover {
+    border-color: var(--accent-orange);
+    transform: translateY(-4px);
+}
+
+.xss-type-card.stored {
+    border-top: 3px solid var(--accent-red);
+}
+
+.xss-type-card.reflected {
+    border-top: 3px solid var(--accent-orange);
+}
+
+.xss-type-card.dom {
+    border-top: 3px solid var(--accent-yellow);
+}
+
+.xss-type-card .xss-type-name {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.xss-type-card .xss-type-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.xss-type-card .xss-danger {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.xss-type-card .danger-level {
+    display: flex;
+    gap: 2px;
+}
+
+.xss-type-card .danger-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+}
+
+.xss-type-card .danger-dot.filled {
+    background: var(--accent-red);
+}
+
+/* Hall of Shame */
+.shame-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.shame-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    padding: 1rem 1.5rem;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+}
+
+.shame-item:hover {
+    border-color: var(--accent-red);
+    background: rgba(248, 113, 113, 0.05);
+}
+
+.shame-item .shame-company {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    min-width: 100px;
+}
+
+.shame-item .shame-year {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-yellow);
+    min-width: 50px;
+}
+
+.shame-item .shame-issue {
+    flex: 1;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.shame-item .shame-result {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-red);
+}
+
+/* Session Attacks */
+.session-attacks {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.attack-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+}
+
+.attack-box:hover {
+    border-color: var(--accent-purple);
+    transform: translateY(-4px);
+}
+
+.attack-box .attack-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.attack-box .attack-title {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.attack-box .attack-method {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* CSRF Attack Visualization */
+.csrf-attack {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.csrf-flow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.csrf-step {
+    text-align: center;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    min-width: 120px;
+}
+
+.csrf-step .step-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.csrf-step .step-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.csrf-arrow {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    color: var(--accent-red);
+}
+
+.csrf-code {
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.csrf-code pre {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-red);
+    overflow-x: auto;
+}
+
+/* Privilege Escalation Types */
+.escalation-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.escalation-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+}
+
+.escalation-card:hover {
+    border-color: var(--accent-orange);
+    transform: translateY(-2px);
+}
+
+.escalation-card .escalation-type {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--accent-orange);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.escalation-card .escalation-example {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    background: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+}
+
+.escalation-card .escalation-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Mistakes Grid */
+.mistakes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.mistake-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+}
+
+.mistake-card:hover {
+    border-color: var(--accent-red);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(248, 113, 113, 0.1);
+}
+
+.mistake-card .mistake-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.mistake-card .mistake-title {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.mistake-card .mistake-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* API Key Horror Story */
+.api-key-story {
+    background: linear-gradient(135deg, var(--bg-card), rgba(248, 113, 113, 0.05));
+    border: 1px solid var(--border-subtle);
+    border-left: 4px solid var(--accent-red);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    margin-top: 2rem;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+}
+
+.api-key-story:hover {
+    border-color: var(--accent-red);
+    transform: scale(1.01);
+}
+
+.api-key-story .story-emoji {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.api-key-story .story-headline {
+    font-family: var(--font-mono);
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.api-key-story .story-amount {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-red);
+    margin-bottom: 1rem;
+}
+
+.api-key-story .story-detail {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Security Headers List */
+.headers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.header-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    padding: 1rem 1.5rem;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+}
+
+.header-item:hover {
+    border-color: var(--accent-green);
+    background: rgba(74, 222, 128, 0.05);
+}
+
+.header-item .header-name {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--accent-green);
+    min-width: 250px;
+}
+
+.header-item .header-purpose {
+    flex: 1;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Checklist Columns */
+.checklist-columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.security-checklist {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+}
+
+.security-checklist h4 {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.security-checklist ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.security-checklist li {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.security-checklist li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent-green);
+    font-weight: bold;
+}
+
+/* CSP Builder Interactive */
+.csp-builder {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.csp-directive {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background: var(--bg-secondary);
+    border-radius: 0.375rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.csp-directive:hover {
+    background: var(--bg-tertiary);
+}
+
+.csp-directive .directive-name {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--accent-purple);
+    min-width: 140px;
+}
+
+.csp-directive .directive-value {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-green);
+    flex: 1;
+}
+
+.csp-directive .directive-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Web Security Responsive */
+@media (max-width: 1024px) {
+    .breach-stats,
+    .xss-types-grid,
+    .session-attacks,
+    .mistakes-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .checklist-columns,
+    .escalation-types,
+    .technique-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .csrf-flow {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 768px) {
+    .breach-stats,
+    .xss-types-grid,
+    .session-attacks,
+    .mistakes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .attack-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .attack-card .attack-name {
+        min-width: auto;
+    }
+
+    .shame-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .header-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .header-item .header-name {
+        min-width: auto;
+    }
+
+    .story-box .story-stats {
+        flex-wrap: wrap;
+    }
+}
