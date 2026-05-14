@@ -69,7 +69,6 @@ class LectureManager {
 
             // Hide menu, show presentation UI
             this.menu.style.display = 'none';
-            this.backButton.style.display = 'flex';
             document.querySelector('.progress-nav').style.display = 'flex';
             document.querySelector('.course-info').style.display = 'flex';
             document.querySelector('.slide-nav').style.display = 'flex';
@@ -89,7 +88,6 @@ class LectureManager {
 
     showMenu(updateHistory = true) {
         this.menu.style.display = 'flex';
-        this.backButton.style.display = 'none';
         document.querySelector('.progress-nav').style.display = 'none';
         document.querySelector('.course-info').style.display = 'none';
         document.querySelector('.slide-nav').style.display = 'none';
@@ -10978,6 +10976,930 @@ supabase.storage.from('avatars').upload(path, file)</code></pre>
                     <div class="modal-section">
                         <h4>API Providers</h4>
                         <p>Review data retention policies. Claude and GPT-4 have options for zero data retention.</p>
+                    </div>
+                `
+            },
+
+            // ==================== WEB ARCHITECTURE LECTURE MODALS ====================
+
+            'tradeoff-monolith': {
+                title: 'Monolith Tradeoffs',
+                body: `
+                    <p>A <strong>monolithic architecture</strong> bundles all functionality into a single deployable unit.</p>
+                    <div class="modal-section">
+                        <h4>Optimize For</h4>
+                        <ul>
+                            <li><strong>Simplicity</strong> — One codebase, one deployment, one database</li>
+                            <li><strong>Speed to market</strong> — No coordination overhead between teams</li>
+                            <li><strong>Easy debugging</strong> — Stack traces show the full picture</li>
+                            <li><strong>ACID transactions</strong> — Database consistency is trivial</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Sacrifice</h4>
+                        <ul>
+                            <li><strong>Team independence</strong> — Everyone deploys together or not at all</li>
+                            <li><strong>Scaling flexibility</strong> — Can't scale just the hot path</li>
+                            <li><strong>Technology diversity</strong> — Stuck with one tech stack</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'tradeoff-microservices': {
+                title: 'Microservices Tradeoffs',
+                body: `
+                    <p><strong>Microservices</strong> split your application into independently deployable services.</p>
+                    <div class="modal-section">
+                        <h4>Optimize For</h4>
+                        <ul>
+                            <li><strong>Team autonomy</strong> — Each team owns their service end-to-end</li>
+                            <li><strong>Independent scaling</strong> — Scale the payment service, not the whole app</li>
+                            <li><strong>Technology diversity</strong> — Use the right tool for each job</li>
+                            <li><strong>Fault isolation</strong> — One service down doesn't crash everything</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Sacrifice</h4>
+                        <ul>
+                            <li><strong>Simplicity</strong> — Now you need service discovery, API gateways, distributed tracing</li>
+                            <li><strong>Network reliability</strong> — Network calls fail; local function calls don't</li>
+                            <li><strong>Data consistency</strong> — Distributed transactions are hard</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'arch-monolith': {
+                title: 'Monolithic Architecture Deep Dive',
+                body: `
+                    <p>A monolith is a single deployable unit containing all application functionality.</p>
+                    <div class="modal-section">
+                        <h4>When Monoliths Work</h4>
+                        <ul>
+                            <li>Small teams (< 10 developers)</li>
+                            <li>Early-stage products finding product-market fit</li>
+                            <li>Domain boundaries are unclear</li>
+                            <li>You need to move fast and break things</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Modular Monolith</h4>
+                        <p>The best of both worlds: monolith deployment with internal module boundaries. Ruby on Rails engines, Java packages with enforced boundaries.</p>
+                    </div>
+                `
+            },
+            'arch-microservices': {
+                title: 'Microservices Architecture Deep Dive',
+                body: `
+                    <p>Independent services communicating over the network, each with its own database.</p>
+                    <div class="modal-section">
+                        <h4>Prerequisites</h4>
+                        <ul>
+                            <li><strong>CI/CD maturity</strong> — Automated testing and deployment</li>
+                            <li><strong>Observability</strong> — Distributed tracing, centralized logging</li>
+                            <li><strong>Team structure</strong> — Aligned with service boundaries</li>
+                            <li><strong>DevOps culture</strong> — You build it, you run it</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Hidden Costs</h4>
+                        <p>Service mesh, Kubernetes, API gateway, message queues, distributed debugging, eventual consistency handling...</p>
+                    </div>
+                `
+            },
+            'mm-shopify': {
+                title: 'Shopify: The Majestic Monolith',
+                body: `
+                    <p>Shopify processes <strong>$175B+ GMV</strong> on a monolithic Rails application.</p>
+                    <div class="modal-section">
+                        <h4>How They Scale</h4>
+                        <ul>
+                            <li><strong>Sharded database</strong> — Each shop on its own shard</li>
+                            <li><strong>Caching everywhere</strong> — Redis, CDN, application cache</li>
+                            <li><strong>Background jobs</strong> — Async processing for non-critical paths</li>
+                            <li><strong>Modular monolith</strong> — Internal component boundaries</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Key Quote</h4>
+                        <blockquote>"The problem with microservices is they're solutions to problems most teams don't have."</blockquote>
+                    </div>
+                `
+            },
+            'scaling-vertical': {
+                title: 'Vertical Scaling (Scale Up)',
+                body: `
+                    <p>Add more resources (CPU, RAM, SSD) to a single machine.</p>
+                    <div class="modal-section">
+                        <h4>Advantages</h4>
+                        <ul>
+                            <li>No code changes required</li>
+                            <li>Simple to implement</li>
+                            <li>Good for databases (single-writer model)</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Limits</h4>
+                        <ul>
+                            <li>Hardware ceiling (can't add infinite RAM)</li>
+                            <li>Single point of failure</li>
+                            <li>Cost increases exponentially</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'scaling-horizontal': {
+                title: 'Horizontal Scaling (Scale Out)',
+                body: `
+                    <p>Add more machines and distribute the load.</p>
+                    <div class="modal-section">
+                        <h4>Requirements</h4>
+                        <ul>
+                            <li><strong>Stateless design</strong> — Don't store session on server</li>
+                            <li><strong>Load balancer</strong> — Distribute requests</li>
+                            <li><strong>Shared storage</strong> — Database, Redis for shared state</li>
+                            <li><strong>Session management</strong> — External session store</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>The 12-Factor App</h4>
+                        <p>Design principles for horizontally scalable applications. Key: processes are stateless and share-nothing.</p>
+                    </div>
+                `
+            },
+            'cache-browser': {
+                title: 'Browser Cache',
+                body: `
+                    <p>The fastest cache — data never leaves the user's device.</p>
+                    <div class="modal-section">
+                        <h4>Cache-Control Header</h4>
+                        <pre class="modal-code"><code>Cache-Control: max-age=31536000, immutable
+# Cache for 1 year, never revalidate</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Best Practices</h4>
+                        <ul>
+                            <li>Use content hashes in filenames: <code>main.a1b2c3.js</code></li>
+                            <li>Long cache for assets, short for HTML</li>
+                            <li>Use <code>immutable</code> for versioned files</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'cache-cdn': {
+                title: 'CDN (Content Delivery Network)',
+                body: `
+                    <p>Geographically distributed cache servers close to users.</p>
+                    <div class="modal-section">
+                        <h4>How It Works</h4>
+                        <ol>
+                            <li>User requests asset from CDN URL</li>
+                            <li>CDN checks nearest edge server cache</li>
+                            <li>Cache hit: return immediately (~10ms)</li>
+                            <li>Cache miss: fetch from origin, cache, return (~100ms first time)</li>
+                        </ol>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Popular CDNs</h4>
+                        <p>Cloudflare (free tier!), CloudFront, Fastly, Akamai</p>
+                    </div>
+                `
+            },
+            'cache-app': {
+                title: 'Application Cache (Redis)',
+                body: `
+                    <p>In-memory cache for database query results and computed values.</p>
+                    <div class="modal-section">
+                        <h4>Common Patterns</h4>
+                        <pre class="modal-code"><code>// Cache-aside pattern
+const user = await redis.get('user:123');
+if (!user) {
+    const user = await db.query('SELECT * FROM users WHERE id = 123');
+    await redis.set('user:123', user, 'EX', 3600);
+}
+return user;</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>What to Cache</h4>
+                        <ul>
+                            <li>Expensive database queries</li>
+                            <li>API responses from external services</li>
+                            <li>Computed values (leaderboards, aggregations)</li>
+                            <li>Session data</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'queue-broker': {
+                title: 'Message Queue Brokers',
+                body: `
+                    <p>Message queues decouple producers from consumers and enable async processing.</p>
+                    <div class="modal-section">
+                        <h4>Popular Options</h4>
+                        <ul>
+                            <li><strong>RabbitMQ</strong> — Traditional message broker, great for task queues</li>
+                            <li><strong>Kafka</strong> — Event streaming, massive throughput, event sourcing</li>
+                            <li><strong>AWS SQS</strong> — Managed, serverless, scales automatically</li>
+                            <li><strong>Redis Streams</strong> — Lightweight, if you already have Redis</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Delivery Guarantees</h4>
+                        <p><strong>At-most-once</strong> | <strong>At-least-once</strong> | <strong>Exactly-once</strong> (hardest)</p>
+                    </div>
+                `
+            },
+            'lb-roundrobin': {
+                title: 'Round Robin Load Balancing',
+                body: `
+                    <p>Distribute requests evenly in rotation: 1 → 2 → 3 → 1 → 2 → 3...</p>
+                    <div class="modal-section">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Simple to understand and implement</li>
+                            <li>Fair distribution with identical servers</li>
+                            <li>No state needed</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Cons</h4>
+                        <p>Doesn't account for server capacity or current load. A slow request on server 1 might back up while servers 2 and 3 are idle.</p>
+                    </div>
+                `
+            },
+            'lb-leastconn': {
+                title: 'Least Connections Load Balancing',
+                body: `
+                    <p>Route new requests to the server with the fewest active connections.</p>
+                    <div class="modal-section">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>Long-lived connections (WebSockets)</li>
+                            <li>Requests with varying processing times</li>
+                            <li>When servers have different capacities</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Variant</h4>
+                        <p><strong>Weighted Least Connections</strong> — Combines connection count with server capacity weights.</p>
+                    </div>
+                `
+            },
+            'rest-resources': {
+                title: 'REST Resource Naming',
+                body: `
+                    <p>Resources are nouns. HTTP methods are verbs.</p>
+                    <div class="modal-section">
+                        <h4>Examples</h4>
+                        <pre class="modal-code"><code>GET    /users          # List users
+POST   /users          # Create user
+GET    /users/123      # Get user 123
+PUT    /users/123      # Update user 123
+DELETE /users/123      # Delete user 123
+
+# Collections are plural
+/users, /orders, /products
+
+# Nested resources
+/users/123/orders      # User 123's orders</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Anti-patterns</h4>
+                        <code class="bad">/getUser, /createUser, /user/delete/123</code>
+                    </div>
+                `
+            },
+            'graphql-problems': {
+                title: 'GraphQL Challenges',
+                body: `
+                    <div class="modal-section">
+                        <h4>N+1 Problem</h4>
+                        <p>Without batching, fetching 100 users with their orders = 101 database queries.</p>
+                        <p><strong>Solution:</strong> DataLoader batches and dedupes requests.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Query Complexity Attacks</h4>
+                        <pre class="modal-code"><code>query {
+  users {
+    friends {
+      friends {
+        friends {
+          friends { # Exponential explosion
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+                        <p><strong>Solution:</strong> Query depth limiting, complexity analysis, persisted queries.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Caching Difficulty</h4>
+                        <p>Every query is POST with a unique body — no HTTP caching. Need application-level cache (Apollo Client).</p>
+                    </div>
+                `
+            },
+            'gateway-detail': {
+                title: 'API Gateway',
+                body: `
+                    <p>A single entry point that handles cross-cutting concerns for all services.</p>
+                    <div class="modal-section">
+                        <h4>Responsibilities</h4>
+                        <ul>
+                            <li><strong>Authentication</strong> — Verify JWT, API keys</li>
+                            <li><strong>Rate limiting</strong> — Protect backend from abuse</li>
+                            <li><strong>Request routing</strong> — Route to appropriate service</li>
+                            <li><strong>Response caching</strong> — Cache common responses</li>
+                            <li><strong>Request/response transformation</strong> — Version compatibility</li>
+                            <li><strong>Logging & monitoring</strong> — Centralized observability</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Popular Options</h4>
+                        <p>Kong, AWS API Gateway, Apigee, nginx + Lua</p>
+                    </div>
+                `
+            },
+            'bff-detail': {
+                title: 'Backend for Frontend (BFF)',
+                body: `
+                    <p>Different API shapes optimized for different client types.</p>
+                    <div class="modal-section">
+                        <h4>Why BFF?</h4>
+                        <ul>
+                            <li><strong>Web</strong> needs full data, complex queries</li>
+                            <li><strong>Mobile</strong> needs minimal data, bandwidth efficiency</li>
+                            <li><strong>TV/Watch</strong> needs simple, large-button interfaces</li>
+                            <li><strong>Partners</strong> need stable, versioned APIs</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Implementation</h4>
+                        <p>Each BFF is a thin layer that aggregates and transforms data from backend services for its specific client.</p>
+                    </div>
+                `
+            },
+            'render-ssr': {
+                title: 'Server-Side Rendering (SSR)',
+                body: `
+                    <p>Generate full HTML on the server for each request.</p>
+                    <div class="modal-section">
+                        <h4>Flow</h4>
+                        <ol>
+                            <li>Request hits server</li>
+                            <li>Server fetches data, renders React to HTML</li>
+                            <li>Full HTML sent to browser</li>
+                            <li>Browser displays immediately (FCP)</li>
+                            <li>JavaScript loads and "hydrates" for interactivity</li>
+                        </ol>
+                    </div>
+                    <div class="modal-section">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>SEO-critical pages</li>
+                            <li>Social media previews needed</li>
+                            <li>Slow client devices</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'render-ssg': {
+                title: 'Static Site Generation (SSG)',
+                body: `
+                    <p>Pre-render pages at build time. Serve static HTML from CDN.</p>
+                    <div class="modal-section">
+                        <h4>Advantages</h4>
+                        <ul>
+                            <li><strong>Fastest possible</strong> — Just serving files</li>
+                            <li><strong>Cheapest</strong> — No server compute</li>
+                            <li><strong>Most reliable</strong> — CDN has 99.99% uptime</li>
+                            <li><strong>Secure</strong> — No server to hack</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Limitations</h4>
+                        <ul>
+                            <li>Build time grows with pages</li>
+                            <li>Data can become stale</li>
+                            <li>Not suitable for user-specific content</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'state-server': {
+                title: 'Server State (React Query / SWR)',
+                body: `
+                    <p>Treat server data as external state with its own lifecycle.</p>
+                    <div class="modal-section">
+                        <h4>Key Concepts</h4>
+                        <ul>
+                            <li><strong>Caching</strong> — Automatic cache with configurable TTL</li>
+                            <li><strong>Deduplication</strong> — Multiple components, one request</li>
+                            <li><strong>Background refetch</strong> — Keep data fresh automatically</li>
+                            <li><strong>Stale-while-revalidate</strong> — Show cached data, fetch new</li>
+                            <li><strong>Optimistic updates</strong> — Update UI before server confirms</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Code Example</h4>
+                        <pre class="modal-code"><code>const { data, isLoading, error } = useQuery({
+  queryKey: ['user', userId],
+  queryFn: () => fetchUser(userId),
+  staleTime: 5 * 60 * 1000, // 5 minutes
+});</code></pre>
+                    </div>
+                `
+            },
+            'pattern-compound': {
+                title: 'Compound Components Pattern',
+                body: `
+                    <p>Components that work together while sharing implicit state.</p>
+                    <div class="modal-section">
+                        <h4>Example: Menu Component</h4>
+                        <pre class="modal-code"><code>&lt;Menu&gt;
+  &lt;Menu.Trigger&gt;Open Menu&lt;/Menu.Trigger&gt;
+  &lt;Menu.Content&gt;
+    &lt;Menu.Item onClick={...}&gt;Edit&lt;/Menu.Item&gt;
+    &lt;Menu.Item onClick={...}&gt;Delete&lt;/Menu.Item&gt;
+  &lt;/Menu.Content&gt;
+&lt;/Menu&gt;</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Benefits</h4>
+                        <ul>
+                            <li>Flexible composition</li>
+                            <li>Clear parent-child relationship</li>
+                            <li>State managed internally</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Used By</h4>
+                        <p>Radix UI, Headless UI, Reach UI</p>
+                    </div>
+                `
+            },
+            'clean-arch-detail': {
+                title: 'Clean Architecture',
+                body: `
+                    <p>Separate business logic from infrastructure concerns.</p>
+                    <div class="modal-section">
+                        <h4>The Dependency Rule</h4>
+                        <p>Dependencies always point inward. Outer layers know about inner layers, never the reverse.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Layers</h4>
+                        <ul>
+                            <li><strong>Entities</strong> — Core business objects and rules</li>
+                            <li><strong>Use Cases</strong> — Application-specific business rules</li>
+                            <li><strong>Interface Adapters</strong> — Convert data between layers</li>
+                            <li><strong>Frameworks</strong> — Express, React, Postgres</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Benefit</h4>
+                        <p>Swap your database from Postgres to MongoDB without touching business logic. Test business rules without HTTP or database.</p>
+                    </div>
+                `
+            },
+            'event-sourcing-detail': {
+                title: 'Event Sourcing',
+                body: `
+                    <p>Store state changes as a sequence of events, not current state.</p>
+                    <div class="modal-section">
+                        <h4>Example: Order</h4>
+                        <pre class="modal-code"><code>// Instead of: { status: 'shipped', total: 99.99 }
+// Store events:
+OrderCreated { items: [...], total: 99.99 }
+PaymentReceived { amount: 99.99 }
+OrderShipped { trackingNumber: 'ABC123' }
+
+// Rebuild state by replaying events</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Benefits</h4>
+                        <ul>
+                            <li>Complete audit trail</li>
+                            <li>Time travel debugging</li>
+                            <li>Rebuild state for new projections</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Complexity</h4>
+                        <p>Event versioning, storage growth, eventual consistency. Only use when audit trail is a core requirement.</p>
+                    </div>
+                `
+            },
+            'ddd-bounded': {
+                title: 'Bounded Contexts (DDD)',
+                body: `
+                    <p>The same word can mean different things in different parts of your system.</p>
+                    <div class="modal-section">
+                        <h4>Example: "Product"</h4>
+                        <ul>
+                            <li><strong>Catalog Context</strong> — name, description, images, categories</li>
+                            <li><strong>Inventory Context</strong> — SKU, quantity, warehouse location</li>
+                            <li><strong>Pricing Context</strong> — base price, discounts, currency</li>
+                            <li><strong>Shipping Context</strong> — weight, dimensions, shipping class</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Key Insight</h4>
+                        <p>Don't force one "Product" model to serve all needs. Each context has its own model optimized for its concerns.</p>
+                    </div>
+                `
+            },
+            'example-twitter': {
+                title: 'Twitter Timeline Architecture',
+                body: `
+                    <p>The challenge: Show a personalized timeline for 300M users, many following thousands of accounts.</p>
+                    <div class="modal-section">
+                        <h4>Fanout on Write</h4>
+                        <p>When you tweet, your tweet is written to all followers' timeline caches. Fast reads, expensive writes.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Fanout on Read</h4>
+                        <p>When viewing timeline, fetch and merge from all followed accounts. Slow reads, cheap writes.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Twitter's Hybrid</h4>
+                        <p>Fanout on write for most users. Fanout on read for celebrities (too many followers). Redis for timeline cache, ~800 entries per user.</p>
+                    </div>
+                `
+            },
+            'example-netflix': {
+                title: 'Netflix Streaming Architecture',
+                body: `
+                    <p>Serve 200M subscribers with personalized streaming across 190 countries.</p>
+                    <div class="modal-section">
+                        <h4>Key Components</h4>
+                        <ul>
+                            <li><strong>Open Connect</strong> — Custom CDN with boxes in ISP data centers</li>
+                            <li><strong>Adaptive Streaming</strong> — Multiple quality levels, switch based on bandwidth</li>
+                            <li><strong>Chaos Engineering</strong> — Randomly kill services to ensure resilience</li>
+                            <li><strong>Microservices</strong> — 1000+ services, each team owns their stack</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Key Lesson</h4>
+                        <p>They earned this complexity over 15 years. Started as a monolith, evolved as scale demanded.</p>
+                    </div>
+                `
+            },
+
+            // ==================== CODE QUALITY LECTURE MODALS ====================
+
+            'disaster-knight': {
+                title: 'Knight Capital Disaster (2012)',
+                body: `
+                    <p>The most expensive software bug in history.</p>
+                    <div class="modal-section">
+                        <h4>What Happened</h4>
+                        <ul>
+                            <li>Old test code accidentally deployed to production</li>
+                            <li>No proper deployment checks or testing</li>
+                            <li>Algorithm executed 4 million trades in 45 minutes</li>
+                            <li>Bought high, sold low, repeatedly</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Result</h4>
+                        <p><strong>$440 million lost in 45 minutes.</strong> Company went bankrupt.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Lesson</h4>
+                        <p>Proper testing, deployment pipelines, and kill switches could have prevented this.</p>
+                    </div>
+                `
+            },
+            'pyramid-unit': {
+                title: 'Unit Tests',
+                body: `
+                    <p>Test individual functions or components in isolation.</p>
+                    <div class="modal-section">
+                        <h4>Characteristics</h4>
+                        <ul>
+                            <li><strong>Fast</strong> — Milliseconds per test</li>
+                            <li><strong>Isolated</strong> — No external dependencies</li>
+                            <li><strong>Deterministic</strong> — Same result every time</li>
+                            <li><strong>Many of them</strong> — Hundreds or thousands</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Example</h4>
+                        <pre class="modal-code"><code>it('calculates tax correctly', () => {
+    expect(calculateTax(100, 0.2)).toBe(20);
+});</code></pre>
+                    </div>
+                `
+            },
+            'pyramid-integration': {
+                title: 'Integration Tests',
+                body: `
+                    <p>Test how multiple units work together.</p>
+                    <div class="modal-section">
+                        <h4>Characteristics</h4>
+                        <ul>
+                            <li><strong>Medium speed</strong> — Seconds per test</li>
+                            <li><strong>Tests interactions</strong> — API + Database, Component + Store</li>
+                            <li><strong>Fewer mocks</strong> — More realistic</li>
+                            <li><strong>Moderate quantity</strong> — Dozens to hundreds</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Example</h4>
+                        <p>Test that submitting a form calls the API and updates the UI.</p>
+                    </div>
+                `
+            },
+            'pyramid-e2e': {
+                title: 'End-to-End Tests',
+                body: `
+                    <p>Test the complete application from user perspective.</p>
+                    <div class="modal-section">
+                        <h4>Characteristics</h4>
+                        <ul>
+                            <li><strong>Slow</strong> — Seconds to minutes per test</li>
+                            <li><strong>Full stack</strong> — Real browser, real backend, real database</li>
+                            <li><strong>Highest confidence</strong> — Tests the actual user experience</li>
+                            <li><strong>Fewest quantity</strong> — Only critical paths</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Example</h4>
+                        <p>Complete checkout flow: add to cart → enter shipping → pay → confirmation</p>
+                    </div>
+                `
+            },
+            'trophy-philosophy': {
+                title: 'Testing Trophy Philosophy',
+                body: `
+                    <p>Kent C. Dodds argues for a different balance than the traditional pyramid.</p>
+                    <div class="modal-section">
+                        <h4>Key Insight</h4>
+                        <p>Integration tests give the best ROI: high confidence without the brittleness of E2E or the isolation of unit tests.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Static Analysis (Base)</h4>
+                        <p>TypeScript and ESLint catch entire categories of bugs for free.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Unit (Small)</h4>
+                        <p>Complex pure functions only — business logic, algorithms.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Integration (Large)</h4>
+                        <p>Most of your tests. Test components as users use them with React Testing Library.</p>
+                    </div>
+                `
+            },
+            'mock-warning': {
+                title: 'The Problem with Over-Mocking',
+                body: `
+                    <p>Mocks can make tests pass that should fail.</p>
+                    <div class="modal-section">
+                        <h4>Common Mistake</h4>
+                        <pre class="modal-code"><code>// Mocking everything
+jest.mock('./api');
+jest.mock('./database');
+jest.mock('./validation');
+jest.mock('./utils');
+
+it('processes order', () => {
+    // Your test only proves mocks work together
+    // Not that your actual code works
+});</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Better Approach</h4>
+                        <p>Mock at boundaries (external APIs, databases), not internal modules. Use MSW for API mocking.</p>
+                    </div>
+                `
+            },
+            'tdd-benefits': {
+                title: 'TDD Benefits',
+                body: `
+                    <div class="modal-section">
+                        <h4>Design Benefits</h4>
+                        <ul>
+                            <li><strong>Think API first</strong> — Writing tests forces you to design the interface before implementation</li>
+                            <li><strong>Smaller functions</strong> — Hard-to-test code = probably poorly designed</li>
+                            <li><strong>Better separation</strong> — Testing drives modular architecture</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Development Benefits</h4>
+                        <ul>
+                            <li><strong>Instant feedback</strong> — Know immediately if code works</li>
+                            <li><strong>Confidence to refactor</strong> — Tests catch regressions</li>
+                            <li><strong>Documentation</strong> — Tests show how to use the code</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'query-getby': {
+                title: 'getBy* Queries',
+                body: `
+                    <p>Use when you expect the element to be in the document.</p>
+                    <div class="modal-section">
+                        <h4>Behavior</h4>
+                        <ul>
+                            <li>Throws immediately if element not found</li>
+                            <li>Throws if multiple elements match</li>
+                            <li>Returns the element if found</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Common getBy Queries</h4>
+                        <pre class="modal-code"><code>getByRole('button', { name: 'Submit' })
+getByLabelText('Email')
+getByText('Welcome!')
+getByTestId('custom-element')</code></pre>
+                    </div>
+                `
+            },
+            'query-queryby': {
+                title: 'queryBy* Queries',
+                body: `
+                    <p>Use when you need to assert an element does NOT exist.</p>
+                    <div class="modal-section">
+                        <h4>Behavior</h4>
+                        <ul>
+                            <li>Returns null if not found (doesn't throw)</li>
+                            <li>Throws if multiple elements match</li>
+                            <li>Perfect for testing absence</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Example</h4>
+                        <pre class="modal-code"><code>// Assert error message is NOT shown
+expect(screen.queryByText('Error')).not.toBeInTheDocument();
+
+// Or use getBy and expect it to not exist
+expect(screen.queryByRole('alert')).toBeNull();</code></pre>
+                    </div>
+                `
+            },
+            'query-findby': {
+                title: 'findBy* Queries',
+                body: `
+                    <p>Use for elements that appear asynchronously.</p>
+                    <div class="modal-section">
+                        <h4>Behavior</h4>
+                        <ul>
+                            <li>Returns a Promise</li>
+                            <li>Retries until element appears or timeout (default 1s)</li>
+                            <li>Perfect for loading states, API responses</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Example</h4>
+                        <pre class="modal-code"><code>// Wait for element to appear after API call
+await screen.findByText('Data loaded!');
+
+// With custom timeout
+await screen.findByRole('list', {}, { timeout: 3000 });</code></pre>
+                    </div>
+                `
+            },
+            'strategy-github-flow': {
+                title: 'GitHub Flow',
+                body: `
+                    <p>Simple, effective workflow for most web applications.</p>
+                    <div class="modal-section">
+                        <h4>The Flow</h4>
+                        <ol>
+                            <li>Create feature branch from main</li>
+                            <li>Make commits, push to remote</li>
+                            <li>Open Pull Request</li>
+                            <li>Code review & CI checks</li>
+                            <li>Merge to main</li>
+                            <li>Deploy automatically (CD)</li>
+                        </ol>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Key Principle</h4>
+                        <p><strong>Main is always deployable.</strong> Every merge triggers deployment.</p>
+                    </div>
+                `
+            },
+            'strategy-gitflow': {
+                title: 'GitFlow',
+                body: `
+                    <p>Complex branching model for versioned releases.</p>
+                    <div class="modal-section">
+                        <h4>Branches</h4>
+                        <ul>
+                            <li><strong>main</strong> — Production code</li>
+                            <li><strong>develop</strong> — Integration branch</li>
+                            <li><strong>feature/*</strong> — New features (from develop)</li>
+                            <li><strong>release/*</strong> — Release preparation</li>
+                            <li><strong>hotfix/*</strong> — Emergency production fixes</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>When to Use</h4>
+                        <p>Mobile apps, libraries, software with versioned releases. <strong>Overkill for most web apps.</strong></p>
+                    </div>
+                `
+            },
+            'git-merge': {
+                title: 'Git Merge',
+                body: `
+                    <p>Combines branches by creating a merge commit.</p>
+                    <div class="modal-section">
+                        <h4>Commands</h4>
+                        <pre class="modal-code"><code>git checkout main
+git merge feature-branch
+
+# Or with explicit merge commit
+git merge --no-ff feature-branch</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Preserves complete history</li>
+                            <li>Non-destructive — never changes existing commits</li>
+                            <li>Safe for shared branches</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Cons</h4>
+                        <p>Creates extra merge commits, history can look messy.</p>
+                    </div>
+                `
+            },
+            'git-rebase': {
+                title: 'Git Rebase',
+                body: `
+                    <p>Moves your branch to start from the tip of another branch.</p>
+                    <div class="modal-section">
+                        <h4>Commands</h4>
+                        <pre class="modal-code"><code># Update feature branch with latest main
+git checkout feature-branch
+git rebase main
+
+# Interactive rebase (squash, reorder)
+git rebase -i HEAD~3</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Linear, clean history</li>
+                            <li>No merge commits</li>
+                            <li>Easy to follow git log</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Danger</h4>
+                        <p><strong>Rewrites history.</strong> Never rebase commits that others have based work on.</p>
+                    </div>
+                `
+            },
+            'pr-best-practices': {
+                title: 'PR Best Practices',
+                body: `
+                    <div class="modal-section">
+                        <h4>Size</h4>
+                        <p><strong>Under 400 lines of code.</strong> Smaller PRs get reviewed faster and more thoroughly.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Focus</h4>
+                        <p>One logical change per PR. Don't mix features with refactoring or bug fixes.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Self-Review</h4>
+                        <p>Review your own PR before requesting review. Catch obvious issues yourself.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Respond to Feedback</h4>
+                        <p>Thank reviewers, address all comments, explain decisions. Don't take feedback personally.</p>
+                    </div>
+                `
+            },
+            'secrets-leaked': {
+                title: 'If You Leak Secrets',
+                body: `
+                    <p>Act immediately. Git history is public and permanent.</p>
+                    <div class="modal-section">
+                        <h4>Step 1: Revoke</h4>
+                        <p>Immediately revoke/rotate the leaked credentials. This is the most important step.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Step 2: Remove from History</h4>
+                        <pre class="modal-code"><code># BFG Repo-Cleaner (recommended)
+bfg --delete-files .env
+
+# Or git filter-branch
+git filter-branch --force --index-filter \\
+  "git rm --cached --ignore-unmatch .env" \\
+  --prune-empty -- --all</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Step 3: Force Push</h4>
+                        <p>Coordinate with your team, then <code>git push --force</code></p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Prevention</h4>
+                        <p>Use <code>git-secrets</code> pre-commit hook to prevent this.</p>
                     </div>
                 `
             }

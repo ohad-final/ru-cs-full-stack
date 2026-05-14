@@ -129,6 +129,36 @@
                     </div>
                     <div class="lecture-arrow">→</div>
                 </div>
+                <div class="lecture-card" data-lecture="web-architecture">
+                    <div class="lecture-number">08</div>
+                    <div class="lecture-info">
+                        <h3>Web Architecture</h3>
+                        <p>System design, API patterns, frontend architecture, and full stack best practices</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Microservices</span>
+                            <span class="tag">REST</span>
+                            <span class="tag">GraphQL</span>
+                            <span class="tag">Caching</span>
+                            <span class="tag">DDD</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
+                <div class="lecture-card" data-lecture="code-quality">
+                    <div class="lecture-number">09</div>
+                    <div class="lecture-info">
+                        <h3>Code Quality & Collaboration</h3>
+                        <p>Testing, linting, and Git workflows for professional web development</p>
+                        <div class="lecture-tags">
+                            <span class="tag">Jest</span>
+                            <span class="tag">Playwright</span>
+                            <span class="tag">ESLint</span>
+                            <span class="tag">Git</span>
+                            <span class="tag">PRs</span>
+                        </div>
+                    </div>
+                    <div class="lecture-arrow">→</div>
+                </div>
             </div>
             <div class="menu-footer">
                 <p>Instructor: Ohad Assulin • RU</p>
@@ -141,18 +171,17 @@
         <span class="theme-icon light">◑</span>
     </button>
 
-    <!-- Back to Menu Button (hidden until lecture loads) -->
-    <button class="back-to-menu" id="backToMenu" aria-label="Back to lecture menu" style="display: none;">
-        <span class="back-arrow">←</span>
-        <span class="back-text">All Lectures</span>
-    </button>
-
     <nav class="progress-nav" style="display: none;">
         <div class="progress-bar"><div class="progress-fill"></div></div>
         <div class="slide-counter"><span class="current">01</span>/<span class="total">00</span></div>
     </nav>
 
     <aside class="course-info" style="display: none;">
+        <button class="back-to-menu" id="backToMenu" aria-label="Back to lecture menu">
+            <span class="back-arrow">←</span>
+            <span class="back-text">All Lectures</span>
+        </button>
+        <span class="divider">•</span>
         <span class="course-name">Full Stack Engineering</span>
         <span class="divider">•</span>
         <span class="instructor">Ohad Assulin</span>

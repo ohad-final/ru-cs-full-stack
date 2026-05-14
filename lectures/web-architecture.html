@@ -1,0 +1,1221 @@
+<!-- Slide 1: Title -->
+<section class="slide active" data-slide="1">
+    <div class="slide-content title-slide">
+        <div class="title-decoration">
+            <span class="protocol-badge">SYSTEM DESIGN</span>
+        </div>
+        <h1 class="main-title">
+            <span class="title-line">Web</span>
+            <span class="title-line highlight">Architecture</span>
+        </h1>
+        <p class="subtitle">From Monoliths to Microservices, REST to GraphQL</p>
+        <div class="title-meta">
+            <div class="meta-item">
+                <span class="meta-label">Course</span>
+                <span class="meta-value">Full Stack Engineering</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Instructor</span>
+                <span class="meta-value">Ohad Assulin</span>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            Press -> or Space to navigate
+            <div class="arrow-bounce">|</div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 2: Architecture Decision Matrix -->
+<section class="slide" data-slide="2">
+    <div class="slide-content">
+        <h3 class="slide-title">The Architecture Decision Matrix</h3>
+        <div class="slide-image-banner" style="margin-bottom: 1.5rem;">
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&h=200&fit=crop" alt="Architecture planning" style="width: 100%; height: 100px; object-fit: cover; border-radius: 8px; opacity: 0.8;">
+        </div>
+        <p class="slide-description">Every architecture decision is a tradeoff. Know what you're trading.</p>
+        <div class="decision-matrix">
+            <div class="matrix-row header">
+                <div class="matrix-cell">Decision</div>
+                <div class="matrix-cell">Optimize For</div>
+                <div class="matrix-cell">Sacrifice</div>
+            </div>
+            <div class="matrix-row clickable" data-modal="tradeoff-monolith">
+                <div class="matrix-cell">Monolith</div>
+                <div class="matrix-cell good">Simplicity, Speed to market</div>
+                <div class="matrix-cell bad">Team independence, Scaling flexibility</div>
+            </div>
+            <div class="matrix-row clickable" data-modal="tradeoff-microservices">
+                <div class="matrix-cell">Microservices</div>
+                <div class="matrix-cell good">Team autonomy, Independent scaling</div>
+                <div class="matrix-cell bad">Operational complexity, Network latency</div>
+            </div>
+            <div class="matrix-row clickable" data-modal="tradeoff-sql">
+                <div class="matrix-cell">SQL Database</div>
+                <div class="matrix-cell good">Data integrity, Complex queries</div>
+                <div class="matrix-cell bad">Horizontal scaling, Schema flexibility</div>
+            </div>
+            <div class="matrix-row clickable" data-modal="tradeoff-nosql">
+                <div class="matrix-cell">NoSQL Database</div>
+                <div class="matrix-cell good">Scale, Flexibility, Speed</div>
+                <div class="matrix-cell bad">Joins, Transactions, Consistency</div>
+            </div>
+        </div>
+        <div class="architecture-quote">
+            <blockquote>"There are no solutions, only tradeoffs."</blockquote>
+            <cite>— Thomas Sowell (applicable to software too)</cite>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 3: Part I Header -->
+<section class="slide" data-slide="3">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part I</div>
+        <h2 class="section-title">System Design Fundamentals</h2>
+        <p class="section-subtitle">Monoliths, Microservices, and Everything Between</p>
+    </div>
+</section>
+
+<!-- Slide 4: Monolith vs Microservices -->
+<section class="slide" data-slide="4">
+    <div class="slide-content">
+        <h3 class="slide-title">Monolith vs Microservices</h3>
+        <div class="arch-comparison">
+            <div class="arch-option monolith" data-modal="arch-monolith">
+                <div class="arch-header">Monolith</div>
+                <div class="arch-diagram">
+                    <div class="arch-box large">
+                        <div class="arch-label">Single Deployment Unit</div>
+                        <div class="arch-internal">
+                            <span>Auth</span>
+                            <span>Users</span>
+                            <span>Orders</span>
+                            <span>Payments</span>
+                            <span>Notifications</span>
+                        </div>
+                    </div>
+                    <div class="arch-db">
+                        <span>Single Database</span>
+                    </div>
+                </div>
+                <ul class="arch-pros">
+                    <li>Simple to develop & deploy</li>
+                    <li>Easy debugging (one codebase)</li>
+                    <li>No network latency between modules</li>
+                    <li>ACID transactions are trivial</li>
+                </ul>
+                <ul class="arch-cons">
+                    <li>Scales as a unit (wasteful)</li>
+                    <li>One bad deploy affects everything</li>
+                    <li>Tech stack locked in</li>
+                </ul>
+            </div>
+            <div class="arch-vs">VS</div>
+            <div class="arch-option microservices" data-modal="arch-microservices">
+                <div class="arch-header">Microservices</div>
+                <div class="arch-diagram">
+                    <div class="arch-boxes-grid">
+                        <div class="arch-box small">Auth</div>
+                        <div class="arch-box small">Users</div>
+                        <div class="arch-box small">Orders</div>
+                        <div class="arch-box small">Payments</div>
+                    </div>
+                    <div class="arch-dbs-grid">
+                        <span>DB</span>
+                        <span>DB</span>
+                        <span>DB</span>
+                        <span>DB</span>
+                    </div>
+                </div>
+                <ul class="arch-pros">
+                    <li>Independent scaling</li>
+                    <li>Team autonomy</li>
+                    <li>Technology diversity</li>
+                    <li>Fault isolation</li>
+                </ul>
+                <ul class="arch-cons">
+                    <li>Network complexity</li>
+                    <li>Distributed transactions are hard</li>
+                    <li>Operational overhead (K8s, service mesh)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 5: The Majestic Monolith -->
+<section class="slide" data-slide="5">
+    <div class="slide-content">
+        <h3 class="slide-title">The "Majestic Monolith"</h3>
+        <p class="slide-description">Most startups should start here. Microservices are earned, not chosen.</p>
+        <div class="majestic-monolith">
+            <div class="mm-companies">
+                <div class="mm-company clickable" data-modal="mm-shopify">
+                    <span class="company-name">Shopify</span>
+                    <span class="company-stat">$175B GMV, still a monolith</span>
+                </div>
+                <div class="mm-company clickable" data-modal="mm-basecamp">
+                    <span class="company-name">Basecamp</span>
+                    <span class="company-stat">Millions of users, 3M LOC monolith</span>
+                </div>
+                <div class="mm-company clickable" data-modal="mm-stackoverflow">
+                    <span class="company-name">Stack Overflow</span>
+                    <span class="company-stat">50M visitors/month, 9 servers</span>
+                </div>
+            </div>
+            <div class="mm-advice">
+                <h4>When to Consider Microservices</h4>
+                <div class="advice-grid">
+                    <div class="advice-item yes">
+                        <span class="advice-icon">✓</span>
+                        <span>Multiple teams (10+) need to deploy independently</span>
+                    </div>
+                    <div class="advice-item yes">
+                        <span class="advice-icon">✓</span>
+                        <span>Wildly different scaling requirements per feature</span>
+                    </div>
+                    <div class="advice-item yes">
+                        <span class="advice-icon">✓</span>
+                        <span>Clear domain boundaries already exist</span>
+                    </div>
+                    <div class="advice-item no">
+                        <span class="advice-icon">✗</span>
+                        <span>"It's what Netflix does" (you're not Netflix)</span>
+                    </div>
+                    <div class="advice-item no">
+                        <span class="advice-icon">✗</span>
+                        <span>"Microservices are modern" (complexity is not modern)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 6: Scaling Strategies -->
+<section class="slide" data-slide="6">
+    <div class="slide-content">
+        <h3 class="slide-title">Scaling Strategies</h3>
+        <div class="scaling-comparison">
+            <div class="scaling-type vertical" data-modal="scaling-vertical">
+                <div class="scaling-header">Vertical Scaling (Scale Up)</div>
+                <div class="scaling-visual">
+                    <div class="server-box growing">
+                        <span>Server</span>
+                        <div class="server-specs">4 CPU → 8 → 16 → 32</div>
+                    </div>
+                </div>
+                <ul>
+                    <li>Add more RAM, CPU, SSD</li>
+                    <li>Simple — no code changes</li>
+                    <li>Has hardware limits ($$$)</li>
+                    <li>Single point of failure</li>
+                </ul>
+                <div class="scaling-when">Good for: Databases, quick wins</div>
+            </div>
+            <div class="scaling-type horizontal" data-modal="scaling-horizontal">
+                <div class="scaling-header">Horizontal Scaling (Scale Out)</div>
+                <div class="scaling-visual">
+                    <div class="server-boxes">
+                        <div class="server-box small">S1</div>
+                        <div class="server-box small">S2</div>
+                        <div class="server-box small">S3</div>
+                        <div class="server-box small">S4</div>
+                    </div>
+                </div>
+                <ul>
+                    <li>Add more machines</li>
+                    <li>Theoretically unlimited</li>
+                    <li>Requires stateless design</li>
+                    <li>Needs load balancer</li>
+                </ul>
+                <div class="scaling-when">Good for: Web servers, stateless APIs</div>
+            </div>
+        </div>
+        <div class="db-scaling" data-modal="db-scaling">
+            <h4>Database Scaling</h4>
+            <div class="db-scaling-options">
+                <span class="db-option">Read Replicas</span>
+                <span class="arrow">→</span>
+                <span class="db-option">Sharding</span>
+                <span class="arrow">→</span>
+                <span class="db-option">Distributed DB</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 7: Caching Layers -->
+<section class="slide" data-slide="7">
+    <div class="slide-content">
+        <h3 class="slide-title">Caching Layers</h3>
+        <p class="slide-description">The fastest code is code that doesn't run. Cache everything, everywhere.</p>
+        <div class="caching-layers">
+            <div class="cache-layer clickable" data-modal="cache-browser">
+                <div class="layer-num">1</div>
+                <div class="layer-info">
+                    <h4>Browser Cache</h4>
+                    <code>Cache-Control: max-age=31536000</code>
+                    <p>Static assets, fonts, images. ~0ms latency.</p>
+                </div>
+            </div>
+            <div class="cache-arrow">↓</div>
+            <div class="cache-layer clickable" data-modal="cache-cdn">
+                <div class="layer-num">2</div>
+                <div class="layer-info">
+                    <h4>CDN (Edge Cache)</h4>
+                    <code>Cloudflare, CloudFront, Fastly</code>
+                    <p>Geographically distributed. ~10-50ms latency.</p>
+                </div>
+            </div>
+            <div class="cache-arrow">↓</div>
+            <div class="cache-layer clickable" data-modal="cache-app">
+                <div class="layer-num">3</div>
+                <div class="layer-info">
+                    <h4>Application Cache (Redis/Memcached)</h4>
+                    <code>redis.get('user:123:profile')</code>
+                    <p>API responses, sessions, computed values. ~1-5ms.</p>
+                </div>
+            </div>
+            <div class="cache-arrow">↓</div>
+            <div class="cache-layer clickable" data-modal="cache-db">
+                <div class="layer-num">4</div>
+                <div class="layer-info">
+                    <h4>Database Query Cache</h4>
+                    <code>Query result cache, materialized views</code>
+                    <p>Expensive queries, aggregations. ~10-100ms.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 8: Message Queues -->
+<section class="slide" data-slide="8">
+    <div class="slide-content">
+        <h3 class="slide-title">Message Queues & Event-Driven Architecture</h3>
+        <div class="slide-image-accent" style="float: right; margin-left: 2rem; margin-bottom: 1rem;">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=250&h=180&fit=crop" alt="Server infrastructure" style="width: 160px; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid var(--accent-cyan, #67e8f9);">
+        </div>
+        <p class="slide-description">When synchronous isn't good enough</p>
+        <div class="queue-diagram">
+            <div class="queue-producer">
+                <span>Producer</span>
+                <code>API Server</code>
+            </div>
+            <div class="queue-arrow">→</div>
+            <div class="queue-broker clickable" data-modal="queue-broker">
+                <span>Message Queue</span>
+                <code>RabbitMQ / Kafka / SQS</code>
+            </div>
+            <div class="queue-arrow">→</div>
+            <div class="queue-consumer">
+                <span>Consumer(s)</span>
+                <code>Worker Services</code>
+            </div>
+        </div>
+        <div class="queue-usecases">
+            <div class="usecase clickable" data-modal="queue-email">
+                <span class="usecase-icon">📧</span>
+                <h4>Email Sending</h4>
+                <p>Don't block API response waiting for SMTP</p>
+            </div>
+            <div class="usecase clickable" data-modal="queue-image">
+                <span class="usecase-icon">🖼️</span>
+                <h4>Image Processing</h4>
+                <p>Resize, compress async after upload</p>
+            </div>
+            <div class="usecase clickable" data-modal="queue-analytics">
+                <span class="usecase-icon">📊</span>
+                <h4>Analytics Events</h4>
+                <p>Batch and process without slowing user</p>
+            </div>
+            <div class="usecase clickable" data-modal="queue-order">
+                <span class="usecase-icon">🛒</span>
+                <h4>Order Processing</h4>
+                <p>Inventory, payment, shipping in sequence</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 9: Load Balancing -->
+<section class="slide" data-slide="9">
+    <div class="slide-content">
+        <h3 class="slide-title">Load Balancing Deep Dive</h3>
+        <div class="lb-diagram">
+            <div class="lb-clients">
+                <span>Client</span>
+                <span>Client</span>
+                <span>Client</span>
+            </div>
+            <div class="lb-arrow">↓</div>
+            <div class="lb-balancer clickable" data-modal="lb-detail">
+                <span>Load Balancer</span>
+                <code>nginx / HAProxy / ALB</code>
+            </div>
+            <div class="lb-arrow">↓</div>
+            <div class="lb-servers">
+                <div class="lb-server">Server 1</div>
+                <div class="lb-server">Server 2</div>
+                <div class="lb-server">Server 3</div>
+            </div>
+        </div>
+        <div class="lb-algorithms">
+            <h4>Load Balancing Algorithms</h4>
+            <div class="algorithm clickable" data-modal="lb-roundrobin">
+                <strong>Round Robin</strong>
+                <p>1 → 2 → 3 → 1 → 2 → 3...</p>
+            </div>
+            <div class="algorithm clickable" data-modal="lb-leastconn">
+                <strong>Least Connections</strong>
+                <p>Route to server with fewest active connections</p>
+            </div>
+            <div class="algorithm clickable" data-modal="lb-iphash">
+                <strong>IP Hash (Sticky Sessions)</strong>
+                <p>Same client always hits same server</p>
+            </div>
+            <div class="algorithm clickable" data-modal="lb-weighted">
+                <strong>Weighted</strong>
+                <p>More powerful servers get more traffic</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 10: Part II Header -->
+<section class="slide" data-slide="10">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part II</div>
+        <h2 class="section-title">API Architecture</h2>
+        <p class="section-subtitle">REST, GraphQL, gRPC, and When to Use Each</p>
+    </div>
+</section>
+
+<!-- Slide 11: REST Best Practices -->
+<section class="slide" data-slide="11">
+    <div class="slide-content">
+        <h3 class="slide-title">REST API Best Practices</h3>
+        <div class="rest-practices">
+            <div class="practice clickable" data-modal="rest-resources">
+                <h4>1. Resource Naming</h4>
+                <div class="code-compare">
+                    <code class="bad">/getUsers, /createUser, /user/delete/123</code>
+                    <code class="good">GET /users, POST /users, DELETE /users/123</code>
+                </div>
+                <p>Nouns for resources, HTTP verbs for actions</p>
+            </div>
+            <div class="practice clickable" data-modal="rest-nesting">
+                <h4>2. Nested Resources</h4>
+                <div class="code-compare">
+                    <code class="good">/users/123/orders — Orders belonging to user 123</code>
+                    <code class="good">/orders/456/items — Items in order 456</code>
+                </div>
+                <p>Max 2 levels deep. Beyond that, use query params.</p>
+            </div>
+            <div class="practice clickable" data-modal="rest-pagination">
+                <h4>3. Pagination & Filtering</h4>
+                <code class="good">/users?page=2&limit=20&sort=created_at&filter[status]=active</code>
+            </div>
+            <div class="practice clickable" data-modal="rest-status">
+                <h4>4. Meaningful Status Codes</h4>
+                <div class="status-codes">
+                    <span>200 OK</span>
+                    <span>201 Created</span>
+                    <span>204 No Content</span>
+                    <span>400 Bad Request</span>
+                    <span>401 Unauthorized</span>
+                    <span>403 Forbidden</span>
+                    <span>404 Not Found</span>
+                    <span>429 Rate Limited</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 12: Richardson Maturity Model -->
+<section class="slide" data-slide="12">
+    <div class="slide-content">
+        <h3 class="slide-title">Richardson Maturity Model</h3>
+        <p class="slide-description">How "RESTful" is your API?</p>
+        <div class="maturity-levels">
+            <div class="maturity-level level-0 clickable" data-modal="rmm-level0">
+                <div class="level-num">Level 0</div>
+                <div class="level-name">The Swamp of POX</div>
+                <div class="level-desc">Single endpoint, POST everything</div>
+                <code>POST /api — { "action": "getUser", "id": 123 }</code>
+            </div>
+            <div class="maturity-level level-1 clickable" data-modal="rmm-level1">
+                <div class="level-num">Level 1</div>
+                <div class="level-name">Resources</div>
+                <div class="level-desc">Individual endpoints per resource</div>
+                <code>POST /users/123 — { "action": "get" }</code>
+            </div>
+            <div class="maturity-level level-2 clickable" data-modal="rmm-level2">
+                <div class="level-num">Level 2</div>
+                <div class="level-name">HTTP Verbs</div>
+                <div class="level-desc">GET, POST, PUT, DELETE properly used</div>
+                <code>GET /users/123</code>
+            </div>
+            <div class="maturity-level level-3 clickable" data-modal="rmm-level3">
+                <div class="level-num">Level 3</div>
+                <div class="level-name">HATEOAS</div>
+                <div class="level-desc">Hypermedia controls in responses</div>
+                <code>{ "user": {...}, "_links": { "orders": "/users/123/orders" } }</code>
+            </div>
+        </div>
+        <div class="maturity-note">
+            <strong>Reality check:</strong> Most APIs are Level 2. HATEOAS is rarely worth the complexity.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 13: GraphQL -->
+<section class="slide" data-slide="13">
+    <div class="slide-content">
+        <h3 class="slide-title">GraphQL — Query What You Need</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-showcase">
+                    <div class="code-tab">GraphQL Query</div>
+                    <pre class="code-block"><code>query {
+  user(id: "123") {
+    name
+    email
+    orders(last: 5) {
+      id
+      total
+      items {
+        name
+        price
+      }
+    }
+  }
+}</code></pre>
+                </div>
+                <div class="graphql-benefits">
+                    <h4>Why GraphQL?</h4>
+                    <ul>
+                        <li>No over-fetching (get only what you need)</li>
+                        <li>No under-fetching (one request, all data)</li>
+                        <li>Strongly typed schema</li>
+                        <li>Great for mobile (bandwidth matters)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="column">
+                <div class="graphql-problems clickable" data-modal="graphql-problems">
+                    <h4>GraphQL Challenges</h4>
+                    <div class="problem-item">
+                        <strong>N+1 Problem</strong>
+                        <p>Fetching 100 users with orders = 101 DB queries without DataLoader</p>
+                    </div>
+                    <div class="problem-item">
+                        <strong>Caching Complexity</strong>
+                        <p>No HTTP caching — every query is POST</p>
+                    </div>
+                    <div class="problem-item">
+                        <strong>Complexity Attacks</strong>
+                        <p>Deeply nested queries can DDoS your server</p>
+                    </div>
+                </div>
+                <div class="graphql-when">
+                    <strong>Use GraphQL when:</strong>
+                    <ul>
+                        <li>Multiple clients need different data shapes</li>
+                        <li>Rapid frontend iteration</li>
+                        <li>Complex, nested data relationships</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 14: gRPC -->
+<section class="slide" data-slide="14">
+    <div class="slide-content">
+        <h3 class="slide-title">gRPC & Protocol Buffers</h3>
+        <div class="slide-image-accent" style="float: right; margin-left: 2rem; margin-bottom: 1rem;">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=250&h=180&fit=crop" alt="Network infrastructure" style="width: 160px; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid var(--accent-purple, #a78bfa);">
+        </div>
+        <p class="slide-description">When JSON is too slow and you control both ends</p>
+        <div class="grpc-overview">
+            <div class="proto-example clickable" data-modal="proto-detail">
+                <h4>Protocol Buffer Definition</h4>
+                <pre class="code-block"><code>syntax = "proto3";
+
+message User {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+service UserService {
+  rpc GetUser(GetUserRequest) returns (User);
+  rpc StreamUsers(Empty) returns (stream User);
+}</code></pre>
+            </div>
+            <div class="grpc-benefits">
+                <div class="benefit">
+                    <strong>10x smaller</strong>
+                    <p>Binary format vs JSON text</p>
+                </div>
+                <div class="benefit">
+                    <strong>Type-safe</strong>
+                    <p>Generated client/server code</p>
+                </div>
+                <div class="benefit">
+                    <strong>Streaming</strong>
+                    <p>Bidirectional streaming built-in</p>
+                </div>
+                <div class="benefit">
+                    <strong>HTTP/2</strong>
+                    <p>Multiplexing, header compression</p>
+                </div>
+            </div>
+        </div>
+        <div class="grpc-when">
+            <strong>Use gRPC for:</strong> Internal microservice communication, real-time systems, mobile (low bandwidth)
+        </div>
+    </div>
+</section>
+
+<!-- Slide 15: API Gateway Pattern -->
+<section class="slide" data-slide="15">
+    <div class="slide-content">
+        <h3 class="slide-title">API Gateway Pattern</h3>
+        <div class="gateway-diagram">
+            <div class="gateway-clients">
+                <div class="client-type">Web App</div>
+                <div class="client-type">Mobile App</div>
+                <div class="client-type">3rd Party</div>
+            </div>
+            <div class="gateway-arrow">↓</div>
+            <div class="gateway-box clickable" data-modal="gateway-detail">
+                <span>API Gateway</span>
+                <div class="gateway-features">
+                    <span>Auth</span>
+                    <span>Rate Limit</span>
+                    <span>Routing</span>
+                    <span>Caching</span>
+                </div>
+            </div>
+            <div class="gateway-arrow">↓</div>
+            <div class="gateway-services">
+                <div class="service">Users Service</div>
+                <div class="service">Orders Service</div>
+                <div class="service">Payment Service</div>
+            </div>
+        </div>
+        <div class="bff-pattern clickable" data-modal="bff-detail">
+            <h4>BFF Pattern (Backend for Frontend)</h4>
+            <p>Different API shapes for different clients — Web BFF, Mobile BFF, TV BFF</p>
+            <div class="bff-diagram">
+                <span class="bff">Web BFF</span>
+                <span class="bff">Mobile BFF</span>
+                <span class="bff">Partner API</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 16: Webhooks & Events -->
+<section class="slide" data-slide="16">
+    <div class="slide-content">
+        <h3 class="slide-title">Webhooks & Event APIs</h3>
+        <div class="webhook-comparison">
+            <div class="approach polling" data-modal="polling-detail">
+                <h4>Polling (Pull)</h4>
+                <div class="approach-diagram">
+                    <span>Client</span>
+                    <span class="loop-arrow">→ GET /status →</span>
+                    <span>Server</span>
+                </div>
+                <p>"Are we there yet? Are we there yet?"</p>
+                <ul class="cons">
+                    <li>Wastes resources</li>
+                    <li>Delayed updates</li>
+                </ul>
+            </div>
+            <div class="approach webhook" data-modal="webhook-detail">
+                <h4>Webhooks (Push)</h4>
+                <div class="approach-diagram">
+                    <span>Server</span>
+                    <span class="push-arrow">→ POST /callback →</span>
+                    <span>Client</span>
+                </div>
+                <p>"I'll call you when it's ready"</p>
+                <ul class="pros">
+                    <li>Real-time updates</li>
+                    <li>Efficient</li>
+                </ul>
+            </div>
+        </div>
+        <div class="webhook-best-practices">
+            <h4>Webhook Best Practices</h4>
+            <div class="practice-grid">
+                <div class="practice-item clickable" data-modal="webhook-idempotency">
+                    <strong>Idempotency</strong>
+                    <p>Handle duplicate deliveries gracefully</p>
+                </div>
+                <div class="practice-item clickable" data-modal="webhook-retry">
+                    <strong>Retry with Backoff</strong>
+                    <p>1s → 5s → 30s → 5min → give up</p>
+                </div>
+                <div class="practice-item clickable" data-modal="webhook-signature">
+                    <strong>Signature Verification</strong>
+                    <p>HMAC-SHA256 to verify sender</p>
+                </div>
+                <div class="practice-item clickable" data-modal="webhook-timeout">
+                    <strong>Respond Fast</strong>
+                    <p>Return 200 immediately, process async</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 17: API Versioning -->
+<section class="slide" data-slide="17">
+    <div class="slide-content">
+        <h3 class="slide-title">API Versioning Strategies</h3>
+        <p class="slide-description">How to evolve your API without breaking clients</p>
+        <div class="versioning-options">
+            <div class="version-option clickable" data-modal="version-url">
+                <h4>URL Path Versioning</h4>
+                <code>/v1/users, /v2/users</code>
+                <div class="pros-cons">
+                    <span class="pro">Easy to understand & cache</span>
+                    <span class="con">Not "pure" REST</span>
+                </div>
+                <div class="usage">Used by: Twitter, Stripe, GitHub</div>
+            </div>
+            <div class="version-option clickable" data-modal="version-header">
+                <h4>Header Versioning</h4>
+                <code>Accept: application/vnd.api+json;version=2</code>
+                <div class="pros-cons">
+                    <span class="pro">Clean URLs</span>
+                    <span class="con">Harder to test in browser</span>
+                </div>
+                <div class="usage">Used by: GitHub (also), Azure</div>
+            </div>
+            <div class="version-option clickable" data-modal="version-query">
+                <h4>Query Parameter</h4>
+                <code>/users?version=2</code>
+                <div class="pros-cons">
+                    <span class="pro">Easy to add</span>
+                    <span class="con">Caching complications</span>
+                </div>
+                <div class="usage">Used by: Google, Amazon</div>
+            </div>
+        </div>
+        <div class="versioning-advice">
+            <strong>Recommendation:</strong> URL path (/v1/) is clearest. Avoid breaking changes — add fields, deprecate old ones.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 18: Part III Header -->
+<section class="slide" data-slide="18">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part III</div>
+        <h2 class="section-title">Frontend Architecture</h2>
+        <p class="section-subtitle">Rendering, State Management, and Component Design</p>
+    </div>
+</section>
+
+<!-- Slide 19: Rendering Spectrum -->
+<section class="slide" data-slide="19">
+    <div class="slide-content">
+        <h3 class="slide-title">The Rendering Spectrum</h3>
+        <div class="slide-image-banner" style="margin-bottom: 1.5rem;">
+            <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=1200&h=200&fit=crop" alt="Web development screen" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px; opacity: 0.7;">
+        </div>
+        <div class="rendering-spectrum">
+            <div class="render-type clickable" data-modal="render-spa">
+                <div class="render-header">SPA/CSR</div>
+                <div class="render-desc">Client-Side Rendering</div>
+                <div class="render-flow">
+                    <span>Empty HTML</span>
+                    <span>→</span>
+                    <span>Load JS</span>
+                    <span>→</span>
+                    <span>Render</span>
+                </div>
+                <div class="render-pros">Fast navigation, app-like</div>
+                <div class="render-cons">Poor SEO, slow initial load</div>
+            </div>
+            <div class="render-arrow">→</div>
+            <div class="render-type clickable" data-modal="render-ssr">
+                <div class="render-header">SSR</div>
+                <div class="render-desc">Server-Side Rendering</div>
+                <div class="render-flow">
+                    <span>Full HTML</span>
+                    <span>→</span>
+                    <span>Hydrate</span>
+                </div>
+                <div class="render-pros">Good SEO, fast FCP</div>
+                <div class="render-cons">Server cost, TTFB</div>
+            </div>
+            <div class="render-arrow">→</div>
+            <div class="render-type clickable" data-modal="render-ssg">
+                <div class="render-header">SSG</div>
+                <div class="render-desc">Static Site Generation</div>
+                <div class="render-flow">
+                    <span>Pre-built HTML</span>
+                    <span>→</span>
+                    <span>CDN</span>
+                </div>
+                <div class="render-pros">Fastest, cheap hosting</div>
+                <div class="render-cons">Build time, stale data</div>
+            </div>
+            <div class="render-arrow">→</div>
+            <div class="render-type clickable" data-modal="render-isr">
+                <div class="render-header">ISR</div>
+                <div class="render-desc">Incremental Static Regen</div>
+                <div class="render-flow">
+                    <span>Static + Revalidate</span>
+                </div>
+                <div class="render-pros">Best of both worlds</div>
+                <div class="render-cons">Complexity, cache invalidation</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 20: State Management Evolution -->
+<section class="slide" data-slide="20">
+    <div class="slide-content">
+        <h3 class="slide-title">State Management Evolution</h3>
+        <div class="state-evolution">
+            <div class="state-era clickable" data-modal="state-props">
+                <div class="era-year">Era 1</div>
+                <div class="era-name">Prop Drilling</div>
+                <code>props → props → props → 😫</code>
+            </div>
+            <div class="state-arrow">→</div>
+            <div class="state-era clickable" data-modal="state-context">
+                <div class="era-year">Era 2</div>
+                <div class="era-name">Context API</div>
+                <code>Provider → useContext</code>
+            </div>
+            <div class="state-arrow">→</div>
+            <div class="state-era clickable" data-modal="state-redux">
+                <div class="era-year">Era 3</div>
+                <div class="era-name">Redux / MobX</div>
+                <code>Store → Actions → Reducers</code>
+            </div>
+            <div class="state-arrow">→</div>
+            <div class="state-era clickable" data-modal="state-modern">
+                <div class="era-year">Era 4</div>
+                <div class="era-name">Zustand / Jotai</div>
+                <code>Simple, atomic, hooks-first</code>
+            </div>
+            <div class="state-arrow">→</div>
+            <div class="state-era highlight clickable" data-modal="state-server">
+                <div class="era-year">Era 5</div>
+                <div class="era-name">Server State</div>
+                <code>React Query / SWR</code>
+            </div>
+        </div>
+        <div class="state-advice">
+            <h4>Modern Approach</h4>
+            <ul>
+                <li><strong>Server state:</strong> React Query / SWR (caching, deduping, revalidation)</li>
+                <li><strong>UI state:</strong> useState / useReducer (local)</li>
+                <li><strong>Global client state:</strong> Zustand / Jotai (if you really need it)</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 21: Component Architecture -->
+<section class="slide" data-slide="21">
+    <div class="slide-content">
+        <h3 class="slide-title">Component Architecture Patterns</h3>
+        <div class="component-patterns">
+            <div class="pattern clickable" data-modal="pattern-atomic">
+                <h4>Atomic Design</h4>
+                <div class="atomic-levels">
+                    <span class="level">Atoms</span>
+                    <span>→</span>
+                    <span class="level">Molecules</span>
+                    <span>→</span>
+                    <span class="level">Organisms</span>
+                    <span>→</span>
+                    <span class="level">Templates</span>
+                    <span>→</span>
+                    <span class="level">Pages</span>
+                </div>
+                <p>Button → SearchInput → Header → HomeTemplate → HomePage</p>
+            </div>
+            <div class="pattern clickable" data-modal="pattern-compound">
+                <h4>Compound Components</h4>
+                <pre class="code-block"><code>&lt;Menu&gt;
+  &lt;Menu.Trigger&gt;Open&lt;/Menu.Trigger&gt;
+  &lt;Menu.Content&gt;
+    &lt;Menu.Item&gt;Profile&lt;/Menu.Item&gt;
+    &lt;Menu.Item&gt;Settings&lt;/Menu.Item&gt;
+  &lt;/Menu.Content&gt;
+&lt;/Menu&gt;</code></pre>
+            </div>
+            <div class="pattern clickable" data-modal="pattern-presentational">
+                <h4>Container / Presentational</h4>
+                <div class="container-pattern">
+                    <span class="container">Container (data, logic)</span>
+                    <span>→</span>
+                    <span class="presentational">Presentational (UI only)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 22: Micro-Frontends -->
+<section class="slide" data-slide="22">
+    <div class="slide-content">
+        <h3 class="slide-title">Micro-Frontends</h3>
+        <p class="slide-description">Microservices for the frontend — same tradeoffs apply</p>
+        <div class="microfrontend-diagram">
+            <div class="mf-shell">
+                <span>App Shell</span>
+                <div class="mf-modules">
+                    <div class="mf-module" data-modal="mf-header">Header (Team A)</div>
+                    <div class="mf-module" data-modal="mf-products">Products (Team B)</div>
+                    <div class="mf-module" data-modal="mf-cart">Cart (Team C)</div>
+                </div>
+            </div>
+        </div>
+        <div class="mf-approaches">
+            <div class="mf-approach clickable" data-modal="mf-federation">
+                <h4>Module Federation (Webpack 5)</h4>
+                <p>Share code at runtime, independent builds</p>
+            </div>
+            <div class="mf-approach clickable" data-modal="mf-iframe">
+                <h4>iframes</h4>
+                <p>Simple isolation, but clunky</p>
+            </div>
+            <div class="mf-approach clickable" data-modal="mf-webcomponents">
+                <h4>Web Components</h4>
+                <p>Framework-agnostic, native browser support</p>
+            </div>
+        </div>
+        <div class="mf-warning">
+            <strong>Warning:</strong> Micro-frontends add significant complexity. Only consider when you have 5+ frontend teams.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 23: Build Optimization -->
+<section class="slide" data-slide="23">
+    <div class="slide-content">
+        <h3 class="slide-title">Build & Bundle Optimization</h3>
+        <div class="optimization-techniques">
+            <div class="technique clickable" data-modal="opt-splitting">
+                <h4>Code Splitting</h4>
+                <code>const Modal = lazy(() => import('./Modal'))</code>
+                <p>Load code only when needed</p>
+            </div>
+            <div class="technique clickable" data-modal="opt-treeshaking">
+                <h4>Tree Shaking</h4>
+                <code>import { debounce } from 'lodash-es'</code>
+                <p>Remove unused exports from bundle</p>
+            </div>
+            <div class="technique clickable" data-modal="opt-lazy">
+                <h4>Route-Based Splitting</h4>
+                <code>Each page loads its own chunk</code>
+                <p>Next.js does this automatically</p>
+            </div>
+            <div class="technique clickable" data-modal="opt-compression">
+                <h4>Compression</h4>
+                <code>gzip / brotli</code>
+                <p>70% smaller over the wire</p>
+            </div>
+        </div>
+        <div class="bundle-analysis">
+            <h4>Analyze Your Bundle</h4>
+            <code>npx vite-bundle-analyzer</code>
+            <code>npx @next/bundle-analyzer</code>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 24: Part IV Header -->
+<section class="slide" data-slide="24">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part IV</div>
+        <h2 class="section-title">Full Stack Patterns</h2>
+        <p class="section-subtitle">Clean Architecture, DDD, and Real-World Examples</p>
+    </div>
+</section>
+
+<!-- Slide 25: Clean Architecture -->
+<section class="slide" data-slide="25">
+    <div class="slide-content">
+        <h3 class="slide-title">Clean Architecture</h3>
+        <div class="clean-arch-diagram clickable" data-modal="clean-arch-detail">
+            <div class="arch-ring outer">
+                <span>Frameworks & Drivers</span>
+                <span class="examples">Express, React, Postgres</span>
+            </div>
+            <div class="arch-ring middle">
+                <span>Interface Adapters</span>
+                <span class="examples">Controllers, Presenters, Gateways</span>
+            </div>
+            <div class="arch-ring inner">
+                <span>Use Cases</span>
+                <span class="examples">Application business rules</span>
+            </div>
+            <div class="arch-ring core">
+                <span>Entities</span>
+                <span class="examples">Enterprise business rules</span>
+            </div>
+        </div>
+        <div class="clean-arch-rule">
+            <strong>The Dependency Rule:</strong> Dependencies point INWARD. Inner circles know nothing about outer circles.
+        </div>
+        <div class="clean-arch-benefit">
+            <strong>Benefit:</strong> Swap your database, framework, or UI without touching business logic.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 26: CQRS -->
+<section class="slide" data-slide="26">
+    <div class="slide-content">
+        <h3 class="slide-title">CQRS & Event Sourcing</h3>
+        <div class="cqrs-diagram">
+            <div class="cqrs-side commands">
+                <h4>Command Side (Write)</h4>
+                <div class="cqrs-flow">
+                    <span>CreateOrder</span>
+                    <span>→</span>
+                    <span>Command Handler</span>
+                    <span>→</span>
+                    <span>Write DB</span>
+                </div>
+            </div>
+            <div class="cqrs-divider">|</div>
+            <div class="cqrs-side queries">
+                <h4>Query Side (Read)</h4>
+                <div class="cqrs-flow">
+                    <span>GetOrders</span>
+                    <span>→</span>
+                    <span>Query Handler</span>
+                    <span>→</span>
+                    <span>Read DB</span>
+                </div>
+            </div>
+        </div>
+        <div class="event-sourcing clickable" data-modal="event-sourcing-detail">
+            <h4>Event Sourcing</h4>
+            <p>Store events, not state. Rebuild state by replaying events.</p>
+            <div class="event-stream">
+                <span class="event">OrderCreated</span>
+                <span>→</span>
+                <span class="event">ItemAdded</span>
+                <span>→</span>
+                <span class="event">PaymentReceived</span>
+                <span>→</span>
+                <span class="event">OrderShipped</span>
+            </div>
+        </div>
+        <div class="cqrs-when">
+            <strong>When to use:</strong> High read/write ratio, audit requirements, complex domains. Overkill for most apps.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 27: DDD Basics -->
+<section class="slide" data-slide="27">
+    <div class="slide-content">
+        <h3 class="slide-title">Domain-Driven Design Basics</h3>
+        <div class="ddd-concepts">
+            <div class="ddd-concept clickable" data-modal="ddd-bounded">
+                <h4>Bounded Contexts</h4>
+                <p>Same word, different meaning in different contexts</p>
+                <div class="context-example">
+                    <span class="context">"Customer" in Sales</span>
+                    <span>≠</span>
+                    <span class="context">"Customer" in Support</span>
+                </div>
+            </div>
+            <div class="ddd-concept clickable" data-modal="ddd-aggregate">
+                <h4>Aggregates</h4>
+                <p>Cluster of objects treated as a unit</p>
+                <div class="aggregate-example">
+                    <span class="root">Order (Root)</span>
+                    <span class="child">→ OrderItems</span>
+                    <span class="child">→ ShippingAddress</span>
+                </div>
+            </div>
+            <div class="ddd-concept clickable" data-modal="ddd-ubiquitous">
+                <h4>Ubiquitous Language</h4>
+                <p>Developers and domain experts use the same terms</p>
+                <code>Code mirrors business language</code>
+            </div>
+        </div>
+        <div class="ddd-advice">
+            <strong>Start simple:</strong> You don't need DDD for a todo app. Use it when domain complexity is the problem.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 28: Real-World Examples -->
+<section class="slide" data-slide="28">
+    <div class="slide-content">
+        <h3 class="slide-title">Real-World Architecture Examples</h3>
+        <div class="real-world-examples">
+            <div class="example clickable" data-modal="example-twitter">
+                <h4>Twitter Timeline</h4>
+                <div class="example-summary">
+                    <span>Fanout on write vs read</span>
+                    <span>Redis for timeline cache</span>
+                    <span>Separate read/write paths</span>
+                </div>
+            </div>
+            <div class="example clickable" data-modal="example-netflix">
+                <h4>Netflix Streaming</h4>
+                <div class="example-summary">
+                    <span>Microservices (1000+)</span>
+                    <span>Chaos engineering</span>
+                    <span>Edge computing / CDN</span>
+                </div>
+            </div>
+            <div class="example clickable" data-modal="example-uber">
+                <h4>Uber Dispatch</h4>
+                <div class="example-summary">
+                    <span>Real-time geospatial</span>
+                    <span>Ring buffer for location</span>
+                    <span>Event-driven matching</span>
+                </div>
+            </div>
+        </div>
+        <div class="example-note">
+            <strong>Note:</strong> These companies have 1000+ engineers. Don't copy their architecture — learn their principles.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 29: Architecture Decision Checklist -->
+<section class="slide" data-slide="29">
+    <div class="slide-content">
+        <h3 class="slide-title">Architecture Decision Checklist</h3>
+        <div class="checklist-grid">
+            <div class="checklist-section">
+                <h4>Before Choosing</h4>
+                <ul class="checklist">
+                    <li>[ ] What are our scale requirements (now vs 2 years)?</li>
+                    <li>[ ] How many developers/teams will work on this?</li>
+                    <li>[ ] What's our deployment frequency?</li>
+                    <li>[ ] What existing systems must we integrate?</li>
+                    <li>[ ] What's our team's expertise?</li>
+                </ul>
+            </div>
+            <div class="checklist-section">
+                <h4>Warning Signs</h4>
+                <ul class="checklist warning">
+                    <li>[ ] "It's what [Big Tech] uses"</li>
+                    <li>[ ] "It's the modern way"</li>
+                    <li>[ ] "We might need it someday"</li>
+                    <li>[ ] Architecture diagram is bigger than your team</li>
+                    <li>[ ] More services than developers</li>
+                </ul>
+            </div>
+        </div>
+        <div class="checklist-quote">
+            <blockquote>"The best architecture is the one you can evolve from."</blockquote>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 30: Key Takeaways -->
+<section class="slide" data-slide="30">
+    <div class="slide-content">
+        <h3 class="slide-title">Key Takeaways</h3>
+        <div class="takeaways">
+            <div class="takeaway">
+                <span class="takeaway-num">01</span>
+                <div class="takeaway-content">
+                    <strong>Start with a monolith</strong>
+                    <p>Split when you have clear boundaries and team scale demands it.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">02</span>
+                <div class="takeaway-content">
+                    <strong>Cache aggressively</strong>
+                    <p>Browser → CDN → App → DB. The fastest request is one you don't make.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">03</span>
+                <div class="takeaway-content">
+                    <strong>REST is usually enough</strong>
+                    <p>GraphQL for mobile/complex UIs, gRPC for internal services.</p>
+                </div>
+            </div>
+            <div class="takeaway">
+                <span class="takeaway-num">04</span>
+                <div class="takeaway-content">
+                    <strong>Complexity is not a feature</strong>
+                    <p>Simple architectures are easier to understand, debug, and evolve.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 31: Resources -->
+<section class="slide" data-slide="31">
+    <div class="slide-content">
+        <h3 class="slide-title">Resources & Further Reading</h3>
+        <div class="resources-grid">
+            <div class="resource-section">
+                <h4>Books</h4>
+                <ul>
+                    <li>Designing Data-Intensive Applications — Kleppmann</li>
+                    <li>Clean Architecture — Robert C. Martin</li>
+                    <li>Domain-Driven Design — Eric Evans</li>
+                    <li>Building Microservices — Sam Newman</li>
+                </ul>
+            </div>
+            <div class="resource-section">
+                <h4>Online</h4>
+                <ul>
+                    <li>Martin Fowler's Blog (martinfowler.com)</li>
+                    <li>High Scalability (highscalability.com)</li>
+                    <li>System Design Primer (GitHub)</li>
+                    <li>ByteByteGo Newsletter</li>
+                </ul>
+            </div>
+            <div class="resource-section">
+                <h4>Practice</h4>
+                <ul>
+                    <li>Design Twitter in 45 minutes</li>
+                    <li>Design a URL shortener</li>
+                    <li>Design a rate limiter</li>
+                    <li>Design a notification system</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 32: End -->
+<section class="slide" data-slide="32">
+    <div class="slide-content title-slide">
+        <h2 class="end-title">Questions?</h2>
+        <div class="end-info">
+            <p class="course">Full Stack Engineering</p>
+            <p class="instructor">Ohad Assulin — RU</p>
+        </div>
+        <div class="end-quote">
+            <blockquote>"Make it work, make it right, make it fast — in that order."</blockquote>
+            <cite>— Kent Beck</cite>
+        </div>
+    </div>
+</section>
