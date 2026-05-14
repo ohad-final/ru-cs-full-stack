@@ -3441,16 +3441,18 @@ body {
     position: fixed;
     inset: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     background: var(--bg-primary);
     z-index: 100;
     padding: 2rem;
+    overflow-y: auto;
 }
 
 .menu-content {
     max-width: 900px;
     width: 100%;
+    padding: 2rem 0;
 }
 
 .menu-header {
@@ -3579,11 +3581,11 @@ body {
     letter-spacing: 0.1em;
 }
 
-/* Back to Menu Button - Pill style breadcrumb */
+/* Back to Menu Button - Positioned next to course info */
 .back-to-menu {
     position: fixed;
     top: 1.25rem;
-    left: 1.25rem;
+    right: var(--slide-padding);
     display: flex;
     align-items: center;
     gap: 0.625rem;
