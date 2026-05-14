@@ -109,6 +109,8 @@ class Presentation {
         this.isAnimating = false;
         this.touchStartX = 0;
         this.touchEndX = 0;
+        this.touchStartY = 0;
+        this.touchEndY = 0;
 
         this.init();
     }
@@ -138,19 +140,24 @@ class Presentation {
         prevBtn?.addEventListener('click', () => this.prevSlide());
         nextBtn?.addEventListener('click', () => this.nextSlide());
 
-        // Touch navigation
+        // Touch navigation (horizontal swipes only)
         document.addEventListener('touchstart', (e) => {
             this.touchStartX = e.changedTouches[0].screenX;
-        });
+            this.touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
 
         document.addEventListener('touchend', (e) => {
             this.touchEndX = e.changedTouches[0].screenX;
+            this.touchEndY = e.changedTouches[0].screenY;
             this.handleSwipe();
-        });
+        }, { passive: true });
 
-        // Wheel navigation (with debounce)
+        // Wheel navigation (with debounce) - disabled on mobile
         let wheelTimeout;
         document.addEventListener('wheel', (e) => {
+            // Disable wheel navigation on mobile (let native scroll work)
+            if (window.innerWidth <= 768) return;
+
             if (wheelTimeout) return;
             wheelTimeout = setTimeout(() => {
                 wheelTimeout = null;
@@ -199,10 +206,13 @@ class Presentation {
 
     handleSwipe() {
         const swipeThreshold = 50;
-        const diff = this.touchStartX - this.touchEndX;
+        const diffX = this.touchStartX - this.touchEndX;
+        const diffY = this.touchStartY - this.touchEndY;
 
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
+        // Only handle horizontal swipes (ignore vertical scrolling)
+        // Swipe must be more horizontal than vertical
+        if (Math.abs(diffX) > swipeThreshold && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
+            if (diffX > 0) {
                 this.nextSlide();
             } else {
                 this.prevSlide();
