@@ -1,0 +1,1307 @@
+<!-- Slide 1: Title -->
+<section class="slide active" data-slide="1">
+    <div class="slide-content title-slide">
+        <div class="title-decoration">
+            <span class="protocol-badge">PERSISTENCE</span>
+        </div>
+        <h1 class="main-title">
+            <span class="title-line">Databases</span>
+            <span class="title-line highlight">& Data Persistence</span>
+        </h1>
+        <p class="subtitle">From Flat Files to Distributed Systems</p>
+        <div class="title-meta">
+            <div class="meta-item">
+                <span class="meta-label">Course</span>
+                <span class="meta-value">Full Stack Engineering</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Instructor</span>
+                <span class="meta-value">Ohad Assulin</span>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            Press -> or Space to navigate
+            <div class="arrow-bounce">|</div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 2: Why Databases Matter -->
+<section class="slide" data-slide="2">
+    <div class="slide-content">
+        <h3 class="slide-title">Why Databases Matter</h3>
+        <div class="db-importance-grid">
+            <div class="importance-card" data-modal="db-importance-persistence">
+                <div class="importance-icon">💾</div>
+                <h4>Persistence</h4>
+                <p>Data survives application restarts, crashes, and deployments</p>
+            </div>
+            <div class="importance-card" data-modal="db-importance-concurrent">
+                <div class="importance-icon">👥</div>
+                <h4>Concurrent Access</h4>
+                <p>Multiple users reading/writing simultaneously without corruption</p>
+            </div>
+            <div class="importance-card" data-modal="db-importance-query">
+                <div class="importance-icon">🔍</div>
+                <h4>Efficient Queries</h4>
+                <p>Find data in milliseconds across billions of records</p>
+            </div>
+            <div class="importance-card" data-modal="db-importance-integrity">
+                <div class="importance-icon">🛡️</div>
+                <h4>Data Integrity</h4>
+                <p>Constraints, transactions, and validation at the data layer</p>
+            </div>
+        </div>
+        <div class="db-scale-stat">
+            <span class="scale-number">2.5 quintillion</span>
+            <span class="scale-label">bytes of data created daily worldwide</span>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 3: History Timeline -->
+<section class="slide" data-slide="3">
+    <div class="slide-content">
+        <h3 class="slide-title">A Brief History of Databases</h3>
+        <p class="slide-description">Click any era to learn more</p>
+        <div class="db-timeline">
+            <div class="db-era" data-modal="db-era-1960s">
+                <div class="era-year">1960s</div>
+                <div class="era-name">Hierarchical</div>
+                <div class="era-tech">IBM IMS</div>
+            </div>
+            <div class="db-timeline-arrow">→</div>
+            <div class="db-era" data-modal="db-era-1970s">
+                <div class="era-year">1970s</div>
+                <div class="era-name">Relational</div>
+                <div class="era-tech">Codd's Model</div>
+            </div>
+            <div class="db-timeline-arrow">→</div>
+            <div class="db-era" data-modal="db-era-1980s">
+                <div class="era-year">1980s</div>
+                <div class="era-name">SQL Standard</div>
+                <div class="era-tech">Oracle, DB2</div>
+            </div>
+            <div class="db-timeline-arrow">→</div>
+            <div class="db-era" data-modal="db-era-2000s">
+                <div class="era-year">2000s</div>
+                <div class="era-name">NoSQL</div>
+                <div class="era-tech">MongoDB, Redis</div>
+            </div>
+            <div class="db-timeline-arrow">→</div>
+            <div class="db-era" data-modal="db-era-2010s">
+                <div class="era-year">2010s+</div>
+                <div class="era-name">NewSQL</div>
+                <div class="era-tech">Distributed SQL</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 4: Part I - Relational -->
+<section class="slide" data-slide="4">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part I</div>
+        <h2 class="section-title">Relational Databases</h2>
+        <p class="section-subtitle">Tables, Rows, and the Power of SQL</p>
+        <div class="decorative-code">
+            <pre>SELECT * FROM knowledge WHERE type = 'relational';</pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 5: Relational Concepts -->
+<section class="slide" data-slide="5">
+    <div class="slide-content">
+        <h3 class="slide-title">Relational Database Concepts</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="db-table-visual">
+                    <div class="table-name">users</div>
+                    <div class="table-header">
+                        <span class="col-pk">id</span>
+                        <span>name</span>
+                        <span>email</span>
+                        <span class="col-fk">team_id</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="col-pk">1</span>
+                        <span>Alice</span>
+                        <span>alice@co.io</span>
+                        <span class="col-fk">101</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="col-pk">2</span>
+                        <span>Bob</span>
+                        <span>bob@co.io</span>
+                        <span class="col-fk">101</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="col-pk">3</span>
+                        <span>Carol</span>
+                        <span>carol@co.io</span>
+                        <span class="col-fk">102</span>
+                    </div>
+                </div>
+                <div class="db-table-visual small">
+                    <div class="table-name">teams</div>
+                    <div class="table-header">
+                        <span class="col-pk">id</span>
+                        <span>name</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="col-pk">101</span>
+                        <span>Engineering</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="col-pk">102</span>
+                        <span>Design</span>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="concept-list">
+                    <div class="concept-item" data-modal="db-concept-table">
+                        <span class="concept-icon">📋</span>
+                        <div>
+                            <strong>Tables</strong>
+                            <p>Collections of related data in rows and columns</p>
+                        </div>
+                    </div>
+                    <div class="concept-item" data-modal="db-concept-pk">
+                        <span class="concept-icon">🔑</span>
+                        <div>
+                            <strong>Primary Key</strong>
+                            <p>Unique identifier for each row</p>
+                        </div>
+                    </div>
+                    <div class="concept-item" data-modal="db-concept-fk">
+                        <span class="concept-icon">🔗</span>
+                        <div>
+                            <strong>Foreign Key</strong>
+                            <p>Reference to another table's primary key</p>
+                        </div>
+                    </div>
+                    <div class="concept-item" data-modal="db-concept-index">
+                        <span class="concept-icon">📇</span>
+                        <div>
+                            <strong>Indexes</strong>
+                            <p>Speed up queries on specific columns</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 6: ACID Properties -->
+<section class="slide" data-slide="6">
+    <div class="slide-content">
+        <h3 class="slide-title">ACID Properties</h3>
+        <p class="slide-description">The guarantees that make relational databases reliable</p>
+        <div class="acid-grid">
+            <div class="acid-card" data-modal="db-acid-atomicity">
+                <div class="acid-letter">A</div>
+                <h4>Atomicity</h4>
+                <p>All or nothing. Transaction either completes fully or rolls back entirely.</p>
+                <div class="acid-example">Transfer $100: debit AND credit both succeed or both fail</div>
+            </div>
+            <div class="acid-card" data-modal="db-acid-consistency">
+                <div class="acid-letter">C</div>
+                <h4>Consistency</h4>
+                <p>Database moves from one valid state to another. Rules are always enforced.</p>
+                <div class="acid-example">Balance can never go negative if constraint exists</div>
+            </div>
+            <div class="acid-card" data-modal="db-acid-isolation">
+                <div class="acid-letter">I</div>
+                <h4>Isolation</h4>
+                <p>Concurrent transactions don't interfere with each other.</p>
+                <div class="acid-example">Two users buying last item: only one succeeds</div>
+            </div>
+            <div class="acid-card" data-modal="db-acid-durability">
+                <div class="acid-letter">D</div>
+                <h4>Durability</h4>
+                <p>Once committed, data survives crashes and power failures.</p>
+                <div class="acid-example">Confirmed order stays confirmed even if server dies</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 7: SQL Basics -->
+<section class="slide" data-slide="7">
+    <div class="slide-content">
+        <h3 class="slide-title">SQL — The Language of Data</h3>
+        <div class="sql-categories">
+            <div class="sql-category" data-modal="db-sql-ddl">
+                <div class="category-header">DDL — Define Structure</div>
+                <div class="code-block">
+                    <pre><code>CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) UNIQUE,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+ALTER TABLE users ADD COLUMN role VARCHAR(50);
+DROP TABLE IF EXISTS old_users;</code></pre>
+                </div>
+            </div>
+            <div class="sql-category" data-modal="db-sql-dml">
+                <div class="category-header">DML — Manipulate Data</div>
+                <div class="code-block">
+                    <pre><code>INSERT INTO users (name, email)
+VALUES ('Alice', 'alice@example.com');
+
+UPDATE users SET role = 'admin' WHERE id = 1;
+
+DELETE FROM users WHERE created_at < '2020-01-01';</code></pre>
+                </div>
+            </div>
+            <div class="sql-category" data-modal="db-sql-dql">
+                <div class="category-header">DQL — Query Data</div>
+                <div class="code-block">
+                    <pre><code>SELECT u.name, t.name as team
+FROM users u
+JOIN teams t ON u.team_id = t.id
+WHERE u.role = 'engineer'
+ORDER BY u.created_at DESC
+LIMIT 10;</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 8: PostgreSQL in Node.js -->
+<section class="slide" data-slide="8">
+    <div class="slide-content">
+        <h3 class="slide-title">PostgreSQL with Node.js</h3>
+        <div class="code-comparison">
+            <div class="code-section">
+                <div class="code-label">Using pg (node-postgres)</div>
+                <div class="code-block clickable" data-modal="db-pg-example">
+                    <pre><code>import { Pool } from 'pg';
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL
+});
+
+// Query with parameterized values (safe!)
+async function getUser(id: number) {
+  const result = await pool.query(
+    'SELECT * FROM users WHERE id = $1',
+    [id]
+  );
+  return result.rows[0];
+}
+
+// Transaction example
+async function transfer(from: number, to: number, amount: number) {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    await client.query(
+      'UPDATE accounts SET balance = balance - $1 WHERE id = $2',
+      [amount, from]
+    );
+    await client.query(
+      'UPDATE accounts SET balance = balance + $1 WHERE id = $2',
+      [amount, to]
+    );
+    await client.query('COMMIT');
+  } catch (e) {
+    await client.query('ROLLBACK');
+    throw e;
+  } finally {
+    client.release();
+  }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 9: When to Use Relational -->
+<section class="slide" data-slide="9">
+    <div class="slide-content">
+        <h3 class="slide-title">When to Use Relational Databases</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="use-case-box good">
+                    <h4>Perfect For</h4>
+                    <ul>
+                        <li data-modal="db-rel-usecase-financial">Financial systems requiring ACID</li>
+                        <li data-modal="db-rel-usecase-complex">Complex relationships between entities</li>
+                        <li data-modal="db-rel-usecase-reporting">Ad-hoc reporting and analytics</li>
+                        <li data-modal="db-rel-usecase-integrity">Data integrity is critical</li>
+                        <li data-modal="db-rel-usecase-structured">Well-defined, structured schema</li>
+                    </ul>
+                </div>
+                <div class="db-examples">
+                    <span class="db-logo" data-modal="db-postgresql">PostgreSQL</span>
+                    <span class="db-logo" data-modal="db-mysql">MySQL</span>
+                    <span class="db-logo" data-modal="db-sqlite">SQLite</span>
+                </div>
+            </div>
+            <div class="column">
+                <div class="use-case-box warning">
+                    <h4>Consider Alternatives When</h4>
+                    <ul>
+                        <li>Schema changes frequently</li>
+                        <li>Horizontal scaling is priority</li>
+                        <li>Data is hierarchical/nested</li>
+                        <li>Ultra-low latency required</li>
+                        <li>Working with unstructured data</li>
+                    </ul>
+                </div>
+                <div class="performance-note">
+                    <span class="note-icon">💡</span>
+                    <p>PostgreSQL handles 10,000+ writes/second on modest hardware. Don't assume you need NoSQL for "scale".</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 10: Part II - NoSQL -->
+<section class="slide" data-slide="10">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part II</div>
+        <h2 class="section-title">NoSQL Databases</h2>
+        <p class="section-subtitle">Not Only SQL — Different Tools for Different Problems</p>
+        <div class="decorative-code">
+            <pre>db.knowledge.find({ type: { $ne: "relational" } })</pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 11: NoSQL Types Overview -->
+<section class="slide" data-slide="11">
+    <div class="slide-content">
+        <h3 class="slide-title">Types of NoSQL Databases</h3>
+        <p class="slide-description">Click each type to learn more</p>
+        <div class="nosql-types-grid">
+            <div class="nosql-type-card" data-modal="db-nosql-document">
+                <div class="nosql-icon">📄</div>
+                <h4>Document</h4>
+                <p>JSON-like documents with flexible schemas</p>
+                <div class="nosql-examples">MongoDB, CouchDB</div>
+            </div>
+            <div class="nosql-type-card" data-modal="db-nosql-keyvalue">
+                <div class="nosql-icon">🔑</div>
+                <h4>Key-Value</h4>
+                <p>Simple key to value mapping, extremely fast</p>
+                <div class="nosql-examples">Redis, DynamoDB</div>
+            </div>
+            <div class="nosql-type-card" data-modal="db-nosql-graph">
+                <div class="nosql-icon">🕸️</div>
+                <h4>Graph</h4>
+                <p>Nodes and edges for relationship-heavy data</p>
+                <div class="nosql-examples">Neo4j, Neptune</div>
+            </div>
+            <div class="nosql-type-card" data-modal="db-nosql-columnar">
+                <div class="nosql-icon">📊</div>
+                <h4>Column-Family</h4>
+                <p>Columns grouped for analytical queries</p>
+                <div class="nosql-examples">Cassandra, HBase</div>
+            </div>
+            <div class="nosql-type-card" data-modal="db-nosql-timeseries">
+                <div class="nosql-icon">📈</div>
+                <h4>Time-Series</h4>
+                <p>Optimized for time-stamped data</p>
+                <div class="nosql-examples">InfluxDB, TimescaleDB</div>
+            </div>
+            <div class="nosql-type-card" data-modal="db-nosql-search">
+                <div class="nosql-icon">🔍</div>
+                <h4>Search Engine</h4>
+                <p>Full-text search and analytics</p>
+                <div class="nosql-examples">Elasticsearch, Meilisearch</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 12: Document Databases - MongoDB -->
+<section class="slide" data-slide="12">
+    <div class="slide-content">
+        <h3 class="slide-title">Document Databases — MongoDB</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="document-visual">
+                    <div class="doc-label">User Document</div>
+                    <pre class="doc-json">{
+  "_id": ObjectId("507f1f77bcf86cd799439011"),
+  "name": "Alice Chen",
+  "email": "alice@startup.io",
+  "profile": {
+    "bio": "Full-stack developer",
+    "skills": ["TypeScript", "React", "Node.js"],
+    "social": {
+      "github": "alicechen",
+      "twitter": "@alice_codes"
+    }
+  },
+  "posts": [
+    { "title": "Why I Love TypeScript", "likes": 142 },
+    { "title": "MongoDB Best Practices", "likes": 89 }
+  ]
+}</pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="mongo-features">
+                    <div class="feature-item" data-modal="db-mongo-flexible">
+                        <span class="feature-check">✓</span>
+                        <strong>Flexible Schema</strong>
+                        <p>Documents can have different fields</p>
+                    </div>
+                    <div class="feature-item" data-modal="db-mongo-nested">
+                        <span class="feature-check">✓</span>
+                        <strong>Nested Data</strong>
+                        <p>Embed related data in single document</p>
+                    </div>
+                    <div class="feature-item" data-modal="db-mongo-scale">
+                        <span class="feature-check">✓</span>
+                        <strong>Horizontal Scaling</strong>
+                        <p>Built-in sharding across servers</p>
+                    </div>
+                    <div class="feature-item warning" data-modal="db-mongo-caution">
+                        <span class="feature-check">⚠</span>
+                        <strong>No Joins</strong>
+                        <p>Denormalize or use $lookup (slower)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 13: MongoDB Code Example -->
+<section class="slide" data-slide="13">
+    <div class="slide-content">
+        <h3 class="slide-title">MongoDB with Node.js</h3>
+        <div class="code-block large clickable" data-modal="db-mongo-code">
+            <pre><code>import { MongoClient, ObjectId } from 'mongodb';
+
+const client = new MongoClient(process.env.MONGODB_URI);
+const db = client.db('myapp');
+const users = db.collection('users');
+
+// Insert a document
+await users.insertOne({
+  name: 'Bob Smith',
+  email: 'bob@example.com',
+  createdAt: new Date()
+});
+
+// Find with query operators
+const activeDevs = await users.find({
+  'profile.skills': { $in: ['TypeScript', 'React'] },
+  lastLogin: { $gte: new Date('2024-01-01') }
+}).toArray();
+
+// Update nested fields
+await users.updateOne(
+  { _id: new ObjectId('507f1f77bcf86cd799439011') },
+  {
+    $push: { 'profile.skills': 'GraphQL' },
+    $set: { 'profile.level': 'senior' }
+  }
+);
+
+// Aggregation pipeline
+const postStats = await users.aggregate([
+  { $unwind: '$posts' },
+  { $group: { _id: '$name', totalLikes: { $sum: '$posts.likes' } } },
+  { $sort: { totalLikes: -1 } }
+]).toArray();</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 14: Key-Value Stores - Redis -->
+<section class="slide" data-slide="14">
+    <div class="slide-content">
+        <h3 class="slide-title">Key-Value Stores — Redis</h3>
+        <p class="slide-description">In-memory data structure store — incredibly fast</p>
+        <div class="redis-features">
+            <div class="redis-data-types">
+                <div class="redis-type" data-modal="db-redis-strings">
+                    <code>STRING</code>
+                    <span>"hello" → "world"</span>
+                </div>
+                <div class="redis-type" data-modal="db-redis-lists">
+                    <code>LIST</code>
+                    <span>["a", "b", "c"]</span>
+                </div>
+                <div class="redis-type" data-modal="db-redis-sets">
+                    <code>SET</code>
+                    <span>{"a", "b", "c"}</span>
+                </div>
+                <div class="redis-type" data-modal="db-redis-hashes">
+                    <code>HASH</code>
+                    <span>{field: value, ...}</span>
+                </div>
+                <div class="redis-type" data-modal="db-redis-sorted">
+                    <code>SORTED SET</code>
+                    <span>score-ordered set</span>
+                </div>
+            </div>
+            <div class="redis-stats">
+                <div class="redis-stat">
+                    <span class="stat-value">100K+</span>
+                    <span class="stat-label">ops/second</span>
+                </div>
+                <div class="redis-stat">
+                    <span class="stat-value">&lt;1ms</span>
+                    <span class="stat-label">latency</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 15: Redis Code Example -->
+<section class="slide" data-slide="15">
+    <div class="slide-content">
+        <h3 class="slide-title">Redis with Node.js</h3>
+        <div class="code-block large clickable" data-modal="db-redis-code">
+            <pre><code>import Redis from 'ioredis';
+
+const redis = new Redis(process.env.REDIS_URL);
+
+// Basic key-value
+await redis.set('user:1:name', 'Alice');
+await redis.get('user:1:name'); // "Alice"
+
+// With expiration (great for caching)
+await redis.setex('session:abc123', 3600, JSON.stringify({ userId: 1 }));
+
+// Hash - perfect for objects
+await redis.hset('user:1', { name: 'Alice', email: 'alice@example.com' });
+await redis.hgetall('user:1'); // { name: 'Alice', email: '...' }
+
+// Lists - for queues, feeds
+await redis.lpush('notifications:1', 'New message!');
+await redis.lrange('notifications:1', 0, 9); // Get last 10
+
+// Sorted Sets - leaderboards, rankings
+await redis.zadd('leaderboard', 100, 'alice', 85, 'bob', 92, 'carol');
+await redis.zrevrange('leaderboard', 0, 2, 'WITHSCORES');
+// [['alice', '100'], ['carol', '92'], ['bob', '85']]
+
+// Pub/Sub for real-time
+redis.subscribe('chat:room1');
+redis.on('message', (channel, message) => {
+  console.log(`${channel}: ${message}`);
+});</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 16: Redis Use Cases -->
+<section class="slide" data-slide="16">
+    <div class="slide-content">
+        <h3 class="slide-title">Redis Use Cases</h3>
+        <div class="redis-usecases">
+            <div class="usecase-card" data-modal="db-redis-cache">
+                <div class="usecase-icon">🚀</div>
+                <h4>Caching Layer</h4>
+                <p>Cache database queries, API responses, computed values</p>
+                <code>GET cached:user:1 || fetch from DB</code>
+            </div>
+            <div class="usecase-card" data-modal="db-redis-session">
+                <div class="usecase-icon">🔐</div>
+                <h4>Session Storage</h4>
+                <p>Fast session lookups, automatic expiration</p>
+                <code>SETEX session:token 3600 data</code>
+            </div>
+            <div class="usecase-card" data-modal="db-redis-ratelimit">
+                <div class="usecase-icon">🚦</div>
+                <h4>Rate Limiting</h4>
+                <p>Track request counts with sliding windows</p>
+                <code>INCR ratelimit:user:1:minute</code>
+            </div>
+            <div class="usecase-card" data-modal="db-redis-realtime">
+                <div class="usecase-icon">⚡</div>
+                <h4>Real-time Features</h4>
+                <p>Pub/Sub for chat, notifications, live updates</p>
+                <code>PUBLISH chat:room1 "Hello!"</code>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 17: Graph Databases -->
+<section class="slide" data-slide="17">
+    <div class="slide-content">
+        <h3 class="slide-title">Graph Databases — Neo4j</h3>
+        <p class="slide-description">When relationships ARE the data</p>
+        <div class="two-column">
+            <div class="column">
+                <div class="graph-visual">
+                    <svg viewBox="0 0 300 200" class="graph-svg">
+                        <line x1="150" y1="40" x2="60" y2="120" stroke="var(--accent-cyan)" stroke-width="2"/>
+                        <line x1="150" y1="40" x2="240" y2="120" stroke="var(--accent-cyan)" stroke-width="2"/>
+                        <line x1="60" y1="120" x2="150" y2="180" stroke="var(--accent-purple)" stroke-width="2"/>
+                        <line x1="240" y1="120" x2="150" y2="180" stroke="var(--accent-purple)" stroke-width="2"/>
+                        <circle cx="150" cy="40" r="25" fill="var(--accent-green)"/>
+                        <circle cx="60" cy="120" r="25" fill="var(--accent-yellow)"/>
+                        <circle cx="240" cy="120" r="25" fill="var(--accent-yellow)"/>
+                        <circle cx="150" cy="180" r="25" fill="var(--accent-pink)"/>
+                        <text x="150" y="45" text-anchor="middle" fill="var(--bg-primary)" font-size="12">Alice</text>
+                        <text x="60" y="125" text-anchor="middle" fill="var(--bg-primary)" font-size="12">Bob</text>
+                        <text x="240" y="125" text-anchor="middle" fill="var(--bg-primary)" font-size="12">Carol</text>
+                        <text x="150" y="185" text-anchor="middle" fill="var(--bg-primary)" font-size="12">TypeScript</text>
+                        <text x="90" y="70" fill="var(--accent-cyan)" font-size="10">FRIENDS</text>
+                        <text x="200" y="70" fill="var(--accent-cyan)" font-size="10">FRIENDS</text>
+                        <text x="80" y="160" fill="var(--accent-purple)" font-size="10">KNOWS</text>
+                        <text x="200" y="160" fill="var(--accent-purple)" font-size="10">KNOWS</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="column">
+                <div class="graph-usecases">
+                    <div class="graph-usecase" data-modal="db-graph-social">
+                        <strong>Social Networks</strong>
+                        <p>Friends, followers, connections</p>
+                    </div>
+                    <div class="graph-usecase" data-modal="db-graph-recommend">
+                        <strong>Recommendations</strong>
+                        <p>"People who liked X also liked Y"</p>
+                    </div>
+                    <div class="graph-usecase" data-modal="db-graph-fraud">
+                        <strong>Fraud Detection</strong>
+                        <p>Pattern matching across transactions</p>
+                    </div>
+                    <div class="graph-usecase" data-modal="db-graph-knowledge">
+                        <strong>Knowledge Graphs</strong>
+                        <p>Entity relationships, ontologies</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 18: Cypher Query Language -->
+<section class="slide" data-slide="18">
+    <div class="slide-content">
+        <h3 class="slide-title">Cypher — Graph Query Language</h3>
+        <div class="code-block large clickable" data-modal="db-cypher-examples">
+            <pre><code>// Create nodes and relationships
+CREATE (alice:Person {name: 'Alice', role: 'Developer'})
+CREATE (bob:Person {name: 'Bob', role: 'Designer'})
+CREATE (ts:Skill {name: 'TypeScript'})
+CREATE (alice)-[:KNOWS]->(ts)
+CREATE (bob)-[:KNOWS]->(ts)
+CREATE (alice)-[:FRIENDS_WITH]->(bob)
+
+// Find friends of friends
+MATCH (me:Person {name: 'Alice'})-[:FRIENDS_WITH]->
+      (friend)-[:FRIENDS_WITH]->(foaf)
+WHERE foaf <> me
+RETURN DISTINCT foaf.name
+
+// Shortest path between two people
+MATCH path = shortestPath(
+  (a:Person {name: 'Alice'})-[*]-(b:Person {name: 'David'})
+)
+RETURN path
+
+// Recommendation: skills my friends know that I don't
+MATCH (me:Person {name: 'Alice'})-[:FRIENDS_WITH]->(friend)-[:KNOWS]->(skill)
+WHERE NOT (me)-[:KNOWS]->(skill)
+RETURN skill.name, COUNT(friend) as friendsWhoKnow
+ORDER BY friendsWhoKnow DESC</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 19: Part III - ORMs -->
+<section class="slide" data-slide="19">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part III</div>
+        <h2 class="section-title">ORMs</h2>
+        <p class="section-subtitle">Object-Relational Mapping — Database Abstraction</p>
+        <div class="decorative-code">
+            <pre>const user = await prisma.user.findUnique({ where: { id: 1 } })</pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 20: What is an ORM -->
+<section class="slide" data-slide="20">
+    <div class="slide-content">
+        <h3 class="slide-title">What is an ORM?</h3>
+        <div class="orm-explanation">
+            <div class="orm-flow">
+                <div class="orm-box code">
+                    <div class="box-label">Your Code</div>
+                    <code>user.posts</code>
+                </div>
+                <div class="orm-arrow">→</div>
+                <div class="orm-box orm">
+                    <div class="box-label">ORM</div>
+                    <span>Maps objects to tables</span>
+                </div>
+                <div class="orm-arrow">→</div>
+                <div class="orm-box sql">
+                    <div class="box-label">Generated SQL</div>
+                    <code>SELECT * FROM posts WHERE user_id = ?</code>
+                </div>
+                <div class="orm-arrow">→</div>
+                <div class="orm-box db">
+                    <div class="box-label">Database</div>
+                    <span>PostgreSQL</span>
+                </div>
+            </div>
+            <div class="orm-benefits">
+                <div class="orm-benefit" data-modal="db-orm-typesafe">
+                    <span class="benefit-icon">✓</span>
+                    <strong>Type Safety</strong>
+                    <p>Catch errors at compile time</p>
+                </div>
+                <div class="orm-benefit" data-modal="db-orm-productive">
+                    <span class="benefit-icon">✓</span>
+                    <strong>Productivity</strong>
+                    <p>Less boilerplate, familiar syntax</p>
+                </div>
+                <div class="orm-benefit" data-modal="db-orm-portable">
+                    <span class="benefit-icon">✓</span>
+                    <strong>Portability</strong>
+                    <p>Switch databases without code changes</p>
+                </div>
+                <div class="orm-benefit warning" data-modal="db-orm-leaky">
+                    <span class="benefit-icon">⚠</span>
+                    <strong>Leaky Abstraction</strong>
+                    <p>You still need to understand SQL</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 21: Prisma -->
+<section class="slide" data-slide="21">
+    <div class="slide-content">
+        <h3 class="slide-title">Prisma — The Modern ORM</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-label">schema.prisma</div>
+                <div class="code-block clickable" data-modal="db-prisma-schema">
+                    <pre><code>generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  posts     Post[]
+  profile   Profile?
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+}
+
+model Profile {
+  id     Int    @id @default(autoincrement())
+  bio    String
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @unique
+}</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="prisma-features">
+                    <div class="prisma-feature" data-modal="db-prisma-typesafe">
+                        <span class="feature-icon">🔒</span>
+                        <strong>100% Type-Safe</strong>
+                        <p>Generated types from your schema</p>
+                    </div>
+                    <div class="prisma-feature" data-modal="db-prisma-migrations">
+                        <span class="feature-icon">📦</span>
+                        <strong>Migrations</strong>
+                        <p>prisma migrate dev creates SQL migrations</p>
+                    </div>
+                    <div class="prisma-feature" data-modal="db-prisma-studio">
+                        <span class="feature-icon">🎨</span>
+                        <strong>Prisma Studio</strong>
+                        <p>Visual database browser</p>
+                    </div>
+                    <div class="prisma-feature" data-modal="db-prisma-performance">
+                        <span class="feature-icon">⚡</span>
+                        <strong>Query Engine</strong>
+                        <p>Rust-based, optimized queries</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 22: Prisma Queries -->
+<section class="slide" data-slide="22">
+    <div class="slide-content">
+        <h3 class="slide-title">Prisma Query Examples</h3>
+        <div class="code-block large clickable" data-modal="db-prisma-queries">
+            <pre><code>import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+// Create with relations
+const user = await prisma.user.create({
+  data: {
+    email: 'alice@example.com',
+    name: 'Alice',
+    posts: {
+      create: [
+        { title: 'Hello World', published: true },
+        { title: 'Draft Post' }
+      ]
+    },
+    profile: {
+      create: { bio: 'I love coding!' }
+    }
+  },
+  include: { posts: true, profile: true }
+});
+
+// Complex queries with filters
+const publishedPosts = await prisma.post.findMany({
+  where: {
+    published: true,
+    author: { email: { contains: '@company.com' } }
+  },
+  orderBy: { createdAt: 'desc' },
+  take: 10,
+  include: { author: { select: { name: true } } }
+});
+
+// Transactions
+const [deletedPosts, deletedUser] = await prisma.$transaction([
+  prisma.post.deleteMany({ where: { authorId: 1 } }),
+  prisma.user.delete({ where: { id: 1 } })
+]);</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 23: Drizzle ORM -->
+<section class="slide" data-slide="23">
+    <div class="slide-content">
+        <h3 class="slide-title">Drizzle — SQL-Like TypeScript ORM</h3>
+        <div class="two-column">
+            <div class="column">
+                <div class="code-label">schema.ts</div>
+                <div class="code-block clickable" data-modal="db-drizzle-schema">
+                    <pre><code>import { pgTable, serial, text,
+         timestamp, integer } from 'drizzle-orm/pg-core';
+
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  email: text('email').unique().notNull(),
+  createdAt: timestamp('created_at').defaultNow()
+});
+
+export const posts = pgTable('posts', {
+  id: serial('id').primaryKey(),
+  title: text('title').notNull(),
+  content: text('content'),
+  authorId: integer('author_id')
+    .references(() => users.id)
+});</code></pre>
+                </div>
+            </div>
+            <div class="column">
+                <div class="code-label">queries.ts</div>
+                <div class="code-block clickable" data-modal="db-drizzle-queries">
+                    <pre><code>import { db } from './db';
+import { users, posts } from './schema';
+import { eq, desc } from 'drizzle-orm';
+
+// SQL-like syntax
+const allUsers = await db
+  .select()
+  .from(users)
+  .where(eq(users.name, 'Alice'));
+
+// Joins feel natural
+const usersWithPosts = await db
+  .select({
+    userName: users.name,
+    postTitle: posts.title
+  })
+  .from(users)
+  .leftJoin(posts, eq(users.id, posts.authorId))
+  .orderBy(desc(posts.createdAt));</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="drizzle-note">
+            <span class="note-icon">💡</span>
+            <p>Drizzle is lightweight (~7kb), has zero dependencies, and its queries look almost like SQL.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 24: ORM Comparison -->
+<section class="slide" data-slide="24">
+    <div class="slide-content">
+        <h3 class="slide-title">ORM Comparison</h3>
+        <div class="orm-comparison-table">
+            <div class="comparison-header">
+                <span></span>
+                <span>Prisma</span>
+                <span>Drizzle</span>
+                <span>TypeORM</span>
+                <span>Raw SQL</span>
+            </div>
+            <div class="comparison-row">
+                <span class="row-label">Type Safety</span>
+                <span class="rating excellent">Excellent</span>
+                <span class="rating excellent">Excellent</span>
+                <span class="rating good">Good</span>
+                <span class="rating poor">Manual</span>
+            </div>
+            <div class="comparison-row">
+                <span class="row-label">Bundle Size</span>
+                <span class="rating warning">Heavy (~2MB)</span>
+                <span class="rating excellent">Tiny (~7KB)</span>
+                <span class="rating warning">Heavy</span>
+                <span class="rating excellent">Zero</span>
+            </div>
+            <div class="comparison-row">
+                <span class="row-label">Query Control</span>
+                <span class="rating good">Moderate</span>
+                <span class="rating excellent">Full</span>
+                <span class="rating good">Moderate</span>
+                <span class="rating excellent">Full</span>
+            </div>
+            <div class="comparison-row">
+                <span class="row-label">Learning Curve</span>
+                <span class="rating excellent">Easy</span>
+                <span class="rating good">Moderate</span>
+                <span class="rating warning">Steep</span>
+                <span class="rating warning">Need SQL</span>
+            </div>
+            <div class="comparison-row">
+                <span class="row-label">Migrations</span>
+                <span class="rating excellent">Built-in</span>
+                <span class="rating good">drizzle-kit</span>
+                <span class="rating good">Built-in</span>
+                <span class="rating poor">Manual</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 25: Part IV - Choosing -->
+<section class="slide" data-slide="25">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part IV</div>
+        <h2 class="section-title">Choosing the Right Database</h2>
+        <p class="section-subtitle">Match the tool to the problem</p>
+    </div>
+</section>
+
+<!-- Slide 26: Decision Tree -->
+<section class="slide" data-slide="26">
+    <div class="slide-content">
+        <h3 class="slide-title">Database Decision Guide</h3>
+        <div class="decision-tree">
+            <div class="decision-node root">
+                <div class="question">What's your primary concern?</div>
+                <div class="branches">
+                    <div class="branch" data-modal="db-decision-acid">
+                        <div class="branch-label">ACID Transactions</div>
+                        <div class="branch-answer">PostgreSQL, MySQL</div>
+                    </div>
+                    <div class="branch" data-modal="db-decision-speed">
+                        <div class="branch-label">Sub-ms Latency</div>
+                        <div class="branch-answer">Redis</div>
+                    </div>
+                    <div class="branch" data-modal="db-decision-flexible">
+                        <div class="branch-label">Flexible Schema</div>
+                        <div class="branch-answer">MongoDB</div>
+                    </div>
+                    <div class="branch" data-modal="db-decision-relations">
+                        <div class="branch-label">Complex Relations</div>
+                        <div class="branch-answer">Neo4j</div>
+                    </div>
+                    <div class="branch" data-modal="db-decision-timeseries">
+                        <div class="branch-label">Time-Series Data</div>
+                        <div class="branch-answer">TimescaleDB, InfluxDB</div>
+                    </div>
+                    <div class="branch" data-modal="db-decision-search">
+                        <div class="branch-label">Full-Text Search</div>
+                        <div class="branch-answer">Elasticsearch, Meilisearch</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 27: Polyglot Persistence -->
+<section class="slide" data-slide="27">
+    <div class="slide-content">
+        <h3 class="slide-title">Polyglot Persistence</h3>
+        <p class="slide-description">Use multiple databases for different needs</p>
+        <div class="polyglot-arch">
+            <div class="arch-layer app">
+                <span>Application Layer</span>
+            </div>
+            <div class="arch-connections">
+                <div class="connection"></div>
+                <div class="connection"></div>
+                <div class="connection"></div>
+                <div class="connection"></div>
+            </div>
+            <div class="arch-layer databases">
+                <div class="db-item" data-modal="db-poly-postgres">
+                    <span class="db-name">PostgreSQL</span>
+                    <span class="db-purpose">Users, Orders, Transactions</span>
+                </div>
+                <div class="db-item" data-modal="db-poly-redis">
+                    <span class="db-name">Redis</span>
+                    <span class="db-purpose">Cache, Sessions, Rate Limits</span>
+                </div>
+                <div class="db-item" data-modal="db-poly-elastic">
+                    <span class="db-name">Elasticsearch</span>
+                    <span class="db-purpose">Product Search, Logs</span>
+                </div>
+                <div class="db-item" data-modal="db-poly-s3">
+                    <span class="db-name">S3 / Blob Storage</span>
+                    <span class="db-purpose">Files, Images, Backups</span>
+                </div>
+            </div>
+        </div>
+        <div class="polyglot-note">
+            <span class="note-icon">💡</span>
+            <p>Start simple (PostgreSQL can do a lot!), add specialized databases as needed.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 28: Common Patterns -->
+<section class="slide" data-slide="28">
+    <div class="slide-content">
+        <h3 class="slide-title">Common Database Patterns</h3>
+        <div class="patterns-grid">
+            <div class="pattern-card" data-modal="db-pattern-cache">
+                <h4>Cache-Aside</h4>
+                <div class="pattern-flow">
+                    <code>Check Redis → Miss? → Query DB → Cache result</code>
+                </div>
+                <p>Reduce database load, improve response times</p>
+            </div>
+            <div class="pattern-card" data-modal="db-pattern-cqrs">
+                <h4>CQRS</h4>
+                <div class="pattern-flow">
+                    <code>Writes → PostgreSQL | Reads → Denormalized view</code>
+                </div>
+                <p>Separate read and write models for scale</p>
+            </div>
+            <div class="pattern-card" data-modal="db-pattern-saga">
+                <h4>Saga Pattern</h4>
+                <div class="pattern-flow">
+                    <code>Step1 → Step2 → Step3 | Fail? → Compensate</code>
+                </div>
+                <p>Distributed transactions across services</p>
+            </div>
+            <div class="pattern-card" data-modal="db-pattern-eventstore">
+                <h4>Event Sourcing</h4>
+                <div class="pattern-flow">
+                    <code>Store events → Rebuild state from history</code>
+                </div>
+                <p>Complete audit trail, time travel debugging</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 29: Performance Tips -->
+<section class="slide" data-slide="29">
+    <div class="slide-content">
+        <h3 class="slide-title">Database Performance Tips</h3>
+        <div class="tips-grid">
+            <div class="tip-card" data-modal="db-tip-index">
+                <div class="tip-number">01</div>
+                <h4>Index Wisely</h4>
+                <p>Index columns in WHERE, JOIN, ORDER BY. But indexes slow writes.</p>
+                <code>CREATE INDEX idx_users_email ON users(email);</code>
+            </div>
+            <div class="tip-card" data-modal="db-tip-explain">
+                <div class="tip-number">02</div>
+                <h4>Use EXPLAIN</h4>
+                <p>Understand query execution plans before optimizing.</p>
+                <code>EXPLAIN ANALYZE SELECT * FROM users WHERE...</code>
+            </div>
+            <div class="tip-card" data-modal="db-tip-n1">
+                <div class="tip-number">03</div>
+                <h4>Avoid N+1 Queries</h4>
+                <p>Fetch related data in one query, not loops.</p>
+                <code>include: { posts: true } // Prisma eager load</code>
+            </div>
+            <div class="tip-card" data-modal="db-tip-pool">
+                <div class="tip-number">04</div>
+                <h4>Connection Pooling</h4>
+                <p>Reuse connections, don't create new ones per request.</p>
+                <code>new Pool({ max: 20 }) // pg pool</code>
+            </div>
+            <div class="tip-card" data-modal="db-tip-pagination">
+                <div class="tip-number">05</div>
+                <h4>Paginate Results</h4>
+                <p>Never SELECT * without LIMIT. Use cursor pagination for large sets.</p>
+                <code>LIMIT 20 OFFSET 0 // or cursor-based</code>
+            </div>
+            <div class="tip-card" data-modal="db-tip-denormalize">
+                <div class="tip-number">06</div>
+                <h4>Denormalize for Reads</h4>
+                <p>Sometimes duplicating data beats expensive joins.</p>
+                <code>Store user_name on order, not just user_id</code>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 30: Security -->
+<section class="slide" data-slide="30">
+    <div class="slide-content">
+        <h3 class="slide-title">Database Security</h3>
+        <div class="security-checklist">
+            <div class="security-item critical" data-modal="db-sec-injection">
+                <span class="severity">CRITICAL</span>
+                <strong>Parameterized Queries</strong>
+                <p>NEVER concatenate user input into SQL strings</p>
+            </div>
+            <div class="security-item high" data-modal="db-sec-leastpriv">
+                <span class="severity">HIGH</span>
+                <strong>Least Privilege</strong>
+                <p>App user shouldn't have DROP TABLE permissions</p>
+            </div>
+            <div class="security-item high" data-modal="db-sec-encrypt">
+                <span class="severity">HIGH</span>
+                <strong>Encrypt at Rest & Transit</strong>
+                <p>TLS for connections, encryption for sensitive columns</p>
+            </div>
+            <div class="security-item medium" data-modal="db-sec-backup">
+                <span class="severity">MEDIUM</span>
+                <strong>Backup & Test Restores</strong>
+                <p>Untested backups are not backups</p>
+            </div>
+            <div class="security-item medium" data-modal="db-sec-audit">
+                <span class="severity">MEDIUM</span>
+                <strong>Audit Logging</strong>
+                <p>Track who changed what and when</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 31: Modern Stack Recommendations -->
+<section class="slide" data-slide="31">
+    <div class="slide-content">
+        <h3 class="slide-title">2024 Stack Recommendations</h3>
+        <div class="stack-recommendations">
+            <div class="stack-card" data-modal="db-stack-startup">
+                <div class="stack-type">Startup / MVP</div>
+                <div class="stack-items">
+                    <span class="stack-db primary">PostgreSQL</span>
+                    <span class="stack-orm">+ Prisma</span>
+                </div>
+                <p>Start here. Covers 90% of use cases. Scale later.</p>
+            </div>
+            <div class="stack-card" data-modal="db-stack-realtime">
+                <div class="stack-type">Real-time App</div>
+                <div class="stack-items">
+                    <span class="stack-db primary">PostgreSQL</span>
+                    <span class="stack-db">+ Redis</span>
+                </div>
+                <p>Postgres for data, Redis for pub/sub and caching.</p>
+            </div>
+            <div class="stack-card" data-modal="db-stack-content">
+                <div class="stack-type">Content Platform</div>
+                <div class="stack-items">
+                    <span class="stack-db primary">PostgreSQL</span>
+                    <span class="stack-db">+ Elasticsearch</span>
+                    <span class="stack-db">+ S3</span>
+                </div>
+                <p>Search, full-text, media storage.</p>
+            </div>
+            <div class="stack-card" data-modal="db-stack-analytics">
+                <div class="stack-type">Analytics / BI</div>
+                <div class="stack-items">
+                    <span class="stack-db primary">ClickHouse</span>
+                    <span class="stack-db">or BigQuery</span>
+                </div>
+                <p>Column-oriented for aggregations at scale.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 32: Summary -->
+<section class="slide" data-slide="32">
+    <div class="slide-content">
+        <h3 class="slide-title">Key Takeaways</h3>
+        <div class="takeaways-grid">
+            <div class="takeaway-item">
+                <span class="takeaway-number">1</span>
+                <div>
+                    <strong>PostgreSQL is the default</strong>
+                    <p>Relational databases handle most use cases. Start simple.</p>
+                </div>
+            </div>
+            <div class="takeaway-item">
+                <span class="takeaway-number">2</span>
+                <div>
+                    <strong>Use the right tool</strong>
+                    <p>Redis for speed, MongoDB for flexibility, Neo4j for graphs.</p>
+                </div>
+            </div>
+            <div class="takeaway-item">
+                <span class="takeaway-number">3</span>
+                <div>
+                    <strong>ORMs boost productivity</strong>
+                    <p>Prisma or Drizzle for type-safe database access.</p>
+                </div>
+            </div>
+            <div class="takeaway-item">
+                <span class="takeaway-number">4</span>
+                <div>
+                    <strong>Security is non-negotiable</strong>
+                    <p>Parameterized queries. Always. No exceptions.</p>
+                </div>
+            </div>
+            <div class="takeaway-item">
+                <span class="takeaway-number">5</span>
+                <div>
+                    <strong>Understand before abstracting</strong>
+                    <p>Learn SQL even if you use an ORM. It will save you.</p>
+                </div>
+            </div>
+        </div>
+        <div class="closing-quote">
+            <blockquote>"Premature optimization is the root of all evil, but so is choosing the wrong database."</blockquote>
+        </div>
+    </div>
+</section>

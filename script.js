@@ -5532,6 +5532,2203 @@ X-Frame-Options: SAMEORIGIN     // Only same origin
 // - Use payment APIs</code></pre>
                     </div>
                 `
+            },
+
+            // ==========================================
+            // DATABASE LECTURE MODALS
+            // ==========================================
+
+            // Why Databases Matter
+            'db-importance-persistence': {
+                title: 'Data Persistence',
+                body: `
+                    <p>Without a database, your data lives only in <strong>memory</strong>. When the app restarts, crashes, or redeploys — it's all gone.</p>
+                    <div class="modal-section">
+                        <h4>In-Memory vs Persistent</h4>
+                        <div class="modal-code-block">
+                            <pre class="modal-code"><code>// In-memory (lost on restart)
+let users = [];
+users.push({ name: 'Alice' });
+// Server restarts... users = []
+
+// Database (survives anything)
+await db.query('INSERT INTO users (name) VALUES ($1)', ['Alice']);
+// Server restarts... data still there!</code></pre>
+                        </div>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Databases Handle</h4>
+                        <ul>
+                            <li>Writing data to disk reliably</li>
+                            <li>Recovery after crashes (write-ahead logs)</li>
+                            <li>Replication across multiple machines</li>
+                            <li>Backup and restore capabilities</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-importance-concurrent': {
+                title: 'Concurrent Access',
+                body: `
+                    <p>Multiple users accessing the same data simultaneously creates <strong>race conditions</strong>. Databases solve this with locking and transactions.</p>
+                    <div class="modal-section">
+                        <h4>The Problem</h4>
+                        <div class="modal-code-block">
+                            <pre class="modal-code"><code>// Two users buying the last item simultaneously
+// Without proper handling:
+User A: reads stock = 1
+User B: reads stock = 1
+User A: stock > 0? yes! purchase!
+User B: stock > 0? yes! purchase!
+// Both think they bought it! Stock is now -1</code></pre>
+                        </div>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Database Solution</h4>
+                        <div class="modal-code-block">
+                            <pre class="modal-code"><code>// Transaction with row locking
+BEGIN;
+SELECT stock FROM products WHERE id = 1 FOR UPDATE;
+-- Row is now locked, other transactions wait
+UPDATE products SET stock = stock - 1 WHERE id = 1 AND stock > 0;
+COMMIT;
+-- Lock released, next transaction can proceed</code></pre>
+                        </div>
+                    </div>
+                `
+            },
+            'db-importance-query': {
+                title: 'Efficient Queries',
+                body: `
+                    <p>Databases use <strong>indexes</strong> and <strong>query optimization</strong> to find data incredibly fast — even across billions of records.</p>
+                    <div class="modal-section">
+                        <h4>Without Index (Full Table Scan)</h4>
+                        <div class="modal-code-block">
+                            <pre class="modal-code"><code>SELECT * FROM users WHERE email = 'alice@example.com';
+-- Must check every single row
+-- 10 million users = 10 million comparisons
+-- Time: 5-10 seconds</code></pre>
+                        </div>
+                    </div>
+                    <div class="modal-section">
+                        <h4>With Index (B-Tree Lookup)</h4>
+                        <div class="modal-code-block">
+                            <pre class="modal-code"><code>CREATE INDEX idx_users_email ON users(email);
+
+SELECT * FROM users WHERE email = 'alice@example.com';
+-- B-tree index lookup
+-- 10 million users = ~24 comparisons (log₂ 10M)
+-- Time: < 1 millisecond</code></pre>
+                        </div>
+                    </div>
+                `
+            },
+            'db-importance-integrity': {
+                title: 'Data Integrity',
+                body: `
+                    <p>Databases enforce <strong>constraints</strong> at the data layer — invalid data can't even be stored.</p>
+                    <div class="modal-section">
+                        <h4>Types of Constraints</h4>
+                        <div class="modal-code-block">
+                            <pre class="modal-code"><code>CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,              -- Unique identifier
+  user_id INT NOT NULL                -- Can't be empty
+    REFERENCES users(id),             -- Must exist in users table
+  amount DECIMAL CHECK (amount > 0),  -- Must be positive
+  email VARCHAR(255) UNIQUE,          -- No duplicates
+  status VARCHAR(20) DEFAULT 'pending'
+);
+
+-- Database REJECTS:
+INSERT INTO orders (user_id, amount) VALUES (999, 100);
+-- Error: user_id 999 doesn't exist (foreign key violation)
+
+INSERT INTO orders (user_id, amount) VALUES (1, -50);
+-- Error: amount must be > 0 (check constraint violation)</code></pre>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Database History Eras
+            'db-era-1960s': {
+                title: 'Hierarchical Databases (1960s)',
+                body: `
+                    <p>The first database model, developed by IBM for the Apollo space program.</p>
+                    <div class="modal-section">
+                        <h4>Structure</h4>
+                        <p>Data organized in a <strong>tree structure</strong> — parent-child relationships. Each child has exactly one parent.</p>
+                        <div class="modal-code-block">
+                            <pre class="modal-code"><code>Company
+├── Department: Engineering
+│   ├── Employee: Alice
+│   └── Employee: Bob
+└── Department: Sales
+    └── Employee: Carol</code></pre>
+                        </div>
+                    </div>
+                    <div class="modal-section">
+                        <h4>IBM IMS (1966)</h4>
+                        <ul>
+                            <li>Information Management System</li>
+                            <li>Still in use today at banks and airlines!</li>
+                            <li>Handles millions of transactions per second</li>
+                            <li>Limited flexibility — structure is rigid</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-era-1970s': {
+                title: 'Relational Model (1970s)',
+                body: `
+                    <p><strong>Edgar F. Codd</strong> at IBM published "A Relational Model of Data for Large Shared Data Banks" in 1970 — one of the most influential papers in computing history.</p>
+                    <div class="modal-section">
+                        <h4>Key Ideas</h4>
+                        <ul>
+                            <li><strong>Tables (relations)</strong> — data in rows and columns</li>
+                            <li><strong>No physical pointers</strong> — relationships through keys</li>
+                            <li><strong>Declarative queries</strong> — say WHAT you want, not HOW</li>
+                            <li><strong>Mathematical foundation</strong> — set theory and predicate logic</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>IBM's Missed Opportunity</h4>
+                        <p>IBM was slow to commercialize Codd's work (IMS was profitable). Larry Ellison read Codd's papers and founded Oracle in 1977, beating IBM to market.</p>
+                    </div>
+                `
+            },
+            'db-era-1980s': {
+                title: 'SQL Standardization (1980s)',
+                body: `
+                    <p>SQL became the standard query language, enabling portability across database systems.</p>
+                    <div class="modal-section">
+                        <h4>Timeline</h4>
+                        <ul>
+                            <li><strong>1979</strong> — Oracle V2 (first commercial SQL database)</li>
+                            <li><strong>1983</strong> — IBM DB2</li>
+                            <li><strong>1986</strong> — SQL-86 (first ANSI standard)</li>
+                            <li><strong>1989</strong> — Microsoft SQL Server</li>
+                            <li><strong>1996</strong> — PostgreSQL (open source)</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Why SQL Won</h4>
+                        <p>Declarative, human-readable, standardized. You could switch databases without rewriting all your queries. The same basic SQL works on Oracle, PostgreSQL, MySQL, SQL Server.</p>
+                    </div>
+                `
+            },
+            'db-era-2000s': {
+                title: 'NoSQL Movement (2000s)',
+                body: `
+                    <p>Web scale companies hit the limits of relational databases. Google, Amazon, Facebook created new solutions.</p>
+                    <div class="modal-section">
+                        <h4>The Trigger: Web Scale</h4>
+                        <ul>
+                            <li><strong>2004</strong> — Google BigTable paper</li>
+                            <li><strong>2007</strong> — Amazon Dynamo paper</li>
+                            <li><strong>2009</strong> — MongoDB founded</li>
+                            <li><strong>2009</strong> — Redis released</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>NoSQL Characteristics</h4>
+                        <ul>
+                            <li><strong>Horizontal scaling</strong> — add more servers</li>
+                            <li><strong>Flexible schemas</strong> — no rigid table structure</li>
+                            <li><strong>BASE vs ACID</strong> — eventual consistency acceptable</li>
+                            <li><strong>Specialized</strong> — optimized for specific use cases</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-era-2010s': {
+                title: 'NewSQL & Distributed SQL (2010s+)',
+                body: `
+                    <p>The best of both worlds: SQL semantics with NoSQL scalability.</p>
+                    <div class="modal-section">
+                        <h4>The Problem</h4>
+                        <p>NoSQL gave up too much. Developers missed joins, transactions, and SQL. But they needed scale.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>NewSQL Solutions</h4>
+                        <ul>
+                            <li><strong>CockroachDB</strong> — Distributed PostgreSQL-compatible</li>
+                            <li><strong>TiDB</strong> — MySQL-compatible, horizontal scale</li>
+                            <li><strong>Spanner</strong> — Google's globally distributed SQL</li>
+                            <li><strong>PlanetScale</strong> — Serverless MySQL with branching</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Also: Managed Services Boom</h4>
+                        <p>AWS RDS, Supabase, Neon, Railway — databases as a service. No more managing servers.</p>
+                    </div>
+                `
+            },
+
+            // Relational Concepts
+            'db-concept-table': {
+                title: 'Tables (Relations)',
+                body: `
+                    <p>A table is a collection of related data organized into rows and columns.</p>
+                    <div class="modal-section">
+                        <h4>Terminology</h4>
+                        <ul>
+                            <li><strong>Table / Relation</strong> — the entire structure</li>
+                            <li><strong>Row / Tuple / Record</strong> — one entry</li>
+                            <li><strong>Column / Attribute / Field</strong> — one property</li>
+                            <li><strong>Schema</strong> — the table's structure definition</li>
+                        </ul>
+                    </div>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>CREATE TABLE products (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  price DECIMAL(10,2),
+  category VARCHAR(50),
+  in_stock BOOLEAN DEFAULT true
+);</code></pre>
+                    </div>
+                `
+            },
+            'db-concept-pk': {
+                title: 'Primary Key',
+                body: `
+                    <p>A column (or combination of columns) that <strong>uniquely identifies</strong> each row in a table.</p>
+                    <div class="modal-section">
+                        <h4>Properties</h4>
+                        <ul>
+                            <li><strong>Unique</strong> — no two rows can have the same PK</li>
+                            <li><strong>Not null</strong> — every row must have a value</li>
+                            <li><strong>Immutable</strong> — shouldn't change over time</li>
+                        </ul>
+                    </div>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- Auto-incrementing integer (most common)
+id SERIAL PRIMARY KEY
+
+-- UUID (better for distributed systems)
+id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+
+-- Composite key (multiple columns)
+PRIMARY KEY (user_id, product_id)</code></pre>
+                    </div>
+                `
+            },
+            'db-concept-fk': {
+                title: 'Foreign Key',
+                body: `
+                    <p>A column that references another table's primary key, creating a <strong>relationship</strong> between tables.</p>
+                    <div class="modal-section">
+                        <h4>Relationship Types</h4>
+                        <ul>
+                            <li><strong>One-to-Many</strong> — one user has many posts</li>
+                            <li><strong>One-to-One</strong> — one user has one profile</li>
+                            <li><strong>Many-to-Many</strong> — users have many roles, roles have many users (needs junction table)</li>
+                        </ul>
+                    </div>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>CREATE TABLE posts (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(200),
+  author_id INT REFERENCES users(id)
+    ON DELETE CASCADE    -- delete posts if user deleted
+    ON UPDATE CASCADE    -- update if user id changes
+);
+
+-- The database ENFORCES this relationship
+-- You can't create a post with a non-existent author_id</code></pre>
+                    </div>
+                `
+            },
+            'db-concept-index': {
+                title: 'Database Indexes',
+                body: `
+                    <p>An index is a <strong>data structure</strong> that speeds up data retrieval — like a book's index.</p>
+                    <div class="modal-section">
+                        <h4>How It Works</h4>
+                        <p>A B-tree index maintains a sorted structure. Finding a value in 1 billion rows takes ~30 comparisons instead of 1 billion.</p>
+                    </div>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- Create index on frequently queried columns
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_posts_author ON posts(author_id);
+
+-- Composite index (for queries on multiple columns)
+CREATE INDEX idx_orders_user_date ON orders(user_id, created_at);
+
+-- Unique index (enforces uniqueness)
+CREATE UNIQUE INDEX idx_users_email_unique ON users(email);</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Trade-offs</h4>
+                        <p>Indexes speed up reads but slow down writes (index must be updated). Don't index everything — only columns used in WHERE, JOIN, ORDER BY.</p>
+                    </div>
+                `
+            },
+
+            // ACID Properties
+            'db-acid-atomicity': {
+                title: 'Atomicity',
+                body: `
+                    <p>A transaction is <strong>all-or-nothing</strong>. Either every operation succeeds, or none do.</p>
+                    <div class="modal-section">
+                        <h4>Classic Example: Bank Transfer</h4>
+                        <div class="modal-code-block">
+                            <pre class="modal-code"><code>BEGIN TRANSACTION;
+  -- Debit from account A
+  UPDATE accounts SET balance = balance - 100 WHERE id = 'A';
+
+  -- Credit to account B
+  UPDATE accounts SET balance = balance + 100 WHERE id = 'B';
+COMMIT;
+
+-- If ANYTHING fails (crash, constraint violation, etc.)
+-- the entire transaction is ROLLED BACK
+-- Money is never "lost" between accounts</code></pre>
+                        </div>
+                    </div>
+                `
+            },
+            'db-acid-consistency': {
+                title: 'Consistency',
+                body: `
+                    <p>A transaction brings the database from one <strong>valid state to another</strong>. All constraints and rules are enforced.</p>
+                    <div class="modal-section">
+                        <h4>What Gets Enforced</h4>
+                        <ul>
+                            <li>Primary key uniqueness</li>
+                            <li>Foreign key relationships</li>
+                            <li>CHECK constraints</li>
+                            <li>NOT NULL constraints</li>
+                            <li>Triggers and rules</li>
+                        </ul>
+                    </div>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- Constraint: balance can't go negative
+ALTER TABLE accounts
+  ADD CONSTRAINT positive_balance CHECK (balance >= 0);
+
+-- This transaction will FAIL
+BEGIN;
+  UPDATE accounts SET balance = balance - 1000
+  WHERE id = 'A' AND balance = 500;
+  -- Error: check constraint "positive_balance" violated
+ROLLBACK; -- Automatic</code></pre>
+                    </div>
+                `
+            },
+            'db-acid-isolation': {
+                title: 'Isolation',
+                body: `
+                    <p>Concurrent transactions execute as if they were <strong>running alone</strong>. One transaction doesn't see another's uncommitted changes.</p>
+                    <div class="modal-section">
+                        <h4>Isolation Levels</h4>
+                        <ul>
+                            <li><strong>Read Uncommitted</strong> — can see uncommitted changes (dirty reads)</li>
+                            <li><strong>Read Committed</strong> — only see committed data (PostgreSQL default)</li>
+                            <li><strong>Repeatable Read</strong> — same query returns same results within transaction</li>
+                            <li><strong>Serializable</strong> — transactions appear to run one after another</li>
+                        </ul>
+                    </div>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- Set isolation level
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
+BEGIN;
+  SELECT stock FROM products WHERE id = 1; -- Returns 5
+  -- Another transaction changes stock to 3
+  SELECT stock FROM products WHERE id = 1; -- Still returns 5!
+COMMIT;</code></pre>
+                    </div>
+                `
+            },
+            'db-acid-durability': {
+                title: 'Durability',
+                body: `
+                    <p>Once a transaction commits, the data is <strong>permanently saved</strong> — even if the server crashes immediately after.</p>
+                    <div class="modal-section">
+                        <h4>How Databases Achieve This</h4>
+                        <ul>
+                            <li><strong>Write-Ahead Logging (WAL)</strong> — changes logged to disk before applied</li>
+                            <li><strong>Checkpointing</strong> — periodic snapshots of database state</li>
+                            <li><strong>fsync</strong> — forces OS to write to physical disk</li>
+                            <li><strong>Replication</strong> — copies to other servers</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Recovery After Crash</h4>
+                        <p>Database replays the WAL on startup. Committed transactions are restored, uncommitted ones are discarded. No manual intervention needed.</p>
+                    </div>
+                `
+            },
+
+            // SQL Categories
+            'db-sql-ddl': {
+                title: 'DDL — Data Definition Language',
+                body: `
+                    <p>Commands that <strong>define the structure</strong> of your database — tables, columns, indexes, constraints.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- CREATE — make new structures
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100)
+);
+CREATE INDEX idx_name ON users(name);
+CREATE VIEW active_users AS SELECT * FROM users WHERE active = true;
+
+-- ALTER — modify existing structures
+ALTER TABLE users ADD COLUMN email VARCHAR(255);
+ALTER TABLE users ALTER COLUMN name SET NOT NULL;
+ALTER TABLE users DROP COLUMN temporary_field;
+
+-- DROP — remove structures
+DROP TABLE IF EXISTS old_users CASCADE;
+DROP INDEX idx_name;
+
+-- TRUNCATE — empty a table (faster than DELETE)
+TRUNCATE TABLE logs;</code></pre>
+                    </div>
+                `
+            },
+            'db-sql-dml': {
+                title: 'DML — Data Manipulation Language',
+                body: `
+                    <p>Commands that <strong>modify data</strong> — insert, update, delete records.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- INSERT — add new records
+INSERT INTO users (name, email) VALUES ('Alice', 'alice@example.com');
+INSERT INTO users (name, email) VALUES
+  ('Bob', 'bob@example.com'),
+  ('Carol', 'carol@example.com');
+
+-- UPDATE — modify existing records
+UPDATE users SET email = 'new@example.com' WHERE id = 1;
+UPDATE products SET price = price * 1.1; -- 10% price increase
+
+-- DELETE — remove records
+DELETE FROM users WHERE id = 1;
+DELETE FROM sessions WHERE expires_at < NOW();
+
+-- UPSERT — insert or update if exists
+INSERT INTO users (email, name) VALUES ('alice@example.com', 'Alice')
+ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name;</code></pre>
+                    </div>
+                `
+            },
+            'db-sql-dql': {
+                title: 'DQL — Data Query Language',
+                body: `
+                    <p>Commands that <strong>retrieve data</strong> — SELECT in all its forms.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- Basic SELECT
+SELECT name, email FROM users WHERE active = true;
+
+-- JOINs — combine tables
+SELECT u.name, p.title
+FROM users u
+INNER JOIN posts p ON u.id = p.author_id;
+
+-- Aggregations
+SELECT category, COUNT(*), AVG(price)
+FROM products
+GROUP BY category
+HAVING COUNT(*) > 5;
+
+-- Subqueries
+SELECT * FROM users WHERE id IN (
+  SELECT DISTINCT author_id FROM posts WHERE published = true
+);
+
+-- Window functions
+SELECT name, salary,
+  RANK() OVER (ORDER BY salary DESC) as salary_rank
+FROM employees;</code></pre>
+                    </div>
+                `
+            },
+
+            // PostgreSQL Example
+            'db-pg-example': {
+                title: 'node-postgres (pg) Deep Dive',
+                body: `
+                    <p>The most popular PostgreSQL client for Node.js — low-level but powerful.</p>
+                    <div class="modal-section">
+                        <h4>Connection Pooling</h4>
+                        <div class="modal-code-block">
+                            <pre class="modal-code"><code>import { Pool } from 'pg';
+
+// Pool manages connection reuse
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  max: 20,        // max connections in pool
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
+
+// For simple queries, use pool directly
+const result = await pool.query('SELECT * FROM users');
+
+// For transactions, checkout a client
+const client = await pool.connect();
+try {
+  await client.query('BEGIN');
+  // ... multiple queries ...
+  await client.query('COMMIT');
+} catch (e) {
+  await client.query('ROLLBACK');
+  throw e;
+} finally {
+  client.release(); // Return to pool!
+}</code></pre>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Relational Use Cases
+            'db-rel-usecase-financial': {
+                title: 'Financial Systems',
+                body: `
+                    <p>Money requires <strong>ACID guarantees</strong>. You can't have "eventual consistency" with bank balances.</p>
+                    <div class="modal-section">
+                        <h4>Why Relational Excels</h4>
+                        <ul>
+                            <li>Transactions ensure money isn't lost or duplicated</li>
+                            <li>Constraints prevent negative balances</li>
+                            <li>Audit trails with foreign keys</li>
+                            <li>Decimal types for precise calculations</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-rel-usecase-complex': {
+                title: 'Complex Relationships',
+                body: `
+                    <p>When entities have many interconnected relationships, relational databases shine.</p>
+                    <div class="modal-section">
+                        <h4>Example: E-commerce</h4>
+                        <ul>
+                            <li>Users have orders</li>
+                            <li>Orders have line items</li>
+                            <li>Line items reference products</li>
+                            <li>Products have categories</li>
+                            <li>Users have addresses (shipping, billing)</li>
+                            <li>Orders have payments, shipments</li>
+                        </ul>
+                        <p>JOINs let you query across all these relationships efficiently.</p>
+                    </div>
+                `
+            },
+            'db-rel-usecase-reporting': {
+                title: 'Ad-hoc Reporting',
+                body: `
+                    <p>SQL is incredibly powerful for answering questions you didn't anticipate.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- "How many orders per customer last month?"
+SELECT customer_id, COUNT(*)
+FROM orders
+WHERE created_at > NOW() - INTERVAL '1 month'
+GROUP BY customer_id;
+
+-- "What's the revenue by category and region?"
+SELECT p.category, c.region, SUM(o.total)
+FROM orders o
+JOIN products p ON o.product_id = p.id
+JOIN customers c ON o.customer_id = c.id
+GROUP BY p.category, c.region;</code></pre>
+                    </div>
+                    <p>With NoSQL, you often need to pre-compute these aggregations.</p>
+                `
+            },
+            'db-rel-usecase-integrity': {
+                title: 'Data Integrity Critical',
+                body: `
+                    <p>When bad data is worse than no data, use relational constraints.</p>
+                    <div class="modal-section">
+                        <h4>Healthcare, Legal, Government</h4>
+                        <ul>
+                            <li>Patient records must be complete and accurate</li>
+                            <li>Legal documents can't reference non-existent cases</li>
+                            <li>Regulatory compliance requires data validation</li>
+                        </ul>
+                        <p>The database becomes your last line of defense against bad data.</p>
+                    </div>
+                `
+            },
+            'db-rel-usecase-structured': {
+                title: 'Well-Defined Schema',
+                body: `
+                    <p>When you know your data structure upfront and it's unlikely to change drastically.</p>
+                    <div class="modal-section">
+                        <h4>Benefits of Fixed Schema</h4>
+                        <ul>
+                            <li>Documentation built into the database</li>
+                            <li>Type safety at the data layer</li>
+                            <li>Query optimization based on known structure</li>
+                            <li>Easier to reason about and maintain</li>
+                        </ul>
+                    </div>
+                `
+            },
+
+            // Specific Databases
+            'db-postgresql': {
+                title: 'PostgreSQL',
+                body: `
+                    <p>The "world's most advanced open source relational database." Incredibly feature-rich and reliable.</p>
+                    <div class="modal-section">
+                        <h4>Why Developers Love It</h4>
+                        <ul>
+                            <li><strong>JSONB</strong> — store JSON with indexing (best of both worlds)</li>
+                            <li><strong>Full-text search</strong> — built-in, no Elasticsearch needed for simple cases</li>
+                            <li><strong>Extensions</strong> — PostGIS for geo, pg_vector for AI, TimescaleDB for time-series</li>
+                            <li><strong>Standards compliant</strong> — most SQL-compliant database</li>
+                            <li><strong>Battle-tested</strong> — 35+ years of development</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Used By</h4>
+                        <p>Apple, Spotify, Instagram, Reddit, Twitch, NASA</p>
+                    </div>
+                `
+            },
+            'db-mysql': {
+                title: 'MySQL',
+                body: `
+                    <p>The most popular open source database. Powers most of the web.</p>
+                    <div class="modal-section">
+                        <h4>Strengths</h4>
+                        <ul>
+                            <li>Simple to set up and use</li>
+                            <li>Excellent read performance</li>
+                            <li>Huge community, tons of resources</li>
+                            <li>Great replication support</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Used By</h4>
+                        <p>Facebook, Twitter, YouTube, Netflix, Airbnb, Uber</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>MySQL vs PostgreSQL</h4>
+                        <p>MySQL is simpler and faster for basic workloads. PostgreSQL has more features and stricter standards compliance. Both are excellent choices.</p>
+                    </div>
+                `
+            },
+            'db-sqlite': {
+                title: 'SQLite',
+                body: `
+                    <p>A serverless, embedded database in a single file. The most deployed database in the world.</p>
+                    <div class="modal-section">
+                        <h4>Perfect For</h4>
+                        <ul>
+                            <li>Mobile apps (iOS, Android)</li>
+                            <li>Desktop applications</li>
+                            <li>Embedded systems</li>
+                            <li>Development and testing</li>
+                            <li>Single-server web apps</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Not Ideal For</h4>
+                        <ul>
+                            <li>High-concurrency writes</li>
+                            <li>Multi-server deployments</li>
+                            <li>Very large datasets (>1TB)</li>
+                        </ul>
+                    </div>
+                    <p>Every iPhone, Android phone, Mac, Windows PC, and most browsers have SQLite built in.</p>
+                `
+            },
+
+            // NoSQL Types
+            'db-nosql-document': {
+                title: 'Document Databases',
+                body: `
+                    <p>Store data as <strong>JSON-like documents</strong>. Each document can have a different structure.</p>
+                    <div class="modal-section">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>Content management systems</li>
+                            <li>User profiles with varying fields</li>
+                            <li>Catalogs with different product types</li>
+                            <li>Event logging</li>
+                            <li>Rapid prototyping</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Key Players</h4>
+                        <ul>
+                            <li><strong>MongoDB</strong> — most popular, great tooling</li>
+                            <li><strong>CouchDB</strong> — HTTP API, good offline sync</li>
+                            <li><strong>Firebase Firestore</strong> — real-time, mobile-first</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-nosql-keyvalue': {
+                title: 'Key-Value Stores',
+                body: `
+                    <p>The simplest model: a key maps to a value. Like a giant hash table.</p>
+                    <div class="modal-section">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>Caching (database query results, API responses)</li>
+                            <li>Session storage</li>
+                            <li>Rate limiting counters</li>
+                            <li>Real-time leaderboards</li>
+                            <li>Pub/sub messaging</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Key Players</h4>
+                        <ul>
+                            <li><strong>Redis</strong> — in-memory, rich data types</li>
+                            <li><strong>DynamoDB</strong> — AWS managed, infinite scale</li>
+                            <li><strong>Memcached</strong> — simple, distributed caching</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-nosql-graph': {
+                title: 'Graph Databases',
+                body: `
+                    <p>Data stored as <strong>nodes and edges</strong>. Relationships are first-class citizens.</p>
+                    <div class="modal-section">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>Social networks (friends, followers)</li>
+                            <li>Recommendation engines</li>
+                            <li>Fraud detection</li>
+                            <li>Knowledge graphs</li>
+                            <li>Network/dependency analysis</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Key Players</h4>
+                        <ul>
+                            <li><strong>Neo4j</strong> — most popular, Cypher query language</li>
+                            <li><strong>Amazon Neptune</strong> — managed graph service</li>
+                            <li><strong>Dgraph</strong> — distributed, GraphQL native</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-nosql-columnar': {
+                title: 'Column-Family Stores',
+                body: `
+                    <p>Data stored by columns rather than rows. Optimized for analytical queries.</p>
+                    <div class="modal-section">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>Write-heavy workloads</li>
+                            <li>Time-series data at massive scale</li>
+                            <li>IoT sensor data</li>
+                            <li>Log aggregation</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Key Players</h4>
+                        <ul>
+                            <li><strong>Apache Cassandra</strong> — Netflix, Apple scale</li>
+                            <li><strong>HBase</strong> — Hadoop ecosystem</li>
+                            <li><strong>ScyllaDB</strong> — C++ Cassandra alternative</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-nosql-timeseries': {
+                title: 'Time-Series Databases',
+                body: `
+                    <p>Optimized for <strong>timestamped data</strong> — metrics, logs, IoT readings.</p>
+                    <div class="modal-section">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>Application metrics and monitoring</li>
+                            <li>Financial tick data</li>
+                            <li>IoT sensor readings</li>
+                            <li>Log analytics</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Key Players</h4>
+                        <ul>
+                            <li><strong>InfluxDB</strong> — purpose-built time-series</li>
+                            <li><strong>TimescaleDB</strong> — PostgreSQL extension</li>
+                            <li><strong>Prometheus</strong> — metrics and alerting</li>
+                            <li><strong>ClickHouse</strong> — analytics at scale</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-nosql-search': {
+                title: 'Search Engines',
+                body: `
+                    <p>Optimized for <strong>full-text search</strong> and complex queries over text data.</p>
+                    <div class="modal-section">
+                        <h4>When to Use</h4>
+                        <ul>
+                            <li>Product search with facets and filters</li>
+                            <li>Log analysis and aggregation</li>
+                            <li>Autocomplete and suggestions</li>
+                            <li>Fuzzy matching and typo tolerance</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Key Players</h4>
+                        <ul>
+                            <li><strong>Elasticsearch</strong> — most popular, powerful but complex</li>
+                            <li><strong>Meilisearch</strong> — simple, fast, developer-friendly</li>
+                            <li><strong>Algolia</strong> — SaaS, instant search</li>
+                            <li><strong>Typesense</strong> — open source Algolia alternative</li>
+                        </ul>
+                    </div>
+                `
+            },
+
+            // MongoDB Features
+            'db-mongo-flexible': {
+                title: 'Flexible Schema',
+                body: `
+                    <p>Documents in the same collection can have <strong>different fields</strong>. Great for evolving data models.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Same collection, different structures
+{ type: "blog", title: "Hello", content: "..." }
+{ type: "video", title: "Demo", url: "...", duration: 120 }
+{ type: "podcast", title: "Interview", episodes: [...] }
+
+// Add fields without migrations
+// Old documents don't need the new field</code></pre>
+                    </div>
+                `
+            },
+            'db-mongo-nested': {
+                title: 'Nested/Embedded Data',
+                body: `
+                    <p>Embed related data directly in the document. <strong>One read fetches everything.</strong></p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Instead of JOIN across 3 tables:
+{
+  _id: "user123",
+  name: "Alice",
+  address: {           // Embedded document
+    street: "123 Main",
+    city: "Boston"
+  },
+  orders: [            // Embedded array
+    { item: "Book", price: 20 },
+    { item: "Laptop", price: 1000 }
+  ]
+}
+
+// One query, no joins
+db.users.findOne({ _id: "user123" })</code></pre>
+                    </div>
+                `
+            },
+            'db-mongo-scale': {
+                title: 'Horizontal Scaling',
+                body: `
+                    <p>MongoDB has <strong>built-in sharding</strong> — distribute data across multiple servers automatically.</p>
+                    <div class="modal-section">
+                        <h4>How It Works</h4>
+                        <ul>
+                            <li>Choose a shard key (e.g., user_id)</li>
+                            <li>MongoDB distributes documents across shards</li>
+                            <li>Queries route to relevant shard(s)</li>
+                            <li>Add more shards as data grows</li>
+                        </ul>
+                    </div>
+                    <p>Companies like eBay and Adobe use MongoDB clusters with petabytes of data.</p>
+                `
+            },
+            'db-mongo-caution': {
+                title: 'MongoDB Limitations',
+                body: `
+                    <p>MongoDB trades some features for flexibility. Be aware of the tradeoffs.</p>
+                    <div class="modal-section">
+                        <h4>Watch Out For</h4>
+                        <ul>
+                            <li><strong>No joins</strong> — $lookup exists but is slow</li>
+                            <li><strong>No multi-document ACID</strong> — (added in v4.0, but with caveats)</li>
+                            <li><strong>Duplicate data</strong> — denormalization means data can drift</li>
+                            <li><strong>Schema validation</strong> — optional, not enforced by default</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Rule of Thumb</h4>
+                        <p>If you need lots of joins and strong consistency, relational is probably better. If your data is hierarchical and read-heavy, MongoDB shines.</p>
+                    </div>
+                `
+            },
+
+            // MongoDB Code
+            'db-mongo-code': {
+                title: 'MongoDB Node.js Driver',
+                body: `
+                    <p>Complete guide to using the official MongoDB driver.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Connection with options
+const client = new MongoClient(uri, {
+  maxPoolSize: 50,
+  wtimeoutMS: 2500,
+});
+
+// Type-safe with TypeScript
+interface User {
+  _id: ObjectId;
+  name: string;
+  email: string;
+}
+const users = db.collection<User>('users');
+
+// Bulk operations (much faster than individual inserts)
+await users.bulkWrite([
+  { insertOne: { document: { name: 'Alice' } } },
+  { updateOne: { filter: { name: 'Bob' }, update: { $set: { active: true } } } },
+  { deleteOne: { filter: { name: 'Carol' } } }
+]);
+
+// Change streams (real-time updates)
+const changeStream = users.watch();
+changeStream.on('change', (change) => {
+  console.log('Document changed:', change);
+});</code></pre>
+                    </div>
+                `
+            },
+
+            // Redis Data Types
+            'db-redis-strings': {
+                title: 'Redis Strings',
+                body: `
+                    <p>The simplest type — a key maps to a string value. But strings can be numbers, JSON, or binary data.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>SET user:1:name "Alice"
+GET user:1:name  // "Alice"
+
+// With expiration
+SETEX session:abc 3600 "user_data"  // Expires in 1 hour
+
+// Atomic increment (perfect for counters)
+INCR page:home:views  // Returns new count
+INCRBY user:1:points 10
+
+// Set only if not exists (for locks)
+SETNX lock:resource "owner:123"</code></pre>
+                    </div>
+                `
+            },
+            'db-redis-lists': {
+                title: 'Redis Lists',
+                body: `
+                    <p>Ordered collections — perfect for queues, feeds, and recent items.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Add to list
+LPUSH notifications:user1 "New message"
+RPUSH queue:emails "job:123"
+
+// Get range
+LRANGE notifications:user1 0 9  // Last 10
+
+// Pop from queue (blocking)
+BLPOP queue:emails 30  // Wait up to 30 seconds
+
+// Trim to keep only recent
+LTRIM feed:user1 0 99  // Keep only 100 items</code></pre>
+                    </div>
+                `
+            },
+            'db-redis-sets': {
+                title: 'Redis Sets',
+                body: `
+                    <p>Unordered unique values — great for tags, followers, and deduplication.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Add to set
+SADD user:1:followers "user:2" "user:3"
+SADD user:2:followers "user:1" "user:3"
+
+// Check membership
+SISMEMBER user:1:followers "user:2"  // 1 (true)
+
+// Set operations
+SINTER user:1:followers user:2:followers  // Common followers
+SUNION user:1:followers user:2:followers  // All followers
+SDIFF user:1:followers user:2:followers   // Only in first set
+
+// Random member (for sampling)
+SRANDMEMBER tags 5  // Get 5 random tags</code></pre>
+                    </div>
+                `
+            },
+            'db-redis-hashes': {
+                title: 'Redis Hashes',
+                body: `
+                    <p>Field-value pairs — like objects. More memory efficient than separate keys.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Set fields
+HSET user:1 name "Alice" email "alice@example.com" age 30
+
+// Get single field
+HGET user:1 name  // "Alice"
+
+// Get all fields
+HGETALL user:1  // {name: "Alice", email: "...", age: "30"}
+
+// Increment field
+HINCRBY user:1 age 1  // 31
+
+// Check field exists
+HEXISTS user:1 phone  // 0 (false)</code></pre>
+                    </div>
+                `
+            },
+            'db-redis-sorted': {
+                title: 'Redis Sorted Sets',
+                body: `
+                    <p>Sets ordered by a score — perfect for leaderboards and priority queues.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Add with scores
+ZADD leaderboard 100 "alice" 85 "bob" 92 "carol"
+
+// Get by rank (highest first)
+ZREVRANGE leaderboard 0 2 WITHSCORES
+// [["alice", "100"], ["carol", "92"], ["bob", "85"]]
+
+// Get rank of member
+ZREVRANK leaderboard "carol"  // 1 (second place)
+
+// Increment score
+ZINCRBY leaderboard 20 "bob"  // bob now at 105
+
+// Range by score
+ZRANGEBYSCORE leaderboard 90 100  // Scores 90-100</code></pre>
+                    </div>
+                `
+            },
+
+            // Redis Code
+            'db-redis-code': {
+                title: 'ioredis Deep Dive',
+                body: `
+                    <p>ioredis is the recommended Redis client for Node.js — robust, feature-complete, and well-maintained.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>import Redis from 'ioredis';
+
+// Cluster support
+const cluster = new Redis.Cluster([
+  { host: 'node1.redis', port: 6379 },
+  { host: 'node2.redis', port: 6379 },
+]);
+
+// Pipelining (batch commands, single round trip)
+const pipeline = redis.pipeline();
+pipeline.set('key1', 'value1');
+pipeline.get('key2');
+pipeline.incr('counter');
+const results = await pipeline.exec();
+
+// Lua scripting (atomic operations)
+const script = \`
+  local current = redis.call('GET', KEYS[1])
+  if current == ARGV[1] then
+    return redis.call('SET', KEYS[1], ARGV[2])
+  end
+  return nil
+\`;
+await redis.eval(script, 1, 'mykey', 'expected', 'newvalue');</code></pre>
+                    </div>
+                `
+            },
+
+            // Redis Use Cases
+            'db-redis-cache': {
+                title: 'Redis as Cache',
+                body: `
+                    <p>The most common use — cache expensive database queries or API calls.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>async function getUser(id: number) {
+  const cacheKey = \`user:\${id}\`;
+
+  // Try cache first
+  const cached = await redis.get(cacheKey);
+  if (cached) return JSON.parse(cached);
+
+  // Cache miss - fetch from database
+  const user = await db.query('SELECT * FROM users WHERE id = $1', [id]);
+
+  // Store in cache (expire in 1 hour)
+  await redis.setex(cacheKey, 3600, JSON.stringify(user));
+
+  return user;
+}
+
+// Invalidate on update
+async function updateUser(id: number, data: any) {
+  await db.query('UPDATE users SET ...', [data, id]);
+  await redis.del(\`user:\${id}\`);  // Clear cache
+}</code></pre>
+                    </div>
+                `
+            },
+            'db-redis-session': {
+                title: 'Redis for Sessions',
+                body: `
+                    <p>Store user sessions in Redis for fast access and automatic expiration.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Store session on login
+const sessionId = crypto.randomUUID();
+await redis.setex(
+  \`session:\${sessionId}\`,
+  86400,  // 24 hours
+  JSON.stringify({ userId: user.id, role: user.role })
+);
+res.cookie('session', sessionId, { httpOnly: true });
+
+// Validate session on request
+const sessionData = await redis.get(\`session:\${sessionId}\`);
+if (!sessionData) throw new Error('Invalid session');
+const session = JSON.parse(sessionData);
+
+// Extend session on activity
+await redis.expire(\`session:\${sessionId}\`, 86400);</code></pre>
+                    </div>
+                `
+            },
+            'db-redis-ratelimit': {
+                title: 'Rate Limiting with Redis',
+                body: `
+                    <p>Prevent abuse by limiting requests per user/IP with sliding windows.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>async function rateLimit(userId: string, limit: number, windowSec: number) {
+  const key = \`ratelimit:\${userId}\`;
+  const current = await redis.incr(key);
+
+  if (current === 1) {
+    // First request - set expiration
+    await redis.expire(key, windowSec);
+  }
+
+  if (current > limit) {
+    const ttl = await redis.ttl(key);
+    throw new Error(\`Rate limited. Retry in \${ttl}s\`);
+  }
+
+  return { remaining: limit - current };
+}
+
+// Usage: 100 requests per minute
+await rateLimit(req.userId, 100, 60);</code></pre>
+                    </div>
+                `
+            },
+            'db-redis-realtime': {
+                title: 'Real-time with Redis Pub/Sub',
+                body: `
+                    <p>Broadcast messages to multiple subscribers instantly.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Publisher (one Redis client)
+const pub = new Redis();
+await pub.publish('chat:room1', JSON.stringify({
+  user: 'Alice',
+  message: 'Hello everyone!'
+}));
+
+// Subscriber (separate client)
+const sub = new Redis();
+sub.subscribe('chat:room1');
+sub.on('message', (channel, message) => {
+  const data = JSON.parse(message);
+  broadcastToWebSockets(channel, data);
+});
+
+// Multiple rooms
+sub.psubscribe('chat:*');  // Pattern subscribe</code></pre>
+                    </div>
+                `
+            },
+
+            // Graph Use Cases
+            'db-graph-social': {
+                title: 'Social Networks',
+                body: `
+                    <p>Graph databases make social queries trivial that would be complex SQL.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// "Find friends of friends who I don't know yet"
+// SQL: Multiple self-joins, complex and slow
+// Cypher: Natural and fast
+
+MATCH (me:User {name: 'Alice'})-[:FRIENDS]->(friend)
+      -[:FRIENDS]->(foaf)
+WHERE NOT (me)-[:FRIENDS]->(foaf)
+  AND foaf <> me
+RETURN DISTINCT foaf.name</code></pre>
+                    </div>
+                `
+            },
+            'db-graph-recommend': {
+                title: 'Recommendation Engines',
+                body: `
+                    <p>"People who liked X also liked Y" is a graph traversal.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Find products often bought together
+MATCH (p:Product {id: '123'})<-[:PURCHASED]-(user)
+      -[:PURCHASED]->(other:Product)
+WHERE other <> p
+RETURN other.name, COUNT(*) as co_purchases
+ORDER BY co_purchases DESC
+LIMIT 5</code></pre>
+                    </div>
+                `
+            },
+            'db-graph-fraud': {
+                title: 'Fraud Detection',
+                body: `
+                    <p>Fraudsters often share devices, addresses, or payment methods. Graphs reveal hidden connections.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Find accounts sharing suspicious patterns
+MATCH (a:Account)-[:USED_DEVICE]->(d:Device)
+      <-[:USED_DEVICE]-(b:Account)
+WHERE a <> b
+  AND (a)-[:USED_IP]->()<-[:USED_IP]-(b)
+RETURN a, b, d</code></pre>
+                    </div>
+                `
+            },
+            'db-graph-knowledge': {
+                title: 'Knowledge Graphs',
+                body: `
+                    <p>Model complex domains with entities and relationships — like Wikipedia's structure.</p>
+                    <div class="modal-section">
+                        <h4>Example: Medical Knowledge</h4>
+                        <ul>
+                            <li>(Drug)-[:TREATS]->(Disease)</li>
+                            <li>(Drug)-[:INTERACTS_WITH]->(Drug)</li>
+                            <li>(Symptom)-[:INDICATES]->(Disease)</li>
+                            <li>(Gene)-[:ASSOCIATED_WITH]->(Disease)</li>
+                        </ul>
+                    </div>
+                `
+            },
+
+            // Cypher Examples
+            'db-cypher-examples': {
+                title: 'Cypher Query Language',
+                body: `
+                    <p>Cypher is a declarative graph query language — patterns look like ASCII art.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Pattern syntax
+(node)                    // A node
+(node:Label)              // Node with label
+(node {prop: 'value'})    // Node with property
+-[relationship]->         // Directed relationship
+-[r:TYPE]->               // Relationship with type
+-[*1..3]->                // Variable length (1-3 hops)
+
+// Create pattern
+CREATE (a:Person {name: 'Alice'})-[:KNOWS]->(b:Person {name: 'Bob'})
+
+// Match pattern
+MATCH (a)-[:KNOWS*1..3]->(b)  // Friends up to 3 degrees
+RETURN a, b
+
+// Update
+MATCH (a:Person {name: 'Alice'})
+SET a.verified = true
+
+// Delete
+MATCH (a:Person {name: 'Alice'})-[r:KNOWS]->(b)
+DELETE r</code></pre>
+                    </div>
+                `
+            },
+
+            // ORM Benefits
+            'db-orm-typesafe': {
+                title: 'Type-Safe Database Access',
+                body: `
+                    <p>With TypeScript ORMs, database errors become <strong>compile-time errors</strong>.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Without ORM (type unsafe)
+const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
+result.rows[0].nmae  // Typo! Runtime error
+
+// With Prisma (type safe)
+const user = await prisma.user.findUnique({ where: { id } });
+user.nmae  // Compile error: Property 'nmae' does not exist
+
+// Autocomplete works!
+user.  // Shows: id, name, email, posts, profile...</code></pre>
+                    </div>
+                `
+            },
+            'db-orm-productive': {
+                title: 'Developer Productivity',
+                body: `
+                    <p>ORMs reduce boilerplate and let you work with familiar objects.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Raw SQL (verbose)
+const result = await db.query(\`
+  INSERT INTO users (name, email, created_at)
+  VALUES ($1, $2, NOW())
+  RETURNING *
+\`, [name, email]);
+const user = result.rows[0];
+
+// Prisma (concise)
+const user = await prisma.user.create({
+  data: { name, email }
+});
+
+// The ORM handles:
+// - SQL generation
+// - Parameter escaping
+// - Type conversion
+// - Default values</code></pre>
+                    </div>
+                `
+            },
+            'db-orm-portable': {
+                title: 'Database Portability',
+                body: `
+                    <p>Switch databases without rewriting queries — the ORM abstracts differences.</p>
+                    <div class="modal-section">
+                        <h4>Same Code, Different Databases</h4>
+                        <div class="modal-code-block">
+                            <pre class="modal-code"><code>// schema.prisma
+datasource db {
+  provider = "postgresql"  // Change to "mysql" or "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Your code stays the same
+const users = await prisma.user.findMany({
+  where: { active: true }
+});
+
+// ORM generates correct SQL for each database</code></pre>
+                        </div>
+                    </div>
+                `
+            },
+            'db-orm-leaky': {
+                title: 'ORMs Are Leaky Abstractions',
+                body: `
+                    <p>ORMs hide SQL, but you still need to understand what's happening underneath.</p>
+                    <div class="modal-section">
+                        <h4>Common Gotchas</h4>
+                        <ul>
+                            <li><strong>N+1 queries</strong> — ORM may fetch related data in loops</li>
+                            <li><strong>Inefficient queries</strong> — generated SQL isn't always optimal</li>
+                            <li><strong>Missing indexes</strong> — ORM can't tell you what to index</li>
+                            <li><strong>Complex queries</strong> — sometimes raw SQL is clearer</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Best Practice</h4>
+                        <p>Learn SQL first. Use an ORM for productivity. Drop to raw SQL when needed. Always check the generated queries in development.</p>
+                    </div>
+                `
+            },
+
+            // Prisma Features
+            'db-prisma-schema': {
+                title: 'Prisma Schema Language',
+                body: `
+                    <p>A declarative schema that defines your models, relationships, and database config.</p>
+                    <div class="modal-section">
+                        <h4>Key Features</h4>
+                        <ul>
+                            <li><strong>@id</strong> — primary key</li>
+                            <li><strong>@unique</strong> — unique constraint</li>
+                            <li><strong>@default()</strong> — default values</li>
+                            <li><strong>@relation</strong> — define relationships</li>
+                            <li><strong>@map</strong> — custom column names</li>
+                        </ul>
+                    </div>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>model Post {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  title     String   @db.VarChar(200)
+  content   String?
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int      @map("author_id")
+  tags      Tag[]    // Many-to-many
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([authorId])
+  @@map("posts")
+}</code></pre>
+                    </div>
+                `
+            },
+            'db-prisma-typesafe': {
+                title: 'Prisma Type Generation',
+                body: `
+                    <p>Prisma generates TypeScript types from your schema — zero manual type definitions.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Generated automatically from schema
+type User = {
+  id: number;
+  email: string;
+  name: string | null;
+  posts: Post[];
+  profile: Profile | null;
+  createdAt: Date;
+}
+
+// IntelliSense knows everything
+const user = await prisma.user.findUnique({
+  where: { email: 'alice@example.com' },
+  include: { posts: true }
+});
+
+user.posts[0].title  // TypeScript knows this exists</code></pre>
+                    </div>
+                `
+            },
+            'db-prisma-migrations': {
+                title: 'Prisma Migrations',
+                body: `
+                    <p>Schema changes generate SQL migrations automatically.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code># Development: create and apply migration
+npx prisma migrate dev --name add_user_role
+
+# Generates:
+# migrations/20240115_add_user_role/migration.sql
+ALTER TABLE "users" ADD COLUMN "role" VARCHAR(50);
+
+# Production: apply pending migrations
+npx prisma migrate deploy
+
+# View migration status
+npx prisma migrate status</code></pre>
+                    </div>
+                `
+            },
+            'db-prisma-studio': {
+                title: 'Prisma Studio',
+                body: `
+                    <p>A visual database browser that runs locally.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code># Launch studio
+npx prisma studio
+
+# Opens browser at http://localhost:5555
+# - Browse all tables
+# - View and edit records
+# - Filter and sort data
+# - See relationships visually</code></pre>
+                    </div>
+                `
+            },
+            'db-prisma-performance': {
+                title: 'Prisma Query Engine',
+                body: `
+                    <p>Prisma uses a Rust query engine for optimal performance.</p>
+                    <div class="modal-section">
+                        <h4>How It Works</h4>
+                        <ul>
+                            <li>Query engine runs as a separate process</li>
+                            <li>Compiles queries to optimized SQL</li>
+                            <li>Connection pooling built-in</li>
+                            <li>Query batching and caching</li>
+                        </ul>
+                    </div>
+                `
+            },
+
+            // Prisma Queries
+            'db-prisma-queries': {
+                title: 'Prisma Query API',
+                body: `
+                    <p>Comprehensive query API with full TypeScript support.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Find operations
+await prisma.user.findUnique({ where: { id: 1 } });
+await prisma.user.findFirst({ where: { name: { contains: 'A' } } });
+await prisma.user.findMany({ take: 10, skip: 20 });
+
+// Create operations
+await prisma.user.create({ data: { name: 'Alice', email: '...' } });
+await prisma.user.createMany({ data: [...], skipDuplicates: true });
+
+// Update operations
+await prisma.user.update({ where: { id: 1 }, data: { name: 'Bob' } });
+await prisma.user.updateMany({ where: { role: null }, data: { role: 'user' } });
+await prisma.user.upsert({
+  where: { email: 'alice@example.com' },
+  create: { email: '...', name: 'Alice' },
+  update: { name: 'Alice' }
+});
+
+// Delete operations
+await prisma.user.delete({ where: { id: 1 } });
+await prisma.user.deleteMany({ where: { lastLogin: { lt: oldDate } } });
+
+// Aggregations
+await prisma.user.count({ where: { active: true } });
+await prisma.order.aggregate({ _sum: { total: true }, _avg: { total: true } });</code></pre>
+                    </div>
+                `
+            },
+
+            // Drizzle
+            'db-drizzle-schema': {
+                title: 'Drizzle Schema Definition',
+                body: `
+                    <p>Define schemas in TypeScript — no separate schema language.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>import { pgTable, serial, text, timestamp,
+         integer, boolean, pgEnum } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
+
+export const roleEnum = pgEnum('role', ['user', 'admin']);
+
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  email: text('email').unique().notNull(),
+  role: roleEnum('role').default('user'),
+  createdAt: timestamp('created_at').defaultNow()
+});
+
+export const posts = pgTable('posts', {
+  id: serial('id').primaryKey(),
+  title: text('title').notNull(),
+  authorId: integer('author_id').references(() => users.id)
+});
+
+// Define relations separately
+export const usersRelations = relations(users, ({ many }) => ({
+  posts: many(posts)
+}));</code></pre>
+                    </div>
+                `
+            },
+            'db-drizzle-queries': {
+                title: 'Drizzle Query API',
+                body: `
+                    <p>SQL-like syntax that feels natural to SQL developers.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>import { eq, gt, and, desc, sql } from 'drizzle-orm';
+
+// Select with where
+const activeUsers = await db
+  .select()
+  .from(users)
+  .where(eq(users.role, 'admin'));
+
+// Join
+const usersWithPosts = await db
+  .select({
+    userName: users.name,
+    postTitle: posts.title
+  })
+  .from(users)
+  .leftJoin(posts, eq(users.id, posts.authorId));
+
+// Insert
+await db.insert(users).values({ name: 'Alice', email: '...' });
+
+// Update
+await db.update(users)
+  .set({ role: 'admin' })
+  .where(eq(users.id, 1));
+
+// Raw SQL when needed
+const result = await db.execute(sql\`
+  SELECT * FROM users WHERE email LIKE \${pattern}
+\`);</code></pre>
+                    </div>
+                `
+            },
+
+            // Decision Guide
+            'db-decision-acid': {
+                title: 'Need ACID Transactions',
+                body: `
+                    <p>When data integrity and transactions are critical.</p>
+                    <div class="modal-section">
+                        <h4>Choose: PostgreSQL or MySQL</h4>
+                        <ul>
+                            <li>Financial applications</li>
+                            <li>E-commerce (orders, payments)</li>
+                            <li>Healthcare records</li>
+                            <li>Booking systems</li>
+                        </ul>
+                    </div>
+                    <p><strong>PostgreSQL</strong> is the default choice for new projects. Use MySQL if your team has expertise or you're integrating with existing systems.</p>
+                `
+            },
+            'db-decision-speed': {
+                title: 'Need Sub-Millisecond Latency',
+                body: `
+                    <p>When every microsecond counts.</p>
+                    <div class="modal-section">
+                        <h4>Choose: Redis</h4>
+                        <ul>
+                            <li>Caching layer</li>
+                            <li>Session storage</li>
+                            <li>Real-time leaderboards</li>
+                            <li>Rate limiting</li>
+                        </ul>
+                    </div>
+                    <p>Redis serves data from memory — 100K+ ops/second with &lt;1ms latency. Use alongside your primary database, not instead of it.</p>
+                `
+            },
+            'db-decision-flexible': {
+                title: 'Need Flexible Schema',
+                body: `
+                    <p>When your data structure evolves frequently or varies per record.</p>
+                    <div class="modal-section">
+                        <h4>Choose: MongoDB</h4>
+                        <ul>
+                            <li>Content management</li>
+                            <li>Product catalogs with varying attributes</li>
+                            <li>User-generated content</li>
+                            <li>Rapid prototyping</li>
+                        </ul>
+                    </div>
+                    <p>But consider: PostgreSQL JSONB gives you flexible schema WITH relational features when you need them.</p>
+                `
+            },
+            'db-decision-relations': {
+                title: 'Complex Relationships',
+                body: `
+                    <p>When relationships ARE the data, not just connections between data.</p>
+                    <div class="modal-section">
+                        <h4>Choose: Neo4j</h4>
+                        <ul>
+                            <li>Social networks</li>
+                            <li>Recommendation engines</li>
+                            <li>Fraud detection</li>
+                            <li>Knowledge graphs</li>
+                        </ul>
+                    </div>
+                    <p>If you're doing lots of "friends of friends" or "shortest path" queries, graph databases are 100-1000x faster than relational.</p>
+                `
+            },
+            'db-decision-timeseries': {
+                title: 'Time-Series Data',
+                body: `
+                    <p>When most queries are time-based and data arrives continuously.</p>
+                    <div class="modal-section">
+                        <h4>Choose: TimescaleDB or InfluxDB</h4>
+                        <ul>
+                            <li>Application metrics</li>
+                            <li>IoT sensor data</li>
+                            <li>Financial tick data</li>
+                            <li>Log analytics</li>
+                        </ul>
+                    </div>
+                    <p><strong>TimescaleDB</strong> is a PostgreSQL extension — get time-series performance with SQL familiarity.</p>
+                `
+            },
+            'db-decision-search': {
+                title: 'Full-Text Search',
+                body: `
+                    <p>When users need to search through text content with relevance ranking.</p>
+                    <div class="modal-section">
+                        <h4>Choose: Elasticsearch or Meilisearch</h4>
+                        <ul>
+                            <li>Product search</li>
+                            <li>Document search</li>
+                            <li>Autocomplete</li>
+                            <li>Log analysis</li>
+                        </ul>
+                    </div>
+                    <p><strong>Meilisearch</strong> is simpler to run. <strong>Elasticsearch</strong> is more powerful but complex. For basic search, PostgreSQL full-text search might be enough.</p>
+                `
+            },
+
+            // Polyglot Persistence
+            'db-poly-postgres': {
+                title: 'PostgreSQL as Primary',
+                body: `
+                    <p>Your source of truth for transactional data.</p>
+                    <div class="modal-section">
+                        <h4>Store Here</h4>
+                        <ul>
+                            <li>User accounts and authentication</li>
+                            <li>Orders and payments</li>
+                            <li>Inventory and products</li>
+                            <li>Any data requiring ACID</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-poly-redis': {
+                title: 'Redis as Accelerator',
+                body: `
+                    <p>Speed up reads and enable real-time features.</p>
+                    <div class="modal-section">
+                        <h4>Store Here</h4>
+                        <ul>
+                            <li>Cache of frequently accessed data</li>
+                            <li>User sessions</li>
+                            <li>Rate limiting counters</li>
+                            <li>Real-time notifications</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-poly-elastic': {
+                title: 'Elasticsearch for Search',
+                body: `
+                    <p>Index searchable content from your primary database.</p>
+                    <div class="modal-section">
+                        <h4>Store Here</h4>
+                        <ul>
+                            <li>Product search index</li>
+                            <li>Application logs</li>
+                            <li>Full-text content search</li>
+                            <li>Analytics data</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-poly-s3': {
+                title: 'Object Storage for Files',
+                body: `
+                    <p>Don't store large binary files in your database.</p>
+                    <div class="modal-section">
+                        <h4>Store Here</h4>
+                        <ul>
+                            <li>User uploads (images, documents)</li>
+                            <li>Database backups</li>
+                            <li>Static assets</li>
+                            <li>Large data exports</li>
+                        </ul>
+                    </div>
+                    <p>Store the URL/key in your database, the file in S3/R2/GCS.</p>
+                `
+            },
+
+            // Database Patterns
+            'db-pattern-cache': {
+                title: 'Cache-Aside Pattern',
+                body: `
+                    <p>Application manages cache. Check cache first, fall back to database.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>async function getData(key: string) {
+  // 1. Try cache
+  const cached = await redis.get(key);
+  if (cached) return JSON.parse(cached);
+
+  // 2. Cache miss - query database
+  const data = await db.query('SELECT ...');
+
+  // 3. Populate cache
+  await redis.setex(key, 3600, JSON.stringify(data));
+
+  return data;
+}
+
+// On data change - invalidate cache
+await db.query('UPDATE ...');
+await redis.del(key);</code></pre>
+                    </div>
+                `
+            },
+            'db-pattern-cqrs': {
+                title: 'CQRS Pattern',
+                body: `
+                    <p>Command Query Responsibility Segregation — separate read and write models.</p>
+                    <div class="modal-section">
+                        <h4>How It Works</h4>
+                        <ul>
+                            <li><strong>Commands (writes)</strong> → Normalized database</li>
+                            <li><strong>Queries (reads)</strong> → Denormalized read model</li>
+                            <li>Sync via events or change data capture</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Benefits</h4>
+                        <ul>
+                            <li>Optimize reads and writes independently</li>
+                            <li>Scale read replicas separately</li>
+                            <li>Different storage for different access patterns</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-pattern-saga': {
+                title: 'Saga Pattern',
+                body: `
+                    <p>Manage distributed transactions across services with compensating actions.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Order saga: Order → Payment → Inventory → Shipping
+async function createOrderSaga(order) {
+  try {
+    const orderId = await orderService.create(order);
+    const paymentId = await paymentService.charge(order.total);
+    await inventoryService.reserve(order.items);
+    await shippingService.schedule(orderId);
+
+  } catch (error) {
+    // Compensating transactions (undo in reverse)
+    await shippingService.cancel(orderId);
+    await inventoryService.release(order.items);
+    await paymentService.refund(paymentId);
+    await orderService.cancel(orderId);
+    throw error;
+  }
+}</code></pre>
+                    </div>
+                `
+            },
+            'db-pattern-eventstore': {
+                title: 'Event Sourcing',
+                body: `
+                    <p>Store events, not current state. Rebuild state by replaying events.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Instead of: UPDATE accounts SET balance = 150
+// Store events:
+{ type: 'AccountCreated', data: { balance: 0 } }
+{ type: 'MoneyDeposited', data: { amount: 200 } }
+{ type: 'MoneyWithdrawn', data: { amount: 50 } }
+// Current state: balance = 150
+
+// Benefits:
+// - Complete audit trail
+// - Time travel (what was balance on Jan 1?)
+// - Debug by replaying events
+// - Rebuild read models from scratch</code></pre>
+                    </div>
+                `
+            },
+
+            // Performance Tips
+            'db-tip-index': {
+                title: 'Index Strategy',
+                body: `
+                    <p>Indexes speed up queries but slow down writes. Index strategically.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- Index columns used in:
+-- WHERE clauses
+CREATE INDEX idx_users_email ON users(email);
+
+-- JOIN conditions
+CREATE INDEX idx_posts_author ON posts(author_id);
+
+-- ORDER BY clauses
+CREATE INDEX idx_posts_created ON posts(created_at DESC);
+
+-- Composite index (order matters!)
+CREATE INDEX idx_orders_user_date ON orders(user_id, created_at);
+-- Good for: WHERE user_id = 1 AND created_at > '2024-01-01'
+-- Also good for: WHERE user_id = 1 (uses prefix)
+-- NOT good for: WHERE created_at > '2024-01-01' (can't use)</code></pre>
+                    </div>
+                `
+            },
+            'db-tip-explain': {
+                title: 'EXPLAIN ANALYZE',
+                body: `
+                    <p>See exactly how the database executes your query.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>EXPLAIN ANALYZE
+SELECT * FROM orders WHERE user_id = 1 AND status = 'pending';
+
+-- Output shows:
+-- - Seq Scan vs Index Scan
+-- - Estimated vs actual rows
+-- - Time per step
+-- - Memory usage
+
+-- Bad: Seq Scan on orders (cost=0.00..1000.00)
+-- Good: Index Scan using idx_orders_user (cost=0.00..8.27)
+
+-- Prisma: Enable query logging
+const prisma = new PrismaClient({ log: ['query'] });</code></pre>
+                    </div>
+                `
+            },
+            'db-tip-n1': {
+                title: 'N+1 Query Problem',
+                body: `
+                    <p>Fetching related data in a loop causes N+1 queries. Use eager loading.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// BAD: N+1 queries
+const users = await prisma.user.findMany();
+for (const user of users) {
+  const posts = await prisma.post.findMany({
+    where: { authorId: user.id }  // Query per user!
+  });
+}
+// 1 query for users + N queries for posts = N+1
+
+// GOOD: Single query with include
+const users = await prisma.user.findMany({
+  include: { posts: true }  // JOIN in single query
+});
+// 1 query total (or 2 with batched loading)</code></pre>
+                    </div>
+                `
+            },
+            'db-tip-pool': {
+                title: 'Connection Pooling',
+                body: `
+                    <p>Database connections are expensive. Reuse them via pooling.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// BAD: New connection per request
+app.get('/users', async (req, res) => {
+  const client = new Client(connectionString);
+  await client.connect();  // Slow!
+  const result = await client.query('SELECT ...');
+  await client.end();
+});
+
+// GOOD: Connection pool
+const pool = new Pool({
+  connectionString,
+  max: 20,  // Max connections in pool
+  idleTimeoutMillis: 30000
+});
+
+app.get('/users', async (req, res) => {
+  const result = await pool.query('SELECT ...');
+  // Connection returned to pool automatically
+});</code></pre>
+                    </div>
+                `
+            },
+            'db-tip-pagination': {
+                title: 'Pagination Strategies',
+                body: `
+                    <p>Never fetch unlimited results. Paginate large datasets.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Offset pagination (simple but slow for deep pages)
+SELECT * FROM posts ORDER BY id LIMIT 20 OFFSET 1000;
+-- Problem: DB must scan 1020 rows to return 20
+
+// Cursor pagination (consistent and fast)
+SELECT * FROM posts
+WHERE id > :last_seen_id  -- Start after cursor
+ORDER BY id
+LIMIT 20;
+
+// With Prisma
+const posts = await prisma.post.findMany({
+  take: 20,
+  skip: 1,  // Skip the cursor
+  cursor: { id: lastPostId },
+  orderBy: { id: 'asc' }
+});</code></pre>
+                    </div>
+                `
+            },
+            'db-tip-denormalize': {
+                title: 'Strategic Denormalization',
+                body: `
+                    <p>Sometimes duplicating data is better than complex joins.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// Normalized (requires JOIN)
+orders: { id, user_id, ... }
+users: { id, name, ... }
+
+SELECT o.*, u.name
+FROM orders o JOIN users u ON o.user_id = u.id;
+
+// Denormalized (no join needed)
+orders: { id, user_id, user_name, ... }
+
+SELECT * FROM orders WHERE id = 1;
+
+// Trade-offs:
+// + Faster reads (no join)
+// - More storage
+// - Must update both places
+// - Risk of data drift
+
+// Use when:
+// - Read-heavy workload
+// - Data rarely changes
+// - Join is expensive (cross-service)</code></pre>
+                    </div>
+                `
+            },
+
+            // Security
+            'db-sec-injection': {
+                title: 'SQL Injection Prevention',
+                body: `
+                    <p>The #1 database security rule: <strong>NEVER</strong> concatenate user input into SQL.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>// VULNERABLE — attacker can inject SQL
+const query = \`SELECT * FROM users WHERE email = '\${email}'\`;
+// If email = "'; DROP TABLE users; --"
+// Query becomes: SELECT * FROM users WHERE email = ''; DROP TABLE users; --'
+
+// SAFE — parameterized query
+const query = 'SELECT * FROM users WHERE email = $1';
+await db.query(query, [email]);  // email is treated as DATA
+
+// SAFE — ORM handles it
+await prisma.user.findUnique({ where: { email } });
+// Prisma/Drizzle always use parameterized queries</code></pre>
+                    </div>
+                `
+            },
+            'db-sec-leastpriv': {
+                title: 'Least Privilege Principle',
+                body: `
+                    <p>Your application's database user should only have permissions it needs.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- Create a limited user for the app
+CREATE USER app_user WITH PASSWORD 'secure_password';
+
+-- Grant only necessary permissions
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app_user;
+
+-- NO DROP, CREATE, ALTER permissions
+-- If app is compromised, damage is limited
+
+-- For migrations, use a separate privileged user
+CREATE USER migrations_user WITH PASSWORD '...';
+GRANT ALL PRIVILEGES ON DATABASE myapp TO migrations_user;</code></pre>
+                    </div>
+                `
+            },
+            'db-sec-encrypt': {
+                title: 'Encryption',
+                body: `
+                    <p>Encrypt data in transit (TLS) and at rest (disk encryption).</p>
+                    <div class="modal-section">
+                        <h4>In Transit</h4>
+                        <div class="modal-code-block">
+                            <pre class="modal-code"><code>// Connection string with SSL
+postgresql://user:pass@host/db?sslmode=require
+
+// Prisma
+datasource db {
+  url = env("DATABASE_URL")  // Include ?sslmode=require
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Column-Level Encryption</h4>
+                        <p>For sensitive fields (SSN, credit cards), encrypt before storing. Use pgcrypto extension or application-level encryption.</p>
+                    </div>
+                `
+            },
+            'db-sec-backup': {
+                title: 'Backup Strategy',
+                body: `
+                    <p>A backup you've never tested is not a backup.</p>
+                    <div class="modal-section">
+                        <h4>Best Practices</h4>
+                        <ul>
+                            <li><strong>Automate</strong> — daily backups at minimum</li>
+                            <li><strong>Test restores</strong> — monthly at minimum</li>
+                            <li><strong>Off-site storage</strong> — different region/provider</li>
+                            <li><strong>Point-in-time recovery</strong> — enable WAL archiving</li>
+                            <li><strong>Encrypt backups</strong> — protect at rest</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-sec-audit': {
+                title: 'Audit Logging',
+                body: `
+                    <p>Track who changed what and when — critical for compliance and debugging.</p>
+                    <div class="modal-code-block">
+                        <pre class="modal-code"><code>-- PostgreSQL audit trigger
+CREATE OR REPLACE FUNCTION audit_trigger()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO audit_log (
+    table_name, action, old_data, new_data,
+    changed_by, changed_at
+  ) VALUES (
+    TG_TABLE_NAME, TG_OP,
+    row_to_json(OLD), row_to_json(NEW),
+    current_user, now()
+  );
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER users_audit
+AFTER INSERT OR UPDATE OR DELETE ON users
+FOR EACH ROW EXECUTE FUNCTION audit_trigger();</code></pre>
+                    </div>
+                `
+            },
+
+            // Stack Recommendations
+            'db-stack-startup': {
+                title: 'Startup / MVP Stack',
+                body: `
+                    <p>Start simple. PostgreSQL handles more than you think.</p>
+                    <div class="modal-section">
+                        <h4>Recommended Stack</h4>
+                        <ul>
+                            <li><strong>PostgreSQL</strong> — your one database</li>
+                            <li><strong>Prisma</strong> — type-safe queries</li>
+                            <li><strong>Supabase or Neon</strong> — managed hosting</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Why This Works</h4>
+                        <p>PostgreSQL can do full-text search (ts_vector), JSON (jsonb), geospatial (PostGIS), and handles thousands of concurrent connections. Add Redis only when you actually need caching.</p>
+                    </div>
+                `
+            },
+            'db-stack-realtime': {
+                title: 'Real-time App Stack',
+                body: `
+                    <p>When you need instant updates and live features.</p>
+                    <div class="modal-section">
+                        <h4>Recommended Stack</h4>
+                        <ul>
+                            <li><strong>PostgreSQL</strong> — source of truth</li>
+                            <li><strong>Redis</strong> — pub/sub, caching, sessions</li>
+                            <li><strong>Socket.io / Pusher</strong> — WebSocket layer</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Flow</h4>
+                        <p>Write to PostgreSQL → Publish event to Redis → Subscribers push to WebSockets → Users see instant updates</p>
+                    </div>
+                `
+            },
+            'db-stack-content': {
+                title: 'Content Platform Stack',
+                body: `
+                    <p>For blogs, documentation, e-commerce with search.</p>
+                    <div class="modal-section">
+                        <h4>Recommended Stack</h4>
+                        <ul>
+                            <li><strong>PostgreSQL</strong> — users, orders, metadata</li>
+                            <li><strong>Elasticsearch / Meilisearch</strong> — search index</li>
+                            <li><strong>S3 / R2</strong> — images, videos, files</li>
+                            <li><strong>CDN</strong> — serve static content globally</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'db-stack-analytics': {
+                title: 'Analytics / BI Stack',
+                body: `
+                    <p>When you're aggregating large amounts of data.</p>
+                    <div class="modal-section">
+                        <h4>Recommended Stack</h4>
+                        <ul>
+                            <li><strong>ClickHouse</strong> — self-hosted, blazing fast</li>
+                            <li><strong>BigQuery</strong> — serverless, pay per query</li>
+                            <li><strong>Snowflake</strong> — enterprise, separation of storage/compute</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Pattern</h4>
+                        <p>OLTP database (PostgreSQL) for operations → ETL pipeline → OLAP database for analytics. Don't run heavy analytics queries on your production database.</p>
+                    </div>
+                `
             }
         };
     }
@@ -5591,6 +7788,16 @@ X-Frame-Options: SAMEORIGIN     // Only same origin
                     const modalId = el.dataset.modal;
                     this.open(modalId);
                 });
+            }
+        });
+
+        // Event delegation for any element with data-modal attribute
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('[data-modal]');
+            if (target) {
+                e.stopPropagation();
+                const modalId = target.dataset.modal;
+                if (modalId) this.open(modalId);
             }
         });
 
