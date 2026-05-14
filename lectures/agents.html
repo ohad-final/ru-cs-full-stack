@@ -1,0 +1,1150 @@
+<!-- Slide 1: Title -->
+<section class="slide active" data-slide="1">
+    <div class="slide-content title-slide">
+        <div class="title-decoration">
+            <span class="protocol-badge">AI ENGINEERING</span>
+        </div>
+        <h1 class="main-title">
+            <span class="title-line">AI Agents</span>
+            <span class="title-line highlight">& LLM Integration</span>
+        </h1>
+        <p class="subtitle">From Chatbots to Autonomous Agents in Your Applications</p>
+        <div class="title-meta">
+            <div class="meta-item">
+                <span class="meta-label">Course</span>
+                <span class="meta-value">Full Stack Engineering</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Instructor</span>
+                <span class="meta-value">Ohad Assulin</span>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            Press -> or Space to navigate
+            <div class="arrow-bounce">|</div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 2: What is an AI Agent? -->
+<section class="slide" data-slide="2">
+    <div class="slide-content">
+        <h3 class="slide-title">What is an AI Agent?</h3>
+        <div class="agent-definition">
+            <div class="definition-box" data-modal="agent-definition">
+                <div class="definition-icon">🤖</div>
+                <p class="definition-text">An AI Agent is a system that uses an LLM to <strong>reason</strong>, <strong>plan</strong>, and <strong>take actions</strong> to accomplish goals — often using tools and maintaining context across interactions.</p>
+            </div>
+        </div>
+        <div class="agent-capabilities">
+            <div class="capability-item" data-modal="agent-reasoning">
+                <div class="cap-icon">🧠</div>
+                <h4>Reasoning</h4>
+                <p>Understands context, breaks down problems, makes decisions</p>
+            </div>
+            <div class="capability-item" data-modal="agent-tools">
+                <div class="cap-icon">🔧</div>
+                <h4>Tool Use</h4>
+                <p>Calls APIs, runs code, searches databases, browses web</p>
+            </div>
+            <div class="capability-item" data-modal="agent-memory">
+                <div class="cap-icon">💾</div>
+                <h4>Memory</h4>
+                <p>Maintains conversation history, learns user preferences</p>
+            </div>
+            <div class="capability-item" data-modal="agent-autonomy">
+                <div class="cap-icon">🎯</div>
+                <h4>Autonomy</h4>
+                <p>Works independently, handles multi-step tasks, recovers from errors</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 3: Agent vs Chatbot vs Assistant -->
+<section class="slide" data-slide="3">
+    <div class="slide-content">
+        <h3 class="slide-title">Agent vs Chatbot vs Assistant</h3>
+        <div class="comparison-spectrum">
+            <div class="spectrum-item chatbot" data-modal="type-chatbot">
+                <div class="spectrum-header">Chatbot</div>
+                <div class="spectrum-icon">💬</div>
+                <ul>
+                    <li>Rule-based or simple ML</li>
+                    <li>Predefined responses</li>
+                    <li>Limited context</li>
+                    <li>Single-turn focus</li>
+                </ul>
+                <div class="spectrum-example">FAQ bot, customer service scripts</div>
+            </div>
+            <div class="spectrum-arrow">→</div>
+            <div class="spectrum-item assistant" data-modal="type-assistant">
+                <div class="spectrum-header">AI Assistant</div>
+                <div class="spectrum-icon">🤝</div>
+                <ul>
+                    <li>LLM-powered</li>
+                    <li>Conversational</li>
+                    <li>Context-aware</li>
+                    <li>Reactive to prompts</li>
+                </ul>
+                <div class="spectrum-example">ChatGPT, Claude chat</div>
+            </div>
+            <div class="spectrum-arrow">→</div>
+            <div class="spectrum-item agent" data-modal="type-agent">
+                <div class="spectrum-header">AI Agent</div>
+                <div class="spectrum-icon">🚀</div>
+                <ul>
+                    <li>Goal-oriented</li>
+                    <li>Uses tools autonomously</li>
+                    <li>Plans multi-step tasks</li>
+                    <li>Proactive execution</li>
+                </ul>
+                <div class="spectrum-example">Claude Code, Devin, AutoGPT</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 4: History Timeline -->
+<section class="slide" data-slide="4">
+    <div class="slide-content">
+        <h3 class="slide-title">A Brief History of AI Agents</h3>
+        <p class="slide-description">Click any milestone to learn more</p>
+        <div class="agent-timeline">
+            <div class="timeline-item" data-modal="history-eliza">
+                <div class="timeline-year">1966</div>
+                <div class="timeline-event">ELIZA</div>
+                <div class="timeline-desc">First chatbot</div>
+            </div>
+            <div class="timeline-item" data-modal="history-siri">
+                <div class="timeline-year">2011</div>
+                <div class="timeline-event">Siri</div>
+                <div class="timeline-desc">Voice assistants emerge</div>
+            </div>
+            <div class="timeline-item" data-modal="history-gpt3">
+                <div class="timeline-year">2020</div>
+                <div class="timeline-event">GPT-3</div>
+                <div class="timeline-desc">LLM revolution begins</div>
+            </div>
+            <div class="timeline-item" data-modal="history-chatgpt">
+                <div class="timeline-year">2022</div>
+                <div class="timeline-event">ChatGPT</div>
+                <div class="timeline-desc">AI goes mainstream</div>
+            </div>
+            <div class="timeline-item" data-modal="history-tools">
+                <div class="timeline-year">2023</div>
+                <div class="timeline-event">Tool Use</div>
+                <div class="timeline-desc">Function calling, plugins</div>
+            </div>
+            <div class="timeline-item" data-modal="history-agents">
+                <div class="timeline-year">2024+</div>
+                <div class="timeline-event">Agent Era</div>
+                <div class="timeline-desc">Claude Code, Codex, SDKs</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 5: The Agent Stack -->
+<section class="slide" data-slide="5">
+    <div class="slide-content">
+        <h3 class="slide-title">The Modern Agent Stack</h3>
+        <div class="agent-stack-diagram">
+            <div class="stack-row">
+                <div class="stack-box application" data-modal="stack-application">
+                    <span class="stack-label">Your Application</span>
+                    <span class="stack-desc">E-commerce, SaaS, Mobile App</span>
+                </div>
+            </div>
+            <div class="stack-connector">↕</div>
+            <div class="stack-row">
+                <div class="stack-box sdk" data-modal="stack-sdk">
+                    <span class="stack-label">Agent SDK</span>
+                    <span class="stack-desc">Claude SDK, OpenAI SDK</span>
+                </div>
+            </div>
+            <div class="stack-connector">↕</div>
+            <div class="stack-row triple">
+                <div class="stack-box tools" data-modal="stack-tools">
+                    <span class="stack-label">Tools</span>
+                    <span class="stack-desc">APIs, DB, Search</span>
+                </div>
+                <div class="stack-box llm" data-modal="stack-llm">
+                    <span class="stack-label">LLM</span>
+                    <span class="stack-desc">Claude, GPT-4</span>
+                </div>
+                <div class="stack-box memory" data-modal="stack-memory">
+                    <span class="stack-label">Memory</span>
+                    <span class="stack-desc">Context, History</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 6: Part I - Building with SDKs -->
+<section class="slide" data-slide="6">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part I</div>
+        <h2 class="section-title">Building with Agent SDKs</h2>
+        <p class="section-subtitle">TypeScript Examples with Claude & OpenAI</p>
+        <div class="sdk-logos">
+            <div class="sdk-logo anthropic">Anthropic SDK</div>
+            <div class="sdk-logo openai">OpenAI SDK</div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 7: SDK Comparison -->
+<section class="slide" data-slide="7">
+    <div class="slide-content">
+        <h3 class="slide-title">SDK Comparison</h3>
+        <div class="sdk-comparison-table">
+            <div class="sdk-row header">
+                <span></span>
+                <span class="sdk-name anthropic">Claude SDK</span>
+                <span class="sdk-name openai">OpenAI SDK</span>
+            </div>
+            <div class="sdk-row" data-modal="sdk-install">
+                <span class="row-label">Install</span>
+                <span class="sdk-value"><code>@anthropic-ai/sdk</code></span>
+                <span class="sdk-value"><code>openai</code></span>
+            </div>
+            <div class="sdk-row" data-modal="sdk-streaming">
+                <span class="row-label">Streaming</span>
+                <span class="sdk-value">✓ Native</span>
+                <span class="sdk-value">✓ Native</span>
+            </div>
+            <div class="sdk-row" data-modal="sdk-tools">
+                <span class="row-label">Tool Use</span>
+                <span class="sdk-value">✓ First-class</span>
+                <span class="sdk-value">✓ Function calling</span>
+            </div>
+            <div class="sdk-row" data-modal="sdk-vision">
+                <span class="row-label">Vision</span>
+                <span class="sdk-value">✓ Images</span>
+                <span class="sdk-value">✓ Images</span>
+            </div>
+            <div class="sdk-row" data-modal="sdk-context">
+                <span class="row-label">Context Window</span>
+                <span class="sdk-value">200K tokens</span>
+                <span class="sdk-value">128K tokens</span>
+            </div>
+        </div>
+        <div class="sdk-note">
+            Both SDKs follow similar patterns. We'll focus on <strong>Claude SDK</strong> but concepts transfer directly.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 8: Getting Started -->
+<section class="slide" data-slide="8">
+    <div class="slide-content">
+        <h3 class="slide-title">Getting Started</h3>
+        <div class="setup-steps">
+            <div class="setup-step" data-modal="setup-install">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h4>Install the SDK</h4>
+                    <div class="code-block small">
+                        <pre><code>npm install @anthropic-ai/sdk</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="setup-step" data-modal="setup-env">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h4>Set API Key</h4>
+                    <div class="code-block small">
+                        <pre><code># .env
+ANTHROPIC_API_KEY=sk-ant-...</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="setup-step" data-modal="setup-init">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h4>Initialize Client</h4>
+                    <div class="code-block small">
+                        <pre><code>import Anthropic from '@anthropic-ai/sdk';
+
+const client = new Anthropic();
+// Automatically reads ANTHROPIC_API_KEY</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 9: Basic Chat -->
+<section class="slide" data-slide="9">
+    <div class="slide-content">
+        <h3 class="slide-title">Basic Chat: Your First API Call</h3>
+        <div class="code-block large" data-modal="code-basic-chat">
+            <pre><code>import Anthropic from '@anthropic-ai/sdk';
+
+const client = new Anthropic();
+
+async function chat(userMessage: string) {
+  const response = await client.messages.create({
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 1024,
+    messages: [
+      { role: 'user', content: userMessage }
+    ]
+  });
+
+  // Extract text from response
+  const text = response.content
+    .filter(block => block.type === 'text')
+    .map(block => block.text)
+    .join('');
+
+  return text;
+}
+
+// Usage
+const answer = await chat('What is TypeScript?');
+console.log(answer);</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 10: System Prompts -->
+<section class="slide" data-slide="10">
+    <div class="slide-content">
+        <h3 class="slide-title">System Prompts: Defining Personality</h3>
+        <div class="code-block large" data-modal="code-system-prompt">
+            <pre><code>const response = await client.messages.create({
+  model: 'claude-sonnet-4-20250514',
+  max_tokens: 1024,
+  system: `You are a helpful shopping assistant for TechStore.
+You help customers find products, compare options, and make decisions.
+Always be friendly and concise. If you don't know something, say so.
+Current date: ${new Date().toISOString().split('T')[0]}`,
+  messages: [
+    { role: 'user', content: 'I need a laptop for coding' }
+  ]
+});
+
+// Response will be tailored to the shopping assistant persona</code></pre>
+        </div>
+        <div class="system-prompt-tips">
+            <div class="tip" data-modal="tip-persona">
+                <strong>Persona</strong> — Define who the agent is
+            </div>
+            <div class="tip" data-modal="tip-constraints">
+                <strong>Constraints</strong> — Set boundaries and rules
+            </div>
+            <div class="tip" data-modal="tip-context">
+                <strong>Context</strong> — Provide relevant information
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 11: Conversation Continuity -->
+<section class="slide" data-slide="11">
+    <div class="slide-content">
+        <h3 class="slide-title">Conversation Continuity</h3>
+        <p class="slide-description">Maintaining context across multiple turns</p>
+        <div class="code-block large" data-modal="code-continuity">
+            <pre><code>import Anthropic from '@anthropic-ai/sdk';
+
+type Message = { role: 'user' | 'assistant'; content: string };
+
+class ChatSession {
+  private client = new Anthropic();
+  private history: Message[] = [];
+  private systemPrompt: string;
+
+  constructor(systemPrompt: string) {
+    this.systemPrompt = systemPrompt;
+  }
+
+  async send(userMessage: string): Promise&lt;string&gt; {
+    // Add user message to history
+    this.history.push({ role: 'user', content: userMessage });
+
+    const response = await this.client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1024,
+      system: this.systemPrompt,
+      messages: this.history  // Send full conversation history
+    });
+
+    const assistantMessage = response.content
+      .filter(b => b.type === 'text')
+      .map(b => b.text)
+      .join('');
+
+    // Add assistant response to history
+    this.history.push({ role: 'assistant', content: assistantMessage });
+
+    return assistantMessage;
+  }
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 12: Using the Chat Session -->
+<section class="slide" data-slide="12">
+    <div class="slide-content">
+        <h3 class="slide-title">Multi-Turn Conversation Example</h3>
+        <div class="code-block large" data-modal="code-multi-turn">
+            <pre><code>// Create a shopping assistant session
+const session = new ChatSession(`
+  You are a helpful shopping assistant for an electronics store.
+  Help customers find products and answer questions.
+`);
+
+// Conversation with memory
+await session.send('I\'m looking for a new phone');
+// "I'd be happy to help you find a new phone! To give you
+//  the best recommendations, could you tell me..."
+
+await session.send('Budget is around $800');
+// "Great! With an $800 budget, you have excellent options.
+//  Here are my top recommendations..."
+
+await session.send('Which one has the best camera?');
+// The assistant remembers the context and compares cameras
+// of the phones mentioned in the previous response
+
+await session.send('I\'ll take that one');
+// Assistant knows exactly which phone "that one" refers to</code></pre>
+        </div>
+        <div class="continuity-note">
+            <strong>Key insight:</strong> The entire conversation history is sent with each request. The LLM is stateless — your code manages state.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 13: Part II - Tool Use -->
+<section class="slide" data-slide="13">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part II</div>
+        <h2 class="section-title">Tool Use & Skills</h2>
+        <p class="section-subtitle">Giving Your Agent Superpowers</p>
+    </div>
+</section>
+
+<!-- Slide 14: What Are Tools? -->
+<section class="slide" data-slide="14">
+    <div class="slide-content">
+        <h3 class="slide-title">What Are Tools?</h3>
+        <div class="tools-explanation">
+            <div class="tools-diagram">
+                <div class="tool-flow">
+                    <div class="flow-box user">User Request</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box llm">LLM Decides</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box tool">Tool Executes</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box llm">LLM Responds</div>
+                </div>
+            </div>
+            <div class="tools-examples">
+                <div class="tool-example" data-modal="tool-search">
+                    <span class="tool-icon">🔍</span>
+                    <span class="tool-name">search_products</span>
+                    <span class="tool-desc">Query your database</span>
+                </div>
+                <div class="tool-example" data-modal="tool-weather">
+                    <span class="tool-icon">🌤️</span>
+                    <span class="tool-name">get_weather</span>
+                    <span class="tool-desc">Call external API</span>
+                </div>
+                <div class="tool-example" data-modal="tool-calculate">
+                    <span class="tool-icon">🧮</span>
+                    <span class="tool-name">calculate</span>
+                    <span class="tool-desc">Run precise math</span>
+                </div>
+                <div class="tool-example" data-modal="tool-email">
+                    <span class="tool-icon">📧</span>
+                    <span class="tool-name">send_email</span>
+                    <span class="tool-desc">Take real actions</span>
+                </div>
+            </div>
+        </div>
+        <div class="tools-key-point">
+            Tools let the LLM <strong>do things</strong>, not just <strong>say things</strong>.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 15: Defining Tools -->
+<section class="slide" data-slide="15">
+    <div class="slide-content">
+        <h3 class="slide-title">Defining Tools</h3>
+        <div class="code-block large" data-modal="code-tool-definition">
+            <pre><code>const tools = [
+  {
+    name: 'search_products',
+    description: 'Search the product catalog by query, category, or price range',
+    input_schema: {
+      type: 'object',
+      properties: {
+        query: {
+          type: 'string',
+          description: 'Search query (e.g., "wireless headphones")'
+        },
+        category: {
+          type: 'string',
+          enum: ['electronics', 'clothing', 'home', 'sports'],
+          description: 'Product category to filter by'
+        },
+        max_price: {
+          type: 'number',
+          description: 'Maximum price in dollars'
+        }
+      },
+      required: ['query']
+    }
+  }
+];</code></pre>
+        </div>
+        <div class="tool-schema-note">
+            The schema tells the LLM what parameters are available and how to use them.
+        </div>
+    </div>
+</section>
+
+<!-- Slide 16: Handling Tool Calls -->
+<section class="slide" data-slide="16">
+    <div class="slide-content">
+        <h3 class="slide-title">Handling Tool Calls</h3>
+        <div class="code-block large" data-modal="code-tool-handling">
+            <pre><code>async function runAgent(userMessage: string) {
+  const response = await client.messages.create({
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 1024,
+    tools: tools,
+    messages: [{ role: 'user', content: userMessage }]
+  });
+
+  // Check if the model wants to use a tool
+  if (response.stop_reason === 'tool_use') {
+    const toolUse = response.content.find(b => b.type === 'tool_use');
+
+    // Execute the tool
+    const toolResult = await executeToolCall(
+      toolUse.name,
+      toolUse.input
+    );
+
+    // Send result back to continue conversation
+    const finalResponse = await client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1024,
+      tools: tools,
+      messages: [
+        { role: 'user', content: userMessage },
+        { role: 'assistant', content: response.content },
+        { role: 'user', content: [{ type: 'tool_result', tool_use_id: toolUse.id, content: JSON.stringify(toolResult) }] }
+      ]
+    });
+
+    return finalResponse;
+  }
+
+  return response;
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 17: Tool Implementation -->
+<section class="slide" data-slide="17">
+    <div class="slide-content">
+        <h3 class="slide-title">Implementing Tools</h3>
+        <div class="code-block large" data-modal="code-tool-impl">
+            <pre><code>// Tool implementations - connect to your actual services
+async function executeToolCall(name: string, input: any) {
+  switch (name) {
+    case 'search_products':
+      return await searchProducts(input.query, input.category, input.max_price);
+
+    case 'get_product_details':
+      return await getProductById(input.product_id);
+
+    case 'check_inventory':
+      return await checkStock(input.product_id, input.location);
+
+    case 'create_order':
+      return await createOrder(input.customer_id, input.items);
+
+    default:
+      throw new Error(`Unknown tool: ${name}`);
+  }
+}
+
+// Example: Search products in your database
+async function searchProducts(query: string, category?: string, maxPrice?: number) {
+  const products = await db.products.findMany({
+    where: {
+      name: { contains: query, mode: 'insensitive' },
+      ...(category && { category }),
+      ...(maxPrice && { price: { lte: maxPrice } })
+    },
+    take: 5
+  });
+  return products;
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 18: Agent Loop Pattern -->
+<section class="slide" data-slide="18">
+    <div class="slide-content">
+        <h3 class="slide-title">The Agent Loop Pattern</h3>
+        <div class="code-block large" data-modal="code-agent-loop">
+            <pre><code>async function agentLoop(userMessage: string) {
+  const messages: Message[] = [{ role: 'user', content: userMessage }];
+
+  while (true) {
+    const response = await client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 4096,
+      system: systemPrompt,
+      tools: tools,
+      messages: messages
+    });
+
+    // Add assistant response to history
+    messages.push({ role: 'assistant', content: response.content });
+
+    // If no tool use, we're done
+    if (response.stop_reason === 'end_turn') {
+      return extractText(response);
+    }
+
+    // Execute all tool calls
+    const toolResults = [];
+    for (const block of response.content) {
+      if (block.type === 'tool_use') {
+        const result = await executeToolCall(block.name, block.input);
+        toolResults.push({
+          type: 'tool_result',
+          tool_use_id: block.id,
+          content: JSON.stringify(result)
+        });
+      }
+    }
+
+    // Add tool results and continue loop
+    messages.push({ role: 'user', content: toolResults });
+  }
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 19: Streaming Responses -->
+<section class="slide" data-slide="19">
+    <div class="slide-content">
+        <h3 class="slide-title">Streaming Responses</h3>
+        <p class="slide-description">Real-time output for better UX</p>
+        <div class="code-block large" data-modal="code-streaming">
+            <pre><code>async function streamChat(userMessage: string) {
+  const stream = client.messages.stream({
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 1024,
+    messages: [{ role: 'user', content: userMessage }]
+  });
+
+  // Process tokens as they arrive
+  for await (const event of stream) {
+    if (event.type === 'content_block_delta' &&
+        event.delta.type === 'text_delta') {
+      process.stdout.write(event.delta.text);
+      // Or: updateUI(event.delta.text)
+    }
+  }
+
+  // Get final message for history
+  const finalMessage = await stream.finalMessage();
+  return finalMessage;
+}
+
+// In React/Next.js - use AI SDK for easier streaming
+import { streamText } from 'ai';
+import { anthropic } from '@ai-sdk/anthropic';
+
+const result = await streamText({
+  model: anthropic('claude-sonnet-4-20250514'),
+  prompt: userMessage
+});</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 20: Part III - Marketing Agent -->
+<section class="slide" data-slide="20">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part III</div>
+        <h2 class="section-title">Marketing Agent</h2>
+        <p class="section-subtitle">AI-Powered Growth for Your App</p>
+    </div>
+</section>
+
+<!-- Slide 21: Marketing Agent Overview -->
+<section class="slide" data-slide="21">
+    <div class="slide-content">
+        <h3 class="slide-title">What Can a Marketing Agent Do?</h3>
+        <div class="marketing-capabilities">
+            <div class="marketing-cap" data-modal="marketing-content">
+                <div class="cap-icon">✍️</div>
+                <h4>Content Generation</h4>
+                <p>Blog posts, social media, product descriptions</p>
+            </div>
+            <div class="marketing-cap" data-modal="marketing-seo">
+                <div class="cap-icon">🔍</div>
+                <h4>SEO Optimization</h4>
+                <p>Keywords, meta tags, content structure</p>
+            </div>
+            <div class="marketing-cap" data-modal="marketing-email">
+                <div class="cap-icon">📧</div>
+                <h4>Email Campaigns</h4>
+                <p>Personalized sequences, A/B variants</p>
+            </div>
+            <div class="marketing-cap" data-modal="marketing-social">
+                <div class="cap-icon">📱</div>
+                <h4>Social Media</h4>
+                <p>Posts, threads, engagement replies</p>
+            </div>
+            <div class="marketing-cap" data-modal="marketing-analysis">
+                <div class="cap-icon">📊</div>
+                <h4>Feedback Analysis</h4>
+                <p>Review sentiment, feature requests</p>
+            </div>
+            <div class="marketing-cap" data-modal="marketing-competitor">
+                <div class="cap-icon">🎯</div>
+                <h4>Competitor Research</h4>
+                <p>Positioning, gaps, opportunities</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 22: Social Media Agent -->
+<section class="slide" data-slide="22">
+    <div class="slide-content">
+        <h3 class="slide-title">Social Media Content Agent</h3>
+        <div class="code-block large" data-modal="code-social-agent">
+            <pre><code>const socialMediaTools = [
+  {
+    name: 'generate_post',
+    description: 'Generate a social media post for a specific platform',
+    input_schema: {
+      type: 'object',
+      properties: {
+        platform: { type: 'string', enum: ['twitter', 'linkedin', 'instagram'] },
+        topic: { type: 'string' },
+        tone: { type: 'string', enum: ['professional', 'casual', 'exciting'] },
+        include_hashtags: { type: 'boolean' }
+      },
+      required: ['platform', 'topic']
+    }
+  },
+  {
+    name: 'schedule_post',
+    description: 'Schedule a post for optimal engagement time',
+    input_schema: {
+      type: 'object',
+      properties: {
+        content: { type: 'string' },
+        platform: { type: 'string' },
+        preferred_time: { type: 'string', description: 'ISO datetime or "optimal"' }
+      },
+      required: ['content', 'platform']
+    }
+  }
+];
+
+// Usage: "Create a Twitter thread about our new feature launch"</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 23: SEO Content Agent -->
+<section class="slide" data-slide="23">
+    <div class="slide-content">
+        <h3 class="slide-title">SEO Content Agent</h3>
+        <div class="code-block large" data-modal="code-seo-agent">
+            <pre><code>const systemPrompt = `You are an SEO content specialist.
+When writing content:
+1. Research and include relevant keywords naturally
+2. Structure with proper H1, H2, H3 hierarchy
+3. Write compelling meta descriptions (150-160 chars)
+4. Include internal linking opportunities
+5. Optimize for featured snippets where relevant`;
+
+const seoTools = [
+  {
+    name: 'keyword_research',
+    description: 'Find relevant keywords for a topic',
+    input_schema: {
+      type: 'object',
+      properties: {
+        topic: { type: 'string' },
+        intent: { type: 'string', enum: ['informational', 'transactional', 'navigational'] }
+      },
+      required: ['topic']
+    }
+  },
+  {
+    name: 'analyze_competitors',
+    description: 'Analyze top-ranking pages for a keyword',
+    input_schema: {
+      type: 'object',
+      properties: { keyword: { type: 'string' } },
+      required: ['keyword']
+    }
+  },
+  {
+    name: 'generate_meta',
+    description: 'Generate SEO-optimized title and description',
+    input_schema: {
+      type: 'object',
+      properties: { content: { type: 'string' }, target_keyword: { type: 'string' } },
+      required: ['content', 'target_keyword']
+    }
+  }
+];</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 24: Email Campaign Agent -->
+<section class="slide" data-slide="24">
+    <div class="slide-content">
+        <h3 class="slide-title">Email Campaign Agent</h3>
+        <div class="code-block large" data-modal="code-email-agent">
+            <pre><code>const emailTools = [
+  {
+    name: 'generate_email_sequence',
+    description: 'Create a multi-email drip campaign',
+    input_schema: {
+      type: 'object',
+      properties: {
+        goal: { type: 'string', description: 'Campaign goal (e.g., onboarding, upsell)' },
+        num_emails: { type: 'number' },
+        audience_segment: { type: 'string' },
+        personalization_fields: { type: 'array', items: { type: 'string' } }
+      },
+      required: ['goal', 'num_emails']
+    }
+  },
+  {
+    name: 'ab_test_subject',
+    description: 'Generate A/B test variants for subject lines',
+    input_schema: {
+      type: 'object',
+      properties: {
+        original: { type: 'string' },
+        num_variants: { type: 'number' }
+      },
+      required: ['original']
+    }
+  }
+];
+
+// Example output:
+// Email 1: Welcome - immediate
+// Email 2: Quick win tutorial - day 2
+// Email 3: Feature highlight - day 5
+// Email 4: Success story - day 7
+// Email 5: Upgrade offer - day 10</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 25: Customer Feedback Analysis -->
+<section class="slide" data-slide="25">
+    <div class="slide-content">
+        <h3 class="slide-title">Customer Feedback Analysis</h3>
+        <div class="code-block large" data-modal="code-feedback-agent">
+            <pre><code>const feedbackTools = [
+  {
+    name: 'analyze_reviews',
+    description: 'Analyze customer reviews for insights',
+    input_schema: {
+      type: 'object',
+      properties: {
+        reviews: { type: 'array', items: { type: 'string' } },
+        analysis_type: {
+          type: 'string',
+          enum: ['sentiment', 'features', 'complaints', 'suggestions']
+        }
+      },
+      required: ['reviews', 'analysis_type']
+    }
+  }
+];
+
+// Implementation
+async function analyzeReviews(reviews: string[], type: string) {
+  const response = await client.messages.create({
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 2048,
+    system: 'You are a customer insights analyst. Extract actionable insights.',
+    messages: [{
+      role: 'user',
+      content: `Analyze these ${reviews.length} reviews for ${type}:\n\n${reviews.join('\n---\n')}`
+    }]
+  });
+
+  return extractText(response);
+}
+
+// Output: Structured insights, trends, actionable recommendations</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 26: Part IV - AI for App Success -->
+<section class="slide" data-slide="26">
+    <div class="slide-content title-slide">
+        <div class="part-indicator">Part IV</div>
+        <h2 class="section-title">AI for App Success</h2>
+        <p class="section-subtitle">Practical Use Cases for Your Business</p>
+    </div>
+</section>
+
+<!-- Slide 27: E-commerce AI Use Cases -->
+<section class="slide" data-slide="27">
+    <div class="slide-content">
+        <h3 class="slide-title">E-commerce AI Use Cases</h3>
+        <div class="usecase-grid">
+            <div class="usecase-card" data-modal="usecase-descriptions">
+                <div class="usecase-icon">📝</div>
+                <h4>Product Descriptions</h4>
+                <p>Generate compelling, SEO-optimized descriptions at scale</p>
+            </div>
+            <div class="usecase-card" data-modal="usecase-support">
+                <div class="usecase-icon">💬</div>
+                <h4>Customer Support</h4>
+                <p>24/7 intelligent chat handling orders, returns, questions</p>
+            </div>
+            <div class="usecase-card" data-modal="usecase-recommendations">
+                <div class="usecase-icon">🎯</div>
+                <h4>Recommendations</h4>
+                <p>Personalized product suggestions based on behavior</p>
+            </div>
+            <div class="usecase-card" data-modal="usecase-search">
+                <div class="usecase-icon">🔍</div>
+                <h4>Smart Search</h4>
+                <p>Natural language search that understands intent</p>
+            </div>
+            <div class="usecase-card" data-modal="usecase-reviews">
+                <div class="usecase-icon">⭐</div>
+                <h4>Review Insights</h4>
+                <p>Analyze reviews for product improvements</p>
+            </div>
+            <div class="usecase-card" data-modal="usecase-moderation">
+                <div class="usecase-icon">🛡️</div>
+                <h4>Content Moderation</h4>
+                <p>Auto-flag inappropriate reviews and content</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 28: Customer Support Chatbot -->
+<section class="slide" data-slide="28">
+    <div class="slide-content">
+        <h3 class="slide-title">Customer Support Chatbot</h3>
+        <div class="code-block large" data-modal="code-support-bot">
+            <pre><code>const supportSystemPrompt = `You are a customer support agent for TechStore.
+You can help with:
+- Order status and tracking
+- Returns and refunds
+- Product questions
+- Account issues
+
+Guidelines:
+- Be friendly and empathetic
+- If you can't help, offer to escalate to human support
+- Never make up order information - always use tools to look up real data
+- For refunds over $100, transfer to human agent`;
+
+const supportTools = [
+  { name: 'get_order_status', description: 'Look up order by ID or email', /* ... */ },
+  { name: 'initiate_return', description: 'Start a return process', /* ... */ },
+  { name: 'get_product_info', description: 'Get product details', /* ... */ },
+  { name: 'transfer_to_human', description: 'Escalate to human agent', /* ... */ }
+];
+
+// Example conversation:
+// User: "Where's my order #12345?"
+// Agent: [calls get_order_status] "Your order shipped yesterday via FedEx.
+//        Tracking: XXX. Expected delivery: Friday."</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 29: Personalized Recommendations -->
+<section class="slide" data-slide="29">
+    <div class="slide-content">
+        <h3 class="slide-title">Personalized Recommendations</h3>
+        <div class="code-block large" data-modal="code-recommendations">
+            <pre><code>async function getRecommendations(userId: string) {
+  // Gather user context
+  const [history, profile, cart] = await Promise.all([
+    getPurchaseHistory(userId),
+    getUserProfile(userId),
+    getCurrentCart(userId)
+  ]);
+
+  const response = await client.messages.create({
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 1024,
+    system: `You are a personal shopping assistant. Based on the user's
+      history and preferences, suggest products they'd love.
+      Be specific and explain why each recommendation fits them.`,
+    messages: [{
+      role: 'user',
+      content: `User profile: ${JSON.stringify(profile)}
+        Recent purchases: ${JSON.stringify(history)}
+        Current cart: ${JSON.stringify(cart)}
+
+        Suggest 3-5 products they might like and explain why.`
+    }]
+  });
+
+  return parseRecommendations(extractText(response));
+}
+
+// Output: Personalized suggestions with reasoning
+// "Based on your recent camera purchase, you might love this tripod..."</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 30: Smart Search -->
+<section class="slide" data-slide="30">
+    <div class="slide-content">
+        <h3 class="slide-title">Natural Language Search</h3>
+        <div class="code-block large" data-modal="code-smart-search">
+            <pre><code>const searchTools = [{
+  name: 'search_products',
+  description: 'Search product database with filters',
+  input_schema: {
+    type: 'object',
+    properties: {
+      keywords: { type: 'array', items: { type: 'string' } },
+      category: { type: 'string' },
+      priceRange: { type: 'object', properties: { min: { type: 'number' }, max: { type: 'number' } } },
+      attributes: { type: 'object', additionalProperties: { type: 'string' } }
+    }
+  }
+}];
+
+// Natural language queries → structured search
+// "red dress under $50 for a summer wedding"
+// → { keywords: ['dress', 'summer', 'wedding'],
+//     attributes: { color: 'red', occasion: 'formal' },
+//     priceRange: { max: 50 } }
+
+// "laptop good for video editing, not too heavy"
+// → { keywords: ['laptop', 'video editing'],
+//     attributes: { performance: 'high', weight: 'light' } }
+
+// "something like the AirPods but cheaper"
+// → { keywords: ['wireless earbuds'],
+//     attributes: { style: 'airpods-like' },
+//     priceRange: { max: 150 } }</code></pre>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 31: Best Practices -->
+<section class="slide" data-slide="31">
+    <div class="slide-content">
+        <h3 class="slide-title">Best Practices & Ethics</h3>
+        <div class="practices-grid">
+            <div class="practice-card" data-modal="practice-transparency">
+                <div class="practice-icon">👁️</div>
+                <h4>Transparency</h4>
+                <p>Tell users they're talking to AI. Don't pretend to be human.</p>
+            </div>
+            <div class="practice-card" data-modal="practice-limits">
+                <div class="practice-icon">🚧</div>
+                <h4>Set Boundaries</h4>
+                <p>Define what the agent can and cannot do. Escalate when needed.</p>
+            </div>
+            <div class="practice-card" data-modal="practice-testing">
+                <div class="practice-icon">🧪</div>
+                <h4>Test Extensively</h4>
+                <p>Adversarial testing, edge cases, prompt injection protection.</p>
+            </div>
+            <div class="practice-card" data-modal="practice-monitoring">
+                <div class="practice-icon">📊</div>
+                <h4>Monitor & Iterate</h4>
+                <p>Log conversations, track metrics, improve continuously.</p>
+            </div>
+            <div class="practice-card" data-modal="practice-fallback">
+                <div class="practice-icon">🔄</div>
+                <h4>Human Fallback</h4>
+                <p>Always have a path to human support for complex issues.</p>
+            </div>
+            <div class="practice-card" data-modal="practice-privacy">
+                <div class="practice-icon">🔒</div>
+                <h4>Privacy & Security</h4>
+                <p>Handle PII carefully. Don't log sensitive data.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 32: Key Takeaways -->
+<section class="slide" data-slide="32">
+    <div class="slide-content">
+        <h3 class="slide-title">Key Takeaways</h3>
+        <div class="takeaways-grid">
+            <div class="takeaway-item">
+                <span class="takeaway-number">1</span>
+                <div>
+                    <strong>Agents = LLM + Tools + Memory</strong>
+                    <p>The LLM reasons, tools take action, history maintains context.</p>
+                </div>
+            </div>
+            <div class="takeaway-item">
+                <span class="takeaway-number">2</span>
+                <div>
+                    <strong>SDKs make it easy</strong>
+                    <p>A few lines of code to add AI capabilities to any app.</p>
+                </div>
+            </div>
+            <div class="takeaway-item">
+                <span class="takeaway-number">3</span>
+                <div>
+                    <strong>Tools are the superpower</strong>
+                    <p>Define clear tools and the LLM will use them intelligently.</p>
+                </div>
+            </div>
+            <div class="takeaway-item">
+                <span class="takeaway-number">4</span>
+                <div>
+                    <strong>Marketing on autopilot</strong>
+                    <p>Content, SEO, email — agents can handle the repetitive work.</p>
+                </div>
+            </div>
+            <div class="takeaway-item">
+                <span class="takeaway-number">5</span>
+                <div>
+                    <strong>Start small, iterate</strong>
+                    <p>Begin with one use case, measure impact, expand from there.</p>
+                </div>
+            </div>
+        </div>
+        <div class="closing-quote">
+            <blockquote>"The best AI feature is the one that makes users forget they're using AI."</blockquote>
+        </div>
+    </div>
+</section>

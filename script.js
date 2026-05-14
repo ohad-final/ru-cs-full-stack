@@ -9656,6 +9656,1330 @@ supabase.storage.from('avatars').upload(path, file)</code></pre>
                         <p>Login attempts (5/min), API calls (100/min), expensive operations (10/hour). Adjust based on legitimate usage.</p>
                     </div>
                 `
+            },
+
+            // =====================
+            // AI AGENTS LECTURE MODALS
+            // =====================
+
+            'agent-definition': {
+                title: 'What is an AI Agent?',
+                body: `
+                    <p>An AI Agent is more than just an LLM — it's a system that can take autonomous action to achieve goals.</p>
+                    <div class="modal-section">
+                        <h4>Key Components</h4>
+                        <ul>
+                            <li><strong>LLM Brain</strong> — The reasoning engine (Claude, GPT-4)</li>
+                            <li><strong>Tools</strong> — Functions the agent can call</li>
+                            <li><strong>Memory</strong> — Conversation history and learned context</li>
+                            <li><strong>Orchestration</strong> — Logic that ties it all together</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>The Magic</h4>
+                        <p>You describe what you want, the agent figures out how to do it — calling tools, handling errors, and adapting its approach as needed.</p>
+                    </div>
+                `
+            },
+            'agent-reasoning': {
+                title: 'Agent Reasoning',
+                body: `
+                    <p>LLMs can break down complex requests into logical steps and make decisions.</p>
+                    <div class="modal-section">
+                        <h4>Capabilities</h4>
+                        <ul>
+                            <li><strong>Task Decomposition</strong> — Break "plan a trip" into flights, hotels, activities</li>
+                            <li><strong>Decision Making</strong> — Choose between options based on context</li>
+                            <li><strong>Error Recovery</strong> — Adapt when something fails</li>
+                            <li><strong>Chain of Thought</strong> — Work through problems step by step</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Limits</h4>
+                        <p>Agents can hallucinate, make mistakes, or get stuck in loops. Design with guardrails.</p>
+                    </div>
+                `
+            },
+            'agent-tools': {
+                title: 'Agent Tool Use',
+                body: `
+                    <p>Tools extend what an LLM can do beyond just generating text.</p>
+                    <div class="modal-section">
+                        <h4>Common Tool Types</h4>
+                        <ul>
+                            <li><strong>APIs</strong> — Weather, search, maps, payments</li>
+                            <li><strong>Database</strong> — Query, insert, update records</li>
+                            <li><strong>Code Execution</strong> — Run calculations, scripts</li>
+                            <li><strong>File Operations</strong> — Read, write, transform</li>
+                            <li><strong>Web Browsing</strong> — Search, scrape, navigate</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>How It Works</h4>
+                        <p>You define tools with JSON schemas. The LLM decides when to use them and with what parameters.</p>
+                    </div>
+                `
+            },
+            'agent-memory': {
+                title: 'Agent Memory',
+                body: `
+                    <p>Memory allows agents to maintain context and learn from interactions.</p>
+                    <div class="modal-section">
+                        <h4>Types of Memory</h4>
+                        <ul>
+                            <li><strong>Conversation History</strong> — Previous messages in the session</li>
+                            <li><strong>Short-term</strong> — Current task context, scratchpad</li>
+                            <li><strong>Long-term</strong> — User preferences, past interactions (stored in DB)</li>
+                            <li><strong>RAG</strong> — Retrieve relevant documents on demand</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Implementation</h4>
+                        <p>LLMs are stateless — your application manages memory by including relevant history in each request.</p>
+                    </div>
+                `
+            },
+            'agent-autonomy': {
+                title: 'Agent Autonomy',
+                body: `
+                    <p>Agents can work independently on multi-step tasks without constant human input.</p>
+                    <div class="modal-section">
+                        <h4>Autonomy Spectrum</h4>
+                        <ul>
+                            <li><strong>Low</strong> — Single response to each prompt</li>
+                            <li><strong>Medium</strong> — Multi-step with human checkpoints</li>
+                            <li><strong>High</strong> — Completes complex tasks independently</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Examples</h4>
+                        <p>Claude Code can write, test, and debug code autonomously. Marketing agents can generate entire campaigns. But always with appropriate oversight.</p>
+                    </div>
+                `
+            },
+
+            // Agent Types
+            'type-chatbot': {
+                title: 'Chatbots',
+                body: `
+                    <p>Traditional chatbots use rule-based logic or simple ML for predefined interactions.</p>
+                    <div class="modal-section">
+                        <h4>Characteristics</h4>
+                        <ul>
+                            <li>Decision trees and if/else logic</li>
+                            <li>Keyword matching</li>
+                            <li>Predefined response templates</li>
+                            <li>Limited ability to handle edge cases</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Use Cases</h4>
+                        <p>FAQ bots, appointment booking, simple customer service flows where predictability is key.</p>
+                    </div>
+                `
+            },
+            'type-assistant': {
+                title: 'AI Assistants',
+                body: `
+                    <p>LLM-powered assistants can understand natural language and maintain conversations.</p>
+                    <div class="modal-section">
+                        <h4>Characteristics</h4>
+                        <ul>
+                            <li>Natural language understanding</li>
+                            <li>Contextual responses</li>
+                            <li>General knowledge</li>
+                            <li>Reactive to user prompts</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Examples</h4>
+                        <p>ChatGPT, Claude.ai, Gemini — great for Q&A, writing, analysis, but they wait for you to ask.</p>
+                    </div>
+                `
+            },
+            'type-agent': {
+                title: 'AI Agents',
+                body: `
+                    <p>Agents combine LLM reasoning with tool use to accomplish goals autonomously.</p>
+                    <div class="modal-section">
+                        <h4>Characteristics</h4>
+                        <ul>
+                            <li>Goal-oriented behavior</li>
+                            <li>Autonomous tool execution</li>
+                            <li>Multi-step planning</li>
+                            <li>Error handling and recovery</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Examples</h4>
+                        <p>Claude Code (writes and executes code), Devin (software engineer), marketing agents, customer support bots with real actions.</p>
+                    </div>
+                `
+            },
+
+            // History
+            'history-eliza': {
+                title: 'ELIZA (1966)',
+                body: `
+                    <p>The first chatbot, created by Joseph Weizenbaum at MIT.</p>
+                    <div class="modal-section">
+                        <h4>How It Worked</h4>
+                        <ul>
+                            <li>Pattern matching on keywords</li>
+                            <li>Scripted responses with variable substitution</li>
+                            <li>Famous "DOCTOR" script mimicked a therapist</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>The Surprise</h4>
+                        <p>People formed emotional attachments to ELIZA despite knowing it was a program — the first glimpse of AI's psychological impact.</p>
+                    </div>
+                `
+            },
+            'history-siri': {
+                title: 'Siri & Voice Assistants (2011)',
+                body: `
+                    <p>Apple's Siri brought AI assistants to the mainstream consumer market.</p>
+                    <div class="modal-section">
+                        <h4>Key Innovations</h4>
+                        <ul>
+                            <li>Voice recognition at scale</li>
+                            <li>Integration with device features</li>
+                            <li>Cloud-based processing</li>
+                            <li>Natural language understanding</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Legacy</h4>
+                        <p>Alexa (2014), Google Assistant (2016) followed. But these were still rule-based at their core.</p>
+                    </div>
+                `
+            },
+            'history-gpt3': {
+                title: 'GPT-3 (2020)',
+                body: `
+                    <p>OpenAI's 175 billion parameter model demonstrated emergent capabilities.</p>
+                    <div class="modal-section">
+                        <h4>Breakthrough</h4>
+                        <ul>
+                            <li>Few-shot learning — teach with examples</li>
+                            <li>Broad general knowledge</li>
+                            <li>Code generation</li>
+                            <li>Creative writing</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>API Access</h4>
+                        <p>For the first time, developers could build products on top of powerful LLMs via simple API calls.</p>
+                    </div>
+                `
+            },
+            'history-chatgpt': {
+                title: 'ChatGPT (2022)',
+                body: `
+                    <p>ChatGPT brought AI to the mainstream with an intuitive chat interface.</p>
+                    <div class="modal-section">
+                        <h4>Impact</h4>
+                        <ul>
+                            <li>Fastest growing app in history</li>
+                            <li>100M users in 2 months</li>
+                            <li>Sparked global AI conversation</li>
+                            <li>Every company wanted "AI features"</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>The Shift</h4>
+                        <p>RLHF (Reinforcement Learning from Human Feedback) made AI feel helpful and safe to talk to.</p>
+                    </div>
+                `
+            },
+            'history-tools': {
+                title: 'Tool Use Era (2023)',
+                body: `
+                    <p>LLMs gained the ability to call external functions and use plugins.</p>
+                    <div class="modal-section">
+                        <h4>Key Developments</h4>
+                        <ul>
+                            <li><strong>Function Calling</strong> — Structured tool invocation</li>
+                            <li><strong>ChatGPT Plugins</strong> — Web browsing, code interpreter</li>
+                            <li><strong>Claude Tool Use</strong> — First-class support in API</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Paradigm Shift</h4>
+                        <p>LLMs went from "answer questions" to "take actions" — the foundation for true agents.</p>
+                    </div>
+                `
+            },
+            'history-agents': {
+                title: 'Agent Era (2024+)',
+                body: `
+                    <p>The emergence of production-ready agent frameworks and applications.</p>
+                    <div class="modal-section">
+                        <h4>Key Players</h4>
+                        <ul>
+                            <li><strong>Claude Code</strong> — Autonomous coding agent</li>
+                            <li><strong>Codex CLI</strong> — OpenAI's coding assistant</li>
+                            <li><strong>Devin</strong> — AI software engineer</li>
+                            <li><strong>Agent SDKs</strong> — Anthropic, OpenAI frameworks</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>The Future</h4>
+                        <p>Agents are moving from demos to production. Companies are shipping real agent products.</p>
+                    </div>
+                `
+            },
+
+            // Agent Stack
+            'stack-application': {
+                title: 'Your Application',
+                body: `
+                    <p>The business logic and user interface that the agent enhances.</p>
+                    <div class="modal-section">
+                        <h4>Examples</h4>
+                        <ul>
+                            <li>E-commerce site with AI shopping assistant</li>
+                            <li>SaaS with intelligent onboarding</li>
+                            <li>Mobile app with conversational UI</li>
+                            <li>Internal tool with automated workflows</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Integration Points</h4>
+                        <p>Chat interfaces, search bars, background automation, notification triggers.</p>
+                    </div>
+                `
+            },
+            'stack-sdk': {
+                title: 'Agent SDK',
+                body: `
+                    <p>Client libraries that make it easy to call LLM APIs and handle responses.</p>
+                    <div class="modal-section">
+                        <h4>Popular SDKs</h4>
+                        <ul>
+                            <li><strong>@anthropic-ai/sdk</strong> — Official Claude SDK</li>
+                            <li><strong>openai</strong> — Official OpenAI SDK</li>
+                            <li><strong>ai (Vercel)</strong> — Unified AI SDK with streaming</li>
+                            <li><strong>langchain</strong> — Multi-provider orchestration</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>What They Handle</h4>
+                        <p>Authentication, request formatting, streaming, retries, error handling.</p>
+                    </div>
+                `
+            },
+            'stack-tools': {
+                title: 'Tools',
+                body: `
+                    <p>Functions that extend what the LLM can do.</p>
+                    <div class="modal-section">
+                        <h4>Tool Categories</h4>
+                        <ul>
+                            <li><strong>Data Access</strong> — Database queries, file reads</li>
+                            <li><strong>External APIs</strong> — Weather, maps, payments</li>
+                            <li><strong>Computation</strong> — Math, code execution</li>
+                            <li><strong>Actions</strong> — Send email, create ticket, deploy</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Design Principle</h4>
+                        <p>Tools should be atomic and well-documented. The LLM needs to understand when and how to use each one.</p>
+                    </div>
+                `
+            },
+            'stack-llm': {
+                title: 'LLM',
+                body: `
+                    <p>The reasoning engine that understands intent and generates responses.</p>
+                    <div class="modal-section">
+                        <h4>Model Selection</h4>
+                        <ul>
+                            <li><strong>Claude Sonnet</strong> — Best balance of capability and speed</li>
+                            <li><strong>Claude Opus</strong> — Most capable for complex tasks</li>
+                            <li><strong>GPT-4o</strong> — Fast multimodal</li>
+                            <li><strong>Claude Haiku / GPT-4o-mini</strong> — Fast and cheap</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Choosing</h4>
+                        <p>Match model capability to task complexity. Don't use Opus for simple Q&A.</p>
+                    </div>
+                `
+            },
+            'stack-memory': {
+                title: 'Memory',
+                body: `
+                    <p>Context management to maintain coherent conversations.</p>
+                    <div class="modal-section">
+                        <h4>Implementation</h4>
+                        <ul>
+                            <li><strong>Message Array</strong> — Full conversation history</li>
+                            <li><strong>Summarization</strong> — Compress old context</li>
+                            <li><strong>Vector Store</strong> — RAG for long-term memory</li>
+                            <li><strong>Database</strong> — User preferences, past interactions</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Context Window</h4>
+                        <p>Claude has 200K tokens — enough for very long conversations before you need summarization.</p>
+                    </div>
+                `
+            },
+
+            // SDK Comparison
+            'sdk-install': {
+                title: 'SDK Installation',
+                body: `
+                    <p>Both SDKs are available via npm and fully typed with TypeScript.</p>
+                    <div class="modal-section">
+                        <h4>Claude SDK</h4>
+                        <pre><code>npm install @anthropic-ai/sdk</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>OpenAI SDK</h4>
+                        <pre><code>npm install openai</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Vercel AI SDK</h4>
+                        <pre><code>npm install ai @ai-sdk/anthropic @ai-sdk/openai</code></pre>
+                        <p>Unified interface for both providers with React hooks for streaming.</p>
+                    </div>
+                `
+            },
+            'sdk-streaming': {
+                title: 'Streaming Support',
+                body: `
+                    <p>Both SDKs support streaming responses for real-time output.</p>
+                    <div class="modal-section">
+                        <h4>Why Stream?</h4>
+                        <ul>
+                            <li>Better perceived performance</li>
+                            <li>User sees response as it generates</li>
+                            <li>Can cancel mid-response</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Implementation</h4>
+                        <p>Both use async iterators or callback-based streaming. Vercel AI SDK adds React hooks for easy frontend integration.</p>
+                    </div>
+                `
+            },
+            'sdk-tools': {
+                title: 'Tool Use Support',
+                body: `
+                    <p>Both SDKs support function/tool calling with JSON schemas.</p>
+                    <div class="modal-section">
+                        <h4>Claude</h4>
+                        <ul>
+                            <li>Native tool use in API</li>
+                            <li>Multiple tool calls per turn</li>
+                            <li>Tool results as message content</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>OpenAI</h4>
+                        <ul>
+                            <li>Function calling API</li>
+                            <li>Parallel function calls</li>
+                            <li>Similar flow and patterns</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'sdk-vision': {
+                title: 'Vision / Multimodal',
+                body: `
+                    <p>Both support image understanding in addition to text.</p>
+                    <div class="modal-section">
+                        <h4>Use Cases</h4>
+                        <ul>
+                            <li>Image analysis and description</li>
+                            <li>Screenshot understanding</li>
+                            <li>Document/receipt processing</li>
+                            <li>Visual Q&A</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>How To</h4>
+                        <p>Pass images as base64 or URL in the message content array alongside text.</p>
+                    </div>
+                `
+            },
+            'sdk-context': {
+                title: 'Context Window',
+                body: `
+                    <p>The amount of text the model can process in a single request.</p>
+                    <div class="modal-section">
+                        <h4>Comparison</h4>
+                        <ul>
+                            <li><strong>Claude</strong> — 200K tokens (~150K words)</li>
+                            <li><strong>GPT-4 Turbo</strong> — 128K tokens</li>
+                            <li><strong>GPT-4o</strong> — 128K tokens</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Impact</h4>
+                        <p>Larger context = longer conversations, more documents for RAG, bigger codebases for analysis.</p>
+                    </div>
+                `
+            },
+
+            // Setup
+            'setup-install': {
+                title: 'Installing the SDK',
+                body: `
+                    <p>Add the Anthropic SDK to your project.</p>
+                    <div class="modal-section">
+                        <h4>npm</h4>
+                        <pre><code>npm install @anthropic-ai/sdk</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>TypeScript</h4>
+                        <p>Types are included. No separate @types package needed.</p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Requirements</h4>
+                        <p>Node.js 18+ recommended. Works in browsers with appropriate CORS setup.</p>
+                    </div>
+                `
+            },
+            'setup-env': {
+                title: 'API Key Setup',
+                body: `
+                    <p>Get your API key from console.anthropic.com.</p>
+                    <div class="modal-section">
+                        <h4>Environment Variable</h4>
+                        <pre><code>ANTHROPIC_API_KEY=sk-ant-api03-...</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Security</h4>
+                        <ul>
+                            <li>Never commit API keys to git</li>
+                            <li>Use .env.local (gitignored)</li>
+                            <li>For production: use secrets manager</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'setup-init': {
+                title: 'Initializing the Client',
+                body: `
+                    <p>Create a client instance to make API calls.</p>
+                    <div class="modal-section">
+                        <h4>Auto-Configuration</h4>
+                        <pre><code>const client = new Anthropic();
+// Reads ANTHROPIC_API_KEY automatically</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Explicit Configuration</h4>
+                        <pre><code>const client = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+  maxRetries: 3,
+  timeout: 60000
+});</code></pre>
+                    </div>
+                `
+            },
+
+            // Code Examples
+            'code-basic-chat': {
+                title: 'Basic Chat Code',
+                body: `
+                    <p>The simplest possible API call to Claude.</p>
+                    <div class="modal-section">
+                        <h4>Key Parameters</h4>
+                        <ul>
+                            <li><strong>model</strong> — Which Claude model to use</li>
+                            <li><strong>max_tokens</strong> — Maximum response length</li>
+                            <li><strong>messages</strong> — Conversation history</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Response Structure</h4>
+                        <p>Response contains a content array with text blocks. Multiple blocks are possible with tool use.</p>
+                    </div>
+                `
+            },
+            'code-system-prompt': {
+                title: 'System Prompts',
+                body: `
+                    <p>System prompts define the agent's personality and capabilities.</p>
+                    <div class="modal-section">
+                        <h4>Best Practices</h4>
+                        <ul>
+                            <li>Be specific about the persona</li>
+                            <li>Define capabilities and limitations</li>
+                            <li>Include relevant context (date, user info)</li>
+                            <li>Set tone and communication style</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Keep It Focused</h4>
+                        <p>Don't overload the system prompt. Important instructions can go in user messages too.</p>
+                    </div>
+                `
+            },
+            'code-continuity': {
+                title: 'Conversation Continuity',
+                body: `
+                    <p>Managing state across multiple turns is crucial for coherent conversations.</p>
+                    <div class="modal-section">
+                        <h4>How It Works</h4>
+                        <ul>
+                            <li>Store messages in an array</li>
+                            <li>Send entire history with each request</li>
+                            <li>LLM sees full context and responds accordingly</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Persistence</h4>
+                        <p>For cross-session memory, store history in a database keyed by user/session ID.</p>
+                    </div>
+                `
+            },
+            'code-multi-turn': {
+                title: 'Multi-Turn Example',
+                body: `
+                    <p>Demonstrating how context carries through a conversation.</p>
+                    <div class="modal-section">
+                        <h4>Key Observations</h4>
+                        <ul>
+                            <li>Each turn builds on previous context</li>
+                            <li>Pronouns resolve correctly ("that one")</li>
+                            <li>The agent remembers earlier constraints</li>
+                            <li>Natural conversation flow emerges</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Under the Hood</h4>
+                        <p>The LLM processes the entire conversation each time — it doesn't have persistent memory between API calls.</p>
+                    </div>
+                `
+            },
+
+            // Tool Examples
+            'tool-search': {
+                title: 'Search Products Tool',
+                body: `
+                    <p>Query your database to find relevant products.</p>
+                    <div class="modal-section">
+                        <h4>When the LLM Uses It</h4>
+                        <ul>
+                            <li>"Find laptops under $1000"</li>
+                            <li>"Show me red dresses"</li>
+                            <li>"What phones do you have?"</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Implementation</h4>
+                        <p>The tool calls your actual database, ORM, or search index. Return structured results the LLM can describe to users.</p>
+                    </div>
+                `
+            },
+            'tool-weather': {
+                title: 'Weather API Tool',
+                body: `
+                    <p>Call external APIs to get real-time data.</p>
+                    <div class="modal-section">
+                        <h4>Example</h4>
+                        <pre><code>async function getWeather(location: string) {
+  const res = await fetch(
+    \`https://api.weather.com/v1/current?q=\${location}\`
+  );
+  return res.json();
+}</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Why Tools for APIs</h4>
+                        <p>LLMs can't make HTTP requests directly. Tools bridge the gap between reasoning and action.</p>
+                    </div>
+                `
+            },
+            'tool-calculate': {
+                title: 'Calculation Tool',
+                body: `
+                    <p>LLMs can make math errors. Tools provide precise computation.</p>
+                    <div class="modal-section">
+                        <h4>Example</h4>
+                        <pre><code>function calculate(expression: string) {
+  // Use a safe math parser
+  return mathjs.evaluate(expression);
+}</code></pre>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Use Cases</h4>
+                        <ul>
+                            <li>Price calculations with tax</li>
+                            <li>Currency conversions</li>
+                            <li>Statistics and analytics</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'tool-email': {
+                title: 'Send Email Tool',
+                body: `
+                    <p>Tools that take real-world actions need careful consideration.</p>
+                    <div class="modal-section">
+                        <h4>Safety Considerations</h4>
+                        <ul>
+                            <li>Require confirmation for destructive actions</li>
+                            <li>Rate limit to prevent abuse</li>
+                            <li>Log all actions for audit</li>
+                            <li>Consider approval workflows</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Pattern</h4>
+                        <p>High-stakes tools (email, payments, deletes) should often return a preview for human approval before executing.</p>
+                    </div>
+                `
+            },
+
+            // Tool Code
+            'code-tool-definition': {
+                title: 'Tool Definition Schema',
+                body: `
+                    <p>Tools are defined with JSON Schema for parameters.</p>
+                    <div class="modal-section">
+                        <h4>Schema Components</h4>
+                        <ul>
+                            <li><strong>name</strong> — Unique identifier for the tool</li>
+                            <li><strong>description</strong> — Helps LLM decide when to use it</li>
+                            <li><strong>input_schema</strong> — JSON Schema for parameters</li>
+                            <li><strong>required</strong> — Which parameters are mandatory</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Pro Tip</h4>
+                        <p>Good descriptions are crucial. The LLM reads them to decide which tool to use.</p>
+                    </div>
+                `
+            },
+            'code-tool-handling': {
+                title: 'Handling Tool Calls',
+                body: `
+                    <p>The flow when an LLM wants to use a tool.</p>
+                    <div class="modal-section">
+                        <h4>Steps</h4>
+                        <ol>
+                            <li>LLM returns response with tool_use block</li>
+                            <li>Your code executes the tool</li>
+                            <li>Send tool result back to LLM</li>
+                            <li>LLM generates final response</li>
+                        </ol>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Note</h4>
+                        <p>The LLM may call multiple tools, or call tools in a loop until the task is complete.</p>
+                    </div>
+                `
+            },
+            'code-tool-impl': {
+                title: 'Tool Implementation',
+                body: `
+                    <p>Connect tool definitions to your actual business logic.</p>
+                    <div class="modal-section">
+                        <h4>Pattern</h4>
+                        <ul>
+                            <li>Switch statement or map for routing</li>
+                            <li>Type-safe parameter extraction</li>
+                            <li>Error handling and fallbacks</li>
+                            <li>Structured return values</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Return Values</h4>
+                        <p>Return JSON that the LLM can interpret. Include relevant details for the response.</p>
+                    </div>
+                `
+            },
+            'code-agent-loop': {
+                title: 'Agent Loop Pattern',
+                body: `
+                    <p>The core pattern for autonomous agents that can use multiple tools.</p>
+                    <div class="modal-section">
+                        <h4>How It Works</h4>
+                        <ol>
+                            <li>Send user message to LLM</li>
+                            <li>If LLM calls tools, execute them</li>
+                            <li>Send results back, let LLM continue</li>
+                            <li>Repeat until LLM says it's done</li>
+                        </ol>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Safety</h4>
+                        <p>Add a maximum iteration limit to prevent infinite loops. Log each iteration for debugging.</p>
+                    </div>
+                `
+            },
+            'code-streaming': {
+                title: 'Streaming Responses',
+                body: `
+                    <p>Stream responses for better UX in chat interfaces.</p>
+                    <div class="modal-section">
+                        <h4>Benefits</h4>
+                        <ul>
+                            <li>Faster time to first token</li>
+                            <li>Progressive response display</li>
+                            <li>Better perceived performance</li>
+                            <li>Can cancel mid-generation</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Vercel AI SDK</h4>
+                        <p>For React/Next.js, the Vercel AI SDK provides useChat and useCompletion hooks with built-in streaming.</p>
+                    </div>
+                `
+            },
+
+            // System Prompt Tips
+            'tip-persona': {
+                title: 'Defining Persona',
+                body: `
+                    <p>Tell the agent who it is and how it should behave.</p>
+                    <div class="modal-section">
+                        <h4>Elements</h4>
+                        <ul>
+                            <li>Role (assistant, expert, character)</li>
+                            <li>Tone (formal, casual, enthusiastic)</li>
+                            <li>Knowledge domain</li>
+                            <li>Communication style</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Example</h4>
+                        <p>"You are a friendly barista at a coffee shop, helping customers choose drinks. Use casual language and coffee terminology."</p>
+                    </div>
+                `
+            },
+            'tip-constraints': {
+                title: 'Setting Constraints',
+                body: `
+                    <p>Define what the agent should and should not do.</p>
+                    <div class="modal-section">
+                        <h4>Examples</h4>
+                        <ul>
+                            <li>"Never discuss competitor products"</li>
+                            <li>"Don't make up information — say you don't know"</li>
+                            <li>"Keep responses under 3 sentences"</li>
+                            <li>"Always include a call to action"</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Enforcement</h4>
+                        <p>Constraints guide but don't guarantee behavior. Test edge cases and add validation where critical.</p>
+                    </div>
+                `
+            },
+            'tip-context': {
+                title: 'Providing Context',
+                body: `
+                    <p>Give the agent information it needs to be helpful.</p>
+                    <div class="modal-section">
+                        <h4>Dynamic Context</h4>
+                        <ul>
+                            <li>Current date and time</li>
+                            <li>User's name and preferences</li>
+                            <li>Recent orders or activity</li>
+                            <li>Relevant product catalog</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Static Context</h4>
+                        <ul>
+                            <li>Company policies</li>
+                            <li>FAQ content</li>
+                            <li>Brand voice guidelines</li>
+                        </ul>
+                    </div>
+                `
+            },
+
+            // Marketing Capabilities
+            'marketing-content': {
+                title: 'Content Generation',
+                body: `
+                    <p>Create marketing content at scale while maintaining quality.</p>
+                    <div class="modal-section">
+                        <h4>Content Types</h4>
+                        <ul>
+                            <li>Blog posts and articles</li>
+                            <li>Product descriptions</li>
+                            <li>Landing page copy</li>
+                            <li>Ad variations</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Quality Tips</h4>
+                        <p>Provide brand guidelines, tone examples, and target audience info in the system prompt.</p>
+                    </div>
+                `
+            },
+            'marketing-seo': {
+                title: 'SEO Optimization',
+                body: `
+                    <p>Use AI to research keywords and optimize content structure.</p>
+                    <div class="modal-section">
+                        <h4>Capabilities</h4>
+                        <ul>
+                            <li>Keyword research and clustering</li>
+                            <li>Meta title/description generation</li>
+                            <li>Content structure recommendations</li>
+                            <li>Internal linking suggestions</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Integration</h4>
+                        <p>Combine with SEO tools (Ahrefs, SEMrush) APIs for data-driven recommendations.</p>
+                    </div>
+                `
+            },
+            'marketing-email': {
+                title: 'Email Campaigns',
+                body: `
+                    <p>Generate personalized email sequences and A/B test variants.</p>
+                    <div class="modal-section">
+                        <h4>Use Cases</h4>
+                        <ul>
+                            <li>Onboarding sequences</li>
+                            <li>Abandoned cart recovery</li>
+                            <li>Newsletter content</li>
+                            <li>Re-engagement campaigns</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Personalization</h4>
+                        <p>Pass user data to generate truly personalized content, not just mail merge fields.</p>
+                    </div>
+                `
+            },
+            'marketing-social': {
+                title: 'Social Media Management',
+                body: `
+                    <p>Generate platform-specific content and manage engagement.</p>
+                    <div class="modal-section">
+                        <h4>Content Types</h4>
+                        <ul>
+                            <li>Twitter/X threads</li>
+                            <li>LinkedIn posts</li>
+                            <li>Instagram captions</li>
+                            <li>Reply suggestions</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Platform Adaptation</h4>
+                        <p>Same message, different format for each platform. Agents can handle this automatically.</p>
+                    </div>
+                `
+            },
+            'marketing-analysis': {
+                title: 'Feedback Analysis',
+                body: `
+                    <p>Extract insights from customer feedback at scale.</p>
+                    <div class="modal-section">
+                        <h4>Analysis Types</h4>
+                        <ul>
+                            <li>Sentiment classification</li>
+                            <li>Feature request extraction</li>
+                            <li>Complaint categorization</li>
+                            <li>Trend identification</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Sources</h4>
+                        <p>Reviews, support tickets, social mentions, survey responses — all can be analyzed.</p>
+                    </div>
+                `
+            },
+            'marketing-competitor': {
+                title: 'Competitor Research',
+                body: `
+                    <p>Analyze competitor positioning and find opportunities.</p>
+                    <div class="modal-section">
+                        <h4>Analysis</h4>
+                        <ul>
+                            <li>Feature comparison</li>
+                            <li>Pricing analysis</li>
+                            <li>Messaging/positioning gaps</li>
+                            <li>Review sentiment comparison</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Automation</h4>
+                        <p>Combine with web scraping tools to keep competitive intelligence updated.</p>
+                    </div>
+                `
+            },
+
+            // Marketing Code
+            'code-social-agent': {
+                title: 'Social Media Agent Code',
+                body: `
+                    <p>Tools for generating and scheduling social content.</p>
+                    <div class="modal-section">
+                        <h4>Key Design Points</h4>
+                        <ul>
+                            <li>Platform-aware generation</li>
+                            <li>Tone/voice customization</li>
+                            <li>Hashtag optimization</li>
+                            <li>Scheduling integration</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Integration</h4>
+                        <p>Connect to Buffer, Hootsuite, or native platform APIs for actual posting.</p>
+                    </div>
+                `
+            },
+            'code-seo-agent': {
+                title: 'SEO Agent Code',
+                body: `
+                    <p>Combine LLM intelligence with SEO data tools.</p>
+                    <div class="modal-section">
+                        <h4>Workflow</h4>
+                        <ol>
+                            <li>Research keywords for topic</li>
+                            <li>Analyze top-ranking content</li>
+                            <li>Generate optimized content</li>
+                            <li>Create meta tags</li>
+                        </ol>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Data Sources</h4>
+                        <p>Integrate with Ahrefs, SEMrush, or Google Search Console APIs for real data.</p>
+                    </div>
+                `
+            },
+            'code-email-agent': {
+                title: 'Email Campaign Agent',
+                body: `
+                    <p>Generate complete email sequences with personalization.</p>
+                    <div class="modal-section">
+                        <h4>Sequence Design</h4>
+                        <ul>
+                            <li>Goal-oriented structure</li>
+                            <li>Optimal timing between emails</li>
+                            <li>Progressive value delivery</li>
+                            <li>Clear CTAs per email</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>A/B Testing</h4>
+                        <p>Generate multiple subject line variants automatically for testing.</p>
+                    </div>
+                `
+            },
+            'code-feedback-agent': {
+                title: 'Feedback Analysis Agent',
+                body: `
+                    <p>Extract structured insights from unstructured feedback.</p>
+                    <div class="modal-section">
+                        <h4>Output Structure</h4>
+                        <ul>
+                            <li>Overall sentiment score</li>
+                            <li>Key themes and topics</li>
+                            <li>Specific feature mentions</li>
+                            <li>Actionable recommendations</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Scale</h4>
+                        <p>Process thousands of reviews to find patterns humans would miss.</p>
+                    </div>
+                `
+            },
+
+            // E-commerce Use Cases
+            'usecase-descriptions': {
+                title: 'Product Descriptions',
+                body: `
+                    <p>Generate compelling, SEO-friendly product descriptions at scale.</p>
+                    <div class="modal-section">
+                        <h4>Workflow</h4>
+                        <ol>
+                            <li>Input: Product specs, images, category</li>
+                            <li>Generate: Multiple description variants</li>
+                            <li>Optimize: Include keywords naturally</li>
+                            <li>Output: Ready for catalog</li>
+                        </ol>
+                    </div>
+                    <div class="modal-section">
+                        <h4>ROI</h4>
+                        <p>Turn 1000 basic product listings into compelling descriptions in hours instead of weeks.</p>
+                    </div>
+                `
+            },
+            'usecase-support': {
+                title: 'Customer Support Bot',
+                body: `
+                    <p>24/7 intelligent support that handles most queries automatically.</p>
+                    <div class="modal-section">
+                        <h4>Capabilities</h4>
+                        <ul>
+                            <li>Order status and tracking</li>
+                            <li>Return/refund processing</li>
+                            <li>Product questions</li>
+                            <li>Account issues</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Human Handoff</h4>
+                        <p>Seamlessly escalate complex issues to human agents with full context.</p>
+                    </div>
+                `
+            },
+            'usecase-recommendations': {
+                title: 'Personalized Recommendations',
+                body: `
+                    <p>Go beyond "customers also bought" with intelligent recommendations.</p>
+                    <div class="modal-section">
+                        <h4>Inputs</h4>
+                        <ul>
+                            <li>Purchase history</li>
+                            <li>Browsing behavior</li>
+                            <li>Stated preferences</li>
+                            <li>Current context (cart, season)</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Output</h4>
+                        <p>Recommendations with natural language explanations of why each product fits.</p>
+                    </div>
+                `
+            },
+            'usecase-search': {
+                title: 'Natural Language Search',
+                body: `
+                    <p>Let users search the way they naturally describe what they want.</p>
+                    <div class="modal-section">
+                        <h4>Examples</h4>
+                        <ul>
+                            <li>"Something warm for hiking in fall"</li>
+                            <li>"Gift for tech-savvy teenager"</li>
+                            <li>"Like my last purchase but bigger"</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Implementation</h4>
+                        <p>LLM translates natural language to structured filters, then searches your catalog.</p>
+                    </div>
+                `
+            },
+            'usecase-reviews': {
+                title: 'Review Insights',
+                body: `
+                    <p>Extract actionable insights from customer reviews.</p>
+                    <div class="modal-section">
+                        <h4>Analysis</h4>
+                        <ul>
+                            <li>Common complaints by product</li>
+                            <li>Feature requests</li>
+                            <li>Quality issues to address</li>
+                            <li>Positive highlights for marketing</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Automation</h4>
+                        <p>Daily/weekly digest of review insights, automatically categorized and prioritized.</p>
+                    </div>
+                `
+            },
+            'usecase-moderation': {
+                title: 'Content Moderation',
+                body: `
+                    <p>Automatically flag inappropriate or fake content.</p>
+                    <div class="modal-section">
+                        <h4>Detection</h4>
+                        <ul>
+                            <li>Spam reviews</li>
+                            <li>Inappropriate content</li>
+                            <li>Competitor attacks</li>
+                            <li>Incentivized reviews</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Workflow</h4>
+                        <p>Auto-flag for human review, or auto-hide based on confidence thresholds.</p>
+                    </div>
+                `
+            },
+
+            // Support Bot Code
+            'code-support-bot': {
+                title: 'Support Bot Implementation',
+                body: `
+                    <p>A complete customer support agent with tools and escalation.</p>
+                    <div class="modal-section">
+                        <h4>Key Features</h4>
+                        <ul>
+                            <li>Order lookup via tools</li>
+                            <li>Return initiation workflow</li>
+                            <li>Escalation rules in prompt</li>
+                            <li>Empathetic communication</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Data Access</h4>
+                        <p>Tools connect to your order system, not training data. Responses are always accurate.</p>
+                    </div>
+                `
+            },
+            'code-recommendations': {
+                title: 'Recommendation Engine',
+                body: `
+                    <p>Context-aware product suggestions with explanations.</p>
+                    <div class="modal-section">
+                        <h4>Data Gathering</h4>
+                        <ul>
+                            <li>User profile and preferences</li>
+                            <li>Recent purchase history</li>
+                            <li>Current cart contents</li>
+                            <li>Browsing session data</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Value Add</h4>
+                        <p>Not just "similar items" — explains WHY each recommendation makes sense for this user.</p>
+                    </div>
+                `
+            },
+            'code-smart-search': {
+                title: 'Smart Search Implementation',
+                body: `
+                    <p>Translate natural queries to structured search filters.</p>
+                    <div class="modal-section">
+                        <h4>Query Understanding</h4>
+                        <ul>
+                            <li>Extract intent and constraints</li>
+                            <li>Map to product attributes</li>
+                            <li>Handle ambiguity gracefully</li>
+                            <li>Suggest clarifications if needed</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Hybrid Approach</h4>
+                        <p>Combine semantic understanding with traditional search for best results.</p>
+                    </div>
+                `
+            },
+
+            // Best Practices
+            'practice-transparency': {
+                title: 'AI Transparency',
+                body: `
+                    <p>Users should know they're interacting with AI.</p>
+                    <div class="modal-section">
+                        <h4>Why It Matters</h4>
+                        <ul>
+                            <li>Builds trust</li>
+                            <li>Sets appropriate expectations</li>
+                            <li>May be legally required</li>
+                            <li>Ethical responsibility</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>How To</h4>
+                        <p>"Hi! I'm an AI assistant for TechStore. How can I help you today?"</p>
+                    </div>
+                `
+            },
+            'practice-limits': {
+                title: 'Setting Boundaries',
+                body: `
+                    <p>Define clear limits on what the agent can and cannot do.</p>
+                    <div class="modal-section">
+                        <h4>Examples</h4>
+                        <ul>
+                            <li>No refunds over $X without human approval</li>
+                            <li>Can't change shipping addresses</li>
+                            <li>Won't discuss competitors</li>
+                            <li>Escalates medical/legal questions</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Implementation</h4>
+                        <p>Encode limits in system prompt AND in tool permissions. Defense in depth.</p>
+                    </div>
+                `
+            },
+            'practice-testing': {
+                title: 'Testing AI Systems',
+                body: `
+                    <p>AI systems need specialized testing approaches.</p>
+                    <div class="modal-section">
+                        <h4>Test Types</h4>
+                        <ul>
+                            <li><strong>Happy Path</strong> — Normal use cases</li>
+                            <li><strong>Edge Cases</strong> — Unusual inputs</li>
+                            <li><strong>Adversarial</strong> — Prompt injection attempts</li>
+                            <li><strong>Regression</strong> — Previous failures</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Evals</h4>
+                        <p>Build automated evaluation suites that run against new prompts/models.</p>
+                    </div>
+                `
+            },
+            'practice-monitoring': {
+                title: 'Monitoring & Iteration',
+                body: `
+                    <p>Continuously improve based on real usage data.</p>
+                    <div class="modal-section">
+                        <h4>Metrics</h4>
+                        <ul>
+                            <li>Resolution rate</li>
+                            <li>User satisfaction scores</li>
+                            <li>Escalation frequency</li>
+                            <li>Conversation length</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Logging</h4>
+                        <p>Log conversations (with consent) to identify failure patterns and improvement opportunities.</p>
+                    </div>
+                `
+            },
+            'practice-fallback': {
+                title: 'Human Fallback',
+                body: `
+                    <p>Always provide a path to human support.</p>
+                    <div class="modal-section">
+                        <h4>Triggers</h4>
+                        <ul>
+                            <li>User explicitly requests human</li>
+                            <li>Agent confidence is low</li>
+                            <li>Sensitive topics</li>
+                            <li>Multiple failed attempts</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Handoff</h4>
+                        <p>Transfer full conversation context to human agent for seamless continuation.</p>
+                    </div>
+                `
+            },
+            'practice-privacy': {
+                title: 'Privacy & Security',
+                body: `
+                    <p>Handle user data responsibly in AI systems.</p>
+                    <div class="modal-section">
+                        <h4>Guidelines</h4>
+                        <ul>
+                            <li>Don't log PII in conversation logs</li>
+                            <li>Mask sensitive data in tool calls</li>
+                            <li>Comply with GDPR/CCPA</li>
+                            <li>Use data processing agreements</li>
+                        </ul>
+                    </div>
+                    <div class="modal-section">
+                        <h4>API Providers</h4>
+                        <p>Review data retention policies. Claude and GPT-4 have options for zero data retention.</p>
+                    </div>
+                `
             }
         };
     }
