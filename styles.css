@@ -22811,6 +22811,96 @@ ul.checklist li::before {
     margin: 0;
 }
 
+/* ========== MCP APPS TYPES GRID ========== */
+.agents-lecture .apps-types-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.agents-lecture .app-type-card {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--ag-surface);
+    border-radius: 12px;
+    border: 1px solid rgba(129, 140, 248, 0.2);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.agents-lecture .app-type-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--ag-primary);
+}
+
+.agents-lecture .app-type-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.agents-lecture .app-type-card h3 {
+    font-size: 1.3rem;
+    color: var(--ag-text);
+    margin-bottom: 0.5rem;
+}
+
+.agents-lecture .app-type-card p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* ========== MCP APPS SHOWCASE ========== */
+.agents-lecture .mcp-apps-showcase {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.agents-lecture .app-showcase-card {
+    padding: 1.5rem;
+    background: var(--ag-surface);
+    border-radius: 12px;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.agents-lecture .app-showcase-card.featured {
+    border-color: var(--ag-primary);
+    background: rgba(129, 140, 248, 0.1);
+}
+
+.agents-lecture .app-showcase-card:hover {
+    border-color: var(--ag-secondary);
+}
+
+.agents-lecture .app-logo {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.agents-lecture .app-showcase-card h3 {
+    font-size: 1.4rem;
+    color: var(--ag-text);
+    margin-bottom: 0.5rem;
+}
+
+.agents-lecture .app-showcase-card p {
+    font-size: 1.05rem;
+    margin-bottom: 0.75rem;
+}
+
+.agents-lecture .app-showcase-card code {
+    display: block;
+    font-family: var(--ag-font-mono);
+    font-size: 0.9rem;
+    color: var(--ag-accent);
+    background: rgba(0,0,0,0.3);
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+}
+
 /* ========== RESPONSIVE ========== */
 @media (max-width: 1200px) {
     .agents-lecture .capabilities-grid,
