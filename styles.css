@@ -84,6 +84,1019 @@
 }
 
 /* ============================================
+   Light Theme - Projection Contrast Enhancements
+   Ensure readability on projectors in lit rooms
+   ============================================ */
+[data-theme="light"] {
+    /* Boost text contrast for projection */
+    --text-primary: #09090b;
+    --text-secondary: #27272a;
+    --text-muted: #52525b;
+
+    /* Darker accents for better visibility */
+    --accent-cyan: #0e7490;
+    --accent-green: #15803d;
+    --accent-purple: #6d28d9;
+    --accent-blue: #1d4ed8;
+}
+
+/* Light theme code blocks - high contrast */
+[data-theme="light"] .code-block,
+[data-theme="light"] .code-showcase,
+[data-theme="light"] .decorative-code {
+    background: #1e1e1e;
+    color: #d4d4d4;
+}
+
+[data-theme="light"] .code-block code,
+[data-theme="light"] .code-showcase code,
+[data-theme="light"] pre code {
+    color: #d4d4d4;
+}
+
+/* Light theme card borders more visible */
+[data-theme="light"] .feature-card,
+[data-theme="light"] .pattern-card,
+[data-theme="light"] .capability-card,
+[data-theme="light"] .benefit-card,
+[data-theme="light"] .service-card,
+[data-theme="light"] .takeaway,
+[data-theme="light"] .step-content {
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Light theme diagrams - stronger outlines */
+[data-theme="light"] .diagram-component,
+[data-theme="light"] .server-box,
+[data-theme="light"] .db-box,
+[data-theme="light"] .service-box,
+[data-theme="light"] .arch-box {
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   PROJECTION MODE - Large Fonts for Classroom
+   All lectures use these scaled-up sizes
+   ============================================ */
+
+/* Base font scaling for projection */
+html {
+    /* Projection: Scale base font from 16px to 18px */
+    font-size: 18px;
+}
+
+/* Title slides - MASSIVE for impact */
+.main-title {
+    font-size: clamp(4rem, 10vw, 8rem) !important;
+}
+
+.subtitle {
+    font-size: 1.5rem !important;
+}
+
+.protocol-badge {
+    font-size: 1.1rem !important;
+    padding: 0.6rem 2rem !important;
+}
+
+.meta-value {
+    font-size: 1.5rem !important;
+}
+
+.meta-label {
+    font-size: 0.9rem !important;
+}
+
+/* Section titles - Large and clear */
+.section-title {
+    font-size: clamp(3rem, 7vw, 5.5rem) !important;
+}
+
+.section-subtitle {
+    font-size: 1.4rem !important;
+}
+
+.part-indicator {
+    font-size: 1.2rem !important;
+    padding: 0.5rem 1.5rem !important;
+}
+
+/* Slide titles - Highly readable */
+.slide-title {
+    font-size: clamp(2.25rem, 5vw, 3.25rem) !important;
+    margin-bottom: 1rem !important;
+}
+
+.slide-description {
+    font-size: 1.4rem !important;
+}
+
+/* Body text - Large and comfortable */
+.slide-content p {
+    font-size: 1.35rem;
+    line-height: 1.7;
+}
+
+.slide-content li {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    margin-bottom: 0.6rem;
+}
+
+.slide-content ul,
+.slide-content ol {
+    margin-left: 1.5rem;
+}
+
+/* Code blocks - Readable from back of room */
+.code-block,
+.code-block pre,
+.code-block code,
+pre code,
+.decorative-code pre,
+.decorative-code code {
+    font-size: 1.15rem !important;
+    line-height: 1.7 !important;
+}
+
+.code-tab {
+    font-size: 0.9rem !important;
+}
+
+.code-note {
+    font-size: 0.95rem !important;
+}
+
+/* Feature cards and grids */
+.feature-card h4,
+.card-title,
+.importance-card h4 {
+    font-size: 1.3rem !important;
+}
+
+.feature-card p,
+.card-description,
+.importance-card p {
+    font-size: 1.15rem !important;
+}
+
+.feature-icon,
+.importance-icon,
+.card-icon {
+    font-size: 2.5rem !important;
+}
+
+.feature-card code {
+    font-size: 1rem !important;
+}
+
+/* Timeline items */
+.timeline-item h4,
+.timeline-event {
+    font-size: 1.4rem !important;
+}
+
+.timeline-year {
+    font-size: 1.8rem !important;
+}
+
+.timeline-desc,
+.timeline-item p {
+    font-size: 1.1rem !important;
+}
+
+/* Comparison tables and grids */
+.comparison-header,
+.table-header {
+    font-size: 1.3rem !important;
+}
+
+.comparison-cell,
+.table-cell {
+    font-size: 1.15rem !important;
+}
+
+/* Quote boxes */
+.quote-box blockquote {
+    font-size: 1.4rem !important;
+}
+
+.quote-box cite {
+    font-size: 1rem !important;
+}
+
+/* Improvement and benefit lists */
+.improvement-text strong,
+.benefit-title {
+    font-size: 1.25rem !important;
+}
+
+.improvement-text p,
+.benefit-description {
+    font-size: 1.1rem !important;
+}
+
+/* Buttons and badges */
+.year-badge {
+    font-size: 1.1rem !important;
+}
+
+/* Modal and overlay content */
+.modal-title {
+    font-size: 1.8rem !important;
+}
+
+.modal-content p {
+    font-size: 1.2rem !important;
+}
+
+/* Navigation elements stay smaller */
+.slide-counter,
+.progress-info,
+.keyboard-hint {
+    font-size: 0.85rem !important;
+}
+
+/* Scroll hints */
+.scroll-hint {
+    font-size: 1rem !important;
+}
+
+/* Diagram components */
+.diagram-component,
+.component-label {
+    font-size: 1.15rem !important;
+}
+
+.component-detail {
+    font-size: 1rem !important;
+}
+
+.component-icon {
+    font-size: 2rem !important;
+}
+
+.diagram-layer {
+    font-size: 1.2rem !important;
+}
+
+/* Code showcase */
+.code-showcase pre,
+.code-showcase code {
+    font-size: 1.1rem !important;
+    line-height: 1.65 !important;
+}
+
+/* Stats and metrics */
+.stat-value {
+    font-size: 2.5rem !important;
+}
+
+.stat-label {
+    font-size: 1.1rem !important;
+}
+
+/* Change cards */
+.change-card h4,
+.change-card strong {
+    font-size: 1.25rem !important;
+}
+
+.change-card p {
+    font-size: 1.1rem !important;
+}
+
+.change-icon {
+    font-size: 2rem !important;
+}
+
+/* Phase headers */
+.phase-header,
+.phase-title {
+    font-size: 1.4rem !important;
+}
+
+.phase-number {
+    font-size: 1.8rem !important;
+}
+
+/* Takeaways */
+.takeaway-content strong,
+.takeaway h4 {
+    font-size: 1.35rem !important;
+}
+
+.takeaway-content p,
+.takeaway p {
+    font-size: 1.15rem !important;
+}
+
+.takeaway-num {
+    font-size: 2rem !important;
+}
+
+/* Step content */
+.step-content h4,
+.step-content strong {
+    font-size: 1.3rem !important;
+}
+
+.step-content p {
+    font-size: 1.15rem !important;
+}
+
+.step-num {
+    font-size: 1.8rem !important;
+}
+
+/* Section labels */
+.section-label {
+    font-size: 1.1rem !important;
+}
+
+/* Benefits and features */
+.benefit-icon,
+.feature-icon {
+    font-size: 2.5rem !important;
+}
+
+/* Server boxes */
+.server-box {
+    font-size: 1.15rem !important;
+}
+
+/* Mini code */
+.mini-code {
+    font-size: 1rem !important;
+}
+
+/* Ecosystem items */
+.eco-item {
+    font-size: 1.15rem !important;
+}
+
+/* Click hints */
+.click-hint {
+    font-size: 0.95rem !important;
+}
+
+/* Flow arrows */
+.flow-arrow {
+    font-size: 1.8rem !important;
+}
+
+/* Trigger items */
+.trigger-item,
+.trigger-type {
+    font-size: 1.15rem !important;
+}
+
+/* Rating elements */
+.rating {
+    font-size: 1.3rem !important;
+}
+
+/* Good/bad indicators */
+.good::before,
+.bad::before,
+.check::before,
+.danger::before {
+    font-size: 1.2rem !important;
+}
+
+/* Internal modules */
+.internal-module {
+    font-size: 1.1rem !important;
+}
+
+/* Layer labels in diagrams */
+.diagram-arrow {
+    font-size: 1.5rem !important;
+}
+
+/* Two column layouts - ensure readable */
+.two-column .column h3,
+.two-column .column h4 {
+    font-size: 1.4rem !important;
+}
+
+.two-column .column p,
+.two-column .column li {
+    font-size: 1.2rem !important;
+}
+
+/* Service items */
+.service-item h4,
+.service-item strong {
+    font-size: 1.25rem !important;
+}
+
+.service-item p {
+    font-size: 1.1rem !important;
+}
+
+/* Security items */
+.security-item h4 {
+    font-size: 1.25rem !important;
+}
+
+.security-item p {
+    font-size: 1.1rem !important;
+}
+
+/* Branch labels (git diagrams) */
+.branch-label,
+.branch-answer {
+    font-size: 1.1rem !important;
+}
+
+/* Takeaway variations */
+.takeaway-item strong,
+.takeaway-item h4 {
+    font-size: 1.3rem !important;
+}
+
+.takeaway-item p {
+    font-size: 1.15rem !important;
+}
+
+.takeaway-number,
+.step-number {
+    font-size: 1.8rem !important;
+}
+
+/* Comparison rows */
+.comparison-row,
+.row-label {
+    font-size: 1.2rem !important;
+}
+
+/* Layer icons */
+.layer-icon {
+    font-size: 2.2rem !important;
+}
+
+/* Tutorial steps */
+.tutorial-step h4 {
+    font-size: 1.3rem !important;
+}
+
+.tutorial-step p {
+    font-size: 1.15rem !important;
+}
+
+/* Stack layers */
+.stack-layer,
+.stack-db {
+    font-size: 1.15rem !important;
+}
+
+/* Pattern cards */
+.pattern-card h4 {
+    font-size: 1.3rem !important;
+}
+
+.pattern-card p {
+    font-size: 1.1rem !important;
+}
+
+/* Limitation cards */
+.limitation-card h4,
+.limit-icon {
+    font-size: 1.25rem !important;
+}
+
+.limitation-card p {
+    font-size: 1.1rem !important;
+}
+
+/* Warning boxes */
+.warning {
+    font-size: 1.15rem !important;
+}
+
+/* Large code blocks */
+.code-block.large pre,
+.code-block.large code {
+    font-size: 1.2rem !important;
+}
+
+/* HTTP Header displays */
+.header-name,
+.header-value {
+    font-size: 1.15rem !important;
+}
+
+/* Status items */
+.status-item {
+    font-size: 1.2rem !important;
+}
+
+/* Version and year badges */
+.ver,
+.yr {
+    font-size: 1.1rem !important;
+}
+
+/* Render steps */
+.render-step h4,
+.step-title {
+    font-size: 1.3rem !important;
+}
+
+.step-info,
+.step-detail {
+    font-size: 1.1rem !important;
+}
+
+.step-icon {
+    font-size: 2rem !important;
+}
+
+.step-arrow {
+    font-size: 1.5rem !important;
+}
+
+/* Tree items (file trees) */
+.tree-item {
+    font-size: 1.15rem !important;
+}
+
+/* Timeline events */
+.event-year {
+    font-size: 1.6rem !important;
+}
+
+.event-content h4 {
+    font-size: 1.3rem !important;
+}
+
+.event-content p {
+    font-size: 1.1rem !important;
+}
+
+/* Server items */
+.server-item h4 {
+    font-size: 1.25rem !important;
+}
+
+.server-item p {
+    font-size: 1.1rem !important;
+}
+
+/* Layer descriptions */
+.layer,
+.layer-desc {
+    font-size: 1.15rem !important;
+}
+
+/* Module cards */
+.module-card h4 {
+    font-size: 1.25rem !important;
+}
+
+.module-card p {
+    font-size: 1.1rem !important;
+}
+
+.module-icon {
+    font-size: 2.2rem !important;
+}
+
+/* Method rows */
+.method-row {
+    font-size: 1.2rem !important;
+}
+
+/* Traits */
+.trait {
+    font-size: 1.15rem !important;
+}
+
+/* Takeaway text variations */
+.takeaway-text {
+    font-size: 1.2rem !important;
+}
+
+/* Line elements in diagrams */
+.line {
+    font-size: 1.1rem !important;
+}
+
+/* Yes/No indicators */
+.yes,
+.no {
+    font-size: 1.15rem !important;
+}
+
+/* JSON display */
+.json {
+    font-size: 1.1rem !important;
+}
+
+/* Git commands */
+.git-command {
+    font-size: 1.15rem !important;
+}
+
+/* Cost stages */
+.cost-stage h4 {
+    font-size: 1.25rem !important;
+}
+
+.cost-stage p {
+    font-size: 1.1rem !important;
+}
+
+/* Dependency nodes */
+.dep-node {
+    font-size: 1.15rem !important;
+}
+
+/* Workflow steps */
+.workflow-step h4 {
+    font-size: 1.25rem !important;
+}
+
+.workflow-step p {
+    font-size: 1.1rem !important;
+}
+
+/* Tree nodes (dependencies) */
+.tree-node {
+    font-size: 1.15rem !important;
+}
+
+/* Checklist sections */
+.checklist h4,
+.checklist-section h4 {
+    font-size: 1.3rem !important;
+}
+
+.checklist li,
+.checklist-section li {
+    font-size: 1.15rem !important;
+}
+
+/* SOLID principles */
+.solid-principle h4 {
+    font-size: 1.3rem !important;
+}
+
+.solid-principle p {
+    font-size: 1.15rem !important;
+}
+
+.solid-letter {
+    font-size: 2.5rem !important;
+}
+
+/* Repo boxes */
+.repo-box h4 {
+    font-size: 1.25rem !important;
+}
+
+.repo-box p {
+    font-size: 1.1rem !important;
+}
+
+/* Why cards */
+.why-card h4 {
+    font-size: 1.25rem !important;
+}
+
+.why-card p {
+    font-size: 1.1rem !important;
+}
+
+.why-icon {
+    font-size: 2.2rem !important;
+}
+
+/* Trophy levels */
+.trophy-level {
+    font-size: 1.2rem !important;
+}
+
+/* Tool badges */
+.tool-badge {
+    font-size: 1.1rem !important;
+}
+
+/* Library labels */
+.lib {
+    font-size: 1.1rem !important;
+}
+
+/* DevTools tabs */
+.devtool-tab {
+    font-size: 1.15rem !important;
+}
+
+/* Trace spans and services */
+.trace-span,
+.trace-service,
+.svc-name {
+    font-size: 1.15rem !important;
+}
+
+/* Incident steps */
+.incident-step h4 {
+    font-size: 1.25rem !important;
+}
+
+.incident-step p {
+    font-size: 1.1rem !important;
+}
+
+.incident-arrow {
+    font-size: 1.5rem !important;
+}
+
+/* Toolkit sections */
+.toolkit-section h4 {
+    font-size: 1.3rem !important;
+}
+
+.toolkit-section p {
+    font-size: 1.1rem !important;
+}
+
+/* Resource categories */
+.resource-category h4 {
+    font-size: 1.25rem !important;
+}
+
+.resource-category li {
+    font-size: 1.1rem !important;
+}
+
+/* Principles */
+.principle h4 {
+    font-size: 1.25rem !important;
+}
+
+.principle p {
+    font-size: 1.1rem !important;
+}
+
+.principle-icon {
+    font-size: 2.2rem !important;
+}
+
+/* Network features */
+.network-feature h4 {
+    font-size: 1.2rem !important;
+}
+
+.network-feature p {
+    font-size: 1.05rem !important;
+}
+
+/* Metrics */
+.metric h4,
+.metric-name {
+    font-size: 1.25rem !important;
+}
+
+.metric-desc {
+    font-size: 1.1rem !important;
+}
+
+/* Method steps */
+.method-step h4 {
+    font-size: 1.25rem !important;
+}
+
+.method-step p {
+    font-size: 1.1rem !important;
+}
+
+/* Log levels */
+.log-level,
+.level-name {
+    font-size: 1.2rem !important;
+}
+
+.level-desc {
+    font-size: 1.1rem !important;
+}
+
+/* Exporters */
+.exporter {
+    font-size: 1.15rem !important;
+}
+
+/* Best practice types */
+.bp-type {
+    font-size: 1.1rem !important;
+}
+
+/* Vitals (Core Web Vitals) */
+.vital h4 {
+    font-size: 1.25rem !important;
+}
+
+.vital-desc {
+    font-size: 1.1rem !important;
+}
+
+.vital-target {
+    font-size: 1.15rem !important;
+}
+
+/* Tags */
+.tag {
+    font-size: 1rem !important;
+}
+
+/* Scaling lecture specific - Architecture diagrams */
+.architecture-diagram .diagram-component,
+.diagram-container .diagram-component {
+    font-size: 1.1rem !important;
+}
+
+/* Milestone cards */
+.milestone-card h4 {
+    font-size: 1.25rem !important;
+}
+
+.milestone-content p {
+    font-size: 1.1rem !important;
+}
+
+.milestone-icon {
+    font-size: 2rem !important;
+}
+
+/* Phase elements */
+.phase-era,
+.phase-dot {
+    font-size: 1.1rem !important;
+}
+
+/* Problem items */
+.problem-item h4 {
+    font-size: 1.2rem !important;
+}
+
+.problem-detail {
+    font-size: 1.05rem !important;
+}
+
+.problem-icon {
+    font-size: 1.8rem !important;
+}
+
+/* Flow steps */
+.flow-step {
+    font-size: 1.15rem !important;
+}
+
+/* Service boxes */
+.service-box,
+.db-box,
+.worker-box,
+.cache-box {
+    font-size: 1.1rem !important;
+}
+
+/* Requirements */
+.requirement,
+.req-item {
+    font-size: 1.15rem !important;
+}
+
+/* View content (for toggles/tabs) */
+.view-content {
+    font-size: 1.1rem !important;
+}
+
+/* Toggle buttons */
+.toggle-btn {
+    font-size: 1.05rem !important;
+}
+
+/* Updated/new indicators */
+.updated,
+.new {
+    font-size: 0.9rem !important;
+}
+
+/* Users count */
+.users {
+    font-size: 1.3rem !important;
+}
+
+/* Data labels */
+.data {
+    font-size: 1.1rem !important;
+}
+
+/* Matrix cells (comparison tables) */
+.matrix-cell,
+.matrix-row {
+    font-size: 1.15rem !important;
+}
+
+/* State eras (architecture evolution) */
+.state-era h4 {
+    font-size: 1.25rem !important;
+}
+
+.era-year {
+    font-size: 1.4rem !important;
+}
+
+.era-name {
+    font-size: 1.2rem !important;
+}
+
+.state-arrow {
+    font-size: 1.5rem !important;
+}
+
+/* Level indicators */
+.level,
+.level-name {
+    font-size: 1.15rem !important;
+}
+
+.level-num {
+    font-size: 1.6rem !important;
+}
+
+/* Architecture boxes */
+.arch-box {
+    font-size: 1.15rem !important;
+}
+
+/* Advice items */
+.advice-item p {
+    font-size: 1.15rem !important;
+}
+
+.advice-icon {
+    font-size: 2rem !important;
+}
+
+/* Use cases */
+.usecase h4 {
+    font-size: 1.2rem !important;
+}
+
+.usecase p {
+    font-size: 1.1rem !important;
+}
+
+.usecase-icon {
+    font-size: 2rem !important;
+}
+
+/* Techniques */
+.technique {
+    font-size: 1.15rem !important;
+}
+
+/* Render flow diagrams */
+.render-header,
+.render-type {
+    font-size: 1.25rem !important;
+}
+
+.render-desc,
+.render-flow {
+    font-size: 1.1rem !important;
+}
+
+.render-pros,
+.render-cons {
+    font-size: 1.05rem !important;
+}
+
+/* Practice items */
+.practice h4,
+.practice-item h4 {
+    font-size: 1.2rem !important;
+}
+
+.practice p,
+.practice-item p {
+    font-size: 1.1rem !important;
+}
+
+/* Maturity levels */
+.maturity-level {
+    font-size: 1.15rem !important;
+}
+
+/* Small text modifier - still readable */
+.small {
+    font-size: 1rem !important;
+}
+
+/* ============================================
    Reset & Base
    ============================================ */
 *, *::before, *::after {
