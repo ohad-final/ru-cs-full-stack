@@ -79,6 +79,7 @@ class LectureManager {
             new CodeHighlighter();
             new InteractiveElements();
             new ArchitectureModal();
+            initBeforeAfterToggles();
 
         } catch (error) {
             console.error('Failed to load lecture:', error);
@@ -12020,14 +12021,65 @@ git filter-branch --force --index-filter \\
     }
 }
 
+// Before/After Toggle Handler
+function initBeforeAfterToggles() {
+    document.querySelectorAll('.before-after-toggle').forEach(toggleContainer => {
+        const toggleId = toggleContainer.dataset.toggle;
+        const buttons = toggleContainer.querySelectorAll('.toggle-btn');
+        const contentContainer = document.querySelector(`.before-after-content[data-toggle="${toggleId}"]`);
+
+        if (!contentContainer) return;
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const view = btn.dataset.view;
+
+                // Update button states
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Update content visibility
+                contentContainer.querySelectorAll('.view-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                const targetContent = contentContainer.querySelector(`.view-content.${view}`);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                }
+            });
+        });
+    });
+}
+
+// Global reference for slide navigation
+let lectureManager = null;
+
+// Global function to navigate to a specific slide by slide number (data-slide attribute)
+function goToSlide(slideNumber) {
+    if (lectureManager && lectureManager.presentation_instance) {
+        const slides = lectureManager.presentation_instance.slides;
+        // Find the index of the slide with the matching data-slide attribute
+        for (let i = 0; i < slides.length; i++) {
+            const slideAttr = slides[i].getAttribute('data-slide');
+            if (slideAttr === String(slideNumber) || parseInt(slideAttr) === slideNumber) {
+                lectureManager.presentation_instance.goToSlide(i);
+                return;
+            }
+        }
+        // Fallback: if data-slide not found, treat as index
+        lectureManager.presentation_instance.goToSlide(slideNumber - 1);
+    }
+}
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     new Preloader();
 
     // Delay main initialization until after preloader
     setTimeout(() => {
-        new LectureManager();
+        lectureManager = new LectureManager();
         new ThemeToggle();
+        initBeforeAfterToggles();
     }, 500);
 });
 

@@ -21533,6 +21533,56 @@ ul.checklist li::before {
     opacity: 0.6;
 }
 
+/* ========== LECTURE NAVIGATION GRID ========== */
+.agents-lecture .lecture-nav-grid {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+}
+
+.agents-lecture .nav-part-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: var(--ag-surface);
+    border: 2px solid rgba(129, 140, 248, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px;
+}
+
+.agents-lecture .nav-part-btn:hover {
+    background: rgba(129, 140, 248, 0.15);
+    border-color: var(--ag-primary);
+    transform: translateY(-4px);
+}
+
+.agents-lecture .nav-part-btn:active {
+    transform: translateY(-2px);
+}
+
+.agents-lecture .nav-part-num {
+    font-family: var(--ag-font-display);
+    font-size: 2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--ag-primary), var(--ag-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+
+.agents-lecture .nav-part-title {
+    font-family: var(--ag-font-display);
+    font-size: 1.1rem;
+    color: var(--ag-text);
+    margin-top: 0.5rem;
+}
+
 /* ========== SECTION SLIDES ========== */
 .agents-lecture .section-slide .slide-content {
     display: flex;
