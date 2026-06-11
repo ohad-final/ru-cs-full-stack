@@ -22585,6 +22585,182 @@ ul.checklist li::before {
     margin: 0;
 }
 
+/* ========== JSON-RPC STYLES ========== */
+.agents-lecture .protocol-definition {
+    background: var(--ag-surface-elevated);
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--ag-info);
+    margin-bottom: 1.5rem;
+}
+
+.agents-lecture .protocol-definition p {
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.agents-lecture .json-rpc-example {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.agents-lecture .rpc-box {
+    background: var(--ag-surface);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.agents-lecture .rpc-box h3 {
+    padding: 0.75rem 1rem;
+    margin: 0;
+    font-size: 1.2rem;
+    background: rgba(0,0,0,0.3);
+}
+
+.agents-lecture .rpc-box.request h3 {
+    color: var(--ag-info);
+}
+
+.agents-lecture .rpc-box.response h3 {
+    color: var(--ag-accent);
+}
+
+.agents-lecture .rpc-box pre {
+    margin: 0;
+    padding: 1rem;
+}
+
+/* ========== TRANSPORT COMPARISON ========== */
+.agents-lecture .transport-comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.agents-lecture .transport-card {
+    background: var(--ag-surface);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 2px solid transparent;
+}
+
+.agents-lecture .transport-card.stdio {
+    border-color: var(--ag-primary);
+}
+
+.agents-lecture .transport-card.http {
+    border-color: var(--ag-accent);
+}
+
+.agents-lecture .transport-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--ag-text);
+}
+
+.agents-lecture .transport-details p {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+}
+
+.agents-lecture .transport-pros h4 {
+    font-size: 1.15rem;
+    color: var(--ag-accent);
+    margin-bottom: 0.5rem;
+}
+
+.agents-lecture .transport-pros ul {
+    margin-bottom: 1rem;
+}
+
+.agents-lecture .transport-pros li {
+    font-size: 1.1rem;
+}
+
+.agents-lecture .transport-code {
+    background: rgba(0,0,0,0.4);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.agents-lecture .transport-code code {
+    font-family: var(--ag-font-mono);
+    font-size: 1.1rem;
+    color: var(--ag-primary);
+}
+
+/* ========== TRANSPORT EXAMPLES ========== */
+.agents-lecture .transport-examples {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.agents-lecture .example-block {
+    background: var(--ag-surface);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.agents-lecture .example-block h3 {
+    padding: 0.75rem 1rem;
+    margin: 0;
+    font-size: 1.2rem;
+    background: rgba(0,0,0,0.3);
+    color: var(--ag-primary);
+}
+
+.agents-lecture .example-block pre {
+    margin: 0;
+}
+
+/* ========== MCP APPS STYLES ========== */
+.agents-lecture .mcp-apps-definition {
+    background: var(--ag-surface-elevated);
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--ag-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.agents-lecture .mcp-apps-definition p {
+    font-size: 1.35rem;
+    margin: 0;
+}
+
+.agents-lecture .apps-benefits {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.agents-lecture .apps-benefits .benefit-card {
+    text-align: center;
+    padding: 1.25rem;
+    background: var(--ag-surface);
+    border-radius: 12px;
+}
+
+.agents-lecture .apps-benefits .benefit-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.agents-lecture .apps-benefits h3 {
+    font-size: 1.25rem;
+    color: var(--ag-text);
+    margin-bottom: 0.25rem;
+}
+
+.agents-lecture .apps-benefits p {
+    font-size: 1rem;
+    margin: 0;
+}
+
 /* ========== RESPONSIVE ========== */
 @media (max-width: 1200px) {
     .agents-lecture .capabilities-grid,
